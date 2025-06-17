@@ -16,7 +16,7 @@ The facade provides:
 
 This repository is a monorepo containing the following key areas:
 
-- 📚 **/docs**: The source content for our public documentation website, [academy.joinself.com](https://academy.joinself.com) (coming soon). The site is built with [MkDocs](https://www.mkdocs.org/) and the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme.
+- 📚 **/docs**: Source content for our documentation, built with [MkDocs](https://www.mkdocs.org/).
 - 💻 **/sdks**: Contains the source code for the developer-friendly client facades for various languages.
   - `go/`: Go client facade.
   - `java/`: (Placeholder) Java client facade.
@@ -35,24 +35,6 @@ We believe in learning by doing, with a focus on building confidence through pro
 3.  **🔴 Master the Core**: Gain a deep understanding of the underlying SDK for full control.
 
 Each example is designed to teach a specific concept, with clear explanations of "what you'll learn" and "what just happened."
-
-## 🛠️ Getting Started with the Documentation
-
-To build and view the documentation locally:
-
-1.  **Install dependencies:**
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate
-    pip install -r requirements.txt
-    ```
-
-2.  **Start the local server:**
-    ```bash
-    mkdocs serve
-    ```
-
-    The site will be available at `http://127.0.0.1:8000`.
 
 ## 🙌 Contributing
 
