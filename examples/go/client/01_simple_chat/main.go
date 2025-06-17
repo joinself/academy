@@ -27,7 +27,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/joinself/self-go-sdk/client"
+	"github.com/joinself/academy/sdks/go/client"
 )
 
 func main() {

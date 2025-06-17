@@ -27,7 +27,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/joinself/self-go-sdk/client"
+	"github.com/joinself/academy/sdks/go/client"
 	"github.com/joinself/self-go-sdk/credential"
 	"github.com/joinself/self-go-sdk/examples/utils"
 )

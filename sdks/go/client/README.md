@@ -23,7 +23,7 @@ package main
 
 import (
     "log"
-    "github.com/joinself/self-go-sdk/client"
+    "github.com/joinself/academy/sdks/go/client"
 )
 
 func main() {
@@ -52,7 +52,7 @@ package main
 
 import (
     "log"
-    "github.com/joinself/self-go-sdk/client"
+    "github.com/joinself/academy/sdks/go/client"
 )
 
 func main() {
@@ -81,7 +81,7 @@ package main
 import (
     "crypto/rand"
     "log"
-    "github.com/joinself/self-go-sdk/client"
+    "github.com/joinself/academy/sdks/go/client"
 )
 
 func main() {
