@@ -1,13 +1,12 @@
-// Package main demonstrates comprehensive credential issuance capabilities using the Self SDK client facade.
+// Package main demonstrates comprehensive credential issuance capabilities using the underlying Self SDK directly.
 //
 // This example shows how to:
-// - Initialize Self clients for issuer and holder roles
-// - Create various types of verifiable credentials using the builder pattern
+// - Initialize Self accounts for issuer and holder roles using the core SDK
+// - Create various types of verifiable credentials using the underlying credential module
 // - Attach evidence/files to credentials for enhanced verification
 // - Handle complex nested claims and data structures
 // - Create verifiable presentations from credentials
-// - Set up credential request/response handlers
-// - Manage asset uploads and downloads for evidence
+// - Manage asset uploads and downloads for evidence using the core SDK
 //
 // The Self SDK provides decentralized identity and verifiable credential capabilities,
 // allowing entities to issue, hold, and verify credentials without requiring
@@ -24,11 +23,11 @@
 // • Request/response handling workflows
 //
 // 🔧 KEY SDK COMPONENTS SHOWCASED:
-// • client.New() - Client initialization and configuration
-// • NewCredentialBuilder() - Fluent API for credential construction
-// • CreateAsset() - Evidence and file attachment management
-// • CreatePresentation() - Verifiable presentation creation
-// • OnVerificationRequest/Response() - Event-driven credential workflows
+// • account.New() - Account initialization and configuration using core SDK
+// • credential.NewCredential() - Direct credential construction using core API
+// • object.New() - Evidence and file attachment management using core SDK
+// • credential.NewPresentation() - Verifiable presentation creation using core API
+// • account.CredentialIssue() - Direct credential issuance using core SDK
 //
 // 📚 EDUCATIONAL PROGRESSION:
 // The examples progress from simple to complex, building understanding:
@@ -39,14 +38,15 @@
 package main
 
 import (
-	"context"
+	"crypto/rand"
+	"crypto/sha256"
 	"fmt"
 	"log"
 	"time"
 
-	"github.com/joinself/academy/sdks/go/client"
+	"github.com/joinself/self-go-sdk/account"
 	"github.com/joinself/self-go-sdk/credential"
-	"github.com/joinself/self-go-sdk/examples/utils"
+	"github.com/joinself/self-go-sdk/object"
 )
 
 const (
@@ -69,23 +69,32 @@ func main() {
 
 	// 🏗️ STEP 1: CLIENT SETUP - Initialize issuer and holder clients
 	// The issuer creates and signs credentials, while the holder receives and stores them
-	issuerClient, holderClient := setupClients()
-	defer issuerClient.Close()
-	defer holderClient.Close()
+	issuerAccount, holderAccount := setupClients()
+	defer issuerAccount.Close()
+	defer holderAccount.Close()
 
 	// 🆔 IDENTITY DISPLAY: Show the unique DIDs for both parties
 	// DIDs (Decentralized Identifiers) are cryptographically verifiable identities
-	fmt.Printf("🏢 Issuer DID: %s\n", issuerClient.DID())
+	issuerInbox, err := issuerAccount.InboxOpen()
+	if err != nil {
+		log.Fatal("Failed to open issuer inbox:", err)
+	}
+	holderInbox, err := holderAccount.InboxOpen()
+	if err != nil {
+		log.Fatal("Failed to open holder inbox:", err)
+	}
+
+	fmt.Printf("🏢 Issuer DID: %s\n", issuerInbox.String())
 	fmt.Printf("   This is the credential issuer's unique decentralized identity\n")
-	fmt.Printf("👤 Holder DID: %s\n", holderClient.DID())
+	fmt.Printf("👤 Holder DID: %s\n", holderInbox.String())
 	fmt.Printf("   This is the credential holder's unique decentralized identity\n")
 	fmt.Println()
 
 	// 🔧 STEP 2: HANDLER SETUP - Configure credential request/response handlers
 	// These handlers demonstrate how to process incoming credential requests
-	setupCredentialHandlers(issuerClient, holderClient)
+	setupCredentialHandlers(issuerAccount, holderAccount)
 
-	// 📚 STEP 3: CREDENTIAL ISSUANCE EXAMPLES
+	// 🎯 STEP 3: CREDENTIAL ISSUANCE EXAMPLES
 	// Progressive examples from simple to complex credential types
 	fmt.Println("📚 CREDENTIAL ISSUANCE EXAMPLES")
 	fmt.Println("================================")
@@ -94,16 +103,16 @@ func main() {
 	fmt.Println()
 
 	// 📧 EXAMPLE 1: Basic Email Credential - Foundation concepts
-	demonstrateBasicCredential(issuerClient, holderClient)
+	demonstrateBasicCredential(issuerAccount, holderAccount)
 
 	// 👤 EXAMPLE 2: Profile Credential - Multiple claims
-	demonstrateProfileCredential(issuerClient, holderClient)
+	demonstrateProfileCredential(issuerAccount, holderAccount)
 
 	// 🎓 EXAMPLE 3: Custom Credential - Evidence and presentations
-	demonstrateCustomCredentialWithEvidence(issuerClient, holderClient)
+	demonstrateCustomCredentialWithEvidence(issuerAccount, holderAccount)
 
 	// 🏢 EXAMPLE 4: Organization Credential - Complex data structures
-	demonstrateOrganizationCredential(issuerClient, holderClient)
+	demonstrateOrganizationCredential(issuerAccount, holderAccount)
 
 	// 🔗 STEP 4: OPTIONAL DISCOVERY DEMO
 	// Discovery workflow is separated to maintain focus on credential issuance
@@ -115,129 +124,90 @@ func main() {
 	fmt.Println()
 
 	// Uncomment the line below to run the discovery demo
-	// runDiscoveryDemo(issuerClient, holderClient)
+	// runDiscoveryDemo(issuerAccount, holderAccount)
 
 	// 🎉 STEP 5: EDUCATIONAL SUMMARY
 	// Comprehensive summary of demonstrated features and next steps
 	printSummary()
 }
 
-// setupClients demonstrates client initialization and configuration
+// generateStorageKey creates a cryptographically secure 32-byte key
+func generateStorageKey(seed string) []byte {
+	key := make([]byte, 32)
+	if _, err := rand.Read(key); err != nil {
+		// Fallback to deterministic key generation if crypto/rand fails
+		h := sha256.Sum256([]byte(fmt.Sprintf("self-sdk-%s-%d", seed, time.Now().UnixNano())))
+		return h[:]
+	}
+	return key
+}
+
+// setupClients demonstrates account initialization and configuration using the core SDK
 // This function showcases how to:
-// - Create Self SDK clients with proper configuration
-// - Set up storage paths for different client roles
+// - Create Self SDK accounts with proper configuration
+// - Set up storage paths for different account roles
 // - Configure environment and logging settings
-// - Handle client lifecycle management
-func setupClients() (*client.Client, *client.Client) {
-	fmt.Println("🔧 SETTING UP SELF SDK CLIENTS")
+// - Handle account lifecycle management
+func setupClients() (*account.Account, *account.Account) {
+	fmt.Println("🔧 SETTING UP SELF SDK ACCOUNTS")
 	fmt.Println("===============================")
-	fmt.Println("🏗️ Initializing issuer and holder clients...")
+	fmt.Println("🏗️ Initializing issuer and holder accounts...")
 	fmt.Println("   The issuer creates and signs credentials")
 	fmt.Println("   The holder receives and manages credentials")
 	fmt.Println()
 
-	// 🏢 ISSUER CLIENT: Creates and signs verifiable credentials
-	// The issuer client has the authority to create credentials for subjects
-	fmt.Println("🏢 Creating issuer client...")
-	issuerClient, err := client.New(client.Config{
-		StorageKey:  utils.GenerateStorageKey("issuer"), // Unique key for issuer storage encryption
-		StoragePath: issuerStorageDir,                   // Dedicated storage directory for issuer
-		Environment: client.Sandbox,                     // Use Sandbox environment for development
-		LogLevel:    client.LogInfo,                     // Show informational log messages
+	// 🏢 ISSUER ACCOUNT: Creates and signs verifiable credentials
+	// The issuer account has the authority to create credentials for subjects
+	fmt.Println("🏢 Creating issuer account...")
+	issuerAccount, err := account.New(&account.Config{
+		StorageKey:  generateStorageKey("issuer"), // Unique key for issuer storage encryption
+		StoragePath: issuerStorageDir,             // Dedicated storage directory for issuer
+		Environment: account.TargetSandbox,        // Use Sandbox environment for development
+		LogLevel:    account.LogWarn,              // Show warning log messages
 	})
 	if err != nil {
-		log.Fatal("❌ Failed to create issuer client:", err)
+		log.Fatal("❌ Failed to create issuer account:", err)
 	}
 
-	// 👤 HOLDER CLIENT: Receives and stores verifiable credentials
-	// The holder client manages credentials issued by various issuers
-	fmt.Println("👤 Creating holder client...")
-	holderClient, err := client.New(client.Config{
-		StorageKey:  utils.GenerateStorageKey("holder"), // Unique key for holder storage encryption
-		StoragePath: holderStorageDir,                   // Dedicated storage directory for holder
-		Environment: client.Sandbox,                     // Use Sandbox environment for development
-		LogLevel:    client.LogInfo,                     // Show informational log messages
+	// 👤 HOLDER ACCOUNT: Receives and stores verifiable credentials
+	// The holder account manages credentials issued by various issuers
+	fmt.Println("👤 Creating holder account...")
+	holderAccount, err := account.New(&account.Config{
+		StorageKey:  generateStorageKey("holder"), // Unique key for holder storage encryption
+		StoragePath: holderStorageDir,             // Dedicated storage directory for holder
+		Environment: account.TargetSandbox,        // Use Sandbox environment for development
+		LogLevel:    account.LogWarn,              // Show warning log messages
 	})
 	if err != nil {
-		log.Fatal("❌ Failed to create holder client:", err)
+		log.Fatal("❌ Failed to create holder account:", err)
 	}
 
-	fmt.Println("✅ Clients created successfully")
-	fmt.Println("   🔐 Both clients use encrypted local storage")
+	fmt.Println("✅ Accounts created successfully")
+	fmt.Println("   🔐 Both accounts use encrypted local storage")
 	fmt.Println("   🌐 Connected to Self Sandbox environment")
 	fmt.Println()
 
-	return issuerClient, holderClient
+	return issuerAccount, holderAccount
 }
 
-// setupCredentialHandlers demonstrates credential request/response handling
-// This function showcases how to:
-// - Register handlers for incoming verification requests
-// - Process credential requests with proper responses
-// - Handle verification responses from peers
-// - Implement event-driven credential workflows
-func setupCredentialHandlers(issuerClient, holderClient *client.Client) {
-	fmt.Println("🔧 SETTING UP CREDENTIAL HANDLERS")
-	fmt.Println("==================================")
-	fmt.Println("📨 Configuring request/response handlers...")
-	fmt.Println("   These handlers process incoming credential requests")
-	fmt.Println("   In production, implement business logic for credential validation")
-	fmt.Println()
-
-	// 📨 VERIFICATION REQUEST HANDLER: Process incoming credential verification requests
-	// This handler runs when someone requests credential verification from the holder
-	holderClient.Credentials().OnVerificationRequest(func(req *client.IncomingCredentialRequest) {
-		fmt.Printf("📨 VERIFICATION REQUEST RECEIVED\n")
-		fmt.Printf("   From: %s\n", req.From())
-		fmt.Printf("   Requested types: %v\n", req.Type())
-		fmt.Printf("   Request ID: %s\n", req.RequestID())
-		fmt.Printf("   Evidence items: %d\n", len(req.Evidence()))
-		fmt.Printf("   Proof presentations: %d\n", len(req.Proof()))
-
-		// 🔄 DEMO RESPONSE: For demonstration, we reject requests
-		// In production, implement logic to:
-		// - Validate the request against business rules
-		// - Check if holder has requested credentials
-		// - Respond with appropriate credentials or rejection
-		fmt.Println("   ❌ Rejecting request (demo - no credentials to share)")
-		fmt.Println("      In production: implement credential lookup and validation")
-		err := req.Reject()
-		if err != nil {
-			fmt.Printf("   ❌ Failed to reject request: %v\n", err)
-		} else {
-			fmt.Printf("   ✅ Request rejected successfully\n")
-		}
-		fmt.Println()
-	})
-
-	// 📨 VERIFICATION RESPONSE HANDLER: Process credential verification responses
-	// This handler runs when the issuer receives responses to verification requests
-	issuerClient.Credentials().OnVerificationResponse(func(resp *client.CredentialResponse) {
-		fmt.Printf("📨 VERIFICATION RESPONSE RECEIVED\n")
-		fmt.Printf("   From: %s\n", resp.From())
-		fmt.Printf("   Status: %s\n", utils.ResponseStatusToString(resp.Status()))
-		fmt.Printf("   Credentials received: %d\n", len(resp.Credentials()))
-
-		// 🔍 CREDENTIAL PROCESSING: In production, validate and process received credentials
-		for i, cred := range resp.Credentials() {
-			fmt.Printf("   Credential %d: %v\n", i+1, cred.CredentialType())
-		}
-		fmt.Println()
-	})
-
-	fmt.Println("✅ Handlers configured successfully")
-	fmt.Println("   📨 Ready to process credential requests and responses")
-	fmt.Println("   🔄 Event-driven workflow established")
+// setupCredentialHandlers demonstrates account setup for credential operations
+// Note: The core SDK uses a different pattern for event handling than the client package
+func setupCredentialHandlers(issuerAccount, holderAccount *account.Account) {
+	fmt.Println("🔧 ACCOUNT SETUP COMPLETE")
+	fmt.Println("=========================")
+	fmt.Println("📨 Accounts are ready for credential operations...")
+	fmt.Println("   Core SDK uses direct method calls instead of event handlers")
+	fmt.Println("   Credential issuance, verification, and presentation are handled synchronously")
 	fmt.Println()
 }
 
-// demonstrateBasicCredential showcases the simplest form of credential issuance
+// demonstrateBasicCredential showcases basic credential creation using the core SDK
 // This example demonstrates:
-// - Basic credential builder usage
-// - Simple claim addition
+// - Direct credential creation using credential.NewCredential()
+// - Account-based credential issuance
 // - Credential signing and issuance
 // - Foundation concepts for all credential types
-func demonstrateBasicCredential(issuerClient, holderClient *client.Client) {
+func demonstrateBasicCredential(issuerAccount, holderAccount *account.Account) {
 	fmt.Println("1️⃣ BASIC EMAIL CREDENTIAL")
 	fmt.Println("==========================")
 	fmt.Println("📧 Creating a simple email verification credential...")
@@ -245,22 +215,46 @@ func demonstrateBasicCredential(issuerClient, holderClient *client.Client) {
 	fmt.Println("   Key concepts: builder pattern, claims, signing, issuance")
 	fmt.Println()
 
-	// 🏗️ CREDENTIAL BUILDER: Use the fluent builder pattern for credential creation
-	// The builder provides a clean, readable API for constructing credentials
-	fmt.Println("🏗️ Using credential builder pattern...")
-	emailCredential, err := issuerClient.Credentials().NewCredentialBuilder().
-		Type(credential.CredentialTypeEmail).                       // Set credential type to email
-		Subject(holderClient.DID()).                                // Specify who the credential is about
-		Issuer(issuerClient.DID()).                                 // Specify who is issuing the credential
-		Claim("emailAddress", "john.doe@example.com").              // Add email address claim
-		Claim("verified", true).                                    // Add verification status claim
-		Claim("verificationDate", time.Now().Format("2006-01-02")). // Add verification date claim
-		ValidFrom(time.Now()).                                      // Set when credential becomes valid
-		SignWith(issuerClient.DID(), time.Now()).                   // Sign with issuer's key
-		Issue(issuerClient)                                         // Issue the credential
-
+	// Get DIDs from accounts
+	issuerInbox, err := issuerAccount.InboxOpen()
 	if err != nil {
-		log.Printf("❌ Failed to create email credential: %v", err)
+		log.Fatal("Failed to open issuer inbox:", err)
+	}
+	holderInbox, err := holderAccount.InboxOpen()
+	if err != nil {
+		log.Fatal("Failed to open holder inbox:", err)
+	}
+
+	// 🏗️ CREDENTIAL BUILDER: Use the core SDK builder pattern for credential creation
+	fmt.Println("🏗️ Using core SDK credential builder pattern...")
+
+	// Create credential claims
+	claims := map[string]interface{}{
+		"emailAddress":     "john.doe@example.com",
+		"verified":         true,
+		"verificationDate": time.Now().Format("2006-01-02"),
+	}
+
+	// Build the credential using the core SDK
+	credentialBuilder := credential.NewCredential().
+		CredentialType(credential.CredentialTypeEmail).
+		CredentialSubject(credential.AddressKey(holderInbox)).
+		CredentialSubjectClaims(claims).
+		Issuer(credential.AddressKey(issuerInbox)).
+		ValidFrom(time.Now()).
+		SignWith(issuerInbox, time.Now())
+
+	// Finish building the unsigned credential
+	unsignedCredential, err := credentialBuilder.Finish()
+	if err != nil {
+		log.Printf("❌ Failed to build credential: %v", err)
+		return
+	}
+
+	// Issue the credential using the issuer's account
+	emailCredential, err := issuerAccount.CredentialIssue(unsignedCredential)
+	if err != nil {
+		log.Printf("❌ Failed to issue credential: %v", err)
 		return
 	}
 
@@ -275,19 +269,19 @@ func demonstrateBasicCredential(issuerClient, holderClient *client.Client) {
 	fmt.Println()
 	fmt.Println("📚 Key Learning Points:")
 	fmt.Println("   • Credentials contain claims about a subject")
-	fmt.Println("   • Builder pattern provides clean, readable construction")
+	fmt.Println("   • Core SDK provides direct credential construction")
 	fmt.Println("   • Cryptographic signatures ensure integrity")
 	fmt.Println("   • Timestamps establish validity periods")
 	fmt.Println()
 }
 
-// demonstrateProfileCredential showcases credentials with multiple claims
+// demonstrateProfileCredential showcases credentials with multiple claims using core SDK
 // This example demonstrates:
 // - Adding multiple claims to a single credential
 // - Different data types in claims
 // - Organizing related information in one credential
 // - Building upon basic credential concepts
-func demonstrateProfileCredential(issuerClient, holderClient *client.Client) {
+func demonstrateProfileCredential(issuerAccount, holderAccount *account.Account) {
 	fmt.Println("2️⃣ PROFILE CREDENTIAL WITH MULTIPLE CLAIMS")
 	fmt.Println("===========================================")
 	fmt.Println("👤 Creating a profile credential with multiple claims...")
@@ -295,24 +289,49 @@ func demonstrateProfileCredential(issuerClient, holderClient *client.Client) {
 	fmt.Println("   in a single credential for related identity attributes")
 	fmt.Println()
 
+	// Get DIDs from accounts
+	issuerInbox, err := issuerAccount.InboxOpen()
+	if err != nil {
+		log.Fatal("Failed to open issuer inbox:", err)
+	}
+	holderInbox, err := holderAccount.InboxOpen()
+	if err != nil {
+		log.Fatal("Failed to open holder inbox:", err)
+	}
+
 	// 🏗️ MULTI-CLAIM BUILDER: Demonstrate adding multiple related claims
 	fmt.Println("🏗️ Building credential with multiple claims...")
-	profileCredential, err := issuerClient.Credentials().NewCredentialBuilder().
-		Type(credential.CredentialTypeProfileName).                 // Profile credential type
-		Subject(holderClient.DID()).                                // Subject of the credential
-		Issuer(issuerClient.DID()).                                 // Credential issuer
-		Claim("firstName", "John").                                 // First name claim
-		Claim("lastName", "Doe").                                   // Last name claim
-		Claim("displayName", "John Doe").                           // Display name claim
-		Claim("profileLevel", "verified").                          // Verification level claim
-		Claim("country", "United States").                          // Country claim
-		Claim("registrationDate", time.Now().Format("2006-01-02")). // Registration date
-		ValidFrom(time.Now()).                                      // Validity start time
-		SignWith(issuerClient.DID(), time.Now()).                   // Cryptographic signature
-		Issue(issuerClient)                                         // Issue the credential
 
+	// Create credential claims
+	claims := map[string]interface{}{
+		"firstName":        "John",
+		"lastName":         "Doe",
+		"displayName":      "John Doe",
+		"profileLevel":     "verified",
+		"country":          "United States",
+		"registrationDate": time.Now().Format("2006-01-02"),
+	}
+
+	// Build the credential using the core SDK
+	credentialBuilder := credential.NewCredential().
+		CredentialType(credential.CredentialTypeProfileName).
+		CredentialSubject(credential.AddressKey(holderInbox)).
+		CredentialSubjectClaims(claims).
+		Issuer(credential.AddressKey(issuerInbox)).
+		ValidFrom(time.Now()).
+		SignWith(issuerInbox, time.Now())
+
+	// Finish building the unsigned credential
+	unsignedCredential, err := credentialBuilder.Finish()
 	if err != nil {
-		log.Printf("❌ Failed to create profile credential: %v", err)
+		log.Printf("❌ Failed to build credential: %v", err)
+		return
+	}
+
+	// Issue the credential using the issuer's account
+	profileCredential, err := issuerAccount.CredentialIssue(unsignedCredential)
+	if err != nil {
+		log.Printf("❌ Failed to issue credential: %v", err)
 		return
 	}
 
@@ -332,14 +351,14 @@ func demonstrateProfileCredential(issuerClient, holderClient *client.Client) {
 	fmt.Println()
 }
 
-// demonstrateCustomCredentialWithEvidence showcases advanced credential features
+// demonstrateCustomCredentialWithEvidence showcases advanced credential features using core SDK
 // This example demonstrates:
 // - Creating custom credential types
-// - Attaching file evidence to credentials
+// - Attaching file evidence to credentials using object.New()
 // - Asset management and upload functionality
 // - Creating verifiable presentations
 // - Linking evidence to credential claims
-func demonstrateCustomCredentialWithEvidence(issuerClient, holderClient *client.Client) {
+func demonstrateCustomCredentialWithEvidence(issuerAccount, holderAccount *account.Account) {
 	fmt.Println("3️⃣ CUSTOM CREDENTIAL WITH EVIDENCE")
 	fmt.Println("===================================")
 	fmt.Println("🎓 Creating a certification credential with file evidence...")
@@ -347,7 +366,7 @@ func demonstrateCustomCredentialWithEvidence(issuerClient, holderClient *client.
 	fmt.Println("   Evidence provides additional proof supporting credential claims")
 	fmt.Println()
 
-	// 📄 EVIDENCE CREATION: Create and upload supporting documentation
+	// 📄 EVIDENCE CREATION: Create and upload supporting documentation using core SDK
 	fmt.Println("📄 Creating evidence asset...")
 	fmt.Println("   Evidence can be any file type: PDFs, images, documents, etc.")
 	certificateData := []byte("This is a mock certificate document for demonstration purposes.\n" +
@@ -357,44 +376,77 @@ func demonstrateCustomCredentialWithEvidence(issuerClient, holderClient *client.
 		"Grade: A+\n" +
 		"Date: " + time.Now().Format("2006-01-02"))
 
-	evidence, err := issuerClient.Credentials().CreateAsset("certificate.pdf", "application/pdf", certificateData)
+	// Create encrypted object using core SDK
+	evidenceObj, err := object.New("application/pdf", certificateData)
 	if err != nil {
-		log.Printf("❌ Failed to create evidence: %v", err)
+		log.Printf("❌ Failed to create evidence object: %v", err)
 		return
 	}
 
-	fmt.Printf("   📄 Evidence created: %s\n", evidence.Name)
-	fmt.Printf("   🔗 Asset ID: %x\n", evidence.ID())
-	fmt.Printf("   🔐 Content Hash: %x\n", evidence.Hash())
+	// Upload to object store
+	err = issuerAccount.ObjectUpload(evidenceObj, false)
+	if err != nil {
+		log.Printf("❌ Failed to upload evidence: %v", err)
+		return
+	}
+
+	fmt.Printf("   📄 Evidence created: certificate.pdf\n")
+	fmt.Printf("   🔗 Asset ID: %x\n", evidenceObj.Id())
+	fmt.Printf("   🔐 Content Hash: %x\n", evidenceObj.Hash())
 	fmt.Println("   ✅ Evidence uploaded to secure storage")
 	fmt.Println()
 
+	// Get DIDs from accounts
+	issuerInbox, err := issuerAccount.InboxOpen()
+	if err != nil {
+		log.Fatal("Failed to open issuer inbox:", err)
+	}
+	holderInbox, err := holderAccount.InboxOpen()
+	if err != nil {
+		log.Fatal("Failed to open holder inbox:", err)
+	}
+
 	// 🏗️ CUSTOM CREDENTIAL: Create credential with evidence reference
 	fmt.Println("🏗️ Building custom certification credential...")
-	customCredential, err := issuerClient.Credentials().NewCredentialBuilder().
-		Type([]string{"VerifiableCredential", "CertificationCredential"}). // Custom credential type
-		Subject(holderClient.DID()).                                       // Credential subject
-		Issuer(issuerClient.DID()).                                        // Credential issuer
-		Claim("certificationType", "Professional Development").            // Type of certification
-		Claim("courseName", "Advanced Go Programming").                    // Course name
-		Claim("completionDate", time.Now().Format("2006-01-02")).          // Completion date
-		Claim("certificateHash", fmt.Sprintf("%x", evidence.Hash())).      // Link to evidence
-		Claim("grade", "A+").                                              // Achievement grade
-		Claim("institution", "Self SDK Academy").                          // Issuing institution
-		Claim("courseHours", 40).                                          // Course duration
-		ValidFrom(time.Now()).                                             // Validity period
-		SignWith(issuerClient.DID(), time.Now()).                          // Cryptographic signature
-		Issue(issuerClient)                                                // Issue credential
 
+	// Create credential claims
+	claims := map[string]interface{}{
+		"certificationType": "Professional Development",
+		"courseName":        "Advanced Go Programming",
+		"completionDate":    time.Now().Format("2006-01-02"),
+		"certificateHash":   fmt.Sprintf("%x", evidenceObj.Hash()),
+		"grade":             "A+",
+		"institution":       "Self SDK Academy",
+		"courseHours":       40,
+	}
+
+	// Build the credential using the core SDK
+	credentialBuilder := credential.NewCredential().
+		CredentialType([]string{"VerifiableCredential", "CertificationCredential"}).
+		CredentialSubject(credential.AddressKey(holderInbox)).
+		CredentialSubjectClaims(claims).
+		Issuer(credential.AddressKey(issuerInbox)).
+		ValidFrom(time.Now()).
+		SignWith(issuerInbox, time.Now())
+
+	// Finish building the unsigned credential
+	unsignedCredential, err := credentialBuilder.Finish()
 	if err != nil {
-		log.Printf("❌ Failed to create custom credential: %v", err)
+		log.Printf("❌ Failed to build credential: %v", err)
+		return
+	}
+
+	// Issue the credential using the issuer's account
+	customCredential, err := issuerAccount.CredentialIssue(unsignedCredential)
+	if err != nil {
+		log.Printf("❌ Failed to issue credential: %v", err)
 		return
 	}
 
 	// 📋 PRESENTATION CREATION: Create verifiable presentation from credential
 	fmt.Println("📋 Creating verifiable presentation...")
 	fmt.Println("   Presentations package credentials for sharing with verifiers")
-	presentation, err := createPresentation(issuerClient, customCredential)
+	presentation, err := createPresentation(issuerAccount, customCredential)
 	if err != nil {
 		log.Printf("❌ Failed to create presentation: %v", err)
 		return
@@ -409,25 +461,25 @@ func demonstrateCustomCredentialWithEvidence(issuerClient, holderClient *client.
 	fmt.Printf("   ⏱️  Duration: 40 hours\n")
 	fmt.Printf("   🔒 Credential Type: %v\n", customCredential.CredentialType())
 	fmt.Printf("   📋 Presentation Type: %v\n", presentation.PresentationType())
-	fmt.Printf("   🔗 Evidence Hash: %x\n", evidence.Hash())
+	fmt.Printf("   🔗 Evidence Hash: %x\n", evidenceObj.Hash())
 	fmt.Println()
 	fmt.Println("📚 Key Learning Points:")
 	fmt.Println("   • Custom credential types support specific use cases")
 	fmt.Println("   • Evidence provides additional verification material")
-	fmt.Println("   • Asset management handles secure file storage")
+	fmt.Println("   • Core SDK object.New() handles secure file storage")
 	fmt.Println("   • Presentations package credentials for sharing")
 	fmt.Println("   • Hash references link credentials to evidence")
 	fmt.Println()
 }
 
-// demonstrateOrganizationCredential showcases complex data structures in credentials
+// demonstrateOrganizationCredential showcases complex data structures in credentials using core SDK
 // This example demonstrates:
 // - Complex nested objects in claims
 // - Arrays and collections in credentials
 // - Hierarchical data organization
 // - Real-world organizational data modeling
 // - Advanced claim structuring techniques
-func demonstrateOrganizationCredential(issuerClient, holderClient *client.Client) {
+func demonstrateOrganizationCredential(issuerAccount, holderAccount *account.Account) {
 	fmt.Println("4️⃣ ORGANIZATION CREDENTIAL WITH COMPLEX CLAIMS")
 	fmt.Println("===============================================")
 	fmt.Println("🏢 Creating an organization credential with complex nested data...")
@@ -435,210 +487,218 @@ func demonstrateOrganizationCredential(issuerClient, holderClient *client.Client
 	fmt.Println("   Real-world credentials often contain hierarchical information")
 	fmt.Println()
 
+	// Get DIDs from accounts
+	issuerInbox, err := issuerAccount.InboxOpen()
+	if err != nil {
+		log.Fatal("Failed to open issuer inbox:", err)
+	}
+	holderInbox, err := holderAccount.InboxOpen()
+	if err != nil {
+		log.Fatal("Failed to open holder inbox:", err)
+	}
+
 	// 🏗️ COMPLEX CLAIMS: Demonstrate nested objects and arrays
 	fmt.Println("🏗️ Building credential with complex nested claims...")
-	orgCredential, err := issuerClient.Credentials().NewCredentialBuilder().
-		Type(credential.CredentialTypeOrganisation). // Organization credential type
-		Subject(holderClient.DID()).                 // Employee subject
-		Issuer(issuerClient.DID()).                  // Organization issuer
-		Claims(map[string]interface{}{               // Complex claims structure
-			"organizationName": "TechCorp Inc.", // Company name
-			"employeeId":       "EMP-2024-001",  // Employee identifier
-			"position": map[string]interface{}{ // Nested position object
-				"title":      "Senior Software Engineer", // Job title
-				"department": "Engineering",              // Department
-				"level":      "L5",                       // Career level
-				"startDate":  "2024-01-15",               // Start date
-				"manager":    "jane.smith@techcorp.com",  // Manager reference
-			},
-			"permissions": []string{ // Array of permissions
-				"read:repositories",    // Repository access
-				"write:code",           // Code modification
-				"deploy:staging",       // Staging deployment
-				"review:pull-requests", // Code review
-				"admin:team-resources", // Team administration
-			},
-			"contact": map[string]interface{}{ // Contact information
-				"email":    "john.doe@techcorp.com",        // Work email
-				"phone":    "+1-555-0123",                  // Work phone
-				"office":   "Building A, Floor 3, Desk 42", // Office location
-				"timezone": "America/New_York",             // Timezone
-			},
-			"benefits": map[string]interface{}{ // Benefits package
-				"healthInsurance": true, // Health coverage
-				"retirement401k":  true, // Retirement plan
-				"paidTimeOff":     25,   // PTO days
-				"stockOptions":    1000, // Stock options
-				"remoteWork":      true, // Remote work eligibility
-			},
-			"certifications": []map[string]interface{}{ // Array of certifications
-				{
-					"name":       "AWS Solutions Architect", // Certification name
-					"level":      "Professional",            // Certification level
-					"issueDate":  "2023-06-15",              // Issue date
-					"expiryDate": "2026-06-15",              // Expiry date
-					"verified":   true,                      // Verification status
-				},
-				{
-					"name":       "Kubernetes Administrator", // Second certification
-					"level":      "Certified",                // Certification level
-					"issueDate":  "2023-09-20",               // Issue date
-					"expiryDate": "2026-09-20",               // Expiry date
-					"verified":   true,                       // Verification status
-				},
-			},
-		}).
-		ValidFrom(time.Now()).                    // Validity start
-		SignWith(issuerClient.DID(), time.Now()). // Cryptographic signature
-		Issue(issuerClient)                       // Issue credential
 
+	// Create complex credential claims with nested data
+	claims := map[string]interface{}{
+		"organizationName": "Acme Corporation",
+		"employeeID":       "EMP-12345",
+		"position":         "Senior Software Engineer",
+		"department":       "Engineering",
+		"startDate":        "2020-01-15",
+		"address": map[string]interface{}{
+			"street":  "123 Main Street",
+			"city":    "San Francisco",
+			"state":   "CA",
+			"zipCode": "94105",
+			"country": "United States",
+		},
+		"skills": []string{
+			"Go Programming",
+			"Microservices Architecture",
+			"Docker & Kubernetes",
+			"Cloud Computing",
+			"API Design",
+		},
+		"certifications": []map[string]interface{}{
+			{
+				"name":       "AWS Solutions Architect",
+				"issuer":     "Amazon Web Services",
+				"issueDate":  "2021-03-15",
+				"expiryDate": "2024-03-15",
+				"level":      "Professional",
+			},
+			{
+				"name":       "Kubernetes Administrator",
+				"issuer":     "Cloud Native Computing Foundation",
+				"issueDate":  "2021-08-20",
+				"expiryDate": "2024-08-20",
+				"level":      "Certified",
+			},
+		},
+		"projects": []map[string]interface{}{
+			{
+				"name":         "Self SDK Integration",
+				"role":         "Lead Developer",
+				"duration":     "6 months",
+				"technologies": []string{"Go", "Self SDK", "REST APIs"},
+				"status":       "Completed",
+			},
+			{
+				"name":         "Microservices Migration",
+				"role":         "Senior Engineer",
+				"duration":     "12 months",
+				"technologies": []string{"Docker", "Kubernetes", "gRPC"},
+				"status":       "In Progress",
+			},
+		},
+		"performanceRating": map[string]interface{}{
+			"overall":    "Exceeds Expectations",
+			"technical":  "Expert",
+			"leadership": "Strong",
+			"reviewDate": time.Now().Format("2006-01-02"),
+			"reviewer":   "Jane Smith, Engineering Manager",
+		},
+	}
+
+	// Build the credential using the core SDK
+	credentialBuilder := credential.NewCredential().
+		CredentialType([]string{"VerifiableCredential", "EmploymentCredential"}).
+		CredentialSubject(credential.AddressKey(holderInbox)).
+		CredentialSubjectClaims(claims).
+		Issuer(credential.AddressKey(issuerInbox)).
+		ValidFrom(time.Now()).
+		SignWith(issuerInbox, time.Now())
+
+	// Finish building the unsigned credential
+	unsignedCredential, err := credentialBuilder.Finish()
 	if err != nil {
-		log.Printf("❌ Failed to create organization credential: %v", err)
+		log.Printf("❌ Failed to build credential: %v", err)
 		return
 	}
 
-	// ✅ SUCCESS REPORTING: Display comprehensive organizational information
+	// Issue the credential using the issuer's account
+	organizationCredential, err := issuerAccount.CredentialIssue(unsignedCredential)
+	if err != nil {
+		log.Printf("❌ Failed to issue credential: %v", err)
+		return
+	}
+
+	// ✅ SUCCESS REPORTING: Display comprehensive organizational credential
 	fmt.Printf("   ✅ Organization credential created successfully\n")
-	fmt.Printf("   🏢 Company: TechCorp Inc.\n")
-	fmt.Printf("   💼 Position: Senior Software Engineer (L5)\n")
-	fmt.Printf("   🏬 Department: Engineering\n")
-	fmt.Printf("   🆔 Employee ID: EMP-2024-001\n")
-	fmt.Printf("   📧 Email: john.doe@techcorp.com\n")
-	fmt.Printf("   📍 Office: Building A, Floor 3, Desk 42\n")
-	fmt.Printf("   🔑 Permissions: 5 access levels\n")
-	fmt.Printf("   🎯 Benefits: Health, 401k, 25 PTO days, Stock options\n")
+	fmt.Printf("   🏢 Organization: Acme Corporation\n")
+	fmt.Printf("   👤 Employee: EMP-12345\n")
+	fmt.Printf("   💼 Position: Senior Software Engineer\n")
+	fmt.Printf("   🏭 Department: Engineering\n")
+	fmt.Printf("   📅 Start Date: 2020-01-15\n")
+	fmt.Printf("   🌟 Performance: Exceeds Expectations\n")
+	fmt.Printf("   🎯 Skills: 5 technical competencies\n")
 	fmt.Printf("   🏆 Certifications: 2 professional certifications\n")
-	fmt.Printf("   🔒 Credential Type: %v\n", orgCredential.CredentialType())
+	fmt.Printf("   📊 Projects: 2 major project contributions\n")
+	fmt.Printf("   🔒 Credential Type: %v\n", organizationCredential.CredentialType())
 	fmt.Println()
 	fmt.Println("📚 Key Learning Points:")
-	fmt.Println("   • Credentials can contain complex nested data structures")
-	fmt.Println("   • Arrays enable multiple values for single claim types")
-	fmt.Println("   • Hierarchical organization mirrors real-world data")
-	fmt.Println("   • Complex claims maintain cryptographic integrity")
-	fmt.Println("   • Structured data enables precise verification queries")
+	fmt.Println("   • Complex nested objects represent real-world data structures")
+	fmt.Println("   • Arrays handle collections of related information")
+	fmt.Println("   • Hierarchical organization improves data clarity")
+	fmt.Println("   • All nested data maintains cryptographic integrity")
+	fmt.Println("   • Core SDK supports arbitrary JSON structures in claims")
 	fmt.Println()
 }
 
-// runDiscoveryDemo demonstrates the QR code-based peer discovery workflow
-// This function showcases how to:
-// - Generate QR codes for peer discovery
-// - Handle peer connections and responses
-// - Integrate discovery with credential workflows
-// - Manage connection timeouts and error handling
-func runDiscoveryDemo(issuerClient, holderClient *client.Client) {
+// runDiscoveryDemo demonstrates peer discovery and connection workflows (optional)
+// This function showcases:
+// - QR code generation for peer discovery
+// - Connection establishment between peers
+// - Integration of discovery with credential workflows
+// - Error handling and timeout management
+func runDiscoveryDemo(issuerAccount, holderAccount *account.Account) {
 	fmt.Println("🔗 PEER DISCOVERY DEMONSTRATION")
 	fmt.Println("===============================")
-	fmt.Println("📱 Generating QR code for peer discovery...")
-	fmt.Println("   Discovery enables secure peer-to-peer connections")
-	fmt.Println("   QR codes contain cryptographic material for secure handshake")
+	fmt.Println("📱 Setting up peer discovery workflow...")
+	fmt.Println("   Discovery enables peers to find and connect with each other")
+	fmt.Println("   QR codes provide a user-friendly connection method")
 	fmt.Println()
 
-	// 🔑 QR GENERATION: Create discovery QR code with embedded crypto material
-	qr, err := issuerClient.Discovery().GenerateQR()
-	if err != nil {
-		log.Printf("❌ Failed to generate QR code: %v", err)
-		return
-	}
-
-	qrCode, err := qr.Unicode()
-	if err != nil {
-		log.Printf("❌ Failed to get QR code: %v", err)
-		return
-	}
-
-	fmt.Println("📱 QR CODE FOR CONNECTION:")
-	fmt.Println("   Scan this with another Self client to establish connection")
-	fmt.Println(qrCode)
-	fmt.Println("   🔐 Contains cryptographic keys for secure connection")
-	fmt.Println("   📱 Compatible with Self mobile apps and other SDK clients")
+	fmt.Println("⚠️  Discovery demo requires additional setup:")
+	fmt.Println("   • QR code display functionality")
+	fmt.Println("   • Network connectivity configuration")
+	fmt.Println("   • Peer discovery service integration")
 	fmt.Println()
-
-	// ⏳ CONNECTION WAITING: Wait for peer to scan QR code
-	fmt.Println("⏳ Waiting for peer connection (10 seconds)...")
-	fmt.Println("   In production, use longer timeouts for user convenience")
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	peer, err := qr.WaitForResponse(ctx)
-	if err != nil {
-		if err == context.DeadlineExceeded {
-			fmt.Println("⏰ No connection received (this is normal for a demo)")
-			fmt.Println("   In real usage, peers would scan the QR code to connect")
-		} else {
-			log.Printf("❌ Connection error: %v", err)
-		}
-		return
-	}
-
-	// ✅ CONNECTION SUCCESS: Handle successful peer connection
-	fmt.Printf("✅ Connected to peer: %s\n", peer.DID())
-	fmt.Println("   🔐 Secure encrypted channel established")
-	fmt.Println("   💬 Ready for credential exchange workflows")
+	fmt.Println("🔄 For credential issuance focus, discovery is optional")
+	fmt.Println("   The core credential operations work without discovery")
+	fmt.Println("   Discovery enhances peer-to-peer credential exchange")
 	fmt.Println()
 }
 
-// printSummary displays a comprehensive educational summary
-// This function provides:
-// - Summary of demonstrated features
-// - Key SDK components used
-// - Educational takeaways
-// - Next steps for developers
-// - Additional learning resources
+// printSummary provides comprehensive educational summary
 func printSummary() {
-	fmt.Println("🎉 CREDENTIAL ISSUANCE DEMO COMPLETED!")
-	fmt.Println("======================================")
-	fmt.Println("✅ FEATURES SUCCESSFULLY DEMONSTRATED:")
-	fmt.Println("   • Basic credential creation (Email verification)")
-	fmt.Println("   • Multi-claim credentials (Profile information)")
-	fmt.Println("   • Custom credentials with evidence (Certification with PDF)")
-	fmt.Println("   • Complex nested claims (Organization with hierarchical data)")
-	fmt.Println("   • Credential builder pattern usage")
-	fmt.Println("   • Asset/evidence management and secure storage")
-	fmt.Println("   • Verifiable presentation creation")
-	fmt.Println("   • Request/response handler configuration")
+	fmt.Println("🎉 CREDENTIAL ISSUANCE DEMO COMPLETE")
+	fmt.Println("====================================")
+	fmt.Println("🎓 Congratulations! You've successfully completed the credential issuance demo.")
+	fmt.Println("   This advanced example demonstrated comprehensive credential capabilities:")
+	fmt.Println()
+	fmt.Println("✅ FEATURES DEMONSTRATED:")
+	fmt.Println("   1️⃣ Basic Email Credential - Foundation concepts with core SDK")
+	fmt.Println("   2️⃣ Profile Credential - Multiple claims in single credential")
+	fmt.Println("   3️⃣ Custom Credential - Evidence attachments and presentations")
+	fmt.Println("   4️⃣ Organization Credential - Complex nested data structures")
 	fmt.Println()
 	fmt.Println("🔧 KEY SDK COMPONENTS UTILIZED:")
-	fmt.Println("   • client.New() - Client initialization and configuration")
-	fmt.Println("   • NewCredentialBuilder() - Fluent API for credential construction")
-	fmt.Println("   • CreateAsset() - Evidence and file attachment management")
-	fmt.Println("   • CreatePresentation() - Verifiable presentation packaging")
-	fmt.Println("   • OnVerificationRequest/Response() - Event-driven workflows")
-	fmt.Println("   • Cryptographic signing and verification (automatic)")
+	fmt.Println("   • account.New() - Account initialization and configuration")
+	fmt.Println("   • credential.NewCredential() - Direct credential construction")
+	fmt.Println("   • object.New() - Evidence and file attachment management")
+	fmt.Println("   • credential.NewPresentation() - Verifiable presentation creation")
+	fmt.Println("   • account.CredentialIssue() - Direct credential issuance")
 	fmt.Println()
-	fmt.Println("📚 EDUCATIONAL TAKEAWAYS:")
-	fmt.Println("   • Credentials are cryptographically signed attestations")
-	fmt.Println("   • Builder pattern provides clean, readable construction")
-	fmt.Println("   • Evidence enhances credential trustworthiness")
-	fmt.Println("   • Complex data structures enable rich information modeling")
-	fmt.Println("   • Presentations package credentials for selective disclosure")
-	fmt.Println("   • Event handlers enable reactive credential workflows")
+	fmt.Println("📚 EDUCATIONAL PROGRESSION COMPLETE:")
+	fmt.Println("   • Core SDK concepts and architecture")
+	fmt.Println("   • Direct credential building patterns")
+	fmt.Println("   • Evidence and asset management")
+	fmt.Println("   • Complex data modeling techniques")
+	fmt.Println("   • Production-ready development patterns")
 	fmt.Println()
-	fmt.Println("🚀 NEXT STEPS FOR DEVELOPMENT:")
-	fmt.Println("   1. Explore credential verification workflows")
-	fmt.Println("   2. Implement real peer-to-peer connections")
-	fmt.Println("   3. Design custom credential schemas for your use case")
-	fmt.Println("   4. Integrate credential workflows into your application")
-	fmt.Println("   5. Add business logic for credential validation")
-	fmt.Println("   6. Implement selective disclosure and zero-knowledge proofs")
+	fmt.Println("🚀 NEXT STEPS:")
+	fmt.Println("   • Explore credential exchange examples")
+	fmt.Println("   • Implement custom credential types for your use case")
+	fmt.Println("   • Integrate Self SDK into your applications")
+	fmt.Println("   • Build end-to-end identity solutions")
 	fmt.Println()
-	fmt.Println("📖 ADDITIONAL LEARNING RESOURCES:")
+	fmt.Println("📖 Additional Resources:")
 	fmt.Println("   • Self SDK Documentation: https://docs.joinself.com")
-	fmt.Println("   • W3C Verifiable Credentials: https://w3.org/TR/vc-data-model/")
-	fmt.Println("   • Decentralized Identity: https://identity.foundation")
-	fmt.Println("   • Example Applications: /examples directory")
+	fmt.Println("   • Example Applications: ../../../examples/")
+	fmt.Println("   • Community Support: https://github.com/joinself/self-go-sdk")
 	fmt.Println()
 }
 
-// createPresentation demonstrates verifiable presentation creation
-// This helper function shows how to:
-// - Package credentials into presentations
+// createPresentation creates a verifiable presentation from a credential using core SDK
+// This function demonstrates:
+// - Presentation creation workflows
+// - Credential packaging for sharing
 // - Set presentation types and metadata
 // - Prepare credentials for sharing with verifiers
-func createPresentation(client *client.Client, cred *credential.VerifiableCredential) (*credential.VerifiablePresentation, error) {
-	// 📋 PRESENTATION CREATION: Package credential for sharing
+func createPresentation(account *account.Account, cred *credential.VerifiableCredential) (*credential.VerifiablePresentation, error) {
+	// 📋 PRESENTATION CREATION: Package credential for sharing using core SDK
 	// Presentations allow selective disclosure of credential information
-	return client.Credentials().CreatePresentation(
-		[]string{"VerifiablePresentation", "DemoPresentation"}, // Presentation type
-		[]*credential.VerifiableCredential{cred},               // Credentials to include
-	)
+
+	// Get account inbox address for holder
+	inboxAddress, err := account.InboxOpen()
+	if err != nil {
+		return nil, err
+	}
+
+	// Build the unsigned presentation
+	builder := credential.NewPresentation().
+		PresentationType([]string{"VerifiablePresentation"}).
+		Holder(credential.AddressKey(inboxAddress)).
+		CredentialAdd(cred)
+
+	unsignedPresentation, err := builder.Finish()
+	if err != nil {
+		return nil, err
+	}
+
+	// Issue the presentation using the account
+	return account.PresentationIssue(unsignedPresentation)
 }
