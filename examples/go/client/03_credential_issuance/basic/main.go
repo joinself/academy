@@ -1,20 +1,20 @@
-// Package main demonstrates basic credential issuance using the Self SDK.
+// Package main demonstrates basic credential issuance using the underlying Self SDK directly.
 //
 // This is the BASIC level of credential issuance examples.
 // Start here if you're new to credential issuance concepts.
 //
 // This example shows the basics of:
-// - Setting up issuer and holder clients
-// - Creating a simple email credential
-// - Understanding the credential builder pattern
-// - Basic claim addition and signing
+// - Setting up issuer and holder accounts using the core SDK
+// - Creating a simple email credential using credential.NewCredential()
+// - Understanding the core SDK credential builder pattern
+// - Direct credential signing and issuance with account.CredentialIssue()
 //
 // 🎯 What you'll learn:
-// • How credential issuance works
-// • Basic credential creation patterns
-// • Simple claim addition
-// • Client setup and configuration
-// • Cryptographic signing basics
+// • How credential issuance works at the SDK level
+// • Direct account setup and configuration
+// • Core credential creation patterns
+// • Direct credential signing and issuance
+// • Foundation concepts for all credential types
 //
 // 📚 Next steps:
 // • multi_claim/main.go - Multiple claims in credentials
@@ -24,116 +24,143 @@
 package main
 
 import (
+	"crypto/rand"
+	"crypto/sha256"
 	"fmt"
 	"log"
 	"time"
 
-	"github.com/joinself/academy/sdks/go/client"
+	"github.com/joinself/self-go-sdk/account"
 	"github.com/joinself/self-go-sdk/credential"
-	"github.com/joinself/self-go-sdk/examples/utils"
 )
 
 func main() {
-	fmt.Println("🎓 Basic Credential Issuance Demo")
-	fmt.Println("==================================")
-	fmt.Println("This demo shows basic credential issuance between issuer and holder.")
-	fmt.Println("📚 This is the BASIC level - start here if you're new to credential issuance.")
+	fmt.Println("🎓 Basic Credential Issuance Demo (Core SDK)")
+	fmt.Println("=============================================")
 	fmt.Println()
 
-	// Step 1: Create issuer and holder clients
-	issuer, holder := createClients()
+	// Step 1: Create issuer and holder accounts using core SDK
+	issuer, holder := createAccounts()
 	defer issuer.Close()
 	defer holder.Close()
 
-	fmt.Printf("🏢 Issuer: %s\n", issuer.DID())
-	fmt.Printf("👤 Holder: %s\n", holder.DID())
-	fmt.Println()
+	// Step 2: Display account information
+	displayAccountInfo(issuer, holder)
 
-	// Step 2: Create a simple credential
+	// Step 3: Create and issue a credential
 	createEmailCredential(issuer, holder)
 
-	fmt.Println("✅ Basic demo completed!")
-	fmt.Println()
-	fmt.Println("📚 Ready for the next level?")
-	fmt.Println("   • Run ../multi_claim/main.go to learn about multiple claims")
-	fmt.Println("   • Run ../evidence/main.go for evidence and asset management")
-	fmt.Println("   • Run ../complex/main.go for complex nested data structures")
-	fmt.Println("   • Run ../advanced/main.go for all features combined")
-	fmt.Println()
+	fmt.Println("✅ Demo completed!")
 }
 
-// createClients sets up the issuer and holder clients
-func createClients() (*client.Client, *client.Client) {
-	fmt.Println("🔧 Setting up clients...")
+// generateStorageKey creates a cryptographically secure 32-byte key
+func generateStorageKey(seed string) []byte {
+	key := make([]byte, 32)
+	if _, err := rand.Read(key); err != nil {
+		// Fallback to deterministic key generation if crypto/rand fails
+		h := sha256.Sum256([]byte(fmt.Sprintf("self-sdk-%s-%d", seed, time.Now().UnixNano())))
+		return h[:]
+	}
+	return key
+}
 
-	// Create issuer client
-	issuer, err := client.New(client.Config{
-		StorageKey:  utils.GenerateStorageKey("basic_issuer"),
+// createAccounts sets up the issuer and holder accounts using the core SDK
+func createAccounts() (*account.Account, *account.Account) {
+	fmt.Println("🔧 Setting up accounts...")
+
+	// Create issuer account with core SDK
+	issuer, err := account.New(&account.Config{
+		StorageKey:  generateStorageKey("basic_issuer"),
 		StoragePath: "./basic_issuer_storage",
-		Environment: client.Sandbox,
-		LogLevel:    client.LogInfo,
+		Environment: account.TargetSandbox,
+		LogLevel:    account.LogWarn,
 	})
 	if err != nil {
-		log.Fatal("Failed to create issuer:", err)
+		log.Fatal("Failed to create issuer account:", err)
 	}
 
-	// Create holder client
-	holder, err := client.New(client.Config{
-		StorageKey:  utils.GenerateStorageKey("basic_holder"),
+	// Create holder account with core SDK
+	holder, err := account.New(&account.Config{
+		StorageKey:  generateStorageKey("basic_holder"),
 		StoragePath: "./basic_holder_storage",
-		Environment: client.Sandbox,
-		LogLevel:    client.LogInfo,
+		Environment: account.TargetSandbox,
+		LogLevel:    account.LogWarn,
 	})
 	if err != nil {
-		log.Fatal("Failed to create holder:", err)
+		log.Fatal("Failed to create holder account:", err)
 	}
 
-	fmt.Println("✅ Clients created successfully")
+	fmt.Println("✅ Accounts created successfully")
 	return issuer, holder
 }
 
-// createEmailCredential creates a basic email credential for demonstration
-func createEmailCredential(issuer, holder *client.Client) {
-	fmt.Println("📧 Creating basic email credential...")
-	fmt.Println("   This demonstrates the foundation of credential issuance")
-	fmt.Println("   Key concepts: builder pattern, claims, signing")
-	fmt.Println()
-
-	// Create a basic email credential using the builder pattern
-	emailCredential, err := issuer.Credentials().NewCredentialBuilder().
-		Type(credential.CredentialTypeEmail).                       // Set credential type
-		Subject(holder.DID()).                                      // Who the credential is about
-		Issuer(issuer.DID()).                                       // Who is issuing the credential
-		Claim("emailAddress", "john.doe@example.com").              // Add email address claim
-		Claim("verified", true).                                    // Add verification status
-		Claim("verificationDate", time.Now().Format("2006-01-02")). // Add verification date
-		ValidFrom(time.Now()).                                      // Set validity start time
-		SignWith(issuer.DID(), time.Now()).                         // Sign with issuer's key
-		Issue(issuer)                                               // Issue the credential
-
+// displayAccountInfo shows the account DIDs
+func displayAccountInfo(issuer, holder *account.Account) {
+	// Get DIDs from accounts by opening inboxes
+	issuerInbox, err := issuer.InboxOpen()
 	if err != nil {
-		log.Printf("Failed to create credential: %v", err)
+		log.Fatal("Failed to open issuer inbox:", err)
+	}
+	holderInbox, err := holder.InboxOpen()
+	if err != nil {
+		log.Fatal("Failed to open holder inbox:", err)
+	}
+
+	fmt.Printf("🏢 Issuer DID: %s\n", issuerInbox.String())
+	fmt.Printf("👤 Holder DID: %s\n", holderInbox.String())
+	fmt.Println()
+}
+
+// createEmailCredential creates a basic email credential using the core SDK
+func createEmailCredential(issuer, holder *account.Account) {
+	fmt.Println("📧 Creating email credential...")
+
+	// Get inbox addresses for credential creation
+	issuerAddress, err := issuer.InboxOpen()
+	if err != nil {
+		log.Fatal("Failed to open issuer inbox:", err)
+	}
+
+	holderAddress, err := holder.InboxOpen()
+	if err != nil {
+		log.Fatal("Failed to open holder inbox:", err)
+	}
+
+	// Create credential claims
+	claims := map[string]interface{}{
+		"emailAddress":     "john.doe@example.com",
+		"verified":         true,
+		"verificationDate": time.Now().Format("2006-01-02"),
+	}
+
+	// Build credential using core SDK
+	credentialBuilder := credential.NewCredential().
+		CredentialType(credential.CredentialTypeEmail).
+		CredentialSubject(credential.AddressKey(holderAddress)).
+		Issuer(credential.AddressKey(issuerAddress)).
+		CredentialSubjectClaims(claims).
+		ValidFrom(time.Now()).
+		SignWith(issuerAddress, time.Now())
+
+	// Finish building the unsigned credential
+	unsignedCredential, err := credentialBuilder.Finish()
+	if err != nil {
+		log.Printf("Failed to build credential: %v", err)
 		return
 	}
 
-	fmt.Printf("✅ Email credential created successfully\n")
+	// Issue the credential using the issuer's account
+	emailCredential, err := issuer.CredentialIssue(unsignedCredential)
+	if err != nil {
+		log.Printf("Failed to issue credential: %v", err)
+		return
+	}
+
+	// Display results
+	fmt.Printf("✅ Email credential issued successfully\n")
 	fmt.Printf("   📧 Email: john.doe@example.com\n")
 	fmt.Printf("   ✔️  Verified: true\n")
 	fmt.Printf("   📅 Date: %s\n", time.Now().Format("2006-01-02"))
 	fmt.Printf("   🔒 Type: %v\n", emailCredential.CredentialType())
-	fmt.Printf("   🆔 Subject: %s\n", emailCredential.CredentialSubject().String())
-	fmt.Printf("   🏢 Issuer: %s\n", emailCredential.Issuer().String())
-	fmt.Println()
-	fmt.Println("🎓 What happened:")
-	fmt.Println("   1. Issuer created a verifiable credential")
-	fmt.Println("   2. Added claims (email, verification status, date)")
-	fmt.Println("   3. Signed with cryptographic key for integrity")
-	fmt.Println("   4. Credential is now ready for sharing or verification")
-	fmt.Println()
-	fmt.Println("📚 Key Learning Points:")
-	fmt.Println("   • Credentials contain claims about a subject")
-	fmt.Println("   • Builder pattern provides clean, readable construction")
-	fmt.Println("   • Cryptographic signatures ensure integrity")
-	fmt.Println("   • Timestamps establish validity periods")
 	fmt.Println()
 }
