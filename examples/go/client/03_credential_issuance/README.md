@@ -2,6 +2,8 @@
 
 This directory contains a comprehensive tutorial series for learning credential issuance using the Self SDK. The examples are designed with educational progression, starting from basic concepts and building up to advanced real-world scenarios.
 
+> **📢 Updated Approach**: These examples now use the underlying Self SDK directly (v0.59.0+) instead of the deprecated client package facade. This provides better understanding of the core SDK architecture and patterns.
+
 ## 🚀 Quick Start
 
 | 🎯 Goal | 📁 Example | 🏃‍♂️ Command |
@@ -29,7 +31,7 @@ Complete the examples in this order for the best learning experience:
 
 ### 🔄 Current main.go
 
-The current `main.go` contains the simplified basic issuance example (**9/10 simplicity**). For the full educational progression, use the individual files above.
+The current `main.go` contains the simplified basic issuance example using the underlying Self SDK directly (**9/10 simplicity**). This demonstrates how to use the core SDK without the client package facade. For the full educational progression, use the individual files above.
 
 ### 📊 Complexity Guide
 
@@ -51,10 +53,10 @@ The current `main.go` contains the simplified basic issuance example (**9/10 sim
   - Cryptographic signing basics
   
 - **Key concepts:**
-  - Client setup (issuer and holder)
-  - Simple credential creation
-  - Builder pattern usage
-  - Basic claim addition
+  - Account setup using core SDK (issuer and holder)
+  - Direct credential creation with credential.NewCredential()
+  - Core SDK builder pattern usage
+  - Direct credential signing and issuance
 
 - **Complexity:** 🟢 **9/10** (Very Simple)
 - **Time to complete:** 5-10 minutes
@@ -167,15 +169,15 @@ cd .. && go run main.go
 
 ### 🔧 Build Requirements
 
-Each subdirectory is a standalone Go module with its own `go.mod` file. The examples use a local replace directive to reference the Self SDK, so they should build and run without any additional setup.
+Each subdirectory is a standalone Go module with its own `go.mod` file. The examples use the latest published version of the Self SDK (v0.59.0+), so they should build and run without any additional setup.
 
 ### What Each Example Does
 
-All examples create two clients (issuer and holder) and demonstrate different aspects of credential issuance:
+All examples create two accounts (issuer and holder) using the core SDK and demonstrate different aspects of credential issuance:
 
-- **Issuer**: Creates and signs credentials for subjects
+- **Issuer**: Creates and signs credentials for subjects using account.CredentialIssue()
 - **Holder**: Receives and stores credentials from issuers
-- **Issuance**: The process of creating, signing, and delivering credentials
+- **Issuance**: The process of creating, signing, and delivering credentials using the underlying SDK
 
 ## 🎓 Learning Outcomes
 
@@ -188,10 +190,10 @@ After completing all examples, you'll understand:
 - ✅ Claim structuring and organization
 
 ### Technical Skills
-- ✅ Self SDK client setup and configuration
-- ✅ Credential creation using the builder pattern
-- ✅ Simple and complex claim addition
-- ✅ Evidence and asset management
+- ✅ Self SDK account setup and configuration using account.New()
+- ✅ Direct credential creation using credential.NewCredential()
+- ✅ Simple and complex claim addition with CredentialSubjectClaims()
+- ✅ Evidence and asset management with object.New()
 - ✅ Verifiable presentation creation
 - ✅ Complex data structure modeling
 
@@ -203,16 +205,16 @@ After completing all examples, you'll understand:
 
 ## 🔧 Key SDK Components Covered
 
-### Client Management
-- `client.New()` - Client initialization
-- `client.Config` - Configuration options
-- Storage and environment setup
+### Account Management
+- `account.New()` - Account initialization with core SDK
+- `account.Config` - Direct account configuration options
+- Storage and environment setup using core types
 
 ### Credential Operations
-- `NewCredentialBuilder()` - Credential creation
-- `Type()`, `Subject()`, `Issuer()` - Basic credential properties
-- `Claim()`, `Claims()` - Adding credential data
-- `SignWith()`, `Issue()` - Credential finalization
+- `credential.NewCredential()` - Direct credential creation
+- `CredentialType()`, `CredentialSubject()`, `Issuer()` - Core credential properties
+- `CredentialSubjectClaims()` - Adding credential data directly
+- `SignWith()`, `account.CredentialIssue()` - Direct credential signing and issuance
 
 ### Asset Management
 - `CreateAsset()` - Evidence and file management
