@@ -22,30 +22,29 @@
 package main
 
 import (
+	"crypto/rand"
+	"crypto/sha256"
 	"fmt"
 	"log"
 	"time"
 
-	"github.com/joinself/academy/sdks/go/client"
+	"github.com/joinself/self-go-sdk/account"
 	"github.com/joinself/self-go-sdk/credential"
-	"github.com/joinself/self-go-sdk/examples/utils"
 )
 
 func main() {
-	fmt.Println("🎓 Multi-Claim Credential Issuance Demo")
-	fmt.Println("========================================")
-	fmt.Println("This demo shows how to create credentials with multiple claims.")
-	fmt.Println("📚 This is the MULTI-CLAIM level - building on basic concepts.")
+	fmt.Println("🎓 Multi-Claim Credential Issuance Demo (Core SDK)")
+	fmt.Println("===================================================")
+	fmt.Println("This demo shows credentials with multiple claims using the core SDK.")
 	fmt.Println()
 
-	// Step 1: Create issuer and holder clients
-	issuer, holder := createClients()
+	// Step 1: Create issuer and holder accounts
+	issuer, holder := createAccounts()
 	defer issuer.Close()
 	defer holder.Close()
 
-	fmt.Printf("🏢 Issuer: %s\n", issuer.DID())
-	fmt.Printf("👤 Holder: %s\n", holder.DID())
-	fmt.Println()
+	// Display account information
+	displayAccountInfo(issuer, holder)
 
 	// Step 2: Create credentials with multiple claims
 	createProfileCredential(issuer, holder)
@@ -54,68 +53,119 @@ func main() {
 	fmt.Println("✅ Multi-claim demo completed!")
 	fmt.Println()
 	fmt.Println("📚 Ready for the next level?")
-	fmt.Println("   • Run ../evidence/main.go for evidence and asset management")
-	fmt.Println("   • Run ../complex/main.go for complex nested data structures")
-	fmt.Println("   • Run ../advanced/main.go for all features combined")
+	fmt.Println("   • cd ../evidence && go run main.go - Evidence and asset management")
+	fmt.Println("   • cd ../complex && go run main.go - Complex nested data structures")
+	fmt.Println("   • cd ../advanced && go run main.go - All features combined")
 	fmt.Println()
 }
 
-// createClients sets up the issuer and holder clients
-func createClients() (*client.Client, *client.Client) {
-	fmt.Println("🔧 Setting up clients...")
+// generateStorageKey creates a cryptographically secure 32-byte key
+func generateStorageKey(seed string) []byte {
+	key := make([]byte, 32)
+	if _, err := rand.Read(key); err != nil {
+		// Fallback to deterministic key generation if crypto/rand fails
+		h := sha256.Sum256([]byte(fmt.Sprintf("self-sdk-%s-%d", seed, time.Now().UnixNano())))
+		return h[:]
+	}
+	return key
+}
 
-	// Create issuer client
-	issuer, err := client.New(client.Config{
-		StorageKey:  utils.GenerateStorageKey("multi_issuer"),
+// createAccounts sets up the issuer and holder accounts using the core SDK
+func createAccounts() (*account.Account, *account.Account) {
+	// Create issuer account configuration
+	issuerCfg := &account.Config{
+		StorageKey:  generateStorageKey("multi_issuer"),
 		StoragePath: "./multi_issuer_storage",
-		Environment: client.Sandbox,
-		LogLevel:    client.LogInfo,
-	})
-	if err != nil {
-		log.Fatal("Failed to create issuer:", err)
+		Environment: account.TargetSandbox,
+		LogLevel:    account.LogWarn,
 	}
 
-	// Create holder client
-	holder, err := client.New(client.Config{
-		StorageKey:  utils.GenerateStorageKey("multi_holder"),
+	// Create issuer account
+	issuer, err := account.New(issuerCfg)
+	if err != nil {
+		log.Fatal("Failed to create issuer account:", err)
+	}
+
+	// Create holder account configuration
+	holderCfg := &account.Config{
+		StorageKey:  generateStorageKey("multi_holder"),
 		StoragePath: "./multi_holder_storage",
-		Environment: client.Sandbox,
-		LogLevel:    client.LogInfo,
-	})
-	if err != nil {
-		log.Fatal("Failed to create holder:", err)
+		Environment: account.TargetSandbox,
+		LogLevel:    account.LogWarn,
 	}
 
-	fmt.Println("✅ Clients created successfully")
+	// Create holder account
+	holder, err := account.New(holderCfg)
+	if err != nil {
+		log.Fatal("Failed to create holder account:", err)
+	}
+
 	return issuer, holder
 }
 
-// createProfileCredential creates a profile credential with multiple claims
-func createProfileCredential(issuer, holder *client.Client) {
-	fmt.Println("👤 Creating profile credential with multiple claims...")
-	fmt.Println("   This demonstrates grouping related information in one credential")
-	fmt.Println("   Multiple claims can contain different data types")
-	fmt.Println()
-
-	// Create a profile credential with multiple related claims
-	profileCredential, err := issuer.Credentials().NewCredentialBuilder().
-		Type(credential.CredentialTypeProfileName).                 // Profile credential type
-		Subject(holder.DID()).                                      // Subject of the credential
-		Issuer(issuer.DID()).                                       // Credential issuer
-		Claim("firstName", "John").                                 // First name (string)
-		Claim("lastName", "Doe").                                   // Last name (string)
-		Claim("displayName", "John Doe").                           // Display name (string)
-		Claim("profileLevel", "verified").                          // Verification level (string)
-		Claim("country", "United States").                          // Country (string)
-		Claim("age", 30).                                           // Age (number)
-		Claim("isActive", true).                                    // Active status (boolean)
-		Claim("registrationDate", time.Now().Format("2006-01-02")). // Registration date (string)
-		ValidFrom(time.Now()).                                      // Validity start time
-		SignWith(issuer.DID(), time.Now()).                         // Cryptographic signature
-		Issue(issuer)                                               // Issue the credential
-
+// displayAccountInfo shows the account information
+func displayAccountInfo(issuer, holder *account.Account) {
+	issuerInbox, err := issuer.InboxOpen()
 	if err != nil {
-		log.Printf("Failed to create profile credential: %v", err)
+		log.Fatal("Failed to open issuer inbox:", err)
+	}
+	holderInbox, err := holder.InboxOpen()
+	if err != nil {
+		log.Fatal("Failed to open holder inbox:", err)
+	}
+
+	fmt.Printf("🏢 Issuer: %s\n", issuerInbox.String())
+	fmt.Printf("👤 Holder: %s\n", holderInbox.String())
+	fmt.Println()
+}
+
+// createProfileCredential creates a profile credential with multiple claims
+func createProfileCredential(issuer, holder *account.Account) {
+	fmt.Println("👤 Creating profile credential with multiple claims...")
+
+	// Get inbox addresses for credential creation
+	issuerAddress, err := issuer.InboxOpen()
+	if err != nil {
+		log.Fatal("Failed to open issuer inbox:", err)
+	}
+
+	holderAddress, err := holder.InboxOpen()
+	if err != nil {
+		log.Fatal("Failed to open holder inbox:", err)
+	}
+
+	// Create profile claims with multiple data types
+	claims := map[string]interface{}{
+		"firstName":        "John",
+		"lastName":         "Doe",
+		"displayName":      "John Doe",
+		"profileLevel":     "verified",
+		"country":          "United States",
+		"age":              30,
+		"isActive":         true,
+		"registrationDate": time.Now().Format("2006-01-02"),
+	}
+
+	// Build the credential using the core SDK
+	credentialBuilder := credential.NewCredential().
+		CredentialType(credential.CredentialTypeProfileName).
+		CredentialSubject(credential.AddressKey(holderAddress)).
+		CredentialSubjectClaims(claims).
+		Issuer(credential.AddressKey(issuerAddress)).
+		ValidFrom(time.Now()).
+		SignWith(issuerAddress, time.Now())
+
+	// Finish building the unsigned credential
+	unsignedCredential, err := credentialBuilder.Finish()
+	if err != nil {
+		log.Printf("Failed to build credential: %v", err)
+		return
+	}
+
+	// Issue the credential using the issuer's account
+	profileCredential, err := issuer.CredentialIssue(unsignedCredential)
+	if err != nil {
+		log.Printf("Failed to issue credential: %v", err)
 		return
 	}
 
@@ -131,32 +181,53 @@ func createProfileCredential(issuer, holder *client.Client) {
 }
 
 // createEducationCredential creates an education credential with academic claims
-func createEducationCredential(issuer, holder *client.Client) {
+func createEducationCredential(issuer, holder *account.Account) {
 	fmt.Println("🎓 Creating education credential with academic claims...")
-	fmt.Println("   This shows how to structure educational achievements")
-	fmt.Println("   Different claim types for academic information")
-	fmt.Println()
 
-	// Create an education credential with academic information
-	educationCredential, err := issuer.Credentials().NewCredentialBuilder().
-		Type([]string{"VerifiableCredential", "EducationCredential"}). // Education credential type
-		Subject(holder.DID()).                                         // Subject of the credential
-		Issuer(issuer.DID()).                                          // Credential issuer
-		Claim("institution", "University of Technology").              // Institution name (string)
-		Claim("degree", "Bachelor of Science").                        // Degree type (string)
-		Claim("major", "Computer Science").                            // Major field (string)
-		Claim("graduationYear", 2020).                                 // Graduation year (number)
-		Claim("gpa", 3.8).                                             // GPA (float as number)
-		Claim("honors", true).                                         // Honors status (boolean)
-		Claim("creditsCompleted", 120).                                // Credits (number)
-		Claim("thesis", "Machine Learning Applications").              // Thesis title (string)
-		Claim("graduationDate", "2020-05-15").                         // Graduation date (string)
-		ValidFrom(time.Now()).                                         // Validity start time
-		SignWith(issuer.DID(), time.Now()).                            // Cryptographic signature
-		Issue(issuer)                                                  // Issue the credential
-
+	// Get inbox addresses for credential creation
+	issuerAddress, err := issuer.InboxOpen()
 	if err != nil {
-		log.Printf("Failed to create education credential: %v", err)
+		log.Fatal("Failed to open issuer inbox:", err)
+	}
+
+	holderAddress, err := holder.InboxOpen()
+	if err != nil {
+		log.Fatal("Failed to open holder inbox:", err)
+	}
+
+	// Create education claims with academic information
+	claims := map[string]interface{}{
+		"institution":      "University of Technology",
+		"degree":           "Bachelor of Science",
+		"major":            "Computer Science",
+		"graduationYear":   2020,
+		"gpa":              3.8,
+		"honors":           true,
+		"creditsCompleted": 120,
+		"thesis":           "Machine Learning Applications",
+		"graduationDate":   "2020-05-15",
+	}
+
+	// Build the credential using the core SDK
+	credentialBuilder := credential.NewCredential().
+		CredentialType([]string{"VerifiableCredential", "EducationCredential"}).
+		CredentialSubject(credential.AddressKey(holderAddress)).
+		CredentialSubjectClaims(claims).
+		Issuer(credential.AddressKey(issuerAddress)).
+		ValidFrom(time.Now()).
+		SignWith(issuerAddress, time.Now())
+
+	// Finish building the unsigned credential
+	unsignedCredential, err := credentialBuilder.Finish()
+	if err != nil {
+		log.Printf("Failed to build credential: %v", err)
+		return
+	}
+
+	// Issue the credential using the issuer's account
+	educationCredential, err := issuer.CredentialIssue(unsignedCredential)
+	if err != nil {
+		log.Printf("Failed to issue credential: %v", err)
 		return
 	}
 
@@ -175,12 +246,5 @@ func createEducationCredential(issuer, holder *client.Client) {
 	fmt.Println("   2. Used different data types: strings, numbers, booleans")
 	fmt.Println("   3. Grouped related information in single credentials")
 	fmt.Println("   4. Each credential maintains cryptographic integrity")
-	fmt.Println()
-	fmt.Println("📚 Key Learning Points:")
-	fmt.Println("   • Multiple related claims can be grouped in one credential")
-	fmt.Println("   • Claims support different data types (strings, numbers, booleans)")
-	fmt.Println("   • Grouping related information improves efficiency")
-	fmt.Println("   • Each claim is individually verifiable")
-	fmt.Println("   • Credential types help organize different kinds of information")
 	fmt.Println()
 }
