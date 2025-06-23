@@ -1,265 +1,386 @@
-# Discovery Subscription Example
+# Simple Discovery Demo
 
-This example demonstrates the powerful subscription-based peer discovery capabilities of the Self SDK. Learn how to create a discovery service that can handle multiple simultaneous peer connections through QR code scanning, with real-time notifications for each discovery event.
+This example demonstrates **peer discovery and connection** using the core Self SDK directly. It shows a clean, focused workflow: generate one QR code, wait for a peer to connect, send them a welcome message, and complete the demo.
+
+> **📢 Simplified Focus**: This example uses the underlying Self SDK directly (v0.59.0+) to demonstrate the essential discovery workflow without complexity. It's perfect for understanding the core concepts before building more advanced applications.
 
 ## 🚀 Quick Start
 
 | 🎯 Goal | 🏃‍♂️ Command | ⏱️ Time |
 |---------|-------------|---------|
-| **See discovery subscription in action** | `go run main.go` | 2-3 min |
-| **Test with multiple peers** | Run + scan QR codes | 5-10 min |
+| **Run discovery demo** | `go run main.go` | 2-3 min |
+| **Test with another client** | Scan QR code with Self SDK | Real-time connection |
+| **Learn core concepts** | Run + read guide | 5-10 min |
 
-## 📚 What You'll Learn
+## 📚 What You'll Experience
 
-### 🎯 Core Concepts
+### 🎯 Simple Discovery Workflow
 
-- **Discovery Subscription Pattern** - How to set up handlers that receive real-time notifications
-- **Multiple QR Code Generation** - Creating several discovery endpoints simultaneously  
-- **Peer Discovery Workflow** - Understanding the complete discovery process
-- **Real-time Event Handling** - Processing discovery events as they happen
+- **📱 Single QR Code Generation** - Creates one discovery endpoint (30-minute timeout)
+- **⏳ Connection Waiting** - Waits for one peer to scan and connect  
+- **🎉 Automatic Connection** - Accepts the connection and sends welcome message
+- **✅ Clean Completion** - Demo finishes after successful message delivery
 
-### 🔄 Discovery Subscription Flow
+### 🔄 Step-by-Step Process
 
 ```
-1. Client generates multiple QR codes with different timeouts
-2. Each QR code represents a unique discovery endpoint
-3. Other Self clients scan the QR codes
-4. Original client receives real-time notifications for each discovery
-5. Multiple peers can discover simultaneously without interference
+1. Account Setup
+   └── Create account with Welcome event handler
+   └── Display account DID for reference
+
+2. QR Code Generation  
+   └── Generate key package for connection (30-minute validity)
+   └── Create discovery request with embedded key package
+   └── Encode as QR code and display
+
+3. Connection Handling
+   └── Wait for peer to scan QR code
+   └── Automatically accept incoming connection
+   └── Send welcome message to connected peer
+
+4. Demo Completion
+   └── Show summary of successful connection
+   └── Exit cleanly after message delivery
 ```
 
-### 📱 Interactive Demo Features
+### 📱 Demo Output Example
 
-- **Three QR codes** with different timeout periods (15min, 30min, 60min)
-- **Real-time notifications** when peers discover you
-- **Detailed discovery information** including peer DID and timestamp
-- **Educational explanations** of what's happening at each step
+```
+🔍 Simple Discovery Demo
+=========================
+This demo shows basic discovery workflow:
+• Generate one QR code for connection
+• Wait for a peer to scan and connect
+• Send a welcome message
+• Complete the demo
+
+🔧 Setting up discovery account...
+🔗 Connected to Self network
+✅ Account created successfully
+🆔 Your DID: 0056301398177fde1b53fa84aae917eba906f651559076c6665020f79221b87bcc
+
+📱 Generating discovery QR code...
+--- Discovery QR Code ---
+Valid for: 30 minutes
+
+[QR CODE DISPLAYED]
+
+✅ QR code generated successfully!
+
+⏳ Waiting for peer connection...
+📱 Scan the QR code above with a Self client to connect
+🔄 Press Ctrl+C to cancel
+
+🤝 Connection request from: 001234...
+🎉 Connected to peer: 001234...
+📤 Sending welcome message...
+✅ Welcome message sent successfully!
+✅ Demo completed successfully!
+
+📋 Demo Summary
+================
+👤 Connected peer: 001234...
+💬 Welcome message sent
+
+🎓 What was demonstrated:
+   • QR code generation for discovery
+   • Automatic connection acceptance
+   • Direct peer messaging
+   • Clean demo completion
+```
 
 ## 🎓 Learning Outcomes
 
-After completing this example, you'll understand:
+After running this simple demo, you'll understand:
 
-### Discovery Subscription Concepts
-- ✅ How subscription-based discovery works
-- ✅ The difference between one-time and subscription discovery
-- ✅ Real-time event handling patterns
-- ✅ Multiple simultaneous discovery endpoints
+### Discovery Fundamentals
+- ✅ **QR code generation** using `ConnectionNegotiateOutOfBand()` and `EncodeToQR()`
+- ✅ **Connection handling** with `OnWelcome` callback and `ConnectionAccept()`
+- ✅ **Message sending** using `MessageSend()` with chat content
+- ✅ **Clean demo patterns** with proper setup, execution, and completion
 
-### Technical Implementation
-- ✅ Setting up discovery event handlers with `OnResponse()`
-- ✅ Generating QR codes with `GenerateQRWithTimeout()`
-- ✅ Managing multiple discovery sessions
-- ✅ Processing peer discovery events
+### Core SDK Concepts
+- ✅ **Account configuration** with event callbacks for connection handling
+- ✅ **Discovery requests** containing key packages for secure connection establishment
+- ✅ **Event-driven architecture** using callbacks instead of polling or blocking
+- ✅ **Message creation** with `message.NewChat()` and content encoding
 
-### Real-world Applications
-- ✅ Building discovery services for multiple users
-- ✅ Creating persistent discovery endpoints
-- ✅ Handling concurrent peer connections
-- ✅ Implementing discovery-based workflows
+### Essential Patterns
+- ✅ **Single-purpose demos** that focus on one core concept
+- ✅ **Graceful completion** with timeout handling and clean exit
+- ✅ **Error handling** with appropriate logging and user feedback
+- ✅ **Resource management** with proper cleanup and storage handling
+
+## 🔧 Technical Implementation
+
+### Core SDK Usage
+
+```go
+// Account setup with Welcome callback
+cfg := &account.Config{
+    StorageKey:  generateStorageKey("simple_discovery"),
+    StoragePath: "./simple_discovery_storage", 
+    Environment: account.TargetSandbox,
+    Callbacks: account.Callbacks{
+        OnWelcome: d.onWelcome, // Handle connection requests
+    },
+}
+```
+
+### QR Code Generation
+
+```go
+// Generate key package for connections
+keyPackage, err := account.ConnectionNegotiateOutOfBand(
+    inboxAddress,
+    time.Now().Add(30*time.Minute), // 30-minute validity
+)
+
+// Create discovery request
+discoveryContent, err := message.NewDiscoveryRequest().
+    KeyPackage(keyPackage).
+    Expires(time.Now().Add(30*time.Minute)).
+    Finish()
+
+// Encode as QR code
+anonymousMsg := event.NewAnonymousMessage(discoveryContent)
+qrCodeData, err := anonymousMsg.EncodeToQR(event.QREncodingUnicode)
+```
+
+### Connection Handling
+
+```go
+func (d *SimpleDiscoveryDemo) onWelcome(acc *account.Account, wlc *event.Welcome) {
+    // Accept the connection
+    _, err := acc.ConnectionAccept(wlc.ToAddress(), wlc.Welcome())
+    
+    // Send welcome message
+    d.sendWelcomeMessage(wlc.FromAddress())
+    
+    // Signal completion
+    d.done <- true
+}
+```
+
+### Message Sending
+
+```go
+// Build and send chat message
+chatContent, err := message.NewChat().
+    Message("🎉 Welcome! Connection established!").
+    Finish()
+
+err = account.MessageSend(peerAddress, chatContent)
+```
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
 1. **Go 1.19 or later**
-2. **Self SDK dependencies** (automatically handled by go.mod)
-3. **Multiple Self clients** for testing (mobile apps, other SDK instances)
+2. **Self SDK dependencies** (handled automatically by go.mod)
+3. **Self client for testing** (mobile app, another SDK instance, web client)
 
-### Running the Example
+### Running the Demo
 
 ```bash
-# Run the discovery subscription demo
+# Run the simple discovery demo
 go run main.go
 
 # The program will:
-# 1. Generate three QR codes with different timeouts
-# 2. Display them in the terminal
-# 3. Listen for discovery events
-# 4. Show real-time notifications when peers connect
+# 1. Set up an account with connection handling
+# 2. Generate and display one QR code (valid for 30 minutes)
+# 3. Wait for a peer to scan the QR code and connect
+# 4. Send a welcome message to the connected peer
+# 5. Show a summary and exit cleanly
 ```
 
-### 📱 Testing the Subscription
+### 📱 Testing the Demo
 
-1. **Run the program** - It will generate three QR codes
-2. **Use Self mobile apps** or other SDK clients to scan the codes
-3. **Try scanning different codes** with different devices
-4. **Watch the real-time notifications** appear in the terminal
-5. **Test simultaneous discoveries** by having multiple people scan at once
+1. **Start the demo** - Run `go run main.go` to see the QR code
+2. **Scan the QR code** - Use any Self SDK client to scan and connect
+3. **Watch the connection** - See real-time connection acceptance and message sending
+4. **See the summary** - Demo completes with connection details
 
-## 🔧 Key SDK Components Covered
+### Expected Behavior
 
-### Discovery Management
-- `client.Discovery()` - Access discovery functionality
-- `OnResponse(func(*client.Peer))` - Set up subscription handler
-- `GenerateQRWithTimeout(duration)` - Create discovery QR codes
+- **QR code displays** immediately after account setup (valid for 30 minutes)
+- **Connection event** appears when peer scans QR code  
+- **Welcome message** is sent automatically to the connected peer
+- **Demo completion** with summary showing successful connection and message delivery
+- **Clean exit** after successful message sending
 
-### Event Handling
-- **Subscription Pattern** - Handler called for every discovery
-- **Peer Information** - Access to discovered peer details
-- **Real-time Processing** - Immediate notification of events
+## 🎯 Use Cases & Applications
 
-### QR Code Management
-- **Multiple QR Codes** - Generate several discovery endpoints
-- **Timeout Configuration** - Different validity periods
-- **Request ID Tracking** - Unique identifiers for each QR code
+### Educational Applications
 
-## 🎯 Use Cases
+1. **Discovery Concept Learning**
+   - Understand QR-based peer discovery
+   - Learn connection establishment flow
+   - See message sending in action
+   - Foundation for more complex applications
 
-### Real-world Applications
+2. **SDK Integration Testing**
+   - Test Self SDK setup and configuration
+   - Verify connection handling works correctly
+   - Confirm message sending functionality
+   - Debug connection issues
 
-1. **Event Registration**
-   - Generate QR codes for event check-in
-   - Real-time attendee discovery and registration
-   - Multiple entry points with different access levels
+### Production Foundations
 
-2. **Networking Events**
-   - Business card exchange via QR codes
-   - Real-time contact discovery
-   - Multiple networking sessions simultaneously
+1. **Simple Connection Services**
+   - One-time device pairing
+   - Basic peer introduction
+   - Quick message delivery
+   - Temporary connection establishment
 
-3. **Service Discovery**
-   - IoT device discovery and pairing
-   - Service endpoint registration
-   - Dynamic peer-to-peer connections
+2. **Building Blocks for Complex Apps**
+   - Foundation for multi-peer discovery
+   - Base pattern for subscription services
+   - Starting point for credential exchange
+   - Core component for larger workflows
 
-4. **Educational Platforms**
-   - Student-teacher connections
-   - Classroom participation tracking
-   - Real-time attendance monitoring
+## 🔄 Simple vs. Advanced Discovery
 
-## 🔄 Discovery vs. Other Patterns
+### Simple Discovery Demo (This Example)
 
-### Discovery Subscription vs. One-time Discovery
+| Feature | Description | Focus |
+|---------|-------------|-------|
+| **Scope** | One QR code, one connection, one message | Essential concepts |
+| **Complexity** | Minimal - easy to understand and follow | Learning foundation |
+| **Duration** | Completes after first successful connection | Quick demonstration |
+| **Use Case** | Learning discovery basics, simple pairing | Educational, basic apps |
 
-| Feature | Subscription | One-time |
-|---------|-------------|----------|
-| **Handler Calls** | Multiple (for each peer) | Single |
-| **QR Code Reuse** | Yes, until timeout | No, single use |
-| **Concurrent Peers** | Unlimited | One |
-| **Use Case** | Services, events | Direct peer connection |
+### Advanced Discovery Applications
 
-### When to Use Discovery Subscription
+| Feature | Description | Focus |
+|---------|-------------|-------|
+| **Scope** | Multiple QR codes, multiple connections, ongoing messaging | Production patterns |
+| **Complexity** | Full - connection management, message routing, error handling | Real-world applications |
+| **Duration** | Runs continuously with connection pooling | Production services |
+| **Use Case** | Event management, customer service, IoT platforms | Enterprise applications |
 
-- ✅ **Multiple peer connections** expected
-- ✅ **Service-like behavior** needed
-- ✅ **Real-time notifications** required
-- ✅ **Persistent discovery** endpoints
-- ✅ **Event-driven architecture**
+## 🔗 Next Steps & Learning Path
 
-### When to Use One-time Discovery
+### Immediate Next Steps
 
-- ✅ **Direct peer-to-peer** connection
-- ✅ **Single connection** expected
-- ✅ **Simple pairing** scenarios
-- ✅ **One-off interactions**
+After mastering this simple discovery demo:
 
-## 🛠️ Customization
+1. **🔄 Connection Management** - Learn to handle multiple simultaneous connections
+2. **💬 Message Exchange** - Add bidirectional messaging and conversation handling
+3. **📋 Credential Exchange** - Use discovery for credential presentation workflows
+4. **🏭 Production Patterns** - Add persistence, monitoring, and error recovery
 
-### Extending the Example
+### 🎓 Educational Progression
+
+1. **This Simple Demo** - Basic discovery with one connection ← **You are here**
+2. **Chat Examples** - Bidirectional messaging between discovered peers
+3. **Credential Examples** - Using discovery for credential exchange workflows
+4. **Group Examples** - Multi-peer discovery and group formation
+5. **Advanced Examples** - Production-ready discovery services
+
+### Code Evolution
 
 ```go
-// Custom discovery handler with business logic
-client.Discovery().OnResponse(func(peer *client.Peer) {
-    // Store peer information
-    storePeerInDatabase(peer)
-    
-    // Send welcome message
-    sendWelcomeMessage(peer)
-    
-    // Initiate credential exchange
-    requestCredentials(peer)
-    
-    // Log discovery event
-    logDiscoveryEvent(peer)
-})
+// Current Level: Simple Discovery
+demo := NewSimpleDiscoveryDemo()
+demo.Run() // Connect to one peer, send message, exit
 
-// Generate QR codes with custom timeouts
-timeouts := []time.Duration{
-    5 * time.Minute,   // Quick connections
-    1 * time.Hour,     // Standard connections  
-    24 * time.Hour,    // Long-term availability
-}
+// Next Level: Connection Management  
+connectionManager := NewConnectionManager()
+connectionManager.HandleMultiplePeers()
+connectionManager.MaintainConnections()
 
-for _, timeout := range timeouts {
-    qr, err := client.Discovery().GenerateQRWithTimeout(timeout)
-    // Handle QR code...
-}
+// Advanced Level: Discovery Service
+discoveryService := NewDiscoveryService()
+discoveryService.HandleMultipleQRCodes()
+discoveryService.RouteMessagesToHandlers()
+discoveryService.PersistConnections()
 ```
 
-### Integration Patterns
+## 💡 Why Start Simple?
 
-1. **Database Integration**
-   - Store discovered peers in database
-   - Track discovery events and timestamps
-   - Implement peer relationship management
+### Focus on Core Concepts
 
-2. **Notification Systems**
-   - Send push notifications on discovery
-   - Email alerts for new connections
-   - Real-time dashboard updates
+This simplified approach helps you understand:
 
-3. **Workflow Automation**
-   - Trigger credential exchange on discovery
-   - Initiate chat sessions automatically
-   - Start business process workflows
+- **Essential discovery workflow** without distracting complexity
+- **Core SDK patterns** that apply to all Self applications  
+- **Connection fundamentals** before advanced connection management
+- **Message basics** before complex routing and handling
 
-## 🔧 Production Considerations
+### Building Solid Foundations
 
-### Security
-- **QR Code Expiration** - Use appropriate timeouts
-- **Peer Validation** - Verify discovered peers
-- **Rate Limiting** - Prevent discovery spam
-- **Access Control** - Implement discovery permissions
+Starting with one connection and one message:
 
-### Scalability
-- **Handler Performance** - Keep discovery handlers fast
-- **Concurrent Connections** - Handle multiple simultaneous discoveries
-- **Resource Management** - Clean up expired QR codes
-- **Monitoring** - Track discovery metrics
+- **Reduces cognitive load** - focus on understanding rather than managing complexity
+- **Establishes patterns** - learn the right way to use callbacks and event handling
+- **Enables experimentation** - easy to modify and test different approaches
+- **Provides confidence** - see immediate results and build understanding incrementally
 
-### Error Handling
-- **QR Generation Failures** - Graceful degradation
-- **Network Issues** - Retry mechanisms
-- **Timeout Management** - Handle expired discoveries
-- **Peer Validation** - Verify discovery authenticity
+## 📖 Technical Notes
 
-## 📚 Next Steps
+### SDK Version & Dependencies
+```go
+// go.mod
+module discovery_subscription
+go 1.22
+require github.com/joinself/self-go-sdk v0.59.0
+```
 
-After mastering discovery subscription:
+### Storage & Environment
+- Creates `simple_discovery_storage` directory for account data
+- Configured for sandbox environment (safe for testing)
+- Automatically cleans up on demo completion
 
-1. **🔄 Explore Credential Exchange** (`../credentials_exchange/`) - Use discovered peers for credential exchange
-2. **💬 Try Simple Chat** (`../simple_chat/`) - Build messaging with discovered peers  
-3. **🏗️ Build Discovery Services** - Create your own discovery-based applications
-4. **🔗 Integrate with Existing Systems** - Add discovery to current applications
+### Timeouts & Limits
+- **QR code validity**: 30 minutes (configurable)
+- **Connection timeout**: Waits indefinitely until connection or manual cancellation
+- **Demo completion**: Automatic exit after successful message delivery
 
-### 🎯 Advanced Discovery Patterns
+## 🛠️ Troubleshooting
 
-- **Discovery with Credential Exchange** - Combine discovery and credential sharing
-- **Multi-hop Discovery** - Discover peers through intermediaries
-- **Discovery Networks** - Build interconnected discovery services
-- **Discovery Analytics** - Track and analyze discovery patterns
+### Common Issues
+
+1. **Storage Errors** - Delete `simple_discovery_storage` directory and retry
+2. **QR Code Scanning Issues** - Ensure QR code is not expired and properly displayed
+3. **Connection Failures** - Check that both peers are using compatible SDK versions
+4. **Message Sending Errors** - Verify connection was established before message sending
+
+### Debug Tips
+
+```bash
+# Clean storage and retry
+rm -rf simple_discovery_storage && go run main.go
+
+# Monitor demo execution
+# Watch for connection events and message delivery confirmation
+
+# Test with different clients
+# Try scanning from mobile apps, web clients, or other SDK instances
+```
+
+### Expected Timing
+
+- **Account setup**: 1-2 seconds
+- **QR code generation**: 1-2 seconds  
+- **Connection establishment**: 2-5 seconds after scanning
+- **Message delivery**: 1-2 seconds after connection
+- **Demo completion**: Immediate after message delivery
 
 ## 🤝 Contributing
 
-Found ways to improve this example? Have ideas for additional discovery patterns? Contributions are welcome!
+If you have suggestions for improving this simple discovery demo or ideas for additional educational examples, please contribute back to the Self SDK project.
 
 ## 📖 Additional Resources
 
 - [Self SDK Documentation](https://docs.joinself.com)
-- [QR Code Standards](https://www.qrcode.com/en/)
-- [Peer-to-Peer Networking](https://en.wikipedia.org/wiki/Peer-to-peer)
-- [Event-Driven Architecture](https://en.wikipedia.org/wiki/Event-driven_architecture)
-- [Real-time Systems](https://en.wikipedia.org/wiki/Real-time_computing)
+- [Discovery Protocol Specification](https://docs.joinself.com/discovery)
+- [QR Code Standards](https://www.iso.org/standard/62021.html)
+- [Event-Driven Programming Patterns](https://martinfowler.com/articles/201701-event-driven.html)
 
 ---
 
-**Ready to discover? 🔍**
+**Simple and effective! 🎉**
 
-Run `go run main.go` and start exploring the power of subscription-based peer discovery with the Self SDK!
-
-### 🎉 Pro Tips
-
-- **Use multiple devices** to test simultaneous discoveries
-- **Try different QR codes** to see timeout behavior
-- **Watch the real-time notifications** to understand the subscription pattern
-- **Experiment with the handler** to add custom business logic 
+This simplified discovery demo provides a clean, focused introduction to peer discovery with the Self SDK. Master these essential concepts first, then progress to more advanced connection management and messaging patterns as your applications require them.

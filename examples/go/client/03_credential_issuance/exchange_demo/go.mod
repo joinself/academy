@@ -1,4 +1,4 @@
-module discovery_subscription
+module exchange_demo
 
 go 1.22
 

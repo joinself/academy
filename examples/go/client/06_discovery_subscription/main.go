@@ -1,162 +1,274 @@
-// Package main demonstrates discovery subscription capabilities using the Self SDK.
+// Package main demonstrates simple discovery and connection using the core Self SDK.
 //
-// This example showcases the power of subscription-based peer discovery,
-// where a single client can generate multiple QR codes and receive real-time
-// notifications as different peers discover and connect to it.
+// This example shows how to generate a discovery QR code, wait for a peer
+// to connect, send them a message, and complete the demo. It focuses on
+// the essential discovery workflow without complexity.
 //
-// 🎯 What you'll learn:
-// • How to set up discovery subscription handlers
-// • Generating multiple QR codes for discovery
-// • Real-time peer discovery notifications
-// • Understanding the discovery workflow
-//
-// 🔄 Discovery Subscription Flow:
-// 1. Client generates multiple QR codes
-// 2. Each QR code can be scanned by different peers
-// 3. Client receives real-time notifications for each discovery
-// 4. Multiple peers can discover simultaneously
-//
-// 📱 Try this demo:
-// • Run this program to generate QR codes
-// • Use multiple Self clients to scan different QR codes
-// • Watch real-time discovery notifications
+// 🎯 Key concepts: QR generation, connection handling, message sending
+// 📚 For detailed explanations, see the README.md file
 package main
 
 import (
+	"context"
+	"crypto/rand"
+	"crypto/sha256"
 	"fmt"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
-	"github.com/joinself/academy/sdks/go/client"
+	"github.com/joinself/self-go-sdk/account"
+	"github.com/joinself/self-go-sdk/event"
+	"github.com/joinself/self-go-sdk/keypair/signing"
+	"github.com/joinself/self-go-sdk/message"
 )
 
+// SimpleDiscoveryDemo manages the simplified discovery demonstration
+type SimpleDiscoveryDemo struct {
+	account   *account.Account
+	connected bool
+	peerDID   string
+	ctx       context.Context
+	cancel    context.CancelFunc
+	done      chan bool
+}
+
 func main() {
-	fmt.Println("🔍 Discovery Subscription Demo")
-	fmt.Println("==============================")
-	fmt.Println("This demo shows how to use subscription-based peer discovery.")
-	fmt.Println("Generate multiple QR codes and get notified when peers discover you!")
+	fmt.Println("🔍 Simple Discovery Demo")
+	fmt.Println("=========================")
+	fmt.Println("This demo shows basic discovery workflow:")
+	fmt.Println("• Generate one QR code for connection")
+	fmt.Println("• Wait for a peer to scan and connect")
+	fmt.Println("• Send a welcome message")
+	fmt.Println("• Complete the demo")
 	fmt.Println()
 
-	// Step 1: Create and configure the discovery client
-	discoveryClient := createDiscoveryClient()
-	defer discoveryClient.Close()
+	// Create and run the demo
+	demo := NewSimpleDiscoveryDemo()
+	defer demo.Close()
 
-	fmt.Printf("🆔 My DID: %s\n", discoveryClient.DID())
-	fmt.Println()
-
-	// Step 2: Set up discovery subscription handler
-	setupDiscoveryHandler(discoveryClient)
-
-	// Step 3: Generate multiple QR codes for discovery
-	generateDiscoveryQRCodes(discoveryClient)
-
-	// Step 4: Keep listening for discovery responses
-	keepListening()
+	demo.Run()
 }
 
-// createDiscoveryClient sets up a Self client configured for discovery
-func createDiscoveryClient() *client.Client {
-	fmt.Println("🔧 Setting up discovery client...")
+// NewSimpleDiscoveryDemo creates a new simplified discovery demonstration
+func NewSimpleDiscoveryDemo() *SimpleDiscoveryDemo {
+	ctx, cancel := context.WithCancel(context.Background())
 
-	// Use the simplified client creation - much easier!
-	discoveryClient, err := client.NewSimplified("./discovery_demo_storage")
+	return &SimpleDiscoveryDemo{
+		ctx:    ctx,
+		cancel: cancel,
+		done:   make(chan bool, 1),
+	}
+}
+
+// Close cleans up the demo resources
+func (d *SimpleDiscoveryDemo) Close() {
+	d.cancel()
+	if d.account != nil {
+		d.account.Close()
+	}
+}
+
+// Run executes the simplified discovery demonstration
+func (d *SimpleDiscoveryDemo) Run() {
+	// Setup graceful shutdown
+	d.setupGracefulShutdown()
+
+	// Step 1: Create account with event handlers
+	d.createAccount()
+
+	// Step 2: Generate and display QR code
+	d.generateQRCode()
+
+	// Step 3: Wait for connection and complete demo
+	d.waitForConnection()
+}
+
+// setupGracefulShutdown handles Ctrl+C gracefully
+func (d *SimpleDiscoveryDemo) setupGracefulShutdown() {
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+
+	go func() {
+		<-c
+		fmt.Println("\n🛑 Demo interrupted")
+		d.cancel()
+	}()
+}
+
+// generateStorageKey creates a cryptographically secure 32-byte key
+func generateStorageKey(seed string) []byte {
+	key := make([]byte, 32)
+	if _, err := rand.Read(key); err != nil {
+		h := sha256.Sum256([]byte(fmt.Sprintf("self-sdk-%s-%d", seed, time.Now().UnixNano())))
+		return h[:]
+	}
+	return key
+}
+
+// createAccount sets up the account with event handlers
+func (d *SimpleDiscoveryDemo) createAccount() {
+	fmt.Println("🔧 Setting up discovery account...")
+
+	cfg := &account.Config{
+		StorageKey:  generateStorageKey("simple_discovery"),
+		StoragePath: "./simple_discovery_storage",
+		Environment: account.TargetSandbox,
+		LogLevel:    account.LogWarn,
+		Callbacks: account.Callbacks{
+			OnConnect: func(acc *account.Account) {
+				fmt.Println("🔗 Connected to Self network")
+			},
+			OnWelcome: d.onWelcome,
+		},
+	}
+
+	var err error
+	d.account, err = account.New(cfg)
 	if err != nil {
-		log.Fatal("Failed to create discovery client:", err)
+		log.Fatal("Failed to create account:", err)
 	}
 
-	fmt.Println("✅ Discovery client created successfully")
-	return discoveryClient
-}
+	inboxAddress, err := d.account.InboxOpen()
+	if err != nil {
+		log.Fatal("Failed to open inbox:", err)
+	}
 
-// setupDiscoveryHandler configures the subscription-based discovery response handler
-func setupDiscoveryHandler(discoveryClient *client.Client) {
-	fmt.Println("🔧 Setting up discovery subscription handler...")
-
-	// This is the key to subscription-based discovery!
-	// The handler will be called for EVERY peer that discovers us
-	discoveryClient.Discovery().OnResponse(func(peer *client.Peer) {
-		fmt.Printf("\n🎉 NEW PEER DISCOVERED!\n")
-		fmt.Printf("   DID: %s\n", peer.DID())
-		fmt.Printf("   Time: %s\n", time.Now().Format("15:04:05"))
-		fmt.Printf("   Status: Ready for communication\n")
-
-		// In a real application, you could:
-		// - Store the peer information
-		// - Initiate a chat session
-		// - Request credentials
-		// - Send a welcome message
-		fmt.Printf("   💡 You can now communicate with this peer!\n")
-		fmt.Println("   ────────────────────────────────────────")
-	})
-
-	fmt.Println("✅ Discovery handler configured")
-	fmt.Println("   📡 Now listening for peer discoveries...")
+	fmt.Println("✅ Account created successfully")
+	fmt.Printf("🆔 Your DID: %s\n", inboxAddress.String())
 	fmt.Println()
 }
 
-// generateDiscoveryQRCodes creates multiple QR codes to demonstrate subscription
-func generateDiscoveryQRCodes(discoveryClient *client.Client) {
-	fmt.Println("📱 Generating QR codes for discovery...")
-	fmt.Println("Each QR code can be scanned by different peers.")
-	fmt.Println("You'll receive notifications for each discovery!")
-	fmt.Println()
+// onWelcome handles incoming connection requests
+func (d *SimpleDiscoveryDemo) onWelcome(acc *account.Account, wlc *event.Welcome) {
+	fmt.Printf("🤝 Connection request from: %s\n", wlc.FromAddress().String())
 
-	// Generate multiple QR codes to show subscription capabilities
-	qrCodes := []struct {
-		name    string
-		timeout time.Duration
-	}{
-		{"Quick Discovery", 15 * time.Minute},
-		{"Standard Discovery", 30 * time.Minute},
-		{"Extended Discovery", 60 * time.Minute},
+	// Accept the connection
+	_, err := acc.ConnectionAccept(wlc.ToAddress(), wlc.Welcome())
+	if err != nil {
+		fmt.Printf("❌ Failed to accept connection: %v\n", err)
+		return
 	}
 
-	for i, qrConfig := range qrCodes {
-		fmt.Printf("🔄 Generating %s QR code...\n", qrConfig.name)
+	d.peerDID = wlc.FromAddress().String()
+	d.connected = true
 
-		qr, err := discoveryClient.Discovery().GenerateQRWithTimeout(qrConfig.timeout)
-		if err != nil {
-			log.Printf("❌ Failed to generate QR code %d: %v", i+1, err)
-			continue
+	fmt.Printf("🎉 Connected to peer: %s\n", d.peerDID)
+
+	// Send welcome message and complete demo
+	d.sendWelcomeMessage(wlc.FromAddress())
+
+	// Signal completion
+	d.done <- true
+}
+
+// generateQRCode creates and displays a discovery QR code
+func (d *SimpleDiscoveryDemo) generateQRCode() {
+	fmt.Println("📱 Generating discovery QR code...")
+
+	inboxAddress, err := d.account.InboxOpen()
+	if err != nil {
+		log.Fatal("Failed to open inbox:", err)
+	}
+
+	// Generate key package for connection (valid for 30 minutes)
+	keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
+		inboxAddress,
+		time.Now().Add(30*time.Minute),
+	)
+	if err != nil {
+		log.Fatal("Failed to generate key package:", err)
+	}
+
+	// Build discovery request
+	discoveryContent, err := message.NewDiscoveryRequest().
+		KeyPackage(keyPackage).
+		Expires(time.Now().Add(30 * time.Minute)).
+		Finish()
+	if err != nil {
+		log.Fatal("Failed to build discovery request:", err)
+	}
+
+	// Create and encode QR code
+	anonymousMsg := event.NewAnonymousMessage(discoveryContent)
+	anonymousMsg.SetFlags(event.MessageFlagTargetSandbox)
+
+	qrCodeData, err := anonymousMsg.EncodeToQR(event.QREncodingUnicode)
+	if err != nil {
+		log.Fatal("Failed to encode QR code:", err)
+	}
+
+	// Display QR code
+	fmt.Println("--- Discovery QR Code ---")
+	fmt.Println("Valid for: 30 minutes")
+	fmt.Println()
+	fmt.Println(string(qrCodeData))
+	fmt.Println()
+	fmt.Println("✅ QR code generated successfully!")
+	fmt.Println()
+}
+
+// waitForConnection waits for a peer to connect
+func (d *SimpleDiscoveryDemo) waitForConnection() {
+	fmt.Println("⏳ Waiting for peer connection...")
+	fmt.Println("📱 Scan the QR code above with a Self client to connect")
+	fmt.Println("🔄 Press Ctrl+C to cancel")
+	fmt.Println()
+
+	// Wait for either connection or cancellation
+	select {
+	case <-d.done:
+		fmt.Println("✅ Demo completed successfully!")
+		d.printSummary()
+	case <-d.ctx.Done():
+		fmt.Println("❌ Demo cancelled")
+		if !d.connected {
+			fmt.Println("💡 No peer connected during this session")
 		}
-
-		fmt.Printf("\n--- %s (QR #%d) ---\n", qrConfig.name, i+1)
-		fmt.Printf("Request ID: %s\n", qr.RequestID())
-		fmt.Printf("Valid for: %v\n", qrConfig.timeout)
-
-		qrCode, err := qr.Unicode()
-		if err != nil {
-			log.Printf("❌ Failed to get QR code %d: %v", i+1, err)
-			continue
-		}
-		fmt.Println(qrCode)
-		fmt.Println()
+	case <-time.After(30 * time.Minute):
+		fmt.Println("⏰ QR code expired after 30 minutes")
+		fmt.Println("💡 Run the demo again to generate a new QR code")
 	}
-
-	fmt.Println("✅ All QR codes generated successfully!")
-	fmt.Println()
-	fmt.Println("🎓 What's happening:")
-	fmt.Println("   1. Three QR codes with different timeouts are active")
-	fmt.Println("   2. Each can be scanned by different Self clients")
-	fmt.Println("   3. You'll get real-time notifications for each discovery")
-	fmt.Println("   4. Multiple peers can discover you simultaneously")
-	fmt.Println()
 }
 
-// keepListening maintains the program to receive discovery responses
-func keepListening() {
-	fmt.Println("🔍 Listening for discovery responses...")
-	fmt.Println("📱 Scan any QR code above with Self clients to see subscription in action!")
-	fmt.Println()
-	fmt.Println("💡 Try this:")
-	fmt.Println("   • Use multiple devices to scan different QR codes")
-	fmt.Println("   • Notice how each discovery triggers a separate notification")
-	fmt.Println("   • See the real-time nature of the subscription system")
-	fmt.Println()
-	fmt.Println("Press Ctrl+C to exit.")
+// sendWelcomeMessage sends a welcome message to the connected peer
+func (d *SimpleDiscoveryDemo) sendWelcomeMessage(peerAddress *signing.PublicKey) {
+	welcomeMsg := "🎉 Welcome! You've successfully connected to the Self SDK Discovery Demo. Connection established!"
 
-	// Keep the program running to receive discovery responses
-	// This demonstrates the subscription nature - the client stays active
-	// and receives notifications as they happen
-	select {}
+	fmt.Printf("📤 Sending welcome message...\n")
+
+	// Build the chat message
+	chatContent, err := message.NewChat().
+		Message(welcomeMsg).
+		Finish()
+	if err != nil {
+		fmt.Printf("❌ Failed to build message: %v\n", err)
+		return
+	}
+
+	// Send the message
+	err = d.account.MessageSend(peerAddress, chatContent)
+	if err != nil {
+		fmt.Printf("❌ Failed to send message: %v\n", err)
+	} else {
+		fmt.Printf("✅ Welcome message sent successfully!\n")
+	}
+}
+
+// printSummary shows the final demo results
+func (d *SimpleDiscoveryDemo) printSummary() {
+	fmt.Println()
+	fmt.Println("📋 Demo Summary")
+	fmt.Println("================")
+	fmt.Printf("👤 Connected peer: %s\n", d.peerDID)
+	fmt.Println("💬 Welcome message sent")
+	fmt.Println()
+	fmt.Println("🎓 What was demonstrated:")
+	fmt.Println("   • QR code generation for discovery")
+	fmt.Println("   • Automatic connection acceptance")
+	fmt.Println("   • Direct peer messaging")
+	fmt.Println("   • Clean demo completion")
+	fmt.Println()
 }

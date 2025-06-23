@@ -70,6 +70,7 @@ func main() {
 	fmt.Println("   • cd evidence && go run main.go - Evidence and asset management")
 	fmt.Println("   • cd complex && go run main.go - Complex nested data structures")
 	fmt.Println("   • cd advanced && go run main.go - All features combined")
+	fmt.Println("   • cd exchange_demo && go run main.go - Bridge to credential exchange")
 	fmt.Println()
 }
 

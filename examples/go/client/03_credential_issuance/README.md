@@ -14,6 +14,7 @@ This directory contains a comprehensive tutorial series for learning credential 
 | **Evidence & assets** | Evidence | `cd evidence && go run main.go` |
 | **Complex data** | Complex | `cd complex && go run main.go` |
 | **All features** | Advanced | `cd advanced && go run main.go` |
+| **Exchange foundation** | Exchange Demo | `cd exchange_demo && go run main.go` |
 
 ## 📚 Educational Progression
 
@@ -28,6 +29,7 @@ Complete the examples in this order for the best learning experience:
 | **`evidence/main.go`** | 🟠 **5/10** (Advanced) | Evidence and asset management | 15-20 min |
 | **`complex/main.go`** | 🟠 **4/10** (Advanced) | Complex nested data structures | 20-25 min |
 | **`advanced/main.go`** | 🔴 **3/10** (Expert) | All features combined | 30-45 min |
+| **`exchange_demo/main.go`** | 🟡 **6/10** (Intermediate) | Bridge to credential exchange | 15-20 min |
 
 ### 🔄 Current main.go
 
@@ -136,6 +138,25 @@ The current `main.go` contains the simplified basic issuance example using the u
 - **Complexity:** 🔴 **3/10** (Expert)
 - **Time to complete:** 30-45 minutes
 
+### 6️⃣ Exchange Foundation Demo (`exchange_demo/main.go`)
+**Prerequisites: Complete basic/main.go and multi_claim/main.go**
+
+- **What you'll learn:**
+  - How credential issuance enables exchange workflows
+  - Credential storage and organization patterns
+  - Conceptual exchange request/response workflows
+  - Foundation concepts for building exchange applications
+  - Bridge between issuance and exchange use cases
+
+- **Key concepts:**
+  - Credential store management
+  - Exchange request simulation
+  - Presentation creation from multiple credentials
+  - Foundation patterns for real exchange systems
+
+- **Complexity:** 🟡 **6/10** (Intermediate)
+- **Time to complete:** 15-20 minutes
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -162,6 +183,9 @@ cd ../complex && go run main.go
 
 # 5. Advanced Issuance
 cd ../advanced && go run main.go
+
+# 6. Exchange Foundation Demo
+cd ../exchange_demo && go run main.go
 
 # Or run the simplified version in the root directory
 cd .. && go run main.go
