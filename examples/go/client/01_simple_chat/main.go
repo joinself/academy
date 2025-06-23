@@ -1,237 +1,175 @@
-// Package main demonstrates simple chat messaging using the Self SDK.
+// Package main demonstrates simple chat messaging using the underlying Self SDK.
 //
 // This example shows the basics of:
-// - Setting up a Self client for messaging
-// - Establishing peer connections via QR codes
-// - Sending and receiving real-time messages
-// - Understanding the chat workflow
+// - Setting up a Self account for messaging
+// - Handling incoming chat messages
+// - Sending automatic responses
+// - Understanding the core SDK architecture
 //
 // 🎯 What you'll learn:
-// • How peer-to-peer chat works with Self SDK
-// • Basic message sending and receiving patterns
-// • QR code-based peer discovery
-// • Real-time encrypted messaging
+// • How to create and configure a Self account
+// • How to handle incoming messages with callbacks
+// • How to send chat messages using the core SDK
+// • Basic message processing and response generation
 //
-// 💬 CHAT CAPABILITIES DEMONSTRATED:
-// • Secure peer-to-peer messaging
+// 💬 CORE FUNCTIONALITY DEMONSTRATED:
+// • Account creation and configuration
+// • Event-driven message handling
+// • Chat message sending and receiving
 // • End-to-end encryption (automatic)
-// • Real-time bidirectional communication
-// • Simple message echo functionality
-// • Multi-peer support
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"strings"
 	"time"
 
-	"github.com/joinself/academy/sdks/go/client"
+	"github.com/joinself/self-go-sdk/account"
+	"github.com/joinself/self-go-sdk/event"
+	"github.com/joinself/self-go-sdk/keypair/signing"
+	"github.com/joinself/self-go-sdk/message"
 )
 
 func main() {
-	fmt.Println("💬 Simple Chat Demo")
-	fmt.Println("===================")
-	fmt.Println("This demo shows basic chat messaging between peers.")
+	fmt.Println("💬 Simple Chat Demo (Core SDK)")
+	fmt.Println("===============================")
+	fmt.Println("This demo shows basic chat messaging using the underlying Self SDK.")
 	fmt.Println()
 
-	// Step 1: Create a Self client
-	chatClient := createClient()
-	defer chatClient.Close()
+	// Step 1: Create and configure a Self account
+	selfAccount := setupAccount()
 
-	fmt.Printf("🆔 Your DID: %s\n", chatClient.DID())
+	// Step 2: Display connection information
+	showConnectionInfo(selfAccount)
+
+	fmt.Println("✅ Chat demo ready!")
 	fmt.Println()
-
-	// Step 2: Set up message handlers
-	setupChatHandlers(chatClient)
-
-	// Step 3: Discover and connect to a peer
-	peer := discoverPeer(chatClient)
-
-	// Step 4: Demonstrate chat messaging
-	sendChatMessages(chatClient, peer)
-
-	fmt.Println("✅ Basic chat demo completed!")
+	fmt.Println("🎓 What's running:")
+	fmt.Println("   • Self account with event-driven message handling")
+	fmt.Println("   • Automatic chat responses to incoming messages")
+	fmt.Println("   • End-to-end encrypted communication")
 	fmt.Println()
-	fmt.Println("🎓 What happened:")
-	fmt.Println("   1. Created a Self client for messaging")
-	fmt.Println("   2. Set up handlers to receive and process messages")
-	fmt.Println("   3. Used QR code to discover and connect to a peer")
-	fmt.Println("   4. Exchanged encrypted messages in real-time")
-	fmt.Println("   5. Demonstrated echo functionality")
-	fmt.Println()
-	fmt.Println("The client will keep running to show ongoing chat capabilities.")
-	fmt.Println("Send messages from another instance to see real-time messaging!")
+	fmt.Println("💡 To test: Connect from another Self SDK instance and send messages!")
 	fmt.Println("Press Ctrl+C to exit.")
 
-	// Keep running to demonstrate ongoing chat capabilities
+	// Keep running to handle incoming messages
 	select {}
 }
 
-// createClient sets up a Self client for chat messaging
-func createClient() *client.Client {
-	fmt.Println("🔧 Setting up chat client...")
+// setupAccount creates and configures the Self account with message handling
+func setupAccount() *account.Account {
+	fmt.Println("🔧 Setting up Self account...")
 
-	// Use the simplified client creation - much easier!
-	chatClient, err := client.NewSimplified("./simple_chat_storage")
-	if err != nil {
-		log.Fatal("Failed to create chat client:", err)
+	// Simple account configuration focused on chat
+	cfg := &account.Config{
+		StorageKey:  make([]byte, 32),      // Storage encryption key
+		StoragePath: "./storage",           // Local storage path
+		Environment: account.TargetSandbox, // Use sandbox environment
+		LogLevel:    account.LogWarn,       // Minimal logging
+		Callbacks: account.Callbacks{
+			// Handle incoming messages
+			OnMessage: handleMessage,
+			// Handle connection events (optional)
+			OnConnect: func(acc *account.Account) {
+				fmt.Println("🔗 Connected to Self network")
+			},
+		},
 	}
 
-	fmt.Println("✅ Chat client created successfully")
-	return chatClient
+	selfAccount, err := account.New(cfg)
+	if err != nil {
+		log.Fatal("❌ Failed to create Self account:", err)
+	}
+
+	fmt.Println("✅ Self account created successfully")
+	return selfAccount
 }
 
-// setupChatHandlers configures how the client handles incoming messages
-func setupChatHandlers(chatClient *client.Client) {
-	fmt.Println("📨 Setting up message handlers...")
+// showConnectionInfo displays information for connecting to this instance
+func showConnectionInfo(selfAccount *account.Account) {
+	// Open an inbox for receiving messages
+	inboxAddress, err := selfAccount.InboxOpen()
+	if err != nil {
+		log.Fatal("❌ Failed to open inbox:", err)
+	}
 
-	// Handle incoming chat messages
-	chatClient.Chat().OnMessage(func(msg client.ChatMessage) {
-		timestamp := time.Now().Format("15:04:05")
-
-		fmt.Printf("\n📨 [%s] Message received from %s:\n", timestamp, msg.From())
-		fmt.Printf("   💬 \"%s\"\n", msg.Text())
-
-		// Demonstrate different types of responses based on message content
-		response := generateResponse(msg.Text(), timestamp)
-
-		fmt.Printf("📤 [%s] Sending response...\n", timestamp)
-		err := chatClient.Chat().Send(msg.From(), response)
-		if err != nil {
-			fmt.Printf("❌ Failed to send response: %v\n", err)
-		} else {
-			fmt.Printf("✅ Response sent: \"%s\"\n", response)
-		}
-		fmt.Println()
-	})
-
-	// Handle new peer connections
-	chatClient.Discovery().OnResponse(func(peer *client.Peer) {
-		timestamp := time.Now().Format("15:04:05")
-		fmt.Printf("\n🔍 [%s] New peer connected: %s\n", timestamp, peer.DID())
-
-		// Send welcome message to new peers
-		welcome := fmt.Sprintf("🎉 Welcome to Self SDK Chat! Connected at %s. Try sending me a message!", timestamp)
-		fmt.Printf("📤 [%s] Sending welcome message...\n", timestamp)
-		err := chatClient.Chat().Send(peer.DID(), welcome)
-		if err != nil {
-			fmt.Printf("❌ Failed to send welcome: %v\n", err)
-		} else {
-			fmt.Printf("✅ Welcome message sent\n")
-		}
-		fmt.Println()
-	})
-
-	fmt.Println("✅ Message handlers configured")
+	fmt.Println("\n📬 Connection Information:")
+	fmt.Printf("   🆔 Inbox Address: %s\n", inboxAddress.String())
+	fmt.Println("   📱 To connect: Use this address in another Self SDK instance")
+	fmt.Println("   🔐 All messages will be automatically encrypted")
 	fmt.Println()
 }
 
-// generateResponse creates different responses based on the incoming message
-func generateResponse(message, timestamp string) string {
-	message = strings.ToLower(strings.TrimSpace(message))
+// handleMessage processes all incoming messages
+func handleMessage(acc *account.Account, msg *event.Message) {
+	timestamp := time.Now().Format("15:04:05")
+
+	// Focus on chat messages, but handle others gracefully
+	switch event.ContentTypeOf(msg) {
+	case message.ContentTypeChat:
+		handleChatMessage(acc, msg, timestamp)
+	default:
+		// For other message types, just acknowledge receipt
+		fmt.Printf("📨 [%s] Received message from %s (type: %v)\n",
+			timestamp, msg.FromAddress().String(), event.ContentTypeOf(msg))
+	}
+}
+
+// handleChatMessage processes incoming chat messages and sends responses
+func handleChatMessage(acc *account.Account, msg *event.Message, timestamp string) {
+	// Decode the chat message
+	chat, err := message.DecodeChat(msg.Content())
+	if err != nil {
+		fmt.Printf("❌ [%s] Failed to decode chat message: %v\n", timestamp, err)
+		return
+	}
+
+	// Display the received message
+	fmt.Printf("\n📨 [%s] Chat message from %s:\n", timestamp, msg.FromAddress().String())
+	fmt.Printf("   💬 \"%s\"\n", chat.Message())
+
+	// Generate and send a response
+	response := generateResponse(chat.Message(), timestamp)
+	sendResponse(acc, msg.FromAddress(), response, timestamp)
+}
+
+// generateResponse creates appropriate responses based on the message content
+func generateResponse(messageText, timestamp string) string {
+	message := strings.ToLower(strings.TrimSpace(messageText))
 
 	switch {
 	case strings.Contains(message, "hello") || strings.Contains(message, "hi"):
-		return fmt.Sprintf("👋 Hello there! Message received at %s", timestamp)
+		return fmt.Sprintf("👋 Hello! Message received at %s via Self SDK", timestamp)
 	case strings.Contains(message, "how are you"):
-		return "🤖 I'm doing great! Thanks for asking. I'm a Self SDK chat demo."
+		return "🤖 I'm doing great! I'm a Self SDK chat demo running on the core SDK."
 	case strings.Contains(message, "help"):
-		return "💡 This is a chat demo. Try saying 'hello', 'how are you', or just send any message!"
+		return "💡 I'm a simple chat bot. Try saying 'hello', 'how are you', or send any message for an echo!"
 	case strings.Contains(message, "time"):
 		return fmt.Sprintf("🕐 Current time is %s", timestamp)
 	default:
-		return fmt.Sprintf("🔄 Echo [%s]: %s", timestamp, message)
+		return fmt.Sprintf("🔄 Echo: %s", messageText)
 	}
 }
 
-// discoverPeer establishes a connection with another peer via QR code
-func discoverPeer(chatClient *client.Client) *client.Peer {
-	fmt.Println("🔍 Discovering peer for chat...")
-	fmt.Println("🔑 Generating QR code for secure connection...")
-
-	// Generate QR code for peer discovery
-	qr, err := chatClient.Discovery().GenerateQR()
+// sendResponse sends a chat response to the peer
+func sendResponse(acc *account.Account, toAddress *signing.PublicKey, responseText, timestamp string) {
+	// Build the chat message
+	chatContent, err := message.NewChat().
+		Message(responseText).
+		Finish()
 	if err != nil {
-		log.Fatal("Failed to generate QR code:", err)
-	}
-
-	fmt.Println("\n📱 SCAN THIS QR CODE with another Self client:")
-	fmt.Println("   • Run another instance of this program")
-	fmt.Println("   • Use the Self mobile app")
-	fmt.Println("   • Any Self SDK application")
-
-	qrCode, err := qr.Unicode()
-	if err != nil {
-		log.Fatal("Failed to render QR code:", err)
-	}
-	fmt.Println(qrCode)
-
-	fmt.Println("⏳ Waiting for peer to scan QR code...")
-	fmt.Println("   🔐 Secure encrypted connection will be established")
-	fmt.Println("   🛑 Press Ctrl+C to cancel")
-	fmt.Println()
-
-	// Wait for peer connection with timeout
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Minute)
-	defer cancel()
-
-	peer, err := qr.WaitForResponse(ctx)
-	if err != nil {
-		if err == context.DeadlineExceeded {
-			log.Fatal("❌ No peer connected within timeout. Try running another instance of this program.")
-		}
-		log.Fatal("❌ Failed to connect to peer:", err)
-	}
-
-	fmt.Printf("✅ Peer connected: %s\n", peer.DID())
-	fmt.Println("🔐 Secure encrypted channel established")
-	fmt.Println()
-
-	return peer
-}
-
-// sendChatMessages shows basic chat functionality with the connected peer
-func sendChatMessages(chatClient *client.Client, peer *client.Peer) {
-	fmt.Println("💬 Demonstrating chat messaging...")
-
-	// Send initial greeting
-	greeting := fmt.Sprintf("🎉 Hello! Chat demo started at %s. This message is end-to-end encrypted!",
-		time.Now().Format("15:04:05"))
-
-	fmt.Println("📤 Sending initial greeting...")
-	err := chatClient.Chat().Send(peer.DID(), greeting)
-	if err != nil {
-		log.Printf("Failed to send greeting: %v", err)
+		fmt.Printf("❌ [%s] Failed to build response: %v\n", timestamp, err)
 		return
 	}
-	fmt.Printf("✅ Greeting sent: \"%s\"\n", greeting)
 
-	// Send a few demo messages to showcase different responses
-	demoMessages := []string{
-		"Hello there!",
-		"How are you?",
-		"What time is it?",
-		"This is a test message",
+	// Send the message
+	fmt.Printf("📤 [%s] Sending response...\n", timestamp)
+	err = acc.MessageSend(toAddress, chatContent)
+	if err != nil {
+		fmt.Printf("❌ [%s] Failed to send response: %v\n", timestamp, err)
+	} else {
+		fmt.Printf("✅ [%s] Response sent: \"%s\"\n", timestamp, responseText)
 	}
-
-	fmt.Println("\n📤 Sending demo messages...")
-	for i, msg := range demoMessages {
-		time.Sleep(2 * time.Second) // Small delay between messages
-
-		fmt.Printf("📤 [%d/%d] Sending: \"%s\"\n", i+1, len(demoMessages), msg)
-		err := chatClient.Chat().Send(peer.DID(), msg)
-		if err != nil {
-			fmt.Printf("❌ Failed to send message: %v\n", err)
-		} else {
-			fmt.Printf("✅ Message sent successfully\n")
-		}
-	}
-
-	fmt.Println("\n🎯 Demo messages sent!")
-	fmt.Println("   • Each message is automatically encrypted")
-	fmt.Println("   • Responses are generated based on message content")
-	fmt.Println("   • Try sending messages from the other client to see real-time chat")
 	fmt.Println()
 }

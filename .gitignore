@@ -78,3 +78,5 @@ examples/*/*/$(basename $(dirname $0))
 # macOS files
 .DS_Store
 */.DS_Store
+_docs/
+_tmp/
