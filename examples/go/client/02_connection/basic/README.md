@@ -1,178 +1,208 @@
-# Connection Examples
+# Basic Connection Example
 
-This example demonstrates the different ways to establish connections between Self SDK clients. It's designed to help you understand the connection lifecycle and choose the right approach for your use case.
+This example demonstrates how to set up a Self SDK account that can receive connections from third-party applications (like mobile apps) via QR codes. It generates an actual scannable QR code using the underlying Self SDK.
+
+## Complexity Rating: 3/10 ⭐⭐⭐
+
+**Beginner-friendly** - Clean, simple code with functional QR generation.
 
 ## What You'll Learn
 
-- **Programmatic Connections**: Direct peer-to-peer connections without QR codes
-- **QR Code Discovery**: Standard connection method for real-world applications  
-- **Connection Status Management**: How to check and monitor connection status
-- **Troubleshooting**: Common issues and how to resolve them
-
-## Features Demonstrated
-
-### 1. Programmatic Connection (🤖)
-Perfect for demos, testing, and same-process scenarios:
-- `ConnectTwoClients()` utility function
-- `ConnectToPeer()` for specific peer connections
-- Custom timeout handling
-- Error handling and status reporting
-
-### 2. QR Code Discovery (📱)
-The standard method for real-world applications:
-- QR code generation with custom timeouts
-- Discovery response handling
-- Real-world usage patterns
-- Security considerations
-
-### 3. Connection Status & Management (📊)
-Monitor and manage your connections:
-- Check connection status between peers
-- List all connected peers
-- Connection attempt monitoring
-- Best practices for connection management
-
-### 4. Connection Troubleshooting (🔧)
-Diagnose and fix common issues:
-- Common error patterns and solutions
-- Diagnostic checks
-- Detailed error analysis
-- Debugging tips and best practices
+- **Account Setup**: How to create a Self account using the core SDK
+- **QR Code Generation**: How to generate actual scannable QR codes
+- **Connection Preparation**: How to prepare an account to receive connections
+- **Real-World Flow**: Understanding how mobile apps connect via QR scanning
 
 ## Running the Example
 
 ```bash
-cd examples/client/connection/basic
+cd examples/go/client/02_connection/basic
 go run main.go
 ```
 
-The example presents an interactive menu where you can explore different connection scenarios:
+You'll see output like this:
 
 ```
-🔗 Self SDK Connection Examples
-===============================
-📋 Connection Examples Menu:
-1. 🤖 Programmatic Connection (for demos/testing)
-2. 📱 QR Code Discovery (real-world scenario)
-3. 📊 Connection Status & Management
-4. 🔧 Connection Troubleshooting
-5. 🚪 Exit
+🔗 Basic Connection Example
+===========================
+🔧 Setting up Self account...
+✅ Account created successfully
+🔗 Connected to Self network
 
-Choose an option (1-5):
+📬 Account Address: 00321b095e3dda41452ec7ff57c257fc6fde87a186e2d48f44c2585a5137914781
+
+📱 Generating QR code...
+
+📱 QR CODE:
+==========
+██ ▄▄▄▄▄ █▀█ █▄▀▄▀ ▄▄▄▄▄ ██
+██ █   █ █▀▀ █ ▀ ▀ █   █ ██
+██ █▄▄▄█ █▀█ █▄▀▄▀ █▄▄▄█ ██
+██▄▄▄▄▄▄▄█▄▀ ▀▄█▄▄▄▄▄▄▄██
+██ ▄▄▄▄▄ █▀█ █▄▀▄▀ ▄▄▄▄▄ ██
+==========
+Valid for: 30 minutes
+
+✅ Account ready! Scan the QR code above with a Self mobile app.
+Press Ctrl+C to exit.
 ```
+
+## How It Works
+
+### 1. Account Creation
+Creates a Self SDK account using minimal configuration:
+```go
+cfg := &account.Config{
+    StorageKey:  make([]byte, 32),
+    StoragePath: "./basic_connection_storage",
+    Environment: account.TargetSandbox,
+    LogLevel:    account.LogWarn,
+}
+```
+
+### 2. QR Code Generation  
+Uses the core SDK to generate a real connection QR code:
+```go
+// Generate key package for connection
+keyPackage, err := selfAccount.ConnectionNegotiateOutOfBand(
+    inboxAddress,
+    time.Now().Add(30*time.Minute),
+)
+
+// Build discovery request
+content, err := message.NewDiscoveryRequest().
+    KeyPackage(keyPackage).
+    Expires(time.Now().Add(30*time.Minute)).
+    Finish()
+
+// Create and encode QR code
+anonymousMsg := event.NewAnonymousMessage(content)
+qrCode, err := anonymousMsg.EncodeToQR(event.QREncodingUnicode)
+```
+
+### 3. Real-World Connection Flow
+
+**Desktop/Server App (this example):**
+1. Creates a Self account
+2. Opens inbox to get connection address  
+3. Generates QR code containing connection info
+4. Waits for mobile app to scan and connect
+
+**Mobile App (third-party):**
+1. User scans QR code with Self mobile app
+2. App extracts connection information
+3. Initiates secure connection to desktop app
+4. Encrypted communication channel established
+
+## Code Structure
+
+| Function | Purpose | Lines |
+|----------|---------|-------|
+| `main()` | Entry point and program flow | 17-32 |
+| `setupAccount()` | Creates configured Self account | 34-56 |
+| `showConnectionInfo()` | Displays connection details | 58-65 |
+| `generateConnectionQR()` | Generates and displays QR code | 67-104 |
+
+**Total: ~100 lines** - Clean and focused code.
+
+## Key Features
+
+### ✅ **Functional QR Generation**
+- Generates real scannable QR codes
+- Valid for 30 minutes
+- Contains encrypted connection information
+- Works with actual Self mobile apps
+
+### 🔐 **Security Features**
+- Cryptographic addresses ensure authenticity
+- End-to-end encryption for all communication
+- No central server stores messages  
+- Mutual authentication between peers
+
+### 📱 **Mobile Integration Ready**
+- QR codes work with Self mobile apps
+- Automatic connection handling
+- Real-time bidirectional communication
+- Secure messaging and credential exchange
 
 ## Use Cases
 
-### Demo Applications
-Use programmatic connections to quickly establish connections without user interaction:
-```go
-err := client.ConnectTwoClients(client1, client2)
-if err != nil {
-    log.Printf("Connection failed: %v", err)
-}
-```
+### Desktop Applications
+Perfect foundation for desktop apps that mobile apps connect to:
+- Web applications needing Self SDK integration
+- Developer tools with mobile companion apps
+- Demo applications for Self SDK features
 
-### Production Applications
-Use QR code discovery for secure peer-to-peer connections:
-```go
-qr, err := client.Discovery().GenerateQR()
-if err != nil {
-    log.Fatal(err)
-}
+### Server-Side Applications  
+Ideal starting point for server applications:
+- APIs that handle credential verification
+- Services that issue credentials to mobile users
+- Backend systems requiring secure mobile connections
 
-// Display QR code for scanning
-qrCode, _ := qr.Unicode()
-fmt.Println(qrCode)
-
-// Wait for connection
-peer, err := qr.WaitForResponse(ctx)
-```
-
-### Testing and Automation
-Check connection status and handle failures gracefully:
-```go
-if client.Connection().IsConnectedTo(peerDID) {
-    // Send message or credential
-} else {
-    // Establish connection first
-    result, err := client.Connection().ConnectToPeer(peerDID)
-}
-```
-
-## Key Concepts
-
-### Connection Types
-
-1. **Programmatic Connections**
-   - Direct API calls to establish connections
-   - No QR code scanning required
-   - Perfect for demos and testing
-   - Both clients must be in the same process or network
-
-2. **QR Code Discovery**
-   - Industry standard for Self SDK
-   - Secure peer-to-peer discovery
-   - Works across different devices/networks
-   - User-friendly for mobile applications
-
-### Connection Lifecycle
-
-1. **Discovery**: One client generates a QR code or initiates programmatic connection
-2. **Negotiation**: Clients exchange cryptographic keys and establish secure channel
-3. **Establishment**: Connection is confirmed and ready for message exchange
-4. **Maintenance**: Connection persists and can be monitored/managed
-
-### Error Handling
-
-Common connection errors and their solutions:
-
-- **Connection Timeout**: Check network connectivity and increase timeout
-- **Keypair Not Found**: Verify DID format and client initialization
-- **Sender Address Not Found**: Ensure connection is established before sending messages
-
-## Best Practices
-
-1. **Always Check Connection Status**: Use `IsConnectedTo()` before operations
-2. **Handle Timeouts Gracefully**: Set appropriate timeouts and handle failures
-3. **Use Appropriate Method**: Programmatic for demos, QR codes for production
-4. **Monitor Connection Health**: Implement reconnection logic for critical apps
-5. **Enable Logging**: Use debug logging to troubleshoot connection issues
+### Learning and Development
+Educational foundation for understanding:
+- Core Self SDK functionality
+- QR-based peer discovery
+- Connection establishment principles
+- Building blocks for advanced features
 
 ## Next Steps
 
-After understanding connections, explore:
-- **Chat Examples**: Send messages between connected clients
-- **Credential Exchange**: Share and verify credentials
-- **Group Chat**: Multi-party conversations
-- **Advanced Features**: Notifications, storage, and pairing
+### 1. Add Message Handling
+Build on this foundation by adding chat capabilities:
+```go
+// Add to account callbacks
+OnMessage: func(acc *account.Account, msg *event.Message) {
+    // Handle incoming messages from connected peers
+}
+```
 
-## Troubleshooting
+### 2. Credential Exchange
+Issue and verify credentials with connected users:
+- Build credential issuance workflows
+- Verify incoming credentials
+- Create trust networks
 
-If you encounter issues:
+### 3. Advanced Discovery
+Implement more sophisticated discovery patterns:
+- Multiple QR codes with different timeouts
+- Discovery subscriptions and notifications
+- Connection management and monitoring
 
-1. **Enable Debug Logging**:
-   ```go
-   client.Config{
-       LogLevel: client.LogDebug,
-   }
-   ```
+### 4. Production Features
+Add production-ready capabilities:
+- Proper error handling and reconnection
+- Logging and monitoring for connection events
+- User interface for connection management
+- Testing with real Self mobile apps
 
-2. **Check Network Connectivity**: Ensure both clients can reach the messaging service
+## Testing with Mobile Apps
 
-3. **Verify Client Initialization**: Make sure both clients are properly created
+1. **Run this example** to generate a QR code
+2. **Open a Self mobile app** on your phone
+3. **Scan the QR code** displayed in the terminal
+4. **Connection establishes automatically** 
+5. **Test secure messaging** between the apps
 
-4. **Try Different Timeouts**: Some networks may require longer connection times
+## Best Practices Demonstrated
 
-5. **Use QR Code Discovery**: If programmatic connections fail, try QR code method
+1. **Clean Code Structure**: Focused functions with single responsibilities
+2. **Proper Resource Management**: Account cleanup with defer
+3. **Error Handling**: Graceful handling of demo environment limitations
+4. **Core SDK Usage**: Direct use of underlying SDK components
+5. **Real Functionality**: Generates working QR codes for testing
 
 ## Files
 
-- `main.go`: Interactive connection examples with menu-driven interface
-- `README.md`: This documentation file
+- `main.go`: Clean connection example with QR generation (~100 lines)
+- `go.mod`: Module definition with core SDK dependency
+- `README.md`: This comprehensive documentation
 
 ## Dependencies
 
-- Self SDK client package
-- Examples utils package (for storage key generation)
+- Self SDK core library (`github.com/joinself/self-go-sdk/account`)
+- Self SDK messaging (`github.com/joinself/self-go-sdk/message`) 
+- Self SDK events (`github.com/joinself/self-go-sdk/event`)
+- Standard Go libraries only
 
-This example provides a comprehensive foundation for understanding Self SDK connections and serves as a reference for implementing connection logic in your own applications. 
+This example provides a clean, functional foundation for building Self SDK applications that can connect with mobile apps via QR code scanning.
