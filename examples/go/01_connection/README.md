@@ -1,267 +1,299 @@
-# 🔗 Connection Example - Server Side
+# 🔗 Connection Examples - Master Self SDK Connections
 
-> **🎯 What you'll learn:** How to create a server that can securely connect with mobile apps using QR codes
+> **🎯 What you'll learn:** Complete connection patterns for Self SDK, from server setup to client connections to mobile integration
 
-This example demonstrates the **SERVER SIDE** of establishing secure connections with Self SDK. You'll create a Go application that generates QR codes for mobile apps to scan, establishing encrypted communication channels.
+This directory contains **three complementary examples** that demonstrate the full spectrum of Self SDK connection patterns. Together, they show how to build complete client-server applications with encrypted peer-to-peer communication.
+
+## 🔗 Perfect Pairs: Server + Client Examples
+
+**🎯 Best Learning Experience:** Run `01_direct` and `03_client` together!
+- **`01_direct`** creates server addresses → **`03_client`** connects to those addresses
+- Watch the complete connection handshake happen across two terminals
+- Perfect demonstration of client-server Self SDK patterns
 
 ## 🟢 Complexity: Beginner
-**Perfect first example** - Shows core connection concepts with clear, educational code.
+**Perfect starting point** - All examples are beginner-friendly and teach core Self SDK concepts.
 
 ---
 
-## 🎓 Learning Objectives
+## 🎯 Quick Decision Guide
 
-By the end of this example, you'll master **TWO KEY CONCEPTS**:
+**Choose your learning path based on your goals:**
 
-### 🔑 **Concept 1: QR Code Generation**
-- How to create scannable QR codes for mobile discovery
-- The cryptographic process behind secure QR codes
-- Managing QR code expiration and security
+| I want to... | Start with | Then try | Why this path? |
+|--------------|------------|----------|----------------|
+| 🔄 **Learn server-to-server** | [01_direct/](01_direct/) → [03_client/](03_client/) | [02_qr/](02_qr/) | Complete direct connection workflow |
+| 📱 **Connect mobile apps** | [02_qr/](02_qr/) | [01_direct/](01_direct/) | User-friendly, visual connection |
+| 🤖 **Build automated systems** | [01_direct/](01_direct/) → [03_client/](03_client/) | [02_qr/](02_qr/) | Programmatic, no user interaction |
+| 👤 **Build user-facing apps** | [02_qr/](02_qr/) | [01_direct/](01_direct/) | QR scanning, mobile-first |
+| 📚 **Understand everything** | [01_direct/](01_direct/) → [03_client/](03_client/) → [02_qr/](02_qr/) | - | Complete learning progression |
 
-### 🔑 **Concept 2: Connection Acceptance** 
-- How to handle incoming connection requests
-- The `OnWelcome` callback pattern
-- Establishing encrypted communication channels
+---
 
-**Plus these supporting concepts:**
-- Client-Server Architecture in Self SDK
-- Real-world integration patterns
+## 📊 The Three Connection Patterns
+
+### 🔗 Direct Server (01_direct/) - "I Accept Connections"
+**Creates inbox addresses for others to connect to**
+
+```
+🖥️  Direct Server
+├── Creates inbox address
+├── Shares address programmatically  
+├── Handles OnKeyPackage callbacks
+└── Accepts incoming connections
+```
+
+**Key Features:**
+- ✅ **Server-side**: Waits for incoming connections
+- ✅ **Address generation**: Creates shareable inbox addresses
+- ✅ **OnKeyPackage**: Receives connection requests
+- ✅ **Auto-accept**: Handles connections automatically
+
+### 🔗 Direct Client (03_client/) - "I Connect to Addresses"  
+**Connects to known inbox addresses created by servers**
+
+```
+🖥️  Direct Client
+├── Takes inbox address as input
+├── Initiates connection request
+├── Handles OnWelcome callbacks
+└── Completes connection handshake
+```
+
+**Key Features:**
+- ✅ **Client-side**: Initiates connections to known addresses
+- ✅ **Address consumer**: Uses addresses from servers
+- ✅ **OnWelcome**: Receives connection acceptance
+- ✅ **Connection completion**: Finalizes secure channel
+
+### 📱 QR Code Server (02_qr/) - "I Display QR Codes"
+**Generates QR codes for mobile apps to scan**
+
+```
+🖥️  QR Server  
+├── Generates QR code
+├── Displays for mobile scanning
+├── Handles OnWelcome callbacks
+└── Accepts mobile connections
+```
+
+**Key Features:**
+- ✅ **Visual discovery**: Scannable QR codes for easy connection
+- ✅ **Mobile-first**: Designed for mobile app interactions  
+- ✅ **User-friendly**: Visual connection establishment
+- ✅ **OnWelcome**: Uses Welcome message callback pattern
 
 ---
 
 ## 🚀 Quick Start
 
+### 🔗 Try Complete Direct Connection Flow (Recommended!)
 ```bash
-cd examples/go/01_connection
+# Terminal 1: Start the server (creates address)
+cd 01_direct && go run main.go
+# Copy the displayed address
+
+# Terminal 2: Connect as client (uses address)  
+cd 03_client && go run main.go <paste-address-here>
+# Watch connection establishment in both terminals
+```
+
+**💡 The `01_direct` and `03_client` examples are designed to work together!**
+- **Server** (`01_direct`) creates inbox addresses and waits for connections
+- **Client** (`03_client`) connects TO those addresses and completes the handshake
+- **Result**: Complete client-server connection workflow demonstration
+
+### Try QR Code Connections  
+```bash
+cd 02_qr
 go run main.go
+# Get a scannable QR code for mobile apps
 ```
 
-**What happens:**
-1. A Self account starts up on your computer (the "server")
-2. A QR code appears in your terminal 
-3. You scan it with a Self mobile app
-4. A secure connection establishes between them
+### Run All Three to Compare
+```bash
+# Terminal 1: Direct server
+cd 01_direct && go run main.go
 
----
+# Terminal 2: Direct client (copy address from Terminal 1)
+cd 03_client && go run main.go <address>
 
-## 📱 The Two Sides of Connection
-
-### Server Side (This Example)
-```
-🖥️  Your Computer
-├── Creates Self account
-├── Generates QR code  
-├── Waits for mobile apps
-└── Accepts connections
-```
-
-### Mobile Side (Your Phone)
-```
-📱 Self Mobile App
-├── Scans QR code
-├── Extracts connection info
-├── Sends connection request  
-└── Establishes encrypted channel
+# Terminal 3: QR server
+cd 02_qr && go run main.go
 ```
 
 ---
 
-## 🎬 What You'll See
+## 🎓 Learning Path
 
-When you run the example, you'll see clean, focused output:
+### 🌱 New to Self SDK? Start Here!
+All three examples teach the same core concepts:
+- **Self account creation** and configuration
+- **Connection establishment** and handshake
+- **Callback patterns** for handling events
+- **Encrypted communication** channels
 
-```
-🔗 Connection Example - Server Side
-====================================
-Setting up Self account...
-✅ Account ready!
+**Recommended starting path:**
+1. **[01_direct/](01_direct/)** - Understand server-side address creation
+2. **[03_client/](03_client/)** - Learn client-side connection initiation  
+3. **[02_qr/](02_qr/)** - Explore mobile-friendly QR approach
 
-📬 Account Address: 00321b095e3dda41452ec7ff57c257fc6fde87a186e2d48f44c2585a5137914781
-
-Generating connection QR code...
-
-██ ▄▄▄▄▄ █▀█ █▄▀▄▀ ▄▄▄▄▄ ██
-██ █   █ █▀▀ █ ▀ ▀ █   █ ██
-██ █▄▄▄█ █▀█ █▄▀▄▀ █▄▄▄█ ██
-██▄▄▄▄▄▄▄█▄▀ ▀▄█▄▄▄▄▄▄▄██
-██ ▄▄▄▄▄ █▀█ █▄▀▄▀ ▄▄▄▄▄ ██
-
-⏱️  Expires: 14:35:22
-📱 Scan the QR code above with your Self mobile app
-⏳ Waiting for connection... (Press Ctrl+C to exit)
-```
-
-**📱 To test the connection:**
-1. Open the Self mobile app on your phone
-2. Scan the QR code displayed in your terminal
-3. Watch for connection confirmation
-
-When someone scans your QR code:
-
-```
-🎉 Connection received from: did:self:mobile_app_address
-✅ Connection established successfully!
-🚀 Ready to exchange messages and credentials
-```
+### 🔄 Want to See the Complete Picture?
+**Complete learning progression:**
+1. **Direct Server** ([01_direct/](01_direct/)) - Creates and shares addresses
+2. **Direct Client** ([03_client/](03_client/)) - Connects to those addresses
+3. **QR Server** ([02_qr/](02_qr/)) - Alternative mobile-friendly approach
+4. **Compare patterns** - Understand when to use each approach
+5. **Move to advanced examples** (chat, credentials, etc.)
 
 ---
 
-## 🔍 How It Works: The Two Key Concepts
+## 🔍 Technical Differences
 
-### 🔑 **CONCEPT 1: QR Code Generation**
+| Aspect | Direct Server (01_direct/) | Direct Client (03_client/) | QR Server (02_qr/) |
+|--------|--------------------------|-----------------------------|-------------------|
+| **Role** | Creates & accepts | Initiates connections | Creates & accepts |
+| **Input Required** | None | Inbox address | None |
+| **Callback Used** | `OnKeyPackage` | `OnWelcome` | `OnWelcome` |
+| **Setup Function** | `InboxOpen()` | `ConnectionNegotiate()` | `ConnectionNegotiateOutOfBand()` |
+| **Target Use Case** | Server endpoints | Client applications | Mobile connections |
+| **Sharing Method** | Address display | Address consumption | QR code display |
+| **User Interaction** | None | Command-line input | QR scanning |
+| **Connection Flow** | Waits for requests | Sends requests | Waits for scans |
 
-This is how you create scannable QR codes for mobile apps:
+### Code Comparison
 
+**Direct Server (creates addresses):**
 ```go
-func generateConnectionQR(selfAccount *account.Account) bool {
-    // Step 1: Open inbox for receiving connection requests
-    inboxAddress, err := selfAccount.InboxOpen()
-    
-    // Step 2: Generate cryptographic key package
-    keyPackage, err := selfAccount.ConnectionNegotiateOutOfBand(
-        inboxAddress,
-        time.Now().Add(30*time.Minute), // Expires in 30 minutes
-    )
-    
-    // Step 3: Create discovery request
-    content, err := message.NewDiscoveryRequest().
-        KeyPackage(keyPackage).
-        Expires(time.Now().Add(30 * time.Minute)).
-        Finish()
-    
-    // Step 4: Encode to QR code
-    anonymousMsg := event.NewAnonymousMessage(content)
-    qrCode, err := anonymousMsg.EncodeToQR(event.QREncodingUnicode)
-    
-    return true
-}
+// Generate shareable address
+inboxAddress, err := selfAccount.InboxOpen()
+
+// Handle incoming connections via KeyPackage
+OnKeyPackage: handleKeyPackageCallback
 ```
 
-### 🔑 **CONCEPT 2: Connection Acceptance**
-
-This is how you handle incoming connection requests:
-
+**Direct Client (connects to addresses):**
 ```go
-func handleIncomingConnection(acc *account.Account, welcome *event.Welcome) {
-    // Step 1: Connection request received from mobile app
-    fmt.Printf("Connection received from: %s\n", welcome.FromAddress().String())
-    
-    // Step 2: Accept the connection (this is the critical call!)
-    _, err := acc.ConnectionAccept(welcome.ToAddress(), welcome.Welcome())
-    
-    // Step 3: Connection established - ready for secure communication!
-}
+// Connect to a known address
+recipientKey := signing.FromAddress(inboxAddress)
+err = clientAccount.ConnectionNegotiate(senderKey, recipientKey, expiration)
+
+// Handle server responses via Welcome
+OnWelcome: handleConnectionResponse
 ```
 
-**Setup:** Configure your account to use the connection handler:
+**QR Server (creates QR codes):**
 ```go
-selfAccount := common.SetupAccount(common.AccountConfig{
-    Callbacks: account.Callbacks{
-        OnWelcome: handleIncomingConnection,  // Use your connection handler
-    },
-})
+// Generate QR code with discovery request
+keyPackage, err := selfAccount.ConnectionNegotiateOutOfBand(...)
+qrCode, err := anonymousMsg.EncodeToQR(...)
+
+// Handle mobile connections via Welcome
+OnWelcome: handleIncomingConnection
 ```
 
 ---
 
-## 🎓 What Just Happened?
+## 💡 When to Use Each Pattern
 
-When you run this example, here's the **magic** that happens behind the scenes:
+### ✅ Use Direct Server Pattern (01_direct/) For:
+- **API Endpoints**: Services that others connect to
+- **Backend Services**: Server applications that accept connections
+- **Service Discovery**: Publishing connection endpoints
+- **Microservice Mesh**: Services that accept connections from other services
+- **Development Servers**: Local development with known addresses
 
-### During Setup:
-1. **Server Creates Identity**: Your computer generates a unique Self identity (DID)
-2. **Inbox Opens**: Creates a temporary "mailbox" address for receiving connections  
-3. **Key Package Generated**: Creates cryptographic material for secure communication
-4. **QR Code Encoded**: Packages connection info into a scannable QR code
+### ✅ Use Direct Client Pattern (03_client/) For:
+- **Client Applications**: Apps that connect to known servers
+- **Microservices**: Services connecting to other services
+- **Command-Line Tools**: CLI utilities connecting to servers
+- **Automated Systems**: Scripts that connect to specific services
+- **API Clients**: REST clients establishing Self connections
+- **Testing Tools**: Verification that server connections work
 
-### During Connection:
-5. **Mobile Scans**: A Self mobile app extracts the connection information from the QR code
-6. **Connection Request**: The mobile app sends a secure connection request to your server
-7. **Automatic Accept**: Your server automatically accepts the connection
-8. **Handshake**: Both sides exchange cryptographic keys automatically
-9. **Channel Established**: End-to-end encrypted communication is ready!
-
-**The beautiful part:** All the complex cryptography happens automatically. You just focus on building your application logic.
-
-### Why the Simple Output?
-
-The example now shows minimal output to keep things clean and focused. The detailed step-by-step progress that was shown before is documented here in the README instead. This makes the actual running experience smoother while keeping all the educational content easily accessible.
-
----
-
-## 🚀 Next Steps
-
-### Build on This Foundation
-
-1. **📨 Add Messaging** → [Chat Example](../04_chat)
-   - Send text messages through the connection
-   - Build real-time communication
-
-2. **🎫 Issue Credentials** → [Credentials Example](../02_credentials)  
-   - Create and send verifiable credentials
-   - Build trust relationships
-
-3. **👥 Group Connections** → [Group Chat Example](../04_chat/group_chat)
-   - Connect multiple mobile apps
-   - Manage group communications
-
-### Real-World Applications
-
-**💡 What can you build with this?**
-
-- **Desktop Apps**: Apps that mobile users connect to via QR codes
-- **Web Services**: Websites that authenticate users through mobile apps  
-- **IoT Devices**: Hardware that mobile apps can securely configure
-- **Developer Tools**: Build your own Self-powered applications
+### ✅ Use QR Server Pattern (02_qr/) For:
+- **Mobile App Onboarding**: Users connecting via mobile apps
+- **Desktop-to-Mobile**: Computer applications connecting to phones
+- **Interactive Demos**: Live demonstrations and presentations
+- **Consumer Applications**: User-facing connection establishment
+- **Event Check-ins**: QR codes for conference/event connections
+- **Quick Setup Scenarios**: Fast visual connection establishment
 
 ---
 
-## 🔧 Code Structure
+## 🚀 Next Steps After Connections
 
-| Function | Purpose | Educational Focus |
-|----------|---------|-------------------|
-| `main()` | Program flow and user guidance | Shows step-by-step progression |
-| `generateConnectionQR()` | QR code creation with detailed logging | Explains each cryptographic step |
-| `handleIncomingConnection()` | Connection acceptance with explanations | Shows what happens during handshake |
+Once you've mastered connections, explore these advanced examples:
 
-**Total: ~180 lines** - Educational and well-commented code.
+### Build on Your Connection Foundation
+1. **📨 Messaging** → [Chat Example](../04_chat/)
+   - Send messages through established connections
+   - Build real-time communication systems
 
----
+2. **🎫 Credentials** → [Credentials Example](../02_credentials/)
+   - Issue and verify digital credentials
+   - Build trust and identity systems
 
-## 🧪 Testing with Real Mobile Apps
+3. **👥 Group Communication** → [Group Chat](../04_chat/group_chat/)
+   - Multi-party encrypted conversations
+   - Group management and coordination
 
-1. **Download Self Mobile App**: Get it from your app store
-2. **Run This Example**: Generate QR code on your computer  
-3. **Scan & Connect**: Use mobile app to scan the QR code
-4. **See It Work**: Watch the secure connection establish in real-time
+### Real-World Integration Patterns
+4. **🔔 Notifications** → [Advanced Features](../08_advanced_features/notifications/)
+   - Push notifications for mobile engagement
+   - Event-driven communication
 
----
-
-## 💡 Key Concepts Learned
-
-### Client-Server Model
-- **Server** (this example): Generates QR codes, accepts connections
-- **Client** (mobile app): Scans QR codes, initiates connections  
-- **Result**: Secure, encrypted communication channel
-
-### Security Features
-- **End-to-End Encryption**: Only you and connected mobile apps can read messages
-- **Mutual Authentication**: Both sides verify each other's identity
-- **No Central Server**: Direct peer-to-peer communication
-- **Time-Limited QR Codes**: Connections expire for security
-
-### Self SDK Benefits  
-- **Automatic Cryptography**: Complex security handled transparently
-- **Cross-Platform**: Works with iOS, Android, and other platforms
-- **Standard Protocols**: Uses W3C standards for DIDs and VCs
-- **Developer Friendly**: Simple APIs for complex functionality
+5. **💾 Data Storage** → [Advanced Features](../08_advanced_features/)
+   - Encrypted data persistence
+   - Production-ready patterns
 
 ---
 
-## 📚 Files in This Example
+## 🧪 Testing All Three Patterns
 
-- **`main.go`**: The complete, educational connection example  
-- **`go.mod`**: Go module with Self SDK dependency
-- **`README.md`**: This comprehensive tutorial
+### Complete Direct Connection Testing
+```bash
+# Terminal 1: Start server
+cd 01_direct && go run main.go
+# Copy the displayed address
 
-Ready to build secure, connected applications? Start here! 🚀
+# Terminal 2: Connect client
+cd 03_client && go run main.go <address-from-terminal-1>
+# Watch end-to-end connection establishment
+```
+
+### QR Code Testing  
+```bash
+# Terminal 1: Start QR server
+cd 02_qr && go run main.go
+# Scan QR code with Self mobile app
+# Watch mobile-to-server connection
+```
+
+### Cross-Pattern Testing
+```bash
+# Test multiple clients connecting to one server
+cd 01_direct && go run main.go  # Get address
+cd 03_client && go run main.go <address>  # Client 1
+cd 03_client && go run main.go <address>  # Client 2
+
+# Compare callback patterns
+# Direct server uses OnKeyPackage
+# Both clients use OnWelcome
+# QR server uses OnWelcome
+```
+
+---
+
+## 📚 Educational Resources
+
+- **Code Examples**: Both subdirectories contain complete, working examples
+- **Detailed READMEs**: Each approach has comprehensive documentation
+- **Common Library**: Shared utilities in [`../common/`](../common/)
+- **Self SDK Docs**: [Official documentation](https://docs.joinself.com)
+
+---
+
+**Ready to establish secure Self SDK connections?** Pick your approach and start building! 🚀
+
+Both paths lead to the same destination: **secure, encrypted, peer-to-peer communication**. The journey just depends on your use case.

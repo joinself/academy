@@ -5,14 +5,13 @@
 package common
 
 import (
-	"crypto/rand"
-	"crypto/sha256"
 	"fmt"
 	"log"
-	"time"
 
 	"github.com/joinself/self-go-sdk/account"
 )
+
+const defaultStorageKey = "276cb6191a345753adb0897c2c0a89370aebf44ef99e612747bee3cd4e757ffa"
 
 // AccountConfig provides configuration options for account creation
 type AccountConfig struct {
@@ -34,7 +33,7 @@ func SetupAccount(config AccountConfig) *account.Account {
 	}
 
 	cfg := &account.Config{
-		StorageKey:  generateStorageKey("self-sdk-example"),
+		StorageKey:  []byte(defaultStorageKey),
 		StoragePath: storagePath,
 		Environment: account.TargetSandbox,
 		LogLevel:    account.LogWarn,
@@ -104,15 +103,4 @@ func DisplayAccountPair(issuer, holder *account.Account) {
 	fmt.Printf("🏢 Issuer: %s\n", issuerInbox.String())
 	fmt.Printf("👤 Holder: %s\n", holderInbox.String())
 	fmt.Println()
-}
-
-// generateStorageKey creates a cryptographically secure 32-byte key
-func generateStorageKey(seed string) []byte {
-	key := make([]byte, 32)
-	if _, err := rand.Read(key); err != nil {
-		// Fallback to deterministic key generation if crypto/rand fails
-		h := sha256.Sum256([]byte(fmt.Sprintf("self-sdk-%s-%d", seed, time.Now().UnixNano())))
-		return h[:]
-	}
-	return key
 }

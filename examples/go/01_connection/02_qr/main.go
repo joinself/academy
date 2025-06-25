@@ -37,7 +37,7 @@ func main() {
 		Callbacks: account.Callbacks{
 			// This is where connection acceptance happens
 			OnWelcome: handleIncomingConnection,
-			// Required but unused for this example
+			// TODO: Required but unused for this example - TO REMOVE!
 			OnMessage: func(selfAccount *account.Account, msg *event.Message) {},
 		},
 	})
