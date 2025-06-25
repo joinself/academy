@@ -21,10 +21,10 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"strings"
 	"time"
 
+	"github.com/joinself/academy/examples/go/common"
 	"github.com/joinself/self-go-sdk/account"
 	"github.com/joinself/self-go-sdk/event"
 	"github.com/joinself/self-go-sdk/keypair/signing"
@@ -37,11 +37,20 @@ func main() {
 	fmt.Println("This demo shows basic chat messaging using the underlying Self SDK.")
 	fmt.Println()
 
-	// Step 1: Create and configure a Self account
-	selfAccount := setupAccount()
+	// Step 1: Create and configure a Self account using centralized setup
+	selfAccount := common.SetupAccount(common.AccountConfig{
+		Callbacks: account.Callbacks{
+			// Handle incoming messages
+			OnMessage: handleMessage,
+			// Handle connection events (optional)
+			OnConnect: func(acc *account.Account) {
+				fmt.Println("🔗 Connected to Self network")
+			},
+		},
+	})
 
 	// Step 2: Display connection information
-	showConnectionInfo(selfAccount)
+	common.DisplayAccountInfo(selfAccount, "Chat Account")
 
 	fmt.Println("✅ Chat demo ready!")
 	fmt.Println()
@@ -55,50 +64,6 @@ func main() {
 
 	// Keep running to handle incoming messages
 	select {}
-}
-
-// setupAccount creates and configures the Self account with message handling
-func setupAccount() *account.Account {
-	fmt.Println("🔧 Setting up Self account...")
-
-	// Simple account configuration focused on chat
-	cfg := &account.Config{
-		StorageKey:  make([]byte, 32),      // Storage encryption key
-		StoragePath: "./storage",           // Local storage path
-		Environment: account.TargetSandbox, // Use sandbox environment
-		LogLevel:    account.LogWarn,       // Minimal logging
-		Callbacks: account.Callbacks{
-			// Handle incoming messages
-			OnMessage: handleMessage,
-			// Handle connection events (optional)
-			OnConnect: func(acc *account.Account) {
-				fmt.Println("🔗 Connected to Self network")
-			},
-		},
-	}
-
-	selfAccount, err := account.New(cfg)
-	if err != nil {
-		log.Fatal("❌ Failed to create Self account:", err)
-	}
-
-	fmt.Println("✅ Self account created successfully")
-	return selfAccount
-}
-
-// showConnectionInfo displays information for connecting to this instance
-func showConnectionInfo(selfAccount *account.Account) {
-	// Open an inbox for receiving messages
-	inboxAddress, err := selfAccount.InboxOpen()
-	if err != nil {
-		log.Fatal("❌ Failed to open inbox:", err)
-	}
-
-	fmt.Println("\n📬 Connection Information:")
-	fmt.Printf("   🆔 Inbox Address: %s\n", inboxAddress.String())
-	fmt.Println("   📱 To connect: Use this address in another Self SDK instance")
-	fmt.Println("   🔐 All messages will be automatically encrypted")
-	fmt.Println()
 }
 
 // handleMessage processes all incoming messages

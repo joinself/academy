@@ -24,12 +24,11 @@
 package main
 
 import (
-	"crypto/rand"
-	"crypto/sha256"
 	"fmt"
 	"log"
 	"time"
 
+	"github.com/joinself/academy/examples/go/common"
 	"github.com/joinself/self-go-sdk/account"
 	"github.com/joinself/self-go-sdk/credential"
 )
@@ -39,13 +38,16 @@ func main() {
 	fmt.Println("=============================================")
 	fmt.Println()
 
-	// Step 1: Create issuer and holder accounts using core SDK
-	issuer, holder := createAccounts()
+	// Step 1: Create issuer and holder accounts using centralized setup
+	issuer, holder := common.SetupIssuerHolder(
+		account.Callbacks{}, // issuer callbacks
+		account.Callbacks{}, // holder callbacks
+	)
 	defer issuer.Close()
 	defer holder.Close()
 
 	// Step 2: Display account information
-	displayAccountInfo(issuer, holder)
+	common.DisplayAccountPair(issuer, holder)
 
 	// Step 3: Create and issue a credential
 	createEmailCredential(issuer, holder)
@@ -53,67 +55,9 @@ func main() {
 	fmt.Println("✅ Demo completed!")
 }
 
-// generateStorageKey creates a cryptographically secure 32-byte key
-func generateStorageKey(seed string) []byte {
-	key := make([]byte, 32)
-	if _, err := rand.Read(key); err != nil {
-		// Fallback to deterministic key generation if crypto/rand fails
-		h := sha256.Sum256([]byte(fmt.Sprintf("self-sdk-%s-%d", seed, time.Now().UnixNano())))
-		return h[:]
-	}
-	return key
-}
-
-// createAccounts sets up the issuer and holder accounts using the core SDK
-func createAccounts() (*account.Account, *account.Account) {
-	fmt.Println("🔧 Setting up accounts...")
-
-	// Create issuer account with core SDK
-	issuer, err := account.New(&account.Config{
-		StorageKey:  generateStorageKey("basic_issuer"),
-		StoragePath: "./basic_issuer_storage",
-		Environment: account.TargetSandbox,
-		LogLevel:    account.LogWarn,
-	})
-	if err != nil {
-		log.Fatal("Failed to create issuer account:", err)
-	}
-
-	// Create holder account with core SDK
-	holder, err := account.New(&account.Config{
-		StorageKey:  generateStorageKey("basic_holder"),
-		StoragePath: "./basic_holder_storage",
-		Environment: account.TargetSandbox,
-		LogLevel:    account.LogWarn,
-	})
-	if err != nil {
-		log.Fatal("Failed to create holder account:", err)
-	}
-
-	fmt.Println("✅ Accounts created successfully")
-	return issuer, holder
-}
-
-// displayAccountInfo shows the account DIDs
-func displayAccountInfo(issuer, holder *account.Account) {
-	// Get DIDs from accounts by opening inboxes
-	issuerInbox, err := issuer.InboxOpen()
-	if err != nil {
-		log.Fatal("Failed to open issuer inbox:", err)
-	}
-	holderInbox, err := holder.InboxOpen()
-	if err != nil {
-		log.Fatal("Failed to open holder inbox:", err)
-	}
-
-	fmt.Printf("🏢 Issuer DID: %s\n", issuerInbox.String())
-	fmt.Printf("👤 Holder DID: %s\n", holderInbox.String())
-	fmt.Println()
-}
-
 // createEmailCredential creates a basic email credential using the core SDK
 func createEmailCredential(issuer, holder *account.Account) {
-	fmt.Println("📧 Creating email credential...")
+	fmt.Println("📧 Creating email credential using core SDK...")
 
 	// Get inbox addresses for credential creation
 	issuerAddress, err := issuer.InboxOpen()
@@ -128,17 +72,17 @@ func createEmailCredential(issuer, holder *account.Account) {
 
 	// Create credential claims
 	claims := map[string]interface{}{
-		"emailAddress":     "john.doe@example.com",
-		"verified":         true,
-		"verificationDate": time.Now().Format("2006-01-02"),
+		"emailAddress": "alice@example.com",
+		"verified":     true,
+		"domain":       "example.com",
 	}
 
-	// Build credential using core SDK
+	// Build the credential using the core SDK
 	credentialBuilder := credential.NewCredential().
 		CredentialType(credential.CredentialTypeEmail).
 		CredentialSubject(credential.AddressKey(holderAddress)).
-		Issuer(credential.AddressKey(issuerAddress)).
 		CredentialSubjectClaims(claims).
+		Issuer(credential.AddressKey(issuerAddress)).
 		ValidFrom(time.Now()).
 		SignWith(issuerAddress, time.Now())
 
@@ -156,11 +100,27 @@ func createEmailCredential(issuer, holder *account.Account) {
 		return
 	}
 
-	// Display results
-	fmt.Printf("✅ Email credential issued successfully\n")
-	fmt.Printf("   📧 Email: john.doe@example.com\n")
+	// Display credential information
+	fmt.Printf("✅ Email credential created successfully\n")
+	fmt.Printf("   📧 Email: alice@example.com\n")
 	fmt.Printf("   ✔️  Verified: true\n")
-	fmt.Printf("   📅 Date: %s\n", time.Now().Format("2006-01-02"))
+	fmt.Printf("   🏷️  Domain: example.com\n")
 	fmt.Printf("   🔒 Type: %v\n", emailCredential.CredentialType())
+	fmt.Printf("   🆔 Subject: %s\n", emailCredential.CredentialSubject().String())
+	fmt.Printf("   🏢 Issuer: %s\n", emailCredential.Issuer().String())
 	fmt.Println()
+
+	fmt.Println("🎓 What happened:")
+	fmt.Println("   1. Created issuer and holder accounts using common setup")
+	fmt.Println("   2. Built credential with claims using credential.NewCredential()")
+	fmt.Println("   3. Signed credential with issuer's cryptographic key")
+	fmt.Println("   4. Issued credential through account.CredentialIssue()")
+	fmt.Println("   5. Credential is now ready for verification or sharing")
+	fmt.Println()
+
+	fmt.Println("📚 Ready for the next level?")
+	fmt.Println("   • cd ../multi_claim && go run main.go - Multiple claims in credentials")
+	fmt.Println("   • cd ../evidence && go run main.go - Evidence and asset management")
+	fmt.Println("   • cd ../complex && go run main.go - Complex nested data structures")
+	fmt.Println("   • cd ../advanced && go run main.go - All features combined")
 }
