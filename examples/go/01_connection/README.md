@@ -4,6 +4,27 @@
 
 This directory contains **three complementary examples** that demonstrate the full spectrum of Self SDK connection patterns. Together, they show how to build complete client-server applications with encrypted peer-to-peer communication.
 
+## 🔐 Why Connections Matter - The Foundation
+
+**Before you can send messages, you must establish a connection.** Here's why:
+
+### 🔑 Cryptographic Foundation
+- **Shared Encryption Keys**: Each connection establishes unique encryption keys between parties
+- **Identity Verification**: Connection process proves both parties are who they claim to be  
+- **Secure Channel**: Creates an encrypted tunnel for all future communication
+- **No Connection = No Security**: Without this handshake, there's no way to encrypt or verify messages
+
+### 🛡️ The Connection Handshake
+```
+Party A                    Party B
+├── 📧 "I want to connect" ──→ ├── 🔍 Verify identity
+├── 🔐 Generate keys       ←── ├── 📧 "Connection accepted"  
+├── ✅ Secure channel      ←→ ├── ✅ Secure channel
+└── 💬 Ready for messaging ←→ └── 💬 Ready for messaging
+```
+
+**Think of it like exchanging phone numbers and setting up encryption - you need both before you can have a private conversation.**
+
 ## 🔗 Perfect Pairs: Server + Client Examples
 
 **🎯 Best Learning Experience:** Run `01_direct` and `03_client` together!
