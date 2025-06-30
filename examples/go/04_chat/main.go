@@ -1,22 +1,4 @@
-// Package main demonstrates simple chat messaging using the underlying Self SDK.
-//
-// This example shows the basics of:
-// - Setting up a Self account for messaging
-// - Handling incoming chat messages
-// - Sending automatic responses
-// - Understanding the core SDK architecture
-//
-// 🎯 What you'll learn:
-// • How to create and configure a Self account
-// • How to handle incoming messages with callbacks
-// • How to send chat messages using the core SDK
-// • Basic message processing and response generation
-//
-// 💬 CORE FUNCTIONALITY DEMONSTRATED:
-// • Account creation and configuration
-// • Event-driven message handling
-// • Chat message sending and receiving
-// • End-to-end encryption (automatic)
+// Package main demonstrates simple chat messaging using the Self SDK
 package main
 
 import (
@@ -32,35 +14,23 @@ import (
 )
 
 func main() {
-	fmt.Println("💬 Simple Chat Demo (Core SDK)")
-	fmt.Println("===============================")
-	fmt.Println("This demo shows basic chat messaging using the underlying Self SDK.")
-	fmt.Println()
+	fmt.Println("💬 Simple Chat Demo")
+	fmt.Println("===================")
 
-	// Step 1: Create and configure a Self account using centralized setup
+	// Create and configure Self account
 	selfAccount := common.SetupAccount(common.AccountConfig{
 		Callbacks: account.Callbacks{
-			// Handle incoming messages
 			OnMessage: handleMessage,
-			// Handle connection events (optional)
 			OnConnect: func(acc *account.Account) {
-				fmt.Println("🔗 Connected to Self network")
+				fmt.Println("✅ Connected to Self network")
 			},
 		},
 	})
 
-	// Step 2: Display connection information
+	// Display connection information
 	common.DisplayAccountInfo(selfAccount, "Chat Account")
 
-	fmt.Println("✅ Chat demo ready!")
-	fmt.Println()
-	fmt.Println("🎓 What's running:")
-	fmt.Println("   • Self account with event-driven message handling")
-	fmt.Println("   • Automatic chat responses to incoming messages")
-	fmt.Println("   • End-to-end encrypted communication")
-	fmt.Println()
-	fmt.Println("💡 To test: Connect from another Self SDK instance and send messages!")
-	fmt.Println("Press Ctrl+C to exit.")
+	fmt.Println("✅ Chat demo ready! Press Ctrl+C to exit.")
 
 	// Keep running to handle incoming messages
 	select {}
@@ -70,31 +40,25 @@ func main() {
 func handleMessage(acc *account.Account, msg *event.Message) {
 	timestamp := time.Now().Format("15:04:05")
 
-	// Focus on chat messages, but handle others gracefully
 	switch event.ContentTypeOf(msg) {
 	case message.ContentTypeChat:
 		handleChatMessage(acc, msg, timestamp)
 	default:
-		// For other message types, just acknowledge receipt
-		fmt.Printf("📨 [%s] Received message from %s (type: %v)\n",
-			timestamp, msg.FromAddress().String(), event.ContentTypeOf(msg))
+		fmt.Printf("📨 [%s] Received message from %s\n",
+			timestamp, msg.FromAddress().String())
 	}
 }
 
 // handleChatMessage processes incoming chat messages and sends responses
 func handleChatMessage(acc *account.Account, msg *event.Message, timestamp string) {
-	// Decode the chat message
 	chat, err := message.DecodeChat(msg.Content())
 	if err != nil {
 		fmt.Printf("❌ [%s] Failed to decode chat message: %v\n", timestamp, err)
 		return
 	}
 
-	// Display the received message
-	fmt.Printf("\n📨 [%s] Chat message from %s:\n", timestamp, msg.FromAddress().String())
-	fmt.Printf("   💬 \"%s\"\n", chat.Message())
+	fmt.Printf("📨 [%s] %s: \"%s\"\n", timestamp, msg.FromAddress().String(), chat.Message())
 
-	// Generate and send a response
 	response := generateResponse(chat.Message(), timestamp)
 	sendResponse(acc, msg.FromAddress(), response, timestamp)
 }
@@ -105,9 +69,9 @@ func generateResponse(messageText, timestamp string) string {
 
 	switch {
 	case strings.Contains(message, "hello") || strings.Contains(message, "hi"):
-		return fmt.Sprintf("👋 Hello! Message received at %s via Self SDK", timestamp)
+		return fmt.Sprintf("👋 Hello! Message received at %s", timestamp)
 	case strings.Contains(message, "how are you"):
-		return "🤖 I'm doing great! I'm a Self SDK chat demo running on the core SDK."
+		return "🤖 I'm doing great! I'm a Self SDK chat demo."
 	case strings.Contains(message, "help"):
 		return "💡 I'm a simple chat bot. Try saying 'hello', 'how are you', or send any message for an echo!"
 	case strings.Contains(message, "time"):
@@ -119,7 +83,6 @@ func generateResponse(messageText, timestamp string) string {
 
 // sendResponse sends a chat response to the peer
 func sendResponse(acc *account.Account, toAddress *signing.PublicKey, responseText, timestamp string) {
-	// Build the chat message
 	chatContent, err := message.NewChat().
 		Message(responseText).
 		Finish()
@@ -128,13 +91,10 @@ func sendResponse(acc *account.Account, toAddress *signing.PublicKey, responseTe
 		return
 	}
 
-	// Send the message
-	fmt.Printf("📤 [%s] Sending response...\n", timestamp)
 	err = acc.MessageSend(toAddress, chatContent)
 	if err != nil {
 		fmt.Printf("❌ [%s] Failed to send response: %v\n", timestamp, err)
 	} else {
-		fmt.Printf("✅ [%s] Response sent: \"%s\"\n", timestamp, responseText)
+		fmt.Printf("📤 [%s] Sent: \"%s\"\n", timestamp, responseText)
 	}
-	fmt.Println()
 }
