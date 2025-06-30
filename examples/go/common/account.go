@@ -29,7 +29,7 @@ func SetupAccount(config AccountConfig) *account.Account {
 
 	storagePath := "./storage"
 	if config.StorageDir != "" {
-		storagePath = fmt.Sprintf("%s/storage", config.StorageDir)
+		storagePath = fmt.Sprintf("%s_storage", config.StorageDir)
 	}
 
 	cfg := &account.Config{

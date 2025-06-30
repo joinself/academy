@@ -33,12 +33,10 @@ import (
 )
 
 func main() {
-	fmt.Println("🎓 Complex Credential Issuance Demo (Core SDK)")
-	fmt.Println("===============================================")
-	fmt.Println("This demo shows complex nested data structures in credentials.")
-	fmt.Println()
+	fmt.Println("Complex Credential Issuance Demo")
+	fmt.Println("================================")
 
-	// Step 1: Create issuer and holder accounts
+	// Create issuer and holder accounts
 	issuer, holder := createAccounts()
 	defer issuer.Close()
 	defer holder.Close()
@@ -46,14 +44,10 @@ func main() {
 	// Display account information
 	displayAccountInfo(issuer, holder)
 
-	// Step 2: Create credentials with complex data structures
+	// Create credentials with complex data structures
 	createOrganizationCredential(issuer, holder)
 
-	fmt.Println("✅ Complex demo completed!")
-	fmt.Println()
-	fmt.Println("📚 Ready for the next level?")
-	fmt.Println("   • cd ../advanced && go run main.go - All features combined")
-	fmt.Println()
+	fmt.Println("✅ Demo completed successfully!")
 }
 
 // generateStorageKey creates a cryptographically secure 32-byte key
@@ -111,14 +105,14 @@ func displayAccountInfo(issuer, holder *account.Account) {
 		log.Fatal("Failed to open holder inbox:", err)
 	}
 
-	fmt.Printf("🏢 Issuer: %s\n", issuerInbox.String())
-	fmt.Printf("👤 Holder: %s\n", holderInbox.String())
+	fmt.Printf("Issuer: %s\n", issuerInbox.String())
+	fmt.Printf("Holder: %s\n", holderInbox.String())
 	fmt.Println()
 }
 
 // createOrganizationCredential creates an organization credential with complex nested data
 func createOrganizationCredential(issuer, holder *account.Account) {
-	fmt.Println("🏢 Creating organization credential with complex nested data...")
+	fmt.Println("Creating organization credential with complex data...")
 
 	// Get inbox addresses for credential creation
 	issuerAddress, err := issuer.InboxOpen()
@@ -237,22 +231,7 @@ func createOrganizationCredential(issuer, holder *account.Account) {
 		return
 	}
 
-	// Display essential organization information
-	fmt.Printf("✅ Organization credential created successfully\n")
-	fmt.Printf("   🏢 Company: TechCorp Inc.\n")
-	fmt.Printf("   💼 Position: Senior Software Engineer (L5)\n")
-	fmt.Printf("   🏬 Department: Engineering - Backend Infrastructure\n")
-	fmt.Printf("   🆔 Employee ID: EMP-2024-001\n")
-	fmt.Printf("   📧 Email: john.doe@techcorp.com\n")
-	fmt.Printf("   🔑 Permissions: 5 access levels\n")
-	fmt.Printf("   🏆 Certifications: 2 professional certifications\n")
-	fmt.Printf("   🚀 Projects: 2 completed projects\n")
-	fmt.Printf("   🔒 Type: %v\n", orgCredential.CredentialType())
-	fmt.Println()
-	fmt.Println("🎓 What happened:")
-	fmt.Println("   1. Created credential with deeply nested data structures")
-	fmt.Println("   2. Used arrays for multiple values (permissions, certifications, projects)")
-	fmt.Println("   3. Nested objects for hierarchical organization (position, contact, benefits)")
-	fmt.Println("   4. Maintained cryptographic integrity for all nested data")
-	fmt.Println()
+	fmt.Printf("✅ Organization credential issued (Type: %v)\n", orgCredential.CredentialType())
+	fmt.Printf("   Employee: EMP-2024-001 - Senior Software Engineer\n")
+	fmt.Printf("   Data structure: 5 permissions, 2 certifications, 2 projects\n")
 }

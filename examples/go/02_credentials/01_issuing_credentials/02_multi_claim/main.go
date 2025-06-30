@@ -33,12 +33,10 @@ import (
 )
 
 func main() {
-	fmt.Println("🎓 Multi-Claim Credential Issuance Demo (Core SDK)")
-	fmt.Println("===================================================")
-	fmt.Println("This demo shows credentials with multiple claims using the core SDK.")
-	fmt.Println()
+	fmt.Println("Multi-Claim Credential Issuance Demo")
+	fmt.Println("====================================")
 
-	// Step 1: Create issuer and holder accounts
+	// Create issuer and holder accounts
 	issuer, holder := createAccounts()
 	defer issuer.Close()
 	defer holder.Close()
@@ -46,33 +44,23 @@ func main() {
 	// Display account information
 	displayAccountInfo(issuer, holder)
 
-	// Step 2: Create credentials with multiple claims
+	// Create credentials with multiple claims
 	createProfileCredential(issuer, holder)
 	createEducationCredential(issuer, holder)
 
-	fmt.Println("✅ Multi-claim demo completed!")
-	fmt.Println()
-	fmt.Println("📚 Ready for the next level?")
-	fmt.Println("   • cd ../evidence && go run main.go - Evidence and asset management")
-	fmt.Println("   • cd ../complex && go run main.go - Complex nested data structures")
-	fmt.Println("   • cd ../advanced && go run main.go - All features combined")
-	fmt.Println()
+	fmt.Println("✅ Demo completed successfully!")
 }
 
-// generateStorageKey creates a cryptographically secure 32-byte key
 func generateStorageKey(seed string) []byte {
 	key := make([]byte, 32)
 	if _, err := rand.Read(key); err != nil {
-		// Fallback to deterministic key generation if crypto/rand fails
 		h := sha256.Sum256([]byte(fmt.Sprintf("self-sdk-%s-%d", seed, time.Now().UnixNano())))
 		return h[:]
 	}
 	return key
 }
 
-// createAccounts sets up the issuer and holder accounts using the core SDK
 func createAccounts() (*account.Account, *account.Account) {
-	// Create issuer account configuration
 	issuerCfg := &account.Config{
 		StorageKey:  generateStorageKey("multi_issuer"),
 		StoragePath: "./multi_issuer_storage",
@@ -80,13 +68,11 @@ func createAccounts() (*account.Account, *account.Account) {
 		LogLevel:    account.LogWarn,
 	}
 
-	// Create issuer account
 	issuer, err := account.New(issuerCfg)
 	if err != nil {
 		log.Fatal("Failed to create issuer account:", err)
 	}
 
-	// Create holder account configuration
 	holderCfg := &account.Config{
 		StorageKey:  generateStorageKey("multi_holder"),
 		StoragePath: "./multi_holder_storage",
@@ -94,7 +80,6 @@ func createAccounts() (*account.Account, *account.Account) {
 		LogLevel:    account.LogWarn,
 	}
 
-	// Create holder account
 	holder, err := account.New(holderCfg)
 	if err != nil {
 		log.Fatal("Failed to create holder account:", err)
@@ -103,7 +88,6 @@ func createAccounts() (*account.Account, *account.Account) {
 	return issuer, holder
 }
 
-// displayAccountInfo shows the account information
 func displayAccountInfo(issuer, holder *account.Account) {
 	issuerInbox, err := issuer.InboxOpen()
 	if err != nil {
@@ -114,16 +98,14 @@ func displayAccountInfo(issuer, holder *account.Account) {
 		log.Fatal("Failed to open holder inbox:", err)
 	}
 
-	fmt.Printf("🏢 Issuer: %s\n", issuerInbox.String())
-	fmt.Printf("👤 Holder: %s\n", holderInbox.String())
+	fmt.Printf("Issuer: %s\n", issuerInbox.String())
+	fmt.Printf("Holder: %s\n", holderInbox.String())
 	fmt.Println()
 }
 
-// createProfileCredential creates a profile credential with multiple claims
 func createProfileCredential(issuer, holder *account.Account) {
-	fmt.Println("👤 Creating profile credential with multiple claims...")
+	fmt.Println("Creating profile credential...")
 
-	// Get inbox addresses for credential creation
 	issuerAddress, err := issuer.InboxOpen()
 	if err != nil {
 		log.Fatal("Failed to open issuer inbox:", err)
@@ -134,7 +116,6 @@ func createProfileCredential(issuer, holder *account.Account) {
 		log.Fatal("Failed to open holder inbox:", err)
 	}
 
-	// Create profile claims with multiple data types
 	claims := map[string]interface{}{
 		"firstName":        "John",
 		"lastName":         "Doe",
@@ -146,7 +127,6 @@ func createProfileCredential(issuer, holder *account.Account) {
 		"registrationDate": time.Now().Format("2006-01-02"),
 	}
 
-	// Build the credential using the core SDK
 	credentialBuilder := credential.NewCredential().
 		CredentialType(credential.CredentialTypeProfileName).
 		CredentialSubject(credential.AddressKey(holderAddress)).
@@ -155,36 +135,24 @@ func createProfileCredential(issuer, holder *account.Account) {
 		ValidFrom(time.Now()).
 		SignWith(issuerAddress, time.Now())
 
-	// Finish building the unsigned credential
 	unsignedCredential, err := credentialBuilder.Finish()
 	if err != nil {
 		log.Printf("Failed to build credential: %v", err)
 		return
 	}
 
-	// Issue the credential using the issuer's account
 	profileCredential, err := issuer.CredentialIssue(unsignedCredential)
 	if err != nil {
 		log.Printf("Failed to issue credential: %v", err)
 		return
 	}
 
-	fmt.Printf("✅ Profile credential created successfully\n")
-	fmt.Printf("   👤 Name: John Doe\n")
-	fmt.Printf("   🌍 Country: United States\n")
-	fmt.Printf("   🎂 Age: 30\n")
-	fmt.Printf("   ⭐ Level: verified\n")
-	fmt.Printf("   ✅ Active: true\n")
-	fmt.Printf("   📅 Registration: %s\n", time.Now().Format("2006-01-02"))
-	fmt.Printf("   🔒 Type: %v\n", profileCredential.CredentialType())
-	fmt.Println()
+	fmt.Printf("✅ Profile credential issued (Type: %v)\n", profileCredential.CredentialType())
 }
 
-// createEducationCredential creates an education credential with academic claims
 func createEducationCredential(issuer, holder *account.Account) {
-	fmt.Println("🎓 Creating education credential with academic claims...")
+	fmt.Println("Creating education credential...")
 
-	// Get inbox addresses for credential creation
 	issuerAddress, err := issuer.InboxOpen()
 	if err != nil {
 		log.Fatal("Failed to open issuer inbox:", err)
@@ -195,7 +163,6 @@ func createEducationCredential(issuer, holder *account.Account) {
 		log.Fatal("Failed to open holder inbox:", err)
 	}
 
-	// Create education claims with academic information
 	claims := map[string]interface{}{
 		"institution":      "University of Technology",
 		"degree":           "Bachelor of Science",
@@ -208,7 +175,6 @@ func createEducationCredential(issuer, holder *account.Account) {
 		"graduationDate":   "2020-05-15",
 	}
 
-	// Build the credential using the core SDK
 	credentialBuilder := credential.NewCredential().
 		CredentialType([]string{"VerifiableCredential", "EducationCredential"}).
 		CredentialSubject(credential.AddressKey(holderAddress)).
@@ -217,34 +183,17 @@ func createEducationCredential(issuer, holder *account.Account) {
 		ValidFrom(time.Now()).
 		SignWith(issuerAddress, time.Now())
 
-	// Finish building the unsigned credential
 	unsignedCredential, err := credentialBuilder.Finish()
 	if err != nil {
 		log.Printf("Failed to build credential: %v", err)
 		return
 	}
 
-	// Issue the credential using the issuer's account
 	educationCredential, err := issuer.CredentialIssue(unsignedCredential)
 	if err != nil {
 		log.Printf("Failed to issue credential: %v", err)
 		return
 	}
 
-	fmt.Printf("✅ Education credential created successfully\n")
-	fmt.Printf("   🏫 Institution: University of Technology\n")
-	fmt.Printf("   🎓 Degree: Bachelor of Science in Computer Science\n")
-	fmt.Printf("   📅 Graduated: 2020-05-15\n")
-	fmt.Printf("   📊 GPA: 3.8\n")
-	fmt.Printf("   🏆 Honors: true\n")
-	fmt.Printf("   📚 Credits: 120\n")
-	fmt.Printf("   📝 Thesis: Machine Learning Applications\n")
-	fmt.Printf("   🔒 Type: %v\n", educationCredential.CredentialType())
-	fmt.Println()
-	fmt.Println("🎓 What happened:")
-	fmt.Println("   1. Created two credentials with multiple claims each")
-	fmt.Println("   2. Used different data types: strings, numbers, booleans")
-	fmt.Println("   3. Grouped related information in single credentials")
-	fmt.Println("   4. Each credential maintains cryptographic integrity")
-	fmt.Println()
+	fmt.Printf("✅ Education credential issued (Type: %v)\n", educationCredential.CredentialType())
 }

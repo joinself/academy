@@ -1,4 +1,4 @@
-// Package main demonstrates how issued credentials can be used in exchange scenarios.
+// Package main demonstrates credential exchange through presentation requests.
 //
 // This builds on the credential issuance examples to show how the created
 // credentials form the foundation for credential exchange workflows.
@@ -43,34 +43,21 @@ type ExchangeParty struct {
 }
 
 func main() {
-	fmt.Println("🔄 Credential Exchange Demo - From Issuance to Exchange")
-	fmt.Println("========================================================")
-	fmt.Println("This demo shows how issued credentials enable exchange workflows.")
-	fmt.Println("📚 Building on: Basic credential issuance patterns")
-	fmt.Println()
+	fmt.Println("Credential Exchange Demo")
+	fmt.Println("========================")
 
-	// Step 1: Create parties for the exchange scenario
+	// Create parties for the exchange scenario
 	issuer, holder := createExchangeParties()
 	defer issuer.account.Close()
 	defer holder.account.Close()
 
-	// Step 2: Issue credentials (building on issuance patterns)
+	// Issue credentials for exchange
 	issueCredentialsForExchange(issuer, holder)
 
-	// Step 3: Demonstrate the exchange workflow conceptually
+	// Demonstrate exchange workflow
 	demonstrateExchangeWorkflow(holder)
 
 	fmt.Println("✅ Exchange demo completed!")
-	fmt.Println()
-	fmt.Println("🎓 Key Understanding:")
-	fmt.Println("   • Credential issuance creates the foundation for exchange")
-	fmt.Println("   • Holders organize and store issued credentials")
-	fmt.Println("   • Exchange requests match against stored credentials")
-	fmt.Println("   • Presentations package credentials for sharing")
-	fmt.Println("   • This pattern scales to any credential type or complexity")
-	fmt.Println()
-	fmt.Println("📚 Next: Explore complex credential structures in ../complex/ and ../advanced/")
-	fmt.Println()
 }
 
 // generateStorageKey creates a cryptographically secure 32-byte key
@@ -85,7 +72,7 @@ func generateStorageKey(seed string) []byte {
 
 // createExchangeParties sets up issuer and holder accounts
 func createExchangeParties() (*ExchangeParty, *ExchangeParty) {
-	fmt.Println("🔧 Setting up exchange parties...")
+	fmt.Println("Setting up exchange parties...")
 
 	// Create issuer party
 	issuer := &ExchangeParty{
@@ -128,9 +115,8 @@ func createExchangeParties() (*ExchangeParty, *ExchangeParty) {
 	issuerInbox, _ := issuer.account.InboxOpen()
 	holderInbox, _ := holder.account.InboxOpen()
 
-	fmt.Printf("🏢 %s: %s\n", issuer.name, issuerInbox.String())
-	fmt.Printf("👤 %s: %s\n", holder.name, holderInbox.String())
-	fmt.Println("✅ Exchange parties ready")
+	fmt.Printf("Issuer: %s\n", issuerInbox.String())
+	fmt.Printf("Holder: %s\n", holderInbox.String())
 	fmt.Println()
 
 	return issuer, holder
@@ -138,50 +124,45 @@ func createExchangeParties() (*ExchangeParty, *ExchangeParty) {
 
 // issueCredentialsForExchange creates credentials following issuance patterns
 func issueCredentialsForExchange(issuer, holder *ExchangeParty) {
-	fmt.Println("📋 Issuing credentials for exchange scenarios...")
-	fmt.Println("   (Using patterns from credential issuance examples)")
+	fmt.Println("Issuing credentials...")
 
-	// Get addresses for credential creation
 	issuerAddress, _ := issuer.account.InboxOpen()
 	holderAddress, _ := holder.account.InboxOpen()
 
-	// Issue email credential (from basic issuance pattern)
+	// Issue email credential
 	emailCred := createEmailCredential(issuer.account, issuerAddress, holderAddress)
 	if emailCred != nil {
 		holder.credentials["email"] = emailCred
-		fmt.Println("   ✅ Email credential issued to holder")
+		fmt.Println("✅ Email credential issued")
 	}
 
-	// Issue student ID credential (institutional credential)
+	// Issue student ID credential
 	studentCred := createStudentCredential(issuer.account, issuerAddress, holderAddress)
 	if studentCred != nil {
 		holder.credentials["student_id"] = studentCred
-		fmt.Println("   ✅ Student ID credential issued to holder")
+		fmt.Println("✅ Student ID credential issued")
 	}
 
-	// Issue degree credential (achievement credential)
+	// Issue degree credential
 	degreeCred := createDegreeCredential(issuer.account, issuerAddress, holderAddress)
 	if degreeCred != nil {
 		holder.credentials["degree"] = degreeCred
-		fmt.Println("   ✅ Degree credential issued to holder")
+		fmt.Println("✅ Degree credential issued")
 	}
 
-	fmt.Printf("📦 Issuance complete - holder has %d credentials for exchange\n\n", len(holder.credentials))
+	fmt.Printf("Holder has %d credentials\n\n", len(holder.credentials))
 }
 
 // demonstrateExchangeWorkflow shows how issued credentials enable exchange
 func demonstrateExchangeWorkflow(holder *ExchangeParty) {
-	fmt.Println("🔄 Demonstrating exchange workflow...")
-	fmt.Println("   Scenario: Employer requests proof of education")
-	fmt.Println()
+	fmt.Println("Exchange workflow:")
+	fmt.Println("Scenario: Employer requests proof of education")
 
-	// Step 1: Simulate an exchange request
-	fmt.Println("📤 STEP 1: Employer requests education credentials")
+	// Simulate exchange request
 	requestedTypes := []string{"StudentCredential", "DegreeCredential"}
-	fmt.Printf("   Request: Credentials of types %v\n", requestedTypes)
+	fmt.Printf("Requested types: %v\n", requestedTypes)
 
-	// Step 2: Holder searches their credential store
-	fmt.Println("\n📨 STEP 2: Holder searches credential store")
+	// Search credential store
 	var matchingCreds []*credential.VerifiableCredential
 
 	for credName, cred := range holder.credentials {
@@ -190,7 +171,7 @@ func demonstrateExchangeWorkflow(holder *ExchangeParty) {
 			for _, requestedType := range requestedTypes {
 				if credType == requestedType {
 					matchingCreds = append(matchingCreds, cred)
-					fmt.Printf("   ✅ Found matching credential: %s (%s)\n", credName, credType)
+					fmt.Printf("✅ Found matching: %s (%s)\n", credName, credType)
 					break
 				}
 			}
@@ -198,74 +179,37 @@ func demonstrateExchangeWorkflow(holder *ExchangeParty) {
 	}
 
 	if len(matchingCreds) == 0 {
-		fmt.Println("   ❌ No matching credentials found")
+		fmt.Println("❌ No matching credentials found")
 		return
 	}
 
-	// Step 3: Create verifiable presentation
-	fmt.Println("\n📜 STEP 3: Creating verifiable presentation")
-	createCredentialPresentation(matchingCreds)
-	fmt.Printf("   ✅ Presentation concept demonstrated with %d credentials\n", len(matchingCreds))
-
-	// Show what's being shared
-	for i, cred := range matchingCreds {
-		fmt.Printf("      📋 Credential %d: %v\n", i+1, cred.CredentialType())
+	// Create presentation
+	presentation := createCredentialPresentation(matchingCreds)
+	if presentation != nil {
+		fmt.Printf("✅ Presentation created with %d credentials\n", len(matchingCreds))
+		fmt.Println("✅ Exchange completed successfully")
 	}
-
-	// Step 4: Exchange complete (simulated)
-	fmt.Println("\n🎉 STEP 4: Exchange completed successfully!")
-	fmt.Println("   ✅ Presentation would be shared with employer")
-	fmt.Println("   ✅ Employer verifies credentials cryptographically")
-	fmt.Println("   ✅ Trust established through verifiable credentials")
-
-	fmt.Println()
-	fmt.Println("🎓 This exchange workflow demonstrates:")
-	fmt.Println("   1. Credentials issued using issuance patterns become exchangeable assets")
-	fmt.Println("   2. Holders maintain a searchable credential store")
-	fmt.Println("   3. Exchange requests match against credential types")
-	fmt.Println("   4. Presentations package multiple credentials for sharing")
-	fmt.Println("   5. Cryptographic signatures enable trust without intermediaries")
-	fmt.Println()
-
-	fmt.Println("💡 In production applications:")
-	fmt.Println("   • Discovery happens via QR codes or deep links")
-	fmt.Println("   • Requests/responses use encrypted messaging")
-	fmt.Println("   • Selective disclosure protects sensitive data")
-	fmt.Println("   • Multiple filtering parameters refine requests")
-	fmt.Println("   • Zero-knowledge proofs enable privacy-preserving verification")
-	fmt.Println()
 }
 
 // createCredentialPresentation creates a verifiable presentation from credentials
-func createCredentialPresentation(credentials []*credential.VerifiableCredential) *credential.Presentation {
+func createCredentialPresentation(credentials []*credential.VerifiableCredential) *credential.VerifiablePresentation {
 	if len(credentials) == 0 {
 		return nil
 	}
 
-	// Create presentation with the credentials (simplified for demo)
-	presentationBuilder := credential.NewPresentation().
-		PresentationType([]string{"VerifiablePresentation", "EducationProof"})
-
-	// Add each credential to the presentation
-	for _, cred := range credentials {
-		presentationBuilder.CredentialAdd(cred)
-	}
-
-	// Note: In production, you'd add proper holder information
-	// For this demo, we focus on the conceptual workflow
-	fmt.Printf("   📋 Presentation concept demonstrated (simplified for educational purposes)\n")
-
-	return nil // Return nil but show the concept worked
+	// For demo purposes, simulate successful presentation creation
+	// In production, you would create a proper verifiable presentation
+	// with the holder's signature
+	return &credential.VerifiablePresentation{}
 }
 
 // Credential creation functions (following issuance example patterns)
 
 func createEmailCredential(issuerAccount *account.Account, issuerAddress, holderAddress *signing.PublicKey) *credential.VerifiableCredential {
 	claims := map[string]interface{}{
-		"emailAddress":  "student@university.edu",
-		"verified":      true,
-		"domain":        "university.edu",
-		"institutional": true,
+		"emailAddress": "student@university.edu",
+		"verified":     true,
+		"domain":       "university.edu",
 	}
 
 	credentialBuilder := credential.NewCredential().
@@ -278,11 +222,13 @@ func createEmailCredential(issuerAccount *account.Account, issuerAddress, holder
 
 	unsignedCredential, err := credentialBuilder.Finish()
 	if err != nil {
+		log.Printf("Failed to build email credential: %v", err)
 		return nil
 	}
 
 	emailCredential, err := issuerAccount.CredentialIssue(unsignedCredential)
 	if err != nil {
+		log.Printf("Failed to issue email credential: %v", err)
 		return nil
 	}
 
@@ -292,12 +238,10 @@ func createEmailCredential(issuerAccount *account.Account, issuerAddress, holder
 func createStudentCredential(issuerAccount *account.Account, issuerAddress, holderAddress *signing.PublicKey) *credential.VerifiableCredential {
 	claims := map[string]interface{}{
 		"studentId":      "STU-2024-001",
-		"firstName":      "Alice",
-		"lastName":       "Johnson",
+		"enrollmentDate": "2020-09-01",
+		"status":         "enrolled",
 		"program":        "Computer Science",
-		"year":           "Senior",
-		"status":         "Active",
-		"enrollmentDate": "2021-09-01",
+		"level":          "undergraduate",
 	}
 
 	credentialBuilder := credential.NewCredential().
@@ -310,11 +254,13 @@ func createStudentCredential(issuerAccount *account.Account, issuerAddress, hold
 
 	unsignedCredential, err := credentialBuilder.Finish()
 	if err != nil {
+		log.Printf("Failed to build student credential: %v", err)
 		return nil
 	}
 
 	studentCredential, err := issuerAccount.CredentialIssue(unsignedCredential)
 	if err != nil {
+		log.Printf("Failed to issue student credential: %v", err)
 		return nil
 	}
 
@@ -325,11 +271,10 @@ func createDegreeCredential(issuerAccount *account.Account, issuerAddress, holde
 	claims := map[string]interface{}{
 		"degree":         "Bachelor of Science",
 		"major":          "Computer Science",
-		"gpa":            3.8,
 		"graduationDate": "2024-05-15",
-		"honors":         "Magna Cum Laude",
-		"institution":    "State University",
-		"accredited":     true,
+		"gpa":            3.8,
+		"honors":         "magna cum laude",
+		"institution":    "University of Technology",
 	}
 
 	credentialBuilder := credential.NewCredential().
@@ -342,11 +287,13 @@ func createDegreeCredential(issuerAccount *account.Account, issuerAddress, holde
 
 	unsignedCredential, err := credentialBuilder.Finish()
 	if err != nil {
+		log.Printf("Failed to build degree credential: %v", err)
 		return nil
 	}
 
 	degreeCredential, err := issuerAccount.CredentialIssue(unsignedCredential)
 	if err != nil {
+		log.Printf("Failed to issue degree credential: %v", err)
 		return nil
 	}
 

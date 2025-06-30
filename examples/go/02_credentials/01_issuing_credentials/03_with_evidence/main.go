@@ -35,12 +35,10 @@ import (
 )
 
 func main() {
-	fmt.Println("🎓 Evidence-Based Credential Issuance Demo (Core SDK)")
-	fmt.Println("======================================================")
-	fmt.Println("This demo shows credentials with file evidence using the core SDK.")
-	fmt.Println()
+	fmt.Println("Evidence-Based Credential Issuance Demo")
+	fmt.Println("=======================================")
 
-	// Step 1: Create issuer and holder accounts
+	// Create issuer and holder accounts
 	issuer, holder := createAccounts()
 	defer issuer.Close()
 	defer holder.Close()
@@ -48,31 +46,22 @@ func main() {
 	// Display account information
 	displayAccountInfo(issuer, holder)
 
-	// Step 2: Create credentials with evidence
+	// Create credentials with evidence
 	createCertificationWithEvidence(issuer, holder)
 
-	fmt.Println("✅ Evidence demo completed!")
-	fmt.Println()
-	fmt.Println("📚 Ready for the next level?")
-	fmt.Println("   • cd ../complex && go run main.go - Complex nested data structures")
-	fmt.Println("   • cd ../advanced && go run main.go - All features combined")
-	fmt.Println()
+	fmt.Println("✅ Demo completed successfully!")
 }
 
-// generateStorageKey creates a cryptographically secure 32-byte key
 func generateStorageKey(seed string) []byte {
 	key := make([]byte, 32)
 	if _, err := rand.Read(key); err != nil {
-		// Fallback to deterministic key generation if crypto/rand fails
 		h := sha256.Sum256([]byte(fmt.Sprintf("self-sdk-%s-%d", seed, time.Now().UnixNano())))
 		return h[:]
 	}
 	return key
 }
 
-// createAccounts sets up the issuer and holder accounts using the core SDK
 func createAccounts() (*account.Account, *account.Account) {
-	// Create issuer account configuration
 	issuerCfg := &account.Config{
 		StorageKey:  generateStorageKey("evidence_issuer"),
 		StoragePath: "./evidence_issuer_storage",
@@ -80,13 +69,11 @@ func createAccounts() (*account.Account, *account.Account) {
 		LogLevel:    account.LogWarn,
 	}
 
-	// Create issuer account
 	issuer, err := account.New(issuerCfg)
 	if err != nil {
 		log.Fatal("Failed to create issuer account:", err)
 	}
 
-	// Create holder account configuration
 	holderCfg := &account.Config{
 		StorageKey:  generateStorageKey("evidence_holder"),
 		StoragePath: "./evidence_holder_storage",
@@ -94,7 +81,6 @@ func createAccounts() (*account.Account, *account.Account) {
 		LogLevel:    account.LogWarn,
 	}
 
-	// Create holder account
 	holder, err := account.New(holderCfg)
 	if err != nil {
 		log.Fatal("Failed to create holder account:", err)
@@ -103,7 +89,6 @@ func createAccounts() (*account.Account, *account.Account) {
 	return issuer, holder
 }
 
-// displayAccountInfo shows the account information
 func displayAccountInfo(issuer, holder *account.Account) {
 	issuerInbox, err := issuer.InboxOpen()
 	if err != nil {
@@ -114,36 +99,33 @@ func displayAccountInfo(issuer, holder *account.Account) {
 		log.Fatal("Failed to open holder inbox:", err)
 	}
 
-	fmt.Printf("🏢 Issuer: %s\n", issuerInbox.String())
-	fmt.Printf("👤 Holder: %s\n", holderInbox.String())
+	fmt.Printf("Issuer: %s\n", issuerInbox.String())
+	fmt.Printf("Holder: %s\n", holderInbox.String())
 	fmt.Println()
 }
 
-// createCertificationWithEvidence creates a certification credential with file evidence
 func createCertificationWithEvidence(issuer, holder *account.Account) {
-	fmt.Println("🎓 Creating certification credential with evidence...")
+	fmt.Println("Creating certification with evidence...")
 
-	// Step 1: Create evidence asset
+	// Create evidence asset
 	evidence := createEvidence(issuer)
 	if evidence == nil {
 		return
 	}
 
-	// Step 2: Create credential with evidence reference
+	// Create credential with evidence reference
 	cred := createCredentialWithEvidence(issuer, holder, evidence)
 	if cred == nil {
 		return
 	}
 
-	// Step 3: Create verifiable presentation
+	// Create verifiable presentation
 	createPresentation(issuer, cred)
 }
 
-// createEvidence creates and uploads supporting documentation
 func createEvidence(issuer *account.Account) *object.Object {
-	fmt.Println("📄 Creating evidence asset...")
+	fmt.Println("Creating evidence asset...")
 
-	// Create mock certificate document
 	certificateData := []byte(`Certificate of Completion
 Advanced Go Programming Course
 
@@ -161,34 +143,25 @@ with distinction.
 Instructor: Jane Smith
 Director: Dr. Alice Johnson`)
 
-	// Create object using the core SDK
 	evidence, err := object.New("certificate.pdf", certificateData)
 	if err != nil {
 		log.Printf("Failed to create evidence object: %v", err)
 		return nil
 	}
 
-	// Upload evidence using the issuer's account
 	err = issuer.ObjectUpload(evidence, true)
 	if err != nil {
 		log.Printf("Failed to upload evidence: %v", err)
 		return nil
 	}
 
-	fmt.Printf("   📄 Evidence created: certificate.pdf\n")
-	fmt.Printf("   🔗 Asset ID: %x\n", evidence.Id())
-	fmt.Printf("   📏 Size: %d bytes\n", len(certificateData))
-	fmt.Printf("   ✅ Evidence uploaded to secure storage\n")
-	fmt.Println()
-
+	fmt.Printf("✅ Evidence uploaded: %x (%d bytes)\n", evidence.Id(), len(certificateData))
 	return evidence
 }
 
-// createCredentialWithEvidence creates a custom credential with evidence reference
 func createCredentialWithEvidence(issuer, holder *account.Account, evidence *object.Object) *credential.VerifiableCredential {
-	fmt.Println("🏗️ Building custom certification credential...")
+	fmt.Println("Building certification credential...")
 
-	// Get inbox addresses for credential creation
 	issuerAddress, err := issuer.InboxOpen()
 	if err != nil {
 		log.Fatal("Failed to open issuer inbox:", err)
@@ -199,7 +172,6 @@ func createCredentialWithEvidence(issuer, holder *account.Account, evidence *obj
 		log.Fatal("Failed to open holder inbox:", err)
 	}
 
-	// Create claims with evidence reference
 	claims := map[string]interface{}{
 		"certificationType": "Professional Development",
 		"courseName":        "Advanced Go Programming",
@@ -211,7 +183,6 @@ func createCredentialWithEvidence(issuer, holder *account.Account, evidence *obj
 		"evidenceId":        fmt.Sprintf("%x", evidence.Id()),
 	}
 
-	// Build the credential using the core SDK
 	credentialBuilder := credential.NewCredential().
 		CredentialType([]string{"VerifiableCredential", "CertificationCredential"}).
 		CredentialSubject(credential.AddressKey(holderAddress)).
@@ -220,71 +191,47 @@ func createCredentialWithEvidence(issuer, holder *account.Account, evidence *obj
 		ValidFrom(time.Now()).
 		SignWith(issuerAddress, time.Now())
 
-	// Finish building the unsigned credential
 	unsignedCredential, err := credentialBuilder.Finish()
 	if err != nil {
 		log.Printf("Failed to build credential: %v", err)
 		return nil
 	}
 
-	// Issue the credential using the issuer's account
 	customCredential, err := issuer.CredentialIssue(unsignedCredential)
 	if err != nil {
 		log.Printf("Failed to issue credential: %v", err)
 		return nil
 	}
 
-	fmt.Printf("   ✅ Certification credential created successfully\n")
-	fmt.Printf("   🎓 Course: Advanced Go Programming\n")
-	fmt.Printf("   📅 Completed: %s\n", time.Now().Format("2006-01-02"))
-	fmt.Printf("   🏆 Grade: A+\n")
-	fmt.Printf("   🏫 Institution: Self SDK Academy\n")
-	fmt.Printf("   ⏱️  Duration: 40 hours\n")
-	fmt.Printf("   🔒 Type: %v\n", customCredential.CredentialType())
-	fmt.Printf("   🔗 Evidence ID: %x\n", evidence.Id())
-	fmt.Println()
-
+	fmt.Printf("✅ Certification credential issued (Type: %v)\n", customCredential.CredentialType())
 	return customCredential
 }
 
-// createPresentation creates a verifiable presentation from the credential
 func createPresentation(issuer *account.Account, cred *credential.VerifiableCredential) {
-	fmt.Println("📋 Creating verifiable presentation...")
+	fmt.Println("Creating verifiable presentation...")
 
-	// Get issuer address for presentation creation
 	issuerAddress, err := issuer.InboxOpen()
 	if err != nil {
 		log.Fatal("Failed to open issuer inbox:", err)
 	}
 
-	// Create presentation using the core SDK
 	presentationBuilder := credential.NewPresentation().
 		PresentationType([]string{"VerifiablePresentation", "CertificationPresentation"}).
 		Holder(credential.AddressKey(issuerAddress)).
 		CredentialAdd(cred)
 
-	// Finish building the unsigned presentation
 	unsignedPresentation, err := presentationBuilder.Finish()
 	if err != nil {
 		log.Printf("Failed to build presentation: %v", err)
 		return
 	}
 
-	// Issue the presentation using the issuer's account
 	presentation, err := issuer.PresentationIssue(unsignedPresentation)
 	if err != nil {
 		log.Printf("Failed to issue presentation: %v", err)
 		return
 	}
 
-	fmt.Printf("   ✅ Presentation created successfully\n")
-	fmt.Printf("   📋 Type: %v\n", presentation.PresentationType())
-	fmt.Printf("   📄 Credentials included: %d\n", len(presentation.Credentials()))
-	fmt.Println()
-	fmt.Println("🎓 What happened:")
-	fmt.Println("   1. Created evidence asset (PDF certificate)")
-	fmt.Println("   2. Uploaded evidence to secure storage")
-	fmt.Println("   3. Created credential with evidence reference")
-	fmt.Println("   4. Created verifiable presentation for sharing")
-	fmt.Println()
+	fmt.Printf("✅ Presentation created (Type: %v, Credentials: %d)\n",
+		presentation.PresentationType(), len(presentation.Credentials()))
 }

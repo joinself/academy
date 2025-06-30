@@ -1,306 +1,94 @@
-# Credential Issuance Examples
+# Verifiable Credentials Examples
 
-This directory contains a comprehensive tutorial series for learning credential issuance using the Self SDK. The examples are designed with educational progression, starting from basic concepts and building up to advanced real-world scenarios.
+This directory contains comprehensive examples for working with verifiable credentials using the Self SDK, organized by functionality for better learning and implementation.
 
-> **📢 Updated Approach**: These examples now use the underlying Self SDK directly (v0.59.0+) instead of the deprecated client package facade. This provides better understanding of the core SDK architecture and patterns.
+> **📢 Updated Organization**: Examples are now organized by functionality rather than complexity, making it easier to find relevant patterns for your use case.
 
-## 🚀 Quick Start
+## 🗂️ Functional Organization
 
-| 🎯 Goal | 📁 Example | 🏃‍♂️ Command |
-|---------|------------|-------------|
-| **Just want to see it work?** | Root | `go run main.go` |
-| **Learn the basics** | Basic | `cd basic && go run main.go` |
-| **Multiple claims** | Multi-Claim | `cd multi_claim && go run main.go` |
-| **Evidence & assets** | Evidence | `cd evidence && go run main.go` |
-| **Complex data** | Complex | `cd complex && go run main.go` |
-| **All features** | Advanced | `cd advanced && go run main.go` |
-| **Exchange foundation** | Exchange Demo | `cd exchange_demo && go run main.go` |
+| 🎯 Category | 📁 Directory | 🎓 Focus Area |
+|-------------|--------------|---------------|
+| **Issue Credentials** | `01_issuing_credentials/` | Creating and signing credentials |
+| **Exchange Credentials** | `02_exchanging_credentials/` | Presentation requests and verification |
+| **Store Credentials** | `03_credential_storage/` | Management and organization patterns |
 
-## 📚 Educational Progression
+## 🚀 Quick Start by Use Case
 
-### 🎯 Learning Path
-
-Complete the examples in this order for the best learning experience:
-
-| Example | Complexity | Description | Time |
-|---------|------------|-------------|------|
-| **`basic/main.go`** | 🟢 **9/10** (Very Simple) | Foundation concepts | 5-10 min |
-| **`multi_claim/main.go`** | 🟡 **7/10** (Intermediate) | Multiple claims in credentials | 10-15 min |
-| **`evidence/main.go`** | 🟠 **5/10** (Advanced) | Evidence and asset management | 15-20 min |
-| **`complex/main.go`** | 🟠 **4/10** (Advanced) | Complex nested data structures | 20-25 min |
-| **`advanced/main.go`** | 🔴 **3/10** (Expert) | All features combined | 30-45 min |
-| **`exchange_demo/main.go`** | 🟡 **6/10** (Intermediate) | Bridge to credential exchange | 15-20 min |
-
-### 🔄 Current main.go
-
-The current `main.go` contains the simplified basic issuance example using the underlying Self SDK directly (**9/10 simplicity**). This demonstrates how to use the core SDK without the client package facade. For the full educational progression, use the individual files above.
-
-### 📊 Complexity Guide
-
-- 🟢 **8-10/10** (Very Simple) - Perfect for beginners, minimal concepts
-- 🟡 **6-7/10** (Intermediate) - Some complexity, builds on basics  
-- 🟠 **4-5/10** (Advanced) - Complex concepts, production patterns
-- 🔴 **1-3/10** (Expert) - Very complex, requires deep understanding
-
-## 📖 Example Descriptions
-
-### 1️⃣ Basic Issuance (`basic/main.go`)
-**Start here if you're new to credential issuance**
-
-- **What you'll learn:**
-  - How credential issuance works
-  - Basic credential creation patterns
-  - Simple claim addition
-  - Client setup and configuration
-  - Cryptographic signing basics
-  
-- **Key concepts:**
-  - Account setup using core SDK (issuer and holder)
-  - Direct credential creation with credential.NewCredential()
-  - Core SDK builder pattern usage
-  - Direct credential signing and issuance
-
-- **Complexity:** 🟢 **9/10** (Very Simple)
-- **Time to complete:** 5-10 minutes
-
-### 2️⃣ Multi-Claim Issuance (`multi_claim/main.go`)
-**Prerequisites: Complete basic/main.go first**
-
-- **What you'll learn:**
-  - How to add multiple claims to a single credential
-  - Different data types in claims (strings, booleans, numbers)
-  - Organizing related identity information
-  - Efficient credential structuring
-
-- **Key concepts:**
-  - Multiple claims in one credential
-  - Different data types
-  - Profile and education credentials
-  - Related information grouping
-
-- **Complexity:** 🟡 **7/10** (Intermediate)
-- **Time to complete:** 10-15 minutes
-
-### 3️⃣ Evidence-Based Issuance (`evidence/main.go`)
-**Prerequisites: Complete basic/main.go and multi_claim/main.go**
-
-- **What you'll learn:**
-  - How to attach evidence files to credentials
-  - Asset management and secure storage
-  - Creating verifiable presentations
-  - Linking evidence to claims with hashes
-  - Custom credential types
-
-- **Key concepts:**
-  - Evidence and asset management
-  - File attachments to credentials
-  - Verifiable presentations
-  - Hash-based evidence linking
-
-- **Complexity:** 🟠 **5/10** (Advanced)
-- **Time to complete:** 15-20 minutes
-
-### 4️⃣ Complex Data Issuance (`complex/main.go`)
-**Prerequisites: Complete all previous examples**
-
-- **What you'll learn:**
-  - How to structure complex nested data in credentials
-  - Arrays and collections in claims
-  - Hierarchical data organization
-  - Real-world data modeling patterns
-  - Advanced claim structuring
-
-- **Key concepts:**
-  - Complex nested objects
-  - Arrays and collections
-  - Hierarchical data structures
-  - Real-world organizational data
-
-- **Complexity:** 🟠 **4/10** (Advanced)
-- **Time to complete:** 20-25 minutes
-
-### 5️⃣ Advanced Issuance (`advanced/main.go`)
-**Prerequisites: Complete all previous examples**
-
-- **What you'll learn:**
-  - All credential issuance features combined
-  - Production-ready patterns
-  - Comprehensive credential workflows
-  - Request/response handling
-  - Discovery integration
-
-- **Key concepts:**
-  - All features combined
-  - Production patterns
-  - Event-driven workflows
-  - Discovery integration
-
-- **Complexity:** 🔴 **3/10** (Expert)
-- **Time to complete:** 30-45 minutes
-
-### 6️⃣ Exchange Foundation Demo (`exchange_demo/main.go`)
-**Prerequisites: Complete basic/main.go and multi_claim/main.go**
-
-- **What you'll learn:**
-  - How credential issuance enables exchange workflows
-  - Credential storage and organization patterns
-  - Conceptual exchange request/response workflows
-  - Foundation concepts for building exchange applications
-  - Bridge between issuance and exchange use cases
-
-- **Key concepts:**
-  - Credential store management
-  - Exchange request simulation
-  - Presentation creation from multiple credentials
-  - Foundation patterns for real exchange systems
-
-- **Complexity:** 🟡 **6/10** (Intermediate)
-- **Time to complete:** 15-20 minutes
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-1. Go 1.19 or later
-2. Self SDK dependencies (automatically handled by go.mod)
-
-### Running the Examples
-
-Each example is a standalone Go program. Run them in order:
-
+### 🏭 **Credential Issuers** (Organizations creating credentials)
 ```bash
-# 1. Basic Issuance (start here)
-cd basic && go run main.go
-
-# 2. Multi-Claim Issuance
-cd ../multi_claim && go run main.go
-
-# 3. Evidence-Based Issuance
-cd ../evidence && go run main.go
-
-# 4. Complex Data Issuance
-cd ../complex && go run main.go
-
-# 5. Advanced Issuance
-cd ../advanced && go run main.go
-
-# 6. Exchange Foundation Demo
-cd ../exchange_demo && go run main.go
-
-# Or run the simplified version in the root directory
-cd .. && go run main.go
+cd 01_issuing_credentials/
+# Start with basic, then progress through complexity
+cd 01_basic && go run main.go
 ```
 
-### 🔧 Build Requirements
+### 🔍 **Credential Verifiers** (Applications requesting proof)
+```bash
+cd 02_exchanging_credentials/
+# Learn presentation request patterns
+cd presentation_request && go run main.go
+```
 
-Each subdirectory is a standalone Go module with its own `go.mod` file. The examples use the latest published version of the Self SDK (v0.59.0+), so they should build and run without any additional setup.
+### 👤 **Credential Holders** (Individuals managing credentials)
+```bash
+cd 03_credential_storage/
+# Understand storage and organization
+cd basic_storage && go run main.go
+```
 
-### What Each Example Does
+## 📚 Learning Paths
 
-All examples create two accounts (issuer and holder) using the core SDK and demonstrate different aspects of credential issuance:
+### 🎯 Path 1: Complete Issuer Journey
+1. `01_issuing_credentials/01_basic/` - Foundation
+2. `01_issuing_credentials/02_multi_claim/` - Multiple claims
+3. `01_issuing_credentials/03_with_evidence/` - File attachments
+4. `01_issuing_credentials/04_complex_data/` - Nested structures
+5. `01_issuing_credentials/05_comprehensive/` - All features
 
-- **Issuer**: Creates and signs credentials for subjects using account.CredentialIssue()
-- **Holder**: Receives and stores credentials from issuers
-- **Issuance**: The process of creating, signing, and delivering credentials using the underlying SDK
+### 🎯 Path 2: Exchange Implementation
+1. `01_issuing_credentials/01_basic/` - Understand credentials first
+2. `02_exchanging_credentials/presentation_request/` - Basic exchange
+3. `03_credential_storage/basic_storage/` - Storage integration
 
-## 🎓 Learning Outcomes
+### 🎯 Path 3: Full Stack Understanding
+Complete all directories in order: `01_issuing_credentials/` → `02_exchanging_credentials/` → `03_credential_storage/`
 
-After completing all examples, you'll understand:
+## 🏗️ Architecture Overview
 
-### Core Concepts
-- ✅ How credential issuance works between parties
-- ✅ The difference between issuers, holders, and verifiers
-- ✅ Credential builder patterns and best practices
-- ✅ Claim structuring and organization
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   01_issuing    │───▶│  02_exchanging   │───▶│ 03_credential   │
+│   _credentials  │    │   _credentials   │    │    _storage     │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+       │                        │                        │
+       ▼                        ▼                        ▼
+   Create & Sign          Request & Verify         Store & Manage
+   Credentials            Presentations            Credentials
+```
 
-### Technical Skills
-- ✅ Self SDK account setup and configuration using account.New()
-- ✅ Direct credential creation using credential.NewCredential()
-- ✅ Simple and complex claim addition with CredentialSubjectClaims()
-- ✅ Evidence and asset management with object.New()
-- ✅ Verifiable presentation creation
-- ✅ Complex data structure modeling
+## 🔧 Prerequisites
 
-### Production Readiness
-- ✅ Error handling and validation
-- ✅ Security considerations for credential issuance
-- ✅ Scalable issuance patterns
-- ✅ Asset management and storage
+1. Go 1.19 or later
+2. Self SDK dependencies (handled by go.mod in each example)
 
-## 🔧 Key SDK Components Covered
+## 📖 Legacy Structure Reference
 
-### Account Management
-- `account.New()` - Account initialization with core SDK
-- `account.Config` - Direct account configuration options
-- Storage and environment setup using core types
+If you're familiar with the previous complexity-based organization:
 
-### Credential Operations
-- `credential.NewCredential()` - Direct credential creation
-- `CredentialType()`, `CredentialSubject()`, `Issuer()` - Core credential properties
-- `CredentialSubjectClaims()` - Adding credential data directly
-- `SignWith()`, `account.CredentialIssue()` - Direct credential signing and issuance
+| Old Structure | New Location |
+|---------------|--------------|
+| `basic/` | `01_issuing_credentials/01_basic/` |
+| `multi_claim/` | `01_issuing_credentials/02_multi_claim/` |
+| `evidence/` | `01_issuing_credentials/03_with_evidence/` |
+| `complex/` | `01_issuing_credentials/04_complex_data/` |
+| `advanced/` | `01_issuing_credentials/05_comprehensive/` |
+| `exchange_demo/` | `02_exchanging_credentials/presentation_request/` |
 
-### Asset Management
-- `CreateAsset()` - Evidence and file management
-- Asset storage and retrieval
-- Hash-based evidence linking
+## 🎓 Educational Philosophy
 
-### Presentation Operations
-- `CreatePresentation()` - Verifiable presentation creation
-- Credential packaging for sharing
-- Selective disclosure preparation
+**Functionality over Complexity**: Learn by use case rather than feature complexity, making it easier to apply knowledge to real-world scenarios.
 
-## 🛠️ Customization
+## 🔗 Related Examples
 
-Each example can be customized for your specific use case:
-
-### Credential Types
-- Modify credential types to match your domain
-- Add custom claims relevant to your application
-- Implement domain-specific validation logic
-
-### Data Structures
-- Customize claim structures for your data
-- Implement complex nested data patterns
-- Add business logic for data validation
-
-### Evidence Integration
-- Integrate with existing file storage systems
-- Customize evidence types and formats
-- Implement custom asset management
-
-## 📚 Next Steps
-
-After completing these examples:
-
-1. **🔄 Explore credential exchange** in `../credentials_exchange/` - Learn how to request and share the credentials you've created
-2. **📖 Review the Self SDK documentation** for advanced features
-3. **🏗️ Build your own credential issuance application**
-4. **🔗 Integrate with existing identity management systems**
-5. **🎯 Combine issuance and exchange** - Create end-to-end credential workflows
-
-### 🔄 Credential Lifecycle
-
-Understanding the complete credential lifecycle:
-- **Issuance** (this tutorial) - Creating and signing credentials
-- **Exchange** (`../credentials_exchange/`) - Requesting and sharing credentials  
-- **Verification** - Validating credential authenticity and claims
-- **Revocation** - Managing credential lifecycle and updates
-
-## 🤝 Contributing
-
-If you find ways to improve these examples or have suggestions for additional educational content, please contribute back to the Self SDK project.
-
-## 📖 Additional Resources
-
-- [Self SDK Documentation](https://docs.joinself.com)
-- [W3C Verifiable Credentials](https://w3.org/TR/vc-data-model/)
-- [W3C Verifiable Presentations](https://w3.org/TR/vc-data-model/#presentations)
-- [DIDComm Messaging](https://identity.foundation/didcomm-messaging/)
-- [Decentralized Identity Foundation](https://identity.foundation)
-
----
-
-**Happy learning! 🎉**
-
-Start with `basic/main.go` and work your way through the progression. Each example builds upon the previous ones, providing a comprehensive understanding of credential issuance with the Self SDK.
+- **Setup**: `../00_setup/` - Account creation and configuration
+- **Connections**: `../01_connection/` - Establishing peer connections  
+- **Chat**: `../04_chat/` - Messaging with credential context

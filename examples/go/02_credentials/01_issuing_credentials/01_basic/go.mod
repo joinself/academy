@@ -7,4 +7,4 @@ require (
 	github.com/joinself/self-go-sdk v0.59.0
 )
 
-replace github.com/joinself/academy/examples/go/common => ../../common
+replace github.com/joinself/academy/examples/go/common => ../../../common
