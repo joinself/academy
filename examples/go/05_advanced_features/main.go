@@ -1,7 +1,7 @@
 // Package main demonstrates advanced Self SDK features using the core SDK.
 //
 // This example showcases the most important advanced capabilities of the Self SDK
-// using the underlying SDK directly, without the deprecated client package facade.
+// using the underlying SDK directly.
 //
 // 🎯 What you'll learn:
 // • Advanced account configuration and management
@@ -481,7 +481,7 @@ func (d *AdvancedDemo) displaySummary() {
 	fmt.Println()
 
 	fmt.Println("🚀 Advanced features unlocked:")
-	fmt.Println("   • Direct core SDK usage without client facade")
+	fmt.Println("   • Direct core SDK usage")
 	fmt.Println("   • Encrypted storage for secure data persistence")
 	fmt.Println("   • Event-driven architecture with callbacks")
 	fmt.Println("   • Real-time connection and message handling")

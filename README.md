@@ -2,29 +2,29 @@
 
 This repository is the central hub for all educational materials related to the Joinself ecosystem. Our mission is to make decentralized identity accessible to all developers by providing a clear, structured, and hands-on learning experience.
 
-## 🚀 The Self Facade: Your Friendly Learning Companion
+## 🚀 The Self SDK: Your Powerful Development Toolkit
 
-Think of the Self facade as your knowledgeable friend who helps you navigate a new city. Instead of needing to know every street and shortcut, your friend shows you the best routes and handles the complex navigation while you focus on enjoying the journey.
+The Self SDK provides direct access to the core decentralized identity functionality, enabling you to build robust applications with full control and flexibility.
 
-The facade provides:
-- 🎯 **Intention-Clear Methods**: `IssueEmailCredential()` vs. complex builder patterns
-- 🔧 **Flexible Configuration**: Custom field names without hardcoding
-- 📚 **Educational Examples**: Every method comes with learning-focused examples
-- 🚀 **Quick Wins**: Get working code in minutes, not hours
+The SDK offers:
+- 🎯 **Direct Core Access**: Complete control over account management, storage, and messaging
+- 🔧 **Flexible Configuration**: Customizable settings for production and development environments  
+- 📚 **Educational Examples**: Every feature comes with learning-focused examples
+- 🚀 **Production Ready**: Battle-tested patterns for real-world applications
 
 ## 🗺️ Repository Structure
 
 This repository is a monorepo containing the following key areas:
 
 - 📚 **/docs**: Source content for our documentation, built with [MkDocs](https://www.mkdocs.org/).
-- 💻 **/sdks**: Contains the source code for the developer-friendly client facades for various languages.
-  - `go/`: Go client facade.
-  - `java/`: (Placeholder) Java client facade.
-  - `mobile/`: (Placeholder) Mobile (Swift/Kotlin) client facades.
+- 💻 **/sdks**: Contains the source code for the Self SDK for various languages.
+  - `go/`: Go SDK implementation.
+  - `java/`: (Placeholder) Java SDK implementation.
+  - `mobile/`: (Placeholder) Mobile (Swift/Kotlin) SDK implementations.
 - 🧪 **/examples**: Houses practical code examples that correspond to the documentation. These are structured to provide a progressive learning path from beginner to advanced.
-  - `go/`: Examples for the Go SDK and client facade.
-  - `java/`: (Placeholder) Examples for the Java client facade.
-  - `mobile/`: (Placeholder) Examples for the mobile client facades.
+  - `go/`: Examples for the Go SDK.
+  - `java/`: (Placeholder) Examples for the Java SDK.
+  - `mobile/`: (Placeholder) Examples for the mobile SDKs.
 
 ## 🧠 Our Learning Philosophy
 

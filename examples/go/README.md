@@ -1,8 +1,8 @@
-# Self SDK Client Examples
+# Self SDK Examples
 
-Welcome to the Self SDK client examples! This directory contains a comprehensive learning journey from basic concepts to production-ready applications. Whether you're new to Self SDK or building advanced features, we've got you covered.
+Welcome to the Self SDK examples! This directory contains a comprehensive learning journey from basic concepts to production-ready applications. Whether you're new to Self SDK or building advanced features, we've got you covered.
 
-These examples are built using our Go client facade. We recommend starting by reading the **[Go SDK Client README](../../sdks/go/client/README.md)** for an overview of the SDK's features and design philosophy.
+These examples demonstrate the full capabilities of the Self SDK using direct core SDK integration. Each example is designed to teach specific concepts while building towards production-ready patterns.
 
 ## 🚀 Quick Start
 

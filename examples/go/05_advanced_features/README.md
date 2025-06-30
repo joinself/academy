@@ -18,7 +18,7 @@ The demo automatically showcases core Self SDK features in a working demonstrati
 - 🟡 **Advanced concepts**: Core SDK usage, encrypted storage, event handling
 - 🟠 **Production patterns**: Account configuration, storage management, connection handling
 - 🟠 **Real-world features**: Discovery QR codes, message processing, graceful shutdown
-- 🔴 **Core SDK integration**: Direct SDK usage without client facade
+- 🔴 **Core SDK integration**: Direct SDK usage with full control
 
 ## 🎯 What This Example Demonstrates
 
@@ -144,7 +144,7 @@ This demo showcases advanced Self SDK capabilities using the core SDK directly.
    ✅ Graceful shutdown and resource management
 
 🚀 Advanced features unlocked:
-   • Direct core SDK usage without client facade
+   • Direct core SDK usage with complete control
    • Encrypted storage for secure data persistence
    • Event-driven architecture with callbacks
    • Real-time connection and message handling
@@ -176,7 +176,7 @@ This demo showcases advanced Self SDK capabilities using the core SDK directly.
 ## 🎓 Educational Notes
 
 ### Core SDK Integration
-- **Direct Usage**: No client facade - direct interaction with account
+- **Direct Usage**: Complete control with direct account interaction
 - **Callback Architecture**: Event-driven design with OnWelcome, OnMessage, OnKeyPackage
 - **Account Configuration**: Advanced setup with storage encryption and environment
 - **Resource Management**: Proper account.Close() and graceful shutdown
@@ -261,16 +261,18 @@ After understanding this example, you're ready for:
 - Check Go version with `go version` (need 1.19+)
 - Verify you're in the correct directory with go.mod
 
-## 🎯 Key Differences from Client Package
+## 🎯 Core SDK Capabilities
 
-| Feature | Client Package | Core SDK (This Example) |
-|---------|---------------|-------------------------|
-| **Account Setup** | `client.NewSimplified()` | `account.New()` with config |
-| **Storage** | `client.Storage()` | `account.ValueStore/ValueLookup()` |
-| **Messages** | `client.Chat().Send()` | `account.MessageSend()` with builders |
-| **Events** | Component callbacks | Direct account callbacks |
-| **Complexity** | Simplified facade | **Full SDK control** |
-| **Flexibility** | Limited | **Complete customization** |
+This example demonstrates the full power of the Self SDK with direct core integration:
+
+| Feature | Implementation | Benefits |
+|---------|---------------|----------|
+| **Account Setup** | `account.New()` with config | Complete control over configuration |
+| **Storage** | `account.ValueStore/ValueLookup()` | Direct encrypted storage access |
+| **Messages** | `account.MessageSend()` with builders | Full message customization |
+| **Events** | Direct account callbacks | Real-time event processing |
+| **Complexity** | **Full SDK control** | Maximum flexibility |
+| **Flexibility** | **Complete customization** | Production-ready patterns |
 
 ## 🏗️ Architecture Patterns Demonstrated
 
