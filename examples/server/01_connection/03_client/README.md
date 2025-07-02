@@ -11,14 +11,28 @@ This example demonstrates the **CLIENT SIDE** of direct address-based connection
 ## 🚀 Quick Start
 
 ### 🔗 Complete Client-Server Test (Recommended!)
+
+#### Go
 ```bash
 # Terminal 1: Start the server (creates address)
-cd ../01_direct && go run main.go
+cd ../01_direct/go && go run main.go
 # Copy the displayed address
 
 # Terminal 2: Run this client (connects to address)
-cd ../03_client
+cd ../03_client/go
 go run main.go <paste-inbox-address-here>
+# ✅ Watch the connection establish in both terminals!
+```
+
+#### Java
+```bash
+# Terminal 1: Start the server (creates address)
+cd ../01_direct/java && gradle run
+# Copy the displayed address
+
+# Terminal 2: Run this client (connects to address)
+cd ../03_client/java
+gradle run --args='<paste-inbox-address-here>'
 # ✅ Watch the connection establish in both terminals!
 ```
 

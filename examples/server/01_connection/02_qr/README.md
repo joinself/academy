@@ -10,9 +10,17 @@ This example demonstrates **QR CODE-BASED CONNECTIONS** with Self SDK. Perfect f
 
 ## 🚀 Quick Start
 
+### Go
 ```bash
-cd examples/go/01_connection/02_qr
+cd go
 go run main.go
+```
+
+### Java
+```bash
+cd java
+gradle run                      # Run the example
+gradle clean > /dev/null 2>&1   # Clean up build artifacts
 ```
 
 **What happens:**
