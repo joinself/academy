@@ -25,7 +25,15 @@ go run main.go <paste-inbox-address-here>
 
 ### Java
 ```bash
-# Coming soon - Java implementation
+# Terminal 1: Start this server
+cd java
+gradle run
+# ✅ Copy the displayed inbox address
+
+# Terminal 2: Connect from the client example
+cd ../../03_client/java
+gradle run <paste-inbox-address-here>
+# ✅ Watch the connection establish in both terminals!
 ```
 
 ### 🔗 Complete Server-Client Test (Recommended!)
