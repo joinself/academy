@@ -24,12 +24,21 @@ This example demonstrates **inbox access** for Self accounts, showing how to get
 
 ## 🚀 Quick Start
 
+### Go
 ```bash
-# This example is self-contained - no setup required!
+cd go
 go run main.go
-
-# Expected output: Account setup and inbox address display
 ```
+
+### Java
+```bash
+cd java
+gradle run                      # Run the example
+gradle clean > /dev/null 2>&1   # Clean up build artifacts
+```
+
+### Expected output
+Account setup and inbox address display
 
 ## 🎯 What You'll Learn
 
