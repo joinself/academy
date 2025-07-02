@@ -21,7 +21,8 @@ go run main.go
 ### Java
 ```bash
 cd java
-# Coming soon - Java implementation
+gradle run                      # Run the example
+gradle clean > /dev/null 2>&1   # Clean up build artifacts
 ```
 
 Then connect from another Self SDK instance (mobile app, another SDK client, or the Self app) to start chatting!
