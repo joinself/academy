@@ -3,6 +3,21 @@ site/
 
 # Python
 venv/
+
+# Java/Kotlin/Gradle build artifacts (for all Java examples)
+**/build/
+**/.gradle/
+**/.kotlin/
+**/storage/
+
+# Gradle wrapper files (if someone adds them)
+**/gradle/
+**/gradlew*
+
+# IDE files
+**/.idea/
+**/*.iml
+**/.vscode/
 __pycache__/
 *.pyc 
 
