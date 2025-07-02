@@ -11,12 +11,21 @@ This example demonstrates how to **load existing Self accounts** that were creat
 
 ## 🚀 Quick Start
 
+### Go
 ```bash
-# This example is self-contained - no setup required!
+cd go
 go run main.go
-
-# Expected output: Account creation, closure, and loading demonstration
 ```
+
+### Java
+```bash
+cd java
+gradle run                      # Run the example
+gradle clean > /dev/null 2>&1   # Clean up build artifacts
+```
+
+### Expected output
+Account creation, closure, and loading demonstration
 
 ## 🎯 What You'll Learn
 
