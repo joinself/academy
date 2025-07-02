@@ -1,294 +1,128 @@
-# Advanced Features Example
+# Advanced Features Examples
 
-A comprehensive demonstration of the Self SDK's advanced capabilities using the core SDK directly.
+This directory contains comprehensive examples for implementing advanced Self SDK capabilities and production-ready patterns, organized by feature area for specialized learning and implementation.
 
-## 🚀 Quick Start
+## 🗂️ Examples Organization
 
+| 🎯 Level | 📁 Directory | 🎓 Focus Area |
+|----------|--------------|---------------|
+| **Core Advanced Features** | `01_core_features/` | Core SDK patterns and encrypted storage |
+| **Device Pairing** | `02_pairing/` | Multi-device synchronization and management |
+| **Push Notifications** | `03_notifications/` | Real-time user engagement and alerts |
+
+## 🚀 Quick Start by Use Case
+
+### 🔧 **Core Advanced Patterns** (Production-ready SDK usage)
 ```bash
-# Run the advanced features demo
+cd 01_core_features/
 go run main.go
 ```
 
-The demo automatically showcases core Self SDK features in a working demonstration!
-
-## 📊 Complexity Rating
-
-**7/10** (Advanced) - Perfect for learning production-ready Self SDK patterns
-
-- 🟡 **Advanced concepts**: Core SDK usage, encrypted storage, event handling
-- 🟠 **Production patterns**: Account configuration, storage management, connection handling
-- 🟠 **Real-world features**: Discovery QR codes, message processing, graceful shutdown
-- 🔴 **Core SDK integration**: Direct SDK usage with full control
-
-## 🎯 What This Example Demonstrates
-
-### Core Advanced Features
-- ✅ **Core SDK Account Setup** - Direct account creation with advanced configuration
-- ✅ **Encrypted Storage** - Secure data persistence using account.ValueStore/ValueLookup
-- ✅ **Discovery & Connection** - QR code generation and peer connection handling
-- ✅ **Event-Driven Messaging** - Real-time message processing with callbacks
-- ✅ **Production Patterns** - Graceful shutdown, error handling, statistics tracking
-- ✅ **Storage Management** - JSON serialization and advanced data operations
-
-### Educational Learning Path
-1. **Core SDK Setup** - Advanced account configuration with callbacks
-2. **Storage Operations** - Encrypted storage with JSON data handling
-3. **Discovery System** - QR code generation for peer connections
-4. **Message Handling** - Event-driven architecture with real-time processing
-5. **Production Patterns** - Proper resource management and monitoring
-
-## 🏃‍♂️ How to Run
-
-### Single Command Demo
+### 🔗 **Multi-Device Sync** (Device pairing and synchronization)
 ```bash
+cd 02_pairing/
 go run main.go
 ```
 
-The demo runs automatically and demonstrates:
-- Advanced account creation with core SDK
-- Encrypted storage operations with JSON data
-- Discovery QR code generation for peer connections
-- Real-time message handling with automatic responses
-- Production-ready patterns with graceful shutdown
-
-### What Happens Automatically
-1. **Account Creation**: Core SDK account with advanced configuration and callbacks
-2. **Storage Demo**: JSON data storage and retrieval with encryption
-3. **Discovery QR**: Interactive QR code for peer connections
-4. **Message Processing**: Real-time event handling with automatic responses
-5. **Monitoring**: Status updates and connection/message statistics
-6. **Graceful Shutdown**: Clean exit with Ctrl+C and summary statistics
-
-## 📋 What You'll See
-
-```
-🚀 Advanced Self SDK Features Demo (Core SDK)
-==============================================
-This demo showcases advanced Self SDK capabilities using the core SDK directly.
-
-🔧 Setting up advanced account with core SDK...
-✅ Advanced account created successfully
-🆔 Account DID: did:self:advanced123...
-
-💾 Advanced Storage Capabilities
-================================
-🔹 Encrypted Storage Operations
-   ✅ Stored user_profile
-   ✅ Stored app_settings
-   ✅ Stored session_token
-   ✅ Stored last_activity
-   ✅ Stored connection_count
-🔹 Data Retrieval Verification
-   📖 Retrieved profile: Advanced User (Developer)
-   🎨 Dark mode: true, Notifications: true
-   ✅ Storage operations completed successfully
-
-🔍 Discovery & Connection Setup
-===============================
-📱 QR Code for Discovery:
-========================
-█▀▀▀▀▀█ ▀▀█▄ ▀▀▀ █▀▀▀▀▀█
-█ ███ █ █▄▀▀▀▄█ █ ███ █
-█ ▀▀▀ █ ▄▀▀ ▀▀█ █ ▀▀▀ █
-▀▀▀▀▀▀▀ █▄█▄▀▄█ ▀▀▀▀▀▀▀
-========================
-
-🎯 Scan this QR code with the Self app to connect!
-⏰ Expires in 15 minutes (15:30:00)
-
-💡 What happens when someone connects:
-   • Secure connection established
-   • Welcome message sent automatically
-   • Advanced storage updated with connection info
-   • Demo showcases real-time message handling
-
-⏳ Waiting for connections and messages...
-   • Scan the QR code above to connect
-   • Send messages to see advanced features
-   • Press Ctrl+C to finish the demo
-
-📊 Status: 0 connections, 0 messages processed (runtime: 30s)
-
-🎉 New connection established!
-👤 Peer: did:self:peer456...
-🕐 Time: 15:32:15
-
-💾 Connection info stored in advanced storage
-📤 Advanced welcome message sent
-
-📨 Message #1 received
-👤 From: did:self:peer456...
-💬 Content: Hello advanced demo!
-🕐 Time: 15:32:45
-💾 Message stored in advanced storage
-📤 Advanced response sent (Message #1)
-
-📊 Status: 1 connections, 1 messages processed (runtime: 2m15s)
-
-🛑 Shutdown signal received...
-🏁 Demo completed by user
-
-📊 Advanced Demo Summary
-========================
-⏱️  Total runtime: 2m18s
-🔗 Connections made: 1
-📨 Messages processed: 1
-💾 Storage operations: 8+
-
-🎓 What was demonstrated:
-   ✅ Core SDK account creation and configuration
-   ✅ Advanced encrypted storage with automatic security
-   ✅ Discovery QR generation and connection handling
-   ✅ Real-time event-driven message processing
-   ✅ Production-ready account and storage patterns
-   ✅ Graceful shutdown and resource management
-
-🚀 Advanced features unlocked:
-   • Direct core SDK usage with complete control
-   • Encrypted storage for secure data persistence
-   • Event-driven architecture with callbacks
-   • Real-time connection and message handling
-   • Production patterns for robust applications
-
-📚 Next steps:
-   • Explore individual subdirectories for deep dives
-   • Build production applications using these patterns
-   • Integrate advanced features into your own projects
-
-✅ Advanced features demo completed!
+### 🔔 **Real-Time Notifications** (Push alerts and engagement)
+```bash
+cd 03_notifications/
+go run main.go
 ```
 
-## 🔍 Key Code Sections
+## 📚 Learning Path
 
-| Function | Lines | Purpose |
-|----------|-------|---------|
-| `main()` | 50-65 | Demo orchestration and setup |
-| `setupAdvancedAccount()` | 85-115 | Core SDK account creation with callbacks |
-| `demonstrateAdvancedStorage()` | 120-170 | Encrypted storage operations with JSON |
-| `generateDiscoveryQR()` | 175-220 | QR code generation for peer connections |
-| `onWelcomeMessage()` | 225-270 | Connection acceptance and welcome handling |
-| `onMessage()` | 285-320 | Real-time message processing and storage |
-| `sendAdvancedWelcomeMessage()` | 325-350 | Advanced welcome message creation |
-| `sendAdvancedResponse()` | 365-395 | Intelligent auto-response system |
-| `waitForInteractions()` | 410-440 | Interactive demo with status monitoring |
-| `displaySummary()` | 445-485 | Final statistics and educational summary |
+### 🎯 Recommended Progression
+1. `01_core_features/` - Master core SDK patterns and encrypted storage
+2. `02_pairing/` - Understand multi-device synchronization
+3. `03_notifications/` - Implement real-time user engagement
 
-## 🎓 Educational Notes
+## 🏗️ Architecture Overview
 
-### Core SDK Integration
-- **Direct Usage**: Complete control with direct account interaction
-- **Callback Architecture**: Event-driven design with OnWelcome, OnMessage, OnKeyPackage
-- **Account Configuration**: Advanced setup with storage encryption and environment
-- **Resource Management**: Proper account.Close() and graceful shutdown
-
-### Advanced Storage Patterns
-- **JSON Serialization**: Convert complex data to JSON for storage
-- **Encrypted Persistence**: All data automatically encrypted using storage key
-- **Value Operations**: Direct use of account.ValueStore() and account.ValueLookup()
-- **Connection Tracking**: Store connection metadata for advanced features
-
-### Discovery & Connection
-- **Key Package Generation**: ConnectionNegotiateOutOfBand for QR connections
-- **Discovery Requests**: Message builders with expiration and key packages
-- **QR Code Creation**: Anonymous messages with sandbox flags for testing
-- **Connection Acceptance**: Automatic acceptance with ConnectionAccept()
-
-### Real-Time Message Processing
-- **Event Callbacks**: OnMessage callback for all incoming messages
-- **Message Filtering**: Only processes chat messages to avoid system message flooding
-- **Message Decoding**: Proper handling of chat vs non-chat messages
-- **Auto-Response**: Intelligent responses showing demo statistics
-- **Message Storage**: Persistent message history with metadata
-
-### Production Benefits
-- **Error Handling**: Comprehensive error checking and graceful degradation
-- **Monitoring**: Real-time status updates and connection tracking
-- **Statistics**: Detailed summary with runtime and operation counts
-- **Resource Cleanup**: Proper shutdown with signal handling
-
-## 🔧 Customization Ideas
-
-Try modifying the code to:
-- Add different message types beyond chat messages
-- Implement custom storage namespaces for organization
-- Create advanced connection filtering and management
-- Add file attachment handling for richer messaging
-- Implement connection persistence across restarts
-- Add custom analytics and monitoring
-- Create advanced auto-response patterns
-
-## 🚀 Next Steps
-
-After understanding this example, you're ready for:
-
-| Next Level | Complexity | Description |
-|------------|------------|-------------|
-| **Production Apps** | 8-9/10 | Build real applications using these core patterns |
-| **Custom Features** | 8/10 | Add custom functionality using core SDK |
-| **Advanced Integration** | 9/10 | Integrate with existing systems and databases |
-
-## 🛠️ Prerequisites
-
-- Go 1.19 or later
-- Self SDK v0.59.0+ (handled by go.mod)
-- Understanding of previous examples (simple_chat, credential_issuance, discovery)
-- Basic knowledge of JSON and encryption concepts
-
-## 💡 Troubleshooting
-
-**Account Creation Issues:**
-- Ensure storage path is writable (`./advanced_demo_storage`)
-- Check that storage key generation is working
-- Verify environment is set to sandbox for testing
-
-**Storage Problems:**
-- Confirm JSON marshaling/unmarshaling is working
-- Check that ValueStore/ValueLookup methods exist
-- Verify storage key is 32 bytes and properly generated
-
-**Connection Issues:**
-- Ensure QR code is properly formatted and scannable
-- Check that key package generation succeeds
-- Verify sandbox environment flags are set correctly
-
-**Message Handling Problems:**
-- Confirm callback signatures match SDK requirements
-- Check that message decoding is handling different types
-- Verify MessageSend is using correct content format
-
-**Build Issues:**
-- Run `go mod tidy` to ensure dependencies
-- Check Go version with `go version` (need 1.19+)
-- Verify you're in the correct directory with go.mod
-
-## 🎯 Core SDK Capabilities
-
-This example demonstrates the full power of the Self SDK with direct core integration:
-
-| Feature | Implementation | Benefits |
-|---------|---------------|----------|
-| **Account Setup** | `account.New()` with config | Complete control over configuration |
-| **Storage** | `account.ValueStore/ValueLookup()` | Direct encrypted storage access |
-| **Messages** | `account.MessageSend()` with builders | Full message customization |
-| **Events** | Direct account callbacks | Real-time event processing |
-| **Complexity** | **Full SDK control** | Maximum flexibility |
-| **Flexibility** | **Complete customization** | Production-ready patterns |
-
-## 🏗️ Architecture Patterns Demonstrated
-
-### Core SDK Architecture
 ```
-account.Account
-├── Callbacks (OnWelcome, OnMessage, OnKeyPackage)
-├── Storage (ValueStore, ValueLookup)
-├── Messaging (MessageSend, ConnectionAccept)
-└── Discovery (ConnectionNegotiateOutOfBand)
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│ 01_core_features│───▶│   02_pairing    │───▶│03_notifications │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+        │                       │                       │
+        ▼                       ▼                       ▼
+   Core SDK Usage        Device Management     User Engagement
+   & Storage Patterns    & Synchronization    & Real-time Alerts
 ```
 
-### Event-Driven Flow
-```
-QR Scan → OnWelcome → ConnectionAccept → Welcome Message
-Message → OnMessage → Process → Store → Auto-Response
-```
+## 🎯 What You'll Learn
 
-This example provides the foundation for building production applications with direct core SDK usage! 🚀
+### Core Concepts
+- **Direct Core SDK Usage**: Complete control over SDK functionality
+- **Encrypted Storage Management**: Secure data persistence patterns
+- **Event-Driven Architecture**: Production-ready callback systems
+- **Advanced Connection Patterns**: Discovery QR codes and peer management
+
+### Production Features
+- **Multi-Device Support**: Device pairing and synchronization
+- **Push Notifications**: Real-time user engagement and alerts
+- **Resource Management**: Graceful shutdown and error handling
+- **Monitoring & Statistics**: Application health and usage tracking
+
+## 🔧 Prerequisites
+
+1. **Go**: Version 1.22 or later
+2. **Self SDK**: Core SDK for advanced functionality
+3. **Network**: Internet access for Self network connectivity
+4. **Storage**: Write permissions for encrypted data storage
+5. **Foundation**: Complete basic examples (setup, connection, chat)
+
+## 📖 Complexity & Feature Comparison
+
+| Feature | 01_core_features | 02_pairing | 03_notifications |
+|---------|------------------|------------|------------------|
+| **Complexity** | 7/10 🔴 | 5/10 🟡 | 4/10 🟡 |
+| **Core SDK Usage** | ✅ Direct | ✅ Specialized | ✅ Event-driven |
+| **Encrypted Storage** | ✅ Advanced | ✅ Sync data | ✅ User prefs |
+| **Real-time Events** | ✅ Messages | ✅ Pairing | ✅ Notifications |
+| **Multi-Device** | ❌ | ✅ Primary focus | ✅ Cross-device |
+| **Production Ready** | ✅ Patterns | ✅ Sync logic | ✅ Engagement |
+
+## 🎓 Educational Philosophy
+
+**Production Focus**: Each example demonstrates patterns and practices suitable for real-world applications, emphasizing security, reliability, and user experience.
+
+## 🚀 Real-World Applications
+
+### Core Features Use Cases
+- **Enterprise Applications**: Secure data management and messaging
+- **Healthcare Platforms**: HIPAA-compliant communication systems
+- **Financial Services**: Encrypted transaction and identity management
+
+### Pairing Use Cases
+- **Multi-Device Apps**: Seamless experience across devices
+- **Family Sharing**: Secure family account management
+- **Enterprise Mobility**: Corporate device management
+
+### Notifications Use Cases
+- **Social Platforms**: Real-time activity alerts
+- **Business Apps**: Task and workflow notifications
+- **IoT Applications**: Device status and alert systems
+
+## 🔗 Related Examples
+
+- **Setup**: `../00_setup/` - Account creation and configuration
+- **Connections**: `../01_connection/` - Basic peer connections
+- **Credentials**: `../02_credentials/` - Identity verification systems
+- **Chat**: `../04_chat/` - Messaging foundation
+
+## 💡 Integration Patterns
+
+Each example is designed to be:
+- **Modular**: Use components independently or together
+- **Production-Ready**: Suitable for real application deployment
+- **Extensible**: Easy to customize for specific requirements
+- **Secure**: Following Self SDK security best practices
+
+## 🔧 Development Workflow
+
+### Quick Development Loop
+1. **Study Examples**: Understand patterns and implementations
+2. **Prototype**: Use examples as starting points
+3. **Customize**: Adapt patterns to your specific needs
+4. **Test**: Validate functionality in your environment
+5. **Deploy**: Move to production with confidence 
