@@ -8,9 +8,10 @@ fun main() {
     println("===============================")
 
     // Check if account already exists
+    println("🔍 Checking for existing account...")
     if (File("./storage").exists()) {
         println("⚠️  Account already exists in ./storage/")
-        println("💡 Delete ./storage/ to create fresh account")
+        println("💡 Delete ./storage/ to create fresh account, or use '../02_existing_account'")
         return
     }
 
@@ -18,11 +19,18 @@ fun main() {
     println("🔧 Creating new Self account...")
     val account = createAccount()
     
-    // Display account info
-    println("\n📋 Account Information:")
+    // Display account information
+    println("\n📋 New Account Information")
+    println("==========================")
     val address = getAccountAddress(account)
     println("🆔 Account DID: $address")
-    println("🔐 Status: Ready for secure communication")
+    println("📬 Inbox Address: $address")
+    println("🔐 Status: Encrypted and ready for secure communication")
+    
+    println("\n💡 Your DID can be shared with others for connections")
+    
+    println("\n📁 Storage: ./storage/ (encrypted)")
+    println("🔄 Use '../02_existing_account' to reload this account")
     
     println("\n✅ New Self account ready!")
 }
@@ -39,7 +47,10 @@ fun createAccount(): Account {
         objectEndpoint = Target.PRODUCTION_SANDBOX.objectEndpoint(),
         messageEndpoint = Target.PRODUCTION_SANDBOX.messageEndpoint(),
         logLevel = LogLevel.WARN,
-        onConnect = { println("✅ Connected to Self network") },
+        onConnect = { 
+            println("✅ Connected to Self network")
+            println("✅ New account created successfully!")
+        },
         onDisconnect = { _ -> },
         onAcknowledgement = { _ -> },
         onError = { _, _ -> },
