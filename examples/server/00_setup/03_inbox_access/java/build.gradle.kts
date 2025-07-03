@@ -14,7 +14,7 @@ dependencies {
 
 kotlin {
     sourceSets.main {
-        kotlin.srcDirs(".")
+        kotlin.srcDirs(".", "../../../common")
     }
 }
 

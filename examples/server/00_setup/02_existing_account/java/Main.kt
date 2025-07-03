@@ -95,7 +95,7 @@ fun createAccount(): Account {
 }
 
 fun verifyAccount(account: Account) {
-    val address = getAccountAddress(account)
+    val address = Common.getAccountAddress(account)
     
     println("✅ Network connectivity: OK")
     println("✅ Account identity: $address (fresh inbox address)")
@@ -110,7 +110,7 @@ fun verifyAccount(account: Account) {
 }
 
 fun displayAccountInfo(account: Account) {
-    val address = getAccountAddress(account)
+    val address = Common.getAccountAddress(account)
     
     println("🆔 Account DID: $address")
     println("🔐 Status: Loaded and ready for secure communication")

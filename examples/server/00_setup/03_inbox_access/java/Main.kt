@@ -8,7 +8,7 @@ fun main() {
 
     // Load or create account
     println("🔧 Setting up account...")
-    val account = setupAccount()
+    val account = Common.setupAccount()
     println("✅ Account loaded successfully")
 
     // Access inbox to get the address
@@ -26,34 +26,6 @@ fun main() {
     println("\n✅ Inbox access demonstration complete!")
 }
 
-fun setupAccount(): Account {
-    val storageKey = "276cb6191a345753adb0897c2c0a89370aebf44ef99e612747bee3cd4e757ffa"
-        .chunked(2).map { it.toInt(16).toByte() }.toByteArray()
-
-    val account = Account()
-    account.configure(
-        storagePath = "./storage",
-        storageKey = storageKey,
-        rpcEndpoint = Target.PRODUCTION_SANDBOX.rpcEndpoint(),
-        objectEndpoint = Target.PRODUCTION_SANDBOX.objectEndpoint(),
-        messageEndpoint = Target.PRODUCTION_SANDBOX.messageEndpoint(),
-        logLevel = LogLevel.WARN,
-        onConnect = { /* Connection handled silently */ },
-        onDisconnect = { _ -> },
-        onAcknowledgement = { _ -> },
-        onError = { _, _ -> },
-        onCommit = { _ -> },
-        onKeyPackage = { _ -> },
-        onWelcome = { _ -> },
-        onProposal = { _ -> },
-        onMessage = { _ -> },
-        onIntegrity = null
-    )
-    
-    Thread.sleep(2000) // Simple wait for connection
-    return account
-}
-
 fun getInboxAddress(account: Account): String {
     var address = ""
     account.inboxOpen { status, addr -> 
@@ -62,7 +34,8 @@ fun getInboxAddress(account: Account): String {
         } else {
             println("❌ Failed to open inbox")
         }
+        signal.release()
     }
-    Thread.sleep(1000) // Simple wait
+    signal.acquire()
     return address
 } 
