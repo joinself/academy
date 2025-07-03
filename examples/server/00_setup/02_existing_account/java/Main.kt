@@ -1,6 +1,5 @@
 import com.joinself.selfsdk.kmp.account.Account
-import com.joinself.selfsdk.kmp.account.LogLevel
-import com.joinself.selfsdk.kmp.account.Target
+import com.joinself.selfsdk.kmp.event.Message
 import java.io.File
 
 fun main() {
@@ -37,6 +36,9 @@ fun main() {
     displayAccountInfo(account)
 
     println("\n✅ Account loading demonstration complete!")
+
+    println("\nPress enter to exit")
+    readln()
 }
 
 fun createDemoAccount(): Account {
@@ -46,9 +48,13 @@ fun createDemoAccount(): Account {
     }
 
     println("🔧 Creating account for loading demonstration...")
-    val account = createAccount()
-    println("✅ Demo account connected to Self network")
-    println("✅ Demo account created successfully!")
+    val account = Common.setupAccount(object : Common.Callbacks {
+        override fun onConnect() {
+            println("✅ Demo account connected to Self network")
+            println("✅ Demo account created successfully!")
+        }
+    })
+
     return account
 }
 
@@ -57,40 +63,17 @@ fun accountExists(): Boolean {
 }
 
 fun loadExistingAccount(): Account {
-    val account = createAccount()
-    println("✅ Reconnected to Self network")
-    println("✅ Account loaded successfully!")
-    return account
-}
+    val account = Common.setupAccount(object: Common.Callbacks {
+        override fun onConnect() {
+            println("✅ Reconnected to Self network")
+            println("✅ Account loaded successfully!")
+        }
 
-fun createAccount(): Account {
-    val storageKey = "276cb6191a345753adb0897c2c0a89370aebf44ef99e612747bee3cd4e757ffa"
-        .chunked(2).map { it.toInt(16).toByte() }.toByteArray()
+        override fun onMessage(msg: Message) {
+            println("📨 Message received")
+        }
+    })
 
-    val account = Account()
-    account.configure(
-        storagePath = "./storage",
-        storageKey = storageKey,
-        rpcEndpoint = Target.PRODUCTION_SANDBOX.rpcEndpoint(),
-        objectEndpoint = Target.PRODUCTION_SANDBOX.objectEndpoint(),
-        messageEndpoint = Target.PRODUCTION_SANDBOX.messageEndpoint(),
-        logLevel = LogLevel.WARN,
-        onConnect = {
-            /* Connection handled in calling functions */
-            signal.release()
-        },
-        onDisconnect = { _ -> },
-        onAcknowledgement = { _ -> },
-        onError = { _, _ -> },
-        onCommit = { _ -> },
-        onKeyPackage = { _ -> },
-        onWelcome = { _ -> },
-        onProposal = { _ -> },
-        onMessage = { _ -> },
-        onIntegrity = null
-    )
-
-    signal.acquire()  // Simple wait for connection
     return account
 }
 

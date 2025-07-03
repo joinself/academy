@@ -36,6 +36,9 @@ fun main() {
     println("🔄 Use '../02_existing_account' to reload this account")
     
     println("\n✅ New Self account ready!")
+
+    println("\nPress enter to exit")
+    readln()
 }
 
 fun createAccount(): Account {

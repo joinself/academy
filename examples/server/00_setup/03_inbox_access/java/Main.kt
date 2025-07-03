@@ -1,6 +1,4 @@
 import com.joinself.selfsdk.kmp.account.Account
-import com.joinself.selfsdk.kmp.account.LogLevel
-import com.joinself.selfsdk.kmp.account.Target
 
 fun main() {
     println("📧 Inbox Access Example")
@@ -24,6 +22,9 @@ fun main() {
     println("   • Credentials")
 
     println("\n✅ Inbox access demonstration complete!")
+
+    println("\nPress enter to exit")
+    readln()
 }
 
 fun getInboxAddress(account: Account): String {

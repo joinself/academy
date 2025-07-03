@@ -20,4 +20,8 @@ kotlin {
 
 application {
     mainClass = "MainKt"
-} 
+}
+
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
+}

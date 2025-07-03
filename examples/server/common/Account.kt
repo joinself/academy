@@ -1,13 +1,17 @@
 import com.joinself.selfsdk.kmp.account.Account
 import com.joinself.selfsdk.kmp.account.LogLevel
 import com.joinself.selfsdk.kmp.account.Target
-import java.io.File
+import com.joinself.selfsdk.kmp.event.Message
 import java.util.concurrent.Semaphore
 
 val signal = Semaphore(0)
 class Common {
+    interface Callbacks {
+        fun onConnect() {}
+        fun onMessage(msg: Message) {}
+    }
     companion object {
-        fun setupAccount(): Account {
+        fun setupAccount(callbacks: Callbacks? = null): Account {
             val storageKey = "276cb6191a345753adb0897c2c0a89370aebf44ef99e612747bee3cd4e757ffa"
                 .chunked(2).map { it.toInt(16).toByte() }.toByteArray()
 
@@ -20,8 +24,8 @@ class Common {
                 messageEndpoint = Target.PRODUCTION_SANDBOX.messageEndpoint(),
                 logLevel = LogLevel.WARN,
                 onConnect = {
-                    /* Connection handled silently */
                     signal.release()
+                    callbacks?.onConnect()
                 },
                 onDisconnect = { _ -> },
                 onAcknowledgement = { _ -> },
@@ -30,7 +34,7 @@ class Common {
                 onKeyPackage = { _ -> },
                 onWelcome = { _ -> },
                 onProposal = { _ -> },
-                onMessage = { _ -> },
+                onMessage = { msg -> callbacks?.onMessage(msg)},
                 onIntegrity = null
             )
 
