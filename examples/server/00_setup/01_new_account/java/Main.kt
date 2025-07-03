@@ -2,6 +2,9 @@ import com.joinself.selfsdk.kmp.account.Account
 import com.joinself.selfsdk.kmp.account.LogLevel
 import com.joinself.selfsdk.kmp.account.Target
 import java.io.File
+import java.util.concurrent.Semaphore
+
+val signal = Semaphore(0)
 
 fun main() {
     println("🆕 New Account Creation Example")
@@ -50,6 +53,7 @@ fun createAccount(): Account {
         onConnect = { 
             println("✅ Connected to Self network")
             println("✅ New account created successfully!")
+            signal.release()
         },
         onDisconnect = { _ -> },
         onAcknowledgement = { _ -> },
@@ -61,16 +65,17 @@ fun createAccount(): Account {
         onMessage = { _ -> },
         onIntegrity = null
     )
-    
-    Thread.sleep(2000) // Simple wait for connection
+
+    signal.acquire() // Simple wait for connection
     return account
 }
 
 fun getAccountAddress(account: Account): String {
     var address = ""
     account.inboxOpen { status, addr -> 
-        if (status.success()) address = addr.encodeHex() 
+        if (status.success()) address = addr.encodeHex()
+        signal.release()
     }
-    Thread.sleep(1000) // Simple wait
+    signal.acquire()
     return address
 } 

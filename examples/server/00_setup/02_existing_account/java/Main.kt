@@ -12,6 +12,7 @@ fun main() {
     val demoAccount = createDemoAccount()
     println("🔄 Closing account to simulate application restart...")
     // Note: Account auto-cleanup in Kotlin/JVM
+    demoAccount.destroyAccount()
     println("✅ Account closed (simulating application shutdown)")
 
     // Step 2: Load existing account
@@ -74,7 +75,10 @@ fun createAccount(): Account {
         objectEndpoint = Target.PRODUCTION_SANDBOX.objectEndpoint(),
         messageEndpoint = Target.PRODUCTION_SANDBOX.messageEndpoint(),
         logLevel = LogLevel.WARN,
-        onConnect = { /* Connection handled in calling functions */ },
+        onConnect = {
+            /* Connection handled in calling functions */
+            signal.release()
+        },
         onDisconnect = { _ -> },
         onAcknowledgement = { _ -> },
         onError = { _, _ -> },
@@ -85,8 +89,8 @@ fun createAccount(): Account {
         onMessage = { _ -> },
         onIntegrity = null
     )
-    
-    Thread.sleep(2000) // Simple wait for connection
+
+    signal.acquire()  // Simple wait for connection
     return account
 }
 
@@ -114,12 +118,3 @@ fun displayAccountInfo(account: Account) {
     println("\n💡 Note: Inbox addresses change between sessions (expected behavior)")
     println("   What persists: storage, keys, connections, message history")
 }
-
-fun getAccountAddress(account: Account): String {
-    var address = ""
-    account.inboxOpen { status, addr -> 
-        if (status.success()) address = addr.encodeHex() 
-    }
-    Thread.sleep(1000) // Simple wait
-    return address
-} 
