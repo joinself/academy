@@ -14,10 +14,14 @@ dependencies {
 
 kotlin {
     sourceSets.main {
-        kotlin.srcDirs(".")
+        kotlin.srcDirs(".", "../../../common")
     }
 }
 
 application {
     mainClass = "MainKt"
-} 
+}
+
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
+}

@@ -1,7 +1,9 @@
 import com.joinself.selfsdk.kmp.account.Account
 import com.joinself.selfsdk.kmp.account.LogLevel
 import com.joinself.selfsdk.kmp.account.Target
+import com.joinself.selfsdk.kmp.event.KeyPackage
 import com.joinself.selfsdk.kmp.event.Message
+import com.joinself.selfsdk.kmp.event.Welcome
 import java.util.concurrent.Semaphore
 
 val signal = Semaphore(0)
@@ -9,6 +11,8 @@ class Common {
     interface Callbacks {
         fun onConnect() {}
         fun onMessage(msg: Message) {}
+        fun onKeyPackage(account: Account, keyPackage: KeyPackage) {}
+        fun onWelcome(account: Account, welcome: Welcome) {}
     }
     companion object {
         fun setupAccount(callbacks: Callbacks? = null): Account {
@@ -31,8 +35,8 @@ class Common {
                 onAcknowledgement = { _ -> },
                 onError = { _, _ -> },
                 onCommit = { _ -> },
-                onKeyPackage = { _ -> },
-                onWelcome = { _ -> },
+                onKeyPackage = { keyPackage -> callbacks?.onKeyPackage(account, keyPackage)},
+                onWelcome = { welcome -> callbacks?.onWelcome(account, welcome)},
                 onProposal = { _ -> },
                 onMessage = { msg -> callbacks?.onMessage(msg)},
                 onIntegrity = null
@@ -50,6 +54,14 @@ class Common {
             }
             signal.acquire() // wait for openning inbox complete
             return address
+        }
+
+        /**
+         * Displays basic account information
+         */
+        fun displayAccountInfo(account: Account) {
+            val address = getAccountAddress(account)
+            println("Server Account DID: $address")
         }
     }
 }

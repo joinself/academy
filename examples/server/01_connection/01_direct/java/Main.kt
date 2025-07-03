@@ -1,6 +1,8 @@
 import com.joinself.selfsdk.kmp.account.Account
-import com.joinself.selfsdk.kmp.account.LogLevel
-import com.joinself.selfsdk.kmp.account.Target
+import com.joinself.selfsdk.kmp.error.SelfStatus
+import com.joinself.selfsdk.kmp.event.KeyPackage
+import com.joinself.selfsdk.kmp.event.Welcome
+import com.joinself.selfsdk.kmp.keypair.signing.PublicKey
 import kotlin.system.exitProcess
 
 fun main() {
@@ -9,9 +11,13 @@ fun main() {
 
     // Setup: Create Self account with connection handling
     println("Setting up Self account...")
-    val account = setupAccount()
+    val account = Common.setupAccount(object: Common.Callbacks {
+        override fun onKeyPackage(account: Account, keyPackage: KeyPackage) {
+            handleKeyPackageCallback(account, keyPackage)
+        }
+    })
     println("✅ Account ready!")
-    displayAccountInfo(account)
+    Common.displayAccountInfo(account)
 
     // CONCEPT 1: Display Inbox Address for Direct Connection
     println("\n🔑 CONCEPT 1: Creating Direct Connection Address")
@@ -28,51 +34,9 @@ fun main() {
     println("⏳ Waiting for connections... (Press Ctrl+C to exit)")
     println("🤖 All incoming connections will be accepted automatically")
 
-    // Keep running to handle connections
-    try {
-        Thread.sleep(Long.MAX_VALUE)
-    } catch (e: InterruptedException) {
-        println("\n👋 Shutting down...")
-    }
-}
 
-/**
- * Sets up a Self account with automatic connection acceptance
- */
-fun setupAccount(): Account {
-    val storageKey = "276cb6191a345753adb0897c2c0a89370aebf44ef99e612747bee3cd4e757ffa"
-        .chunked(2).map { it.toInt(16).toByte() }.toByteArray()
-
-    val account = Account()
-    account.configure(
-        storagePath = "./storage",
-        storageKey = storageKey,
-        rpcEndpoint = Target.PRODUCTION_SANDBOX.rpcEndpoint(),
-        objectEndpoint = Target.PRODUCTION_SANDBOX.objectEndpoint(),
-        messageEndpoint = Target.PRODUCTION_SANDBOX.messageEndpoint(),
-        logLevel = LogLevel.WARN,
-        onConnect = { /* Connection handled silently */ },
-        onDisconnect = { _ -> },
-        onAcknowledgement = { _ -> },
-        onError = { _, _ -> },
-        onCommit = { _ -> },
-        onKeyPackage = { keyPackage -> handleKeyPackageCallback(account, keyPackage) },
-        onWelcome = { _ -> },
-        onProposal = { _ -> },
-        onMessage = { _ -> },
-        onIntegrity = null
-    )
-    
-    Thread.sleep(2000) // Simple wait for connection
-    return account
-}
-
-/**
- * Displays basic account information
- */
-fun displayAccountInfo(account: Account) {
-    val address = getAccountAddress(account)
-    println("Server Account DID: $address")
+    println("\nPress enter to exit")
+    readln()
 }
 
 /**
@@ -83,7 +47,7 @@ fun displayAccountInfo(account: Account) {
  */
 fun displayConnectionAddress(account: Account): Boolean {
     // Step 1: Open inbox for receiving connection requests
-    val address = getAccountAddress(account)
+    val address = Common.getAccountAddress(account)
     if (address.isEmpty()) {
         println("❌ Failed to open inbox")
         println("💡 This might happen if network connectivity is poor or account setup failed")
@@ -110,35 +74,34 @@ fun displayConnectionAddress(account: Account): Boolean {
  * Handles incoming connection requests automatically. This function is called
  * when another party sends a connection request to our inbox address.
  */
-fun handleKeyPackageCallback(account: Account, keyPackage: Any) {
+fun handleKeyPackageCallback(account: Account, keyPackage: KeyPackage) {
     // Note: The exact type and methods for keyPackage may vary based on SDK version
     // This is a simplified implementation that demonstrates the concept
-    
+    var groupAddressHex: String = ""
     println("\n🎉 Connection request received!")
     
     // In a real implementation, you would:
     // 1. Extract the sender's address from the key package
     // 2. Establish connection using account.connectionEstablish()
     // 3. Handle the secure group creation
+    account.connectionEstablish(asAddress =  keyPackage.toAddress(), keyPackage = keyPackage.keyPackage(),
+        onCompletion = { status: SelfStatus, groupAddress: PublicKey ->
+            if (!status.success()) {
+                println("❌ Failed to establish connection: %v")
+                println("💡 This might happen if the key package is invalid or network issues occur")
+            }
+            groupAddressHex = groupAddress.encodeHex()
+
+            signal.release()
+        }
+    )
+    signal.acquire()
     
     println("✅ Successfully established encrypted connection!")
+    println("📱 Connected to: ${keyPackage.fromAddress().encodeHex()}")
+    println("🔐 Secure group created: ${groupAddressHex}")
     println("🚀 Connection is now ready for secure messaging!")
     
     // Exit the program for this demo (in production, you'd continue running)
     println("\n🏁 Demo completed - connection established successfully!")
-    exitProcess(0)
 }
-
-/**
- * Helper function to get account address
- */
-fun getAccountAddress(account: Account): String {
-    var address = ""
-    account.inboxOpen { status, addr -> 
-        if (status.success()) {
-            address = addr.encodeHex()
-        }
-    }
-    Thread.sleep(1000) // Simple wait
-    return address
-} 
