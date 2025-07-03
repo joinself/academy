@@ -1,17 +1,34 @@
 import com.joinself.selfsdk.kmp.account.Account
 import com.joinself.selfsdk.kmp.account.LogLevel
 import com.joinself.selfsdk.kmp.account.Target
+import com.joinself.selfsdk.kmp.error.SelfStatus
 import com.joinself.selfsdk.kmp.event.KeyPackage
 import com.joinself.selfsdk.kmp.event.Message
 import com.joinself.selfsdk.kmp.event.Welcome
+import com.joinself.selfsdk.kmp.keypair.signing.PublicKey
 import java.util.concurrent.Semaphore
 
 class Common {
     interface Callbacks {
         fun onConnect() {}
-        fun onMessage(msg: Message) {}
-        fun onKeyPackage(account: Account, keyPackage: KeyPackage) {}
-        fun onWelcome(account: Account, welcome: Welcome) {}
+        fun onMessage(account: Account, msg: Message) {}
+        fun onKeyPackage(account: Account, keyPackage: KeyPackage) {
+            account.connectionEstablish(asAddress =  keyPackage.toAddress(), keyPackage = keyPackage.keyPackage(),
+                onCompletion = { status: SelfStatus, groupAddress: PublicKey ->
+                    if (status.success()) {
+                        println("✅ Successfully established encrypted connection: ${groupAddress.encodeHex()}")
+                    } else {
+                        println("❌ Failed to establish connection: ${status.errorMessage()}")
+                    }
+                }
+            )
+        }
+        fun onWelcome(account: Account, welcome: Welcome) {
+            account.connectionAccept(asAddress = welcome.toAddress(), welcome =  welcome.welcome()) { status: SelfStatus, groupAddress: PublicKey ->
+                if (status.success()) println("✅ Connection established successfully!")
+                else println("❌ Failed to accept connection")
+            }
+        }
     }
     companion object {
         fun setupAccount(callbacks: Callbacks? = null): Account {
@@ -31,14 +48,14 @@ class Common {
                     signal.release()
                     callbacks?.onConnect()
                 },
-                onDisconnect = { _ -> },
+                onDisconnect = { _ -> println("account disconnected")},
                 onAcknowledgement = { _ -> },
-                onError = { _, _ -> },
+                onError = { _, status -> println("account error ${status.code()}:${status.errorMessage()}")},
                 onCommit = { _ -> },
                 onKeyPackage = { keyPackage -> callbacks?.onKeyPackage(account, keyPackage)},
                 onWelcome = { welcome -> callbacks?.onWelcome(account, welcome)},
                 onProposal = { _ -> },
-                onMessage = { msg -> callbacks?.onMessage(msg)},
+                onMessage = { msg -> callbacks?.onMessage(account, msg) },
                 onIntegrity = null
             )
 
@@ -53,7 +70,7 @@ class Common {
                 if (status.success()) address = addr.encodeHex()
                 signal.release()
             }
-            signal.acquire() // wait for openning inbox complete
+            signal.acquire() // wait for opening inbox complete
             return address
         }
 
