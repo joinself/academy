@@ -1,11 +1,11 @@
 import com.joinself.selfsdk.kmp.account.Account
 import com.joinself.selfsdk.kmp.error.SelfStatus
 import com.joinself.selfsdk.kmp.event.KeyPackage
-import com.joinself.selfsdk.kmp.event.Welcome
 import com.joinself.selfsdk.kmp.keypair.signing.PublicKey
-import kotlin.system.exitProcess
+import java.util.concurrent.Semaphore
 
 fun main() {
+    val signal = Semaphore(0)
     println("🔗 Direct Connection Example - Server Side")
     println("==========================================")
 
@@ -14,6 +14,7 @@ fun main() {
     val account = Common.setupAccount(object: Common.Callbacks {
         override fun onKeyPackage(account: Account, keyPackage: KeyPackage) {
             handleKeyPackageCallback(account, keyPackage)
+            signal.release()
         }
     })
     println("✅ Account ready!")
@@ -34,7 +35,7 @@ fun main() {
     println("⏳ Waiting for connections... (Press Ctrl+C to exit)")
     println("🤖 All incoming connections will be accepted automatically")
 
-
+    signal.acquire()
     println("\nPress enter to exit")
     readln()
 }
@@ -70,11 +71,25 @@ fun displayConnectionAddress(account: Account): Boolean {
 
 /**
  * KEY CONCEPT 2: Automatic Connection Acceptance
- * 
- * Handles incoming connection requests automatically. This function is called
- * when another party sends a connection request to our inbox address.
+ *
+ * handleKeyPackageCallback handles incoming connection requests automatically.
+ * This function is called when another party sends a connection request to our
+ * inbox address.
+ *
+ * What happens:
+ *  1. Receives a KeyPackage from the connecting party
+ *  2. Establishes an encrypted connection using the key package
+ *  3. Creates a secure communication group
+ *  4. Exits the program (for demo purposes)
+ *
+ * In production, you might want to:
+ *  - Validate the connection request before accepting
+ *  - Store connection information for later use
+ *  - Continue running to handle multiple connections
  */
 fun handleKeyPackageCallback(account: Account, keyPackage: KeyPackage) {
+    val signal = Semaphore(0)
+
     // Note: The exact type and methods for keyPackage may vary based on SDK version
     // This is a simplified implementation that demonstrates the concept
     var groupAddressHex: String = ""
