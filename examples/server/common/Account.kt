@@ -6,7 +6,6 @@ import com.joinself.selfsdk.kmp.event.Message
 import com.joinself.selfsdk.kmp.event.Welcome
 import java.util.concurrent.Semaphore
 
-val signal = Semaphore(0)
 class Common {
     interface Callbacks {
         fun onConnect() {}
@@ -16,6 +15,7 @@ class Common {
     }
     companion object {
         fun setupAccount(callbacks: Callbacks? = null): Account {
+            val signal = Semaphore(0)
             val storageKey = "276cb6191a345753adb0897c2c0a89370aebf44ef99e612747bee3cd4e757ffa"
                 .chunked(2).map { it.toInt(16).toByte() }.toByteArray()
 
@@ -47,6 +47,7 @@ class Common {
         }
 
         fun getAccountAddress(account: Account): String {
+            val signal = Semaphore(0)
             var address = ""
             account.inboxOpen { status, addr ->
                 if (status.success()) address = addr.encodeHex()
@@ -59,9 +60,13 @@ class Common {
         /**
          * Displays basic account information
          */
-        fun displayAccountInfo(account: Account) {
+        fun displayAccountInfo(account: Account, name: String) {
             val address = getAccountAddress(account)
-            println("Server Account DID: $address")
+            if (address.isEmpty()) {
+                println("Failed to open $name inbox")
+            } else {
+                println("📬 $name Address: $address")
+            }
         }
     }
 }
