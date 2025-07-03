@@ -1,5 +1,7 @@
 # Verifiable Credentials Examples
 
+> **📖 Learn the concepts first:** [Verifiable Credentials Concepts](../../../docs/concepts/verifiable-credentials.md)
+
 This directory contains comprehensive examples for working with verifiable credentials using the Self SDK, organized by functionality for better learning and implementation.
 
 > **📢 Updated Organization**: Examples are now organized by functionality rather than complexity, making it easier to find relevant patterns for your use case.

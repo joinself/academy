@@ -14,9 +14,12 @@ Our examples offer:
 
 ## 🗺️ Repository Structure
 
-This repository contains practical examples organized by complexity and functionality:
+This repository combines theoretical understanding with practical implementation:
 
-- 📚 **/docs**: Documentation source built with [MkDocs](https://www.mkdocs.org/)
+- 📚 **/docs**: Complete learning documentation with concepts, examples, and architecture
+  - 🧠 **concepts/**: Theoretical foundations (decentralized identity, cryptography, security)
+  - 🔧 **examples/**: Hands-on guides linking theory to practice  
+  - 🏗️ **architecture/**: System design and integration patterns
 - 🧪 **/examples**: Progressive learning examples for server-side integration
   - `server/`: Server-side examples organized by learning progression:
     - `00_setup/`: Account creation and configuration basics
@@ -28,14 +31,16 @@ This repository contains practical examples organized by complexity and function
 
 ## 🧠 Our Learning Philosophy
 
-We believe in learning by doing, with a focus on building confidence through progressive steps:
+We believe in combining theoretical understanding with hands-on practice:
 
-1.  **🟢 Start Simple**: Begin with account setup and basic operations
-2.  **🟡 Build Connections**: Learn how identities connect and communicate
-3.  **🟠 Handle Credentials**: Master verifiable credential flows
-4.  **🔴 Advanced Integration**: Implement complex real-world patterns
+**Theory + Practice = Mastery**
 
-Each example includes both Go and Java implementations, with clear explanations of concepts and practical applications.
+1.  **🟢 Understand Concepts**: Learn the "why" behind decentralized identity
+2.  **🟡 Build Practical Skills**: Apply concepts through working code
+3.  **🟠 Master Integration**: Combine theory and practice for real solutions
+4.  **🔴 Production Ready**: Deploy robust, secure applications
+
+Each topic provides both conceptual foundation and practical implementation, with examples in Go and Java.
 
 ## 🙌 Contributing
 

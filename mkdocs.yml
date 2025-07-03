@@ -1,3 +1,38 @@
 site_name: Joinself Academy
 theme:
-  name: material 
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - navigation.top
+
+nav:
+  - Home: index.md
+  - Concepts:
+    - concepts/overview.md
+    - Identity Foundations: concepts/decentralized-identity.md
+    - Secure Connections: concepts/secure-connections.md
+    - Verifiable Credentials: concepts/verifiable-credentials.md
+    - Message Security: concepts/message-layer-security.md
+    - Cryptographic Foundations: concepts/cryptographic-foundations.md
+  - Examples:
+    - examples/overview.md
+    - Setup Guide: examples/setup.md
+    - Connections: examples/connections.md
+    - Credentials: examples/credentials.md
+    - Chat & Messaging: examples/chat.md
+    - Advanced Features: examples/advanced.md
+  - Architecture:
+    - architecture/overview.md
+    - System Design: architecture/system-overview.md
+    - Security Model: architecture/security-model.md
+    - Integration Patterns: architecture/integration-patterns.md
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - toc:
+      permalink: true
