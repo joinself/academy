@@ -1,5 +1,7 @@
 # Credential Exchange Examples 🔄
 
+> **📖 Learn the concepts first:** [Verifiable Credentials Concepts](../../../../../docs/concepts/verifiable-credentials.md)
+
 Transform issued credentials into exchangeable digital assets through verifiable presentations and request/response workflows.
 
 ## 🎯 Learning Objectives

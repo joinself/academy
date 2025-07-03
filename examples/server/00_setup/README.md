@@ -1,5 +1,6 @@
 # 🔧 Account Setup Examples - Master Self SDK Account Management
 
+> **📖 Learn the concepts first:** [Decentralized Identity Concepts](../../../docs/concepts/decentralized-identity.md)
 > **🎯 What you'll learn:** Complete account management patterns for Self SDK, from account creation to recovery to advanced configuration
 
 This directory contains **five complementary examples** that demonstrate the full spectrum of Self SDK account setup and management patterns. Together, they show how to handle accounts throughout their complete lifecycle.

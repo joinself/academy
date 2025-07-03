@@ -1,5 +1,7 @@
 # Evidence-Based Credential Issuance
 
+> **📖 Learn the concepts first:** [Verifiable Credentials Concepts](../../../../../../docs/concepts/verifiable-credentials.md)
+
 🎯 **What you'll learn:**
 - How to attach evidence files to credentials
 - Asset management and secure storage

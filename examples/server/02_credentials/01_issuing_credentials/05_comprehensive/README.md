@@ -1,5 +1,7 @@
 # Comprehensive Credential Issuance
 
+> **📖 Learn the concepts first:** [Verifiable Credentials Concepts](../../../../../../docs/concepts/verifiable-credentials.md)
+
 🎯 **What you'll learn:**
 - Creating various types of verifiable credentials
 - Using the credential builder pattern

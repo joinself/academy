@@ -1,5 +1,7 @@
 # Advanced Notifications Example
 
+> **📖 Learn the concepts first:** [System Architecture](../../../../docs/architecture/system-overview.md)
+
 A comprehensive demonstration of the Self SDK's push notification system for real-time user engagement.
 
 ## 🚀 Quick Start

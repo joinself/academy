@@ -1,5 +1,7 @@
 # Basic Credential Issuance Demo 🟢
 
+> **📖 Learn the concepts first:** [Verifiable Credentials Concepts](../../../../../../docs/concepts/verifiable-credentials.md)
+
 Learn the foundation concepts of verifiable credential issuance using the Self SDK.
 
 ## 🎯 What You'll Learn

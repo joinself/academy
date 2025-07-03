@@ -1,5 +1,6 @@
 # 📂 Existing Account Loading - Load Your Saved Account
 
+> **📖 Learn the concepts first:** [Decentralized Identity Concepts](../../../../docs/concepts/decentralized-identity.md)
 > **🎯 What you'll learn:** How to load and use a previously created Self account from storage with proper verification
 
 This example demonstrates how to **load existing Self accounts** that were created and saved previously. Perfect for application startup and session restoration.

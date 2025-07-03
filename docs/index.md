@@ -1,66 +1,106 @@
-# Welcome to Joinself Academy
+---
+hide:
+  - navigation
+  - toc
+---
 
-This is the central place for all educational information about Joinself - combining theoretical understanding with hands-on practice.
+<div class="custom-homepage">
 
-## 🎯 Our Complete Learning Approach
+<style>
+  .custom-homepage h1, .custom-homepage .subtitle {
+    text-align: center;
+  }
+  .custom-homepage .subtitle {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--md-default-fg-color--light);
+  }
+  .custom-homepage .card ul {
+    padding-left: 0;
+  }
+  .custom-homepage .card li a {
+    font-weight: 500;
+  }
+  .custom-homepage .final-cta {
+    text-align: center;
+    margin-top: 3rem;
+  }
+</style>
 
-**Theory + Practice = Mastery**
+<h1>Welcome to the Joinself Academy</h1>
+<p class="subtitle">The definitive guide for developers building the future of digital identity.</p>
 
-We believe the best learning happens when you understand both the "why" and the "how". Our academy combines:
+<div class="homepage-cta">
+    <a href="examples/setup/" class="md-button md-button--primary">Get Started with Your First Self ID</a>
+</div>
 
-- 📚 **[Concepts](concepts/overview.md)** - Theoretical foundations and deep understanding
-- 🔧 **[Examples](examples/overview.md)** - Hands-on code and practical implementation  
-- 🏗️ **[Architecture](architecture/overview.md)** - System design and integration patterns
+<div class="landing-grid">
+    <div class="card">
+        <h3><a href="concepts/overview/">Understand the Fundamentals</a></h3>
+        <ul>
+            <li><span class="icon">📄</span> <a href="concepts/decentralized-identity/">Decentralized Identity</a></li>
+            <li><span class="icon">🔐</span> <a href="concepts/cryptographic-foundations/">Cryptographic Foundations</a></li>
+            <li><span class="icon">🤝</span> <a href="concepts/secure-connections/">Secure Connections</a></li>
+            <li><span class="icon">🎫</span> <a href="concepts/verifiable-credentials/">Verifiable Credentials</a></li>
+            <li><span class="icon">🤫</span> <a href="concepts/message-layer-security/">Message Layer Security</a></li>
+        </ul>
+    </div>
+    <div class="card">
+        <h3><a href="examples/overview/">Learn by Building</a></h3>
+        <ul>
+            <li><span class="icon">🛠️</span> <a href="examples/setup/">Setup & Configuration</a></li>
+            <li><span class="icon">🔗</span> <a href="examples/connections/">Connections & Discovery</a></li>
+            <li><span class="icon">🎫</span> <a href="examples/credentials/">Verifiable Credentials</a></li>
+            <li><span class="icon">💬</span> <a href="examples/chat/">Chat & Messaging</a></li>
+            <li><span class="icon">⚙️</span> <a href="examples/advanced/">Advanced Features</a></li>
+        </ul>
+    </div>
+    <div class="card">
+        <h3><a href="architecture/overview/">Deploy with Confidence</a></h3>
+        <ul>
+            <li><span class="icon">🗺️</span> <a href="architecture/system-overview/">System Overview</a></li>
+            <li><span class="icon">🛡️</span> <a href="architecture/security-model/">Security Model</a></li>
+            <li><span class="icon">🧩</span> <a href="architecture/integration-patterns/">Integration Patterns</a></li>
+        </ul>
+    </div>
+</div>
 
-## 🚀 Quick Start Paths
+<div class="try-it-out">
+    <h2><span class="icon">⚡</span> Try It Out</h2>
+    <p>Get a feel for the Self SDK right here. The code below shows how to create a brand new, cryptographically secure Self identity with just a few lines of Go.</p>
+    <p><strong>Run this full example yourself:</strong> <a href="../examples/server/00_setup/01_new_account/go/main.go"><code>examples/server/00_setup/01_new_account/go/main.go</code></a></p>
+    <div class="code-wrapper">
+        <div class="code-header">Go</div>
+        <div class="highlight">
+<pre><code class="language-go">// From: examples/server/00_setup/01_new_account/go/main.go
 
-### 🟢 New to Decentralized Identity?
-1. Read [Decentralized Identity Concepts](concepts/decentralized-identity.md)
-2. Try [Account Setup Examples](examples/setup.md)
-3. Explore [System Architecture](architecture/system-overview.md)
+// Create a new Self SDK account with a randomly generated key and default storage.
+selfAccount, err := account.New(&account.Config{
+    StorageKey:  generateStorageKey(),
+    StoragePath: "./storage",
+    Environment: account.TargetSandbox,
+})
+if err != nil {
+    log.Fatal("failed to create new account: ", err)
+}
+defer selfAccount.Close()
 
-### 🟡 Ready to Build Applications?
-1. Master [Setup Examples](examples/setup.md)
-2. Learn [Connection Patterns](examples/connections.md)
-3. Add [Credential Features](examples/credentials.md)
+// Open the account's inbox to get its unique address.
+inbox, err := selfAccount.InboxOpen()
+if err != nil {
+    log.Fatal("failed to open inbox: ", err)
+}
 
-### 🟠 Building for Production?
-1. Study [Security Model](architecture/security-model.md)
-2. Review [Integration Patterns](architecture/integration-patterns.md)
-3. Implement [Advanced Features](examples/advanced.md)
+fmt.Println("✅ New account created successfully!")
+fmt.Printf("🆔 Account DID: %s\n", inbox.String())
+</code></pre>
+        </div>
+    </div>
+</div>
 
-## 📖 Documentation Sections
+<div class="final-cta">
+    <h3>🌟 Ready to build the future of digital identity?</h3>
+    <p><a href="examples/setup/"><strong>Start your journey here.</strong></a></p>
+</div>
 
-### 🧠 [Concepts](concepts/overview.md)
-Understand the theoretical foundations:
-- [Decentralized Identity](concepts/decentralized-identity.md) - Self-sovereign identity principles
-- [Secure Connections](concepts/secure-connections.md) - Cryptographic communication
-- [Verifiable Credentials](concepts/verifiable-credentials.md) - Digital proof systems
-- [Message Security](concepts/message-layer-security.md) - End-to-end encryption
-- [Cryptographic Foundations](concepts/cryptographic-foundations.md) - Mathematical security
-
-### 🔧 [Examples](examples/overview.md)
-Learn through hands-on implementation:
-- [Setup & Configuration](examples/setup.md) - Account creation and management
-- [Connections](examples/connections.md) - Secure peer connections
-- [Credentials](examples/credentials.md) - Digital identity proofs
-- [Chat & Messaging](examples/chat.md) - Encrypted communication
-- [Advanced Features](examples/advanced.md) - Production patterns
-
-### 🏗️ [Architecture](architecture/overview.md)
-Master system design and integration:
-- [System Overview](architecture/system-overview.md) - Complete architecture
-- [Security Model](architecture/security-model.md) - Trust and threat analysis
-- [Integration Patterns](architecture/integration-patterns.md) - Production best practices
-
-## 🎓 Educational Philosophy
-
-**Progressive Learning**: Each section builds upon the previous one, with theory and practice reinforcing each other.
-
-**Practical Focus**: Every concept is backed by working code you can run and modify.
-
-**Production Ready**: Learn patterns and practices used in real-world applications.
-
-## 🌟 Ready to Start Learning?
-
-Choose your path and begin your journey into decentralized identity development! 
+</div>

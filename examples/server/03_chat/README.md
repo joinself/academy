@@ -1,6 +1,6 @@
 # Chat Examples
 
-> **📖 Learn the concepts first:** [Message Layer Security Concepts](../../../docs/concepts/message-layer-security.md)
+> **📖 Learn the concepts first:** [Message Layer Security](../../../docs/concepts/message-layer-security.md)
 
 This directory contains comprehensive examples for implementing chat and messaging functionality using the Self SDK, organized by complexity and feature set for progressive learning.
 

@@ -1,5 +1,7 @@
 # Multi-Claim Credential Issuance
 
+> **📖 Learn the concepts first:** [Verifiable Credentials Concepts](../../../../../../docs/concepts/verifiable-credentials.md)
+
 🎯 **What you'll learn:**
 - How to add multiple claims to a single credential
 - Different data types in claims (strings, booleans, numbers)

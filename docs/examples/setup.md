@@ -1,4 +1,4 @@
-# 🛠️ Setup & Configuration Examples 🟢
+# Setup & Configuration Examples
 
 > **📖 Theory foundation:** [Decentralized Identity Concepts](../concepts/decentralized-identity.md)  
 > **🎯 What you'll learn:** How to create, load, and manage Self identities with cryptographic ownership
@@ -7,7 +7,7 @@ Welcome to your **first hands-on experience** with decentralized identity! These
 
 ---
 
-## 🎯 What You'll Learn
+## What You'll Learn
 
 By completing these setup examples, you'll master:
 
@@ -22,27 +22,27 @@ By completing these setup examples, you'll master:
 
 ---
 
-## 🌟 The Big Picture: From Theory to Practice
+## The Big Picture: From Theory to Practice
 
 In [Decentralized Identity Concepts](../concepts/decentralized-identity.md), you learned **why** traditional identity is broken and **how** decentralized identity fixes it. Now you'll **build** your own decentralized identity and see the theory in action.
 
-### 🔄 Theory → Practice Connection
+### Theory → Practice Connection
 
 ```
 📚 THEORY                          🛠️ PRACTICE
 Traditional identity fails    →    Create password-free account
-DIDs provide ownership       →    Generate your unique DID
-Cryptographic keys secure   →    Keys stored safely on device
-Self-sovereign control      →    You own your identity completely
+DIDs provide ownership        →    Generate your unique DID
+Cryptographic keys secure     →    Keys stored safely on device
+Self-sovereign control        →    You own your identity completely
 ```
 
 ---
 
-## 📋 Complete Setup Journey 🟢
+## Complete Setup Journey
 
 Follow this **progressive learning path** to master Self account management:
 
-### **Step 1:** 🆕 Create Your First Identity
+### **Step 1:** Create Your First Identity
 **[New Account Creation](../../examples/server/00_setup/01_new_account/)**
 
 🎯 **What it demonstrates:**
@@ -67,7 +67,7 @@ account := common.SetupAccount(config)
 
 ---
 
-### **Step 2:** 📂 Master Account Persistence
+### **Step 2:** Master Account Persistence
 **[Existing Account Loading](../../examples/server/00_setup/02_existing_account/)**
 
 🎯 **What it demonstrates:**
@@ -92,7 +92,7 @@ selfAccount := loadExistingAccount()
 
 ---
 
-### **Step 3:** 📧 Access Your Identity Network
+### **Step 3:** Access Your Identity Network
 **[Inbox Access & Addressing](../../examples/server/00_setup/03_inbox_access/)**
 
 🎯 **What it demonstrates:**
@@ -117,9 +117,9 @@ fmt.Printf("📬 Share this address: %s\n", inboxAddress.String())
 
 ---
 
-## 🎓 What Just Happened? Theory in Action
+## What Just Happened? Theory in Action
 
-### ✅ **Identity Revolution Experienced**
+### **Identity Revolution Experienced**
 You've just experienced the **identity revolution** firsthand:
 
 - **🚫 No passwords** - Your identity is secured by cryptography, not memorized secrets
@@ -127,7 +127,7 @@ You've just experienced the **identity revolution** firsthand:
 - **🌐 Universal identity** - One identity works across all Self-enabled applications
 - **🛡️ Maximum security** - Cryptographic proofs instead of vulnerable databases
 
-### ✅ **Decentralized vs Traditional: You Built Both**
+### **Decentralized vs Traditional: You Built Both**
 
 | Traditional Identity | Your Self Identity |
 |---------------------|-------------------|
@@ -136,7 +136,7 @@ You've just experienced the **identity revolution** firsthand:
 | 📱 App-specific | 🌐 **Universal across apps** |
 | ❌ Can be revoked | ✅ **Permanently yours** |
 
-### ✅ **Real-World Impact Achieved**
+### **Real-World Impact Achieved**
 Your new Self identity can now:
 
 - **Replace passwords** in Self-enabled applications

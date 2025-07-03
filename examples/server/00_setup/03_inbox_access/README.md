@@ -1,5 +1,6 @@
 # 📧 Inbox Access - Get Your Account Address
 
+> **📖 Learn the concepts first:** [Decentralized Identity Concepts](../../../../docs/concepts/decentralized-identity.md)
 > **🎯 What you'll learn:** How to access your Self account's inbox address for receiving messages and connections
 
 This example demonstrates **inbox access** for Self accounts, showing how to get your account's inbox address that others can use to send you messages, credentials, and connection requests.

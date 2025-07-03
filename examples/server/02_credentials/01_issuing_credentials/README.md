@@ -1,5 +1,7 @@
 # Credential Issuance Examples
 
+> **📖 Learn the concepts first:** [Verifiable Credentials Concepts](../../../../../docs/concepts/verifiable-credentials.md)
+
 Learn how to create, configure, and issue verifiable credentials using the Self SDK.
 
 ## 🎯 Purpose

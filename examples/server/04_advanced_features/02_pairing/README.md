@@ -1,5 +1,7 @@
 # Advanced Pairing Example
 
+> **📖 Learn the concepts first:** [System Architecture](../../../../docs/architecture/system-overview.md)
+
 A comprehensive demonstration of the Self SDK's account pairing system for multi-device synchronization.
 
 ## 🚀 Quick Start
