@@ -20,8 +20,8 @@ go run main.go
 ### Java
 ```bash
 cd java
-gradle run                      # Run the example
-gradle clean > /dev/null 2>&1   # Clean up build artifacts
+gradle run     # Run the example
+gradle clean   # Clean up build artifacts
 ```
 
 ### Expected output

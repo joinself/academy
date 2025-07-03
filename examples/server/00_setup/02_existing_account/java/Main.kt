@@ -1,6 +1,5 @@
 import com.joinself.selfsdk.kmp.account.Account
-import com.joinself.selfsdk.kmp.account.LogLevel
-import com.joinself.selfsdk.kmp.account.Target
+import com.joinself.selfsdk.kmp.event.Message
 import java.io.File
 
 fun main() {
@@ -12,6 +11,7 @@ fun main() {
     val demoAccount = createDemoAccount()
     println("🔄 Closing account to simulate application restart...")
     // Note: Account auto-cleanup in Kotlin/JVM
+    demoAccount.destroyAccount()
     println("✅ Account closed (simulating application shutdown)")
 
     // Step 2: Load existing account
@@ -36,6 +36,9 @@ fun main() {
     displayAccountInfo(account)
 
     println("\n✅ Account loading demonstration complete!")
+
+    println("\nPress enter to exit")
+    readln()
 }
 
 fun createDemoAccount(): Account {
@@ -45,9 +48,13 @@ fun createDemoAccount(): Account {
     }
 
     println("🔧 Creating account for loading demonstration...")
-    val account = createAccount()
-    println("✅ Demo account connected to Self network")
-    println("✅ Demo account created successfully!")
+    val account = Common.setupAccount(object : Common.Callbacks {
+        override fun onConnect() {
+            println("✅ Demo account connected to Self network")
+            println("✅ Demo account created successfully!")
+        }
+    })
+
     return account
 }
 
@@ -56,42 +63,22 @@ fun accountExists(): Boolean {
 }
 
 fun loadExistingAccount(): Account {
-    val account = createAccount()
-    println("✅ Reconnected to Self network")
-    println("✅ Account loaded successfully!")
-    return account
-}
+    val account = Common.setupAccount(object: Common.Callbacks {
+        override fun onConnect() {
+            println("✅ Reconnected to Self network")
+            println("✅ Account loaded successfully!")
+        }
 
-fun createAccount(): Account {
-    val storageKey = "276cb6191a345753adb0897c2c0a89370aebf44ef99e612747bee3cd4e757ffa"
-        .chunked(2).map { it.toInt(16).toByte() }.toByteArray()
+        override fun onMessage(msg: Message) {
+            println("📨 Message received")
+        }
+    })
 
-    val account = Account()
-    account.configure(
-        storagePath = "./storage",
-        storageKey = storageKey,
-        rpcEndpoint = Target.PRODUCTION_SANDBOX.rpcEndpoint(),
-        objectEndpoint = Target.PRODUCTION_SANDBOX.objectEndpoint(),
-        messageEndpoint = Target.PRODUCTION_SANDBOX.messageEndpoint(),
-        logLevel = LogLevel.WARN,
-        onConnect = { /* Connection handled in calling functions */ },
-        onDisconnect = { _ -> },
-        onAcknowledgement = { _ -> },
-        onError = { _, _ -> },
-        onCommit = { _ -> },
-        onKeyPackage = { _ -> },
-        onWelcome = { _ -> },
-        onProposal = { _ -> },
-        onMessage = { _ -> },
-        onIntegrity = null
-    )
-    
-    Thread.sleep(2000) // Simple wait for connection
     return account
 }
 
 fun verifyAccount(account: Account) {
-    val address = getAccountAddress(account)
+    val address = Common.getAccountAddress(account)
     
     println("✅ Network connectivity: OK")
     println("✅ Account identity: $address (fresh inbox address)")
@@ -106,7 +93,7 @@ fun verifyAccount(account: Account) {
 }
 
 fun displayAccountInfo(account: Account) {
-    val address = getAccountAddress(account)
+    val address = Common.getAccountAddress(account)
     
     println("🆔 Account DID: $address")
     println("🔐 Status: Loaded and ready for secure communication")
@@ -114,12 +101,3 @@ fun displayAccountInfo(account: Account) {
     println("\n💡 Note: Inbox addresses change between sessions (expected behavior)")
     println("   What persists: storage, keys, connections, message history")
 }
-
-fun getAccountAddress(account: Account): String {
-    var address = ""
-    account.inboxOpen { status, addr -> 
-        if (status.success()) address = addr.encodeHex() 
-    }
-    Thread.sleep(1000) // Simple wait
-    return address
-} 
