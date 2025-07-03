@@ -1,6 +1,9 @@
 import com.joinself.selfsdk.kmp.account.Account
-import com.joinself.selfsdk.kmp.account.LogLevel
-import com.joinself.selfsdk.kmp.account.Target
+import com.joinself.selfsdk.kmp.error.SelfStatus
+import com.joinself.selfsdk.kmp.event.Welcome
+import com.joinself.selfsdk.kmp.keypair.signing.PublicKey
+import com.joinself.selfsdk.kmp.time.Timestamp
+import java.util.concurrent.Semaphore
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
@@ -22,19 +25,23 @@ fun main(args: Array<String>) {
         return
     }
 
-    val inboxAddress = args[0]
-    println("🎯 Target inbox address: $inboxAddress")
+    val targetInboxAddress = args[0]
+    println("🎯 Target inbox address: $targetInboxAddress")
 
     // Setup: Create Self account for client connection
     println("Setting up client account...")
-    val clientAccount = setupClientAccount()
+    val clientAccount = Common.setupAccount(object: Common.Callbacks {
+        override fun onWelcome(account: Account, welcome: Welcome) {
+            handleConnectionResponse(account, welcome)
+        }
+    })
     println("✅ Client account ready!")
-    displayAccountInfo(clientAccount)
+    Common.displayAccountInfo(clientAccount, "Client Account")
 
     // CONCEPT 1: Initiate connection to inbox address
     println("\n🔑 CONCEPT 1: Initiating Connection")
     println("==================================")
-    if (!initiateConnection(clientAccount, inboxAddress)) {
+    if (!initiateConnection(clientAccount, targetInboxAddress)) {
         println("❌ Failed to initiate connection. Please try again.")
         return
     }
@@ -55,72 +62,42 @@ fun main(args: Array<String>) {
 }
 
 /**
- * Sets up a Self account configured for client connections
- */
-fun setupClientAccount(): Account {
-    val storageKey = "276cb6191a345753adb0897c2c0a89370aebf44ef99e612747bee3cd4e757ffa"
-        .chunked(2).map { it.toInt(16).toByte() }.toByteArray()
-
-    val account = Account()
-    account.configure(
-        storagePath = "./storage",
-        storageKey = storageKey,
-        rpcEndpoint = Target.PRODUCTION_SANDBOX.rpcEndpoint(),
-        objectEndpoint = Target.PRODUCTION_SANDBOX.objectEndpoint(),
-        messageEndpoint = Target.PRODUCTION_SANDBOX.messageEndpoint(),
-        logLevel = LogLevel.WARN,
-        onConnect = { /* Connection handled silently */ },
-        onDisconnect = { _ -> },
-        onAcknowledgement = { _ -> },
-        onError = { _, _ -> },
-        onCommit = { _ -> },
-        onKeyPackage = { _ -> },
-        onWelcome = { welcome -> handleConnectionResponse(account, welcome) },
-        onProposal = { _ -> },
-        onMessage = { _ -> },
-        onIntegrity = null
-    )
-    
-    Thread.sleep(2000) // Simple wait for connection
-    return account
-}
-
-/**
- * Displays basic client account information
- */
-fun displayAccountInfo(account: Account) {
-    val address = getAccountAddress(account)
-    println("Client Account DID: $address")
-}
-
-/**
  * KEY CONCEPT 1: Connection Initiation
  * 
  * Demonstrates how to connect TO a known inbox address using connection 
  * negotiation to send a connection request to the server.
  */
-fun initiateConnection(clientAccount: Account, inboxAddress: String): Boolean {
-    println("📞 Connecting to inbox: $inboxAddress")
+fun initiateConnection(clientAccount: Account, targetInboxAddress: String): Boolean {
+    val signal = Semaphore(0)
+    println("📞 Connecting to inbox: $targetInboxAddress")
 
-    // In a full implementation, you would:
-    // 1. Parse the inbox address to get recipient's public key
-    // 2. Get client's own inbox address for sender key
-    // 3. Use clientAccount.connectionNegotiate() with proper parameters
-    // 4. Set appropriate expiration time
-    
-    // For this simplified implementation, we'll simulate the connection initiation
-    // The actual connection negotiation would involve cryptographic key exchange
-    
     // Validate address format (basic check)
-    if (inboxAddress.length < 10) {
+    if (targetInboxAddress.length < 10) {
         println("❌ Invalid inbox address format")
         println("💡 Make sure the inbox address is valid and the server is running")
         return false
     }
 
-    println("✅ Connection request sent successfully!")
-    println("📡 Waiting for server to process the request...")
-    return true
+    // Get our own inbox address and convert to public key for sender
+    val inboxAddress = Common.getAccountAddress(account = clientAccount)
+
+    // Use ConnectionNegotiate to initiate connection to the inbox address
+    var isSuccess = false
+    clientAccount.connectionNegotiate(asAddress = PublicKey.decodeHex(inboxAddress), withAddress = PublicKey.decodeHex(targetInboxAddress), expires = Timestamp.now() + 360) { status: SelfStatus ->
+        if (!status.success()) {
+            isSuccess = false
+            println("❌ Failed to initiate connection")
+            println("💡 Make sure the inbox address is valid and the server is running")
+        } else {
+            isSuccess = true
+            println("✅ Connection request sent successfully!")
+            println("📡 Waiting for server to process the request...")
+        }
+        signal.release()
+    }
+    signal.acquire()
+
+    return isSuccess
 }
 
 /**
@@ -129,34 +106,25 @@ fun initiateConnection(clientAccount: Account, inboxAddress: String): Boolean {
  * Called when the server responds to our connection request (either accepting 
  * or potentially rejecting it).
  */
-fun handleConnectionResponse(clientAccount: Account, welcome: Any) {
-    println("\n🎉 Connection response received from server")
-    
-    // In a real implementation, you would:
-    // 1. Extract server address from welcome message
-    // 2. Use clientAccount.connectionAccept() to complete the connection
-    // 3. Handle the secure group creation
-    
-    // For this simplified implementation, we'll simulate successful connection
-    println("✅ Connection established successfully!")
-    println("🔐 Connected to server successfully")
-    println("🚀 Ready for secure communication!")
-    
+fun handleConnectionResponse(clientAccount: Account, welcome: Welcome) {
+    val signal = Semaphore(0)
+    println("\n🎉 Connection response received from server: ${welcome.fromAddress().encodeHex()}")
+
+    // Accept the connection establishment from the server
+    clientAccount.connectionAccept(asAddress = welcome.toAddress(), welcome =  welcome.welcome()) { status: SelfStatus, groupAddress: PublicKey ->
+        if (!status.success()) {
+            println("❌ Failed to accept connection")
+        } else {
+            // Connection successful!
+            println("✅ Connection established successfully!")
+            println("🔐 Connected to server successfully")
+            println("🚀 Ready for secure communication!")
+        }
+        signal.release()
+    }
+    signal.acquire()
+
     // Exit after successful connection for this demo
     println("\n🏁 Demo completed - connection established successfully!")
     exitProcess(0)
 }
-
-/**
- * Helper function to get account address
- */
-fun getAccountAddress(account: Account): String {
-    var address = ""
-    account.inboxOpen { status, addr -> 
-        if (status.success()) {
-            address = addr.encodeHex()
-        }
-    }
-    Thread.sleep(1000) // Simple wait
-    return address
-} 

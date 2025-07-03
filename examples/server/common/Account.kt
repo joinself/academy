@@ -60,9 +60,13 @@ class Common {
         /**
          * Displays basic account information
          */
-        fun displayAccountInfo(account: Account) {
+        fun displayAccountInfo(account: Account, name: String) {
             val address = getAccountAddress(account)
-            println("Server Account DID: $address")
+            if (address.isEmpty()) {
+                println("Failed to open $name inbox")
+            } else {
+                println("📬 $name Address: $address")
+            }
         }
     }
 }

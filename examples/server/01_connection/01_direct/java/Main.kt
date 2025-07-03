@@ -18,7 +18,7 @@ fun main() {
         }
     })
     println("✅ Account ready!")
-    Common.displayAccountInfo(account)
+    Common.displayAccountInfo(account, "Server Account")
 
     // CONCEPT 1: Display Inbox Address for Direct Connection
     println("\n🔑 CONCEPT 1: Creating Direct Connection Address")

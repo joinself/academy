@@ -20,7 +20,7 @@ fun main() {
         }
     })
     println("✅ Account ready!")
-    Common.displayAccountInfo(account)
+    Common.displayAccountInfo(account,"Server Account")
 
     // CONCEPT 1: Generate QR Code for Mobile Discovery
     println("\n🔑 CONCEPT 1: Generating Connection QR Code")
