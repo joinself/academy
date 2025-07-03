@@ -1,6 +1,11 @@
 import com.joinself.selfsdk.kmp.account.Account
 import com.joinself.selfsdk.kmp.account.LogLevel
 import com.joinself.selfsdk.kmp.account.Target
+import com.joinself.selfsdk.kmp.event.Message
+import com.joinself.selfsdk.kmp.keypair.signing.PublicKey
+import com.joinself.selfsdk.kmp.message.Chat
+import com.joinself.selfsdk.kmp.message.ChatBuilder
+import com.joinself.selfsdk.kmp.message.ContentType
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
@@ -10,12 +15,15 @@ fun main() {
 
     // Create and configure Self account
     println("🔧 Setting up Self account...")
-    val account = setupAccount()
+    val account = Common.setupAccount(object: Common.Callbacks {
+        override fun onMessage(account: Account, msg: Message) {
+            handleMessage(account, msg)
+        }
+    })
     println("✅ Self account created successfully")
     println("✅ Connected to Self network")
 
-    // Display connection information
-    displayConnectionInfo(account)
+    Common.displayAccountInfo(account, "Chat Account")
 
     println("✅ Chat demo ready! Press Ctrl+C to exit.")
 
@@ -28,82 +36,30 @@ fun main() {
 }
 
 /**
- * Sets up a Self account configured for chat messaging
- */
-fun setupAccount(): Account {
-    val storageKey = "276cb6191a345753adb0897c2c0a89370aebf44ef99e612747bee3cd4e757ffa"
-        .chunked(2).map { it.toInt(16).toByte() }.toByteArray()
-
-    val account = Account()
-    account.configure(
-        storagePath = "./storage",
-        storageKey = storageKey,
-        rpcEndpoint = Target.PRODUCTION_SANDBOX.rpcEndpoint(),
-        objectEndpoint = Target.PRODUCTION_SANDBOX.objectEndpoint(),
-        messageEndpoint = Target.PRODUCTION_SANDBOX.messageEndpoint(),
-        logLevel = LogLevel.WARN,
-        onConnect = { /* Connection handled in main */ },
-        onDisconnect = { _ -> },
-        onAcknowledgement = { _ -> },
-        onError = { _, _ -> },
-        onCommit = { _ -> },
-        onKeyPackage = { _ -> },
-        onWelcome = { _ -> },
-        onProposal = { _ -> },
-        onMessage = { message -> handleMessage(account, message) },
-        onIntegrity = null
-    )
-    
-    Thread.sleep(2000) // Simple wait for connection
-    return account
-}
-
-/**
- * Displays connection information for the chat account
- */
-fun displayConnectionInfo(account: Account) {
-    val address = getAccountAddress(account)
-    
-    println("\n📬 Connection Information:")
-    println("   🆔 Inbox Address: $address")
-    println("   📱 To connect: Use this address in another Self SDK instance")
-    println("   🔐 All messages will be automatically encrypted")
-}
-
-/**
  * Processes all incoming messages
  */
-fun handleMessage(account: Account, message: Any) {
+fun handleMessage(account: Account, message: Message) {
     val timestamp = getCurrentTimestamp()
-    
-    // In this simplified implementation, we'll treat all messages as chat messages
-    // In a full implementation, you would:
-    // 1. Check message content type
-    // 2. Route to appropriate handler based on type
-    // 3. Handle different message types (chat, credentials, etc.)
-    
-    handleChatMessage(account, message, timestamp)
+    val type = message.content().contentType()
+    when(type) {
+        ContentType.CHAT -> {
+            handleChatMessage(account, message, timestamp)
+        }
+        else -> {
+            println("📨 [$timestamp] Received message $type from ${message.fromAddress().encodeHex()}")
+        }
+    }
 }
 
 /**
  * Processes incoming chat messages and sends responses
  */
-fun handleChatMessage(account: Account, message: Any, timestamp: String) {
-    // For this simplified implementation, we'll simulate message handling
-    // In a real implementation, you would:
-    // 1. Decode the chat message content
-    // 2. Extract the sender address and message text
-    // 3. Generate appropriate response
-    // 4. Send response back to sender
-    
-    // Simulate receiving a message
-    val senderAddress = "did:self:example"
-    val messageText = "Hello from mobile app!"
-    
-    println("📨 [$timestamp] $senderAddress: \"$messageText\"")
-    
-    val response = generateResponse(messageText, timestamp)
-    sendResponse(account, senderAddress, response, timestamp)
+fun handleChatMessage(account: Account, msg: Message, timestamp: String) {
+    val chat = Chat.decode(msg.content())
+    println("📨 [$timestamp] ${msg.fromAddress().encodeHex()}: ${chat.message()}")
+
+    val response = generateResponse(chat.message(), timestamp)
+    sendResponse(account, msg.fromAddress(), response, timestamp)
 }
 
 /**
@@ -134,31 +90,16 @@ fun generateResponse(messageText: String, timestamp: String): String {
 /**
  * Sends a chat response to the peer
  */
-fun sendResponse(account: Account, toAddress: String, responseText: String, timestamp: String) {
-    // In a real implementation, you would:
-    // 1. Build chat content using message builders
-    // 2. Use account.messageSend() to deliver the message
-    // 3. Handle any send errors appropriately
-    
-    // For this simplified implementation, we'll just log the response
-    println("📤 [$timestamp] Sent: \"$responseText\"")
-    
-    // Simulate successful send
-    // In reality, this would involve actual message delivery via the SDK
-}
-
-/**
- * Helper function to get account address
- */
-fun getAccountAddress(account: Account): String {
-    var address = ""
-    account.inboxOpen { status, addr -> 
-        if (status.success()) {
-            address = addr.encodeHex()
-        }
+fun sendResponse(account: Account, toAddress: PublicKey, responseText: String, timestamp: String) {
+    val chat = ChatBuilder()
+        .message(responseText)
+        .finish()
+    val sendStatus = account.messageSend(toAddress, chat)
+    if (sendStatus.success()) {
+        println("📤 [$timestamp] Sent: \"$responseText\"\n")
+    } else {
+        println("❌ [$timestamp] Failed to send response: ${sendStatus.errorMessage()}")
     }
-    Thread.sleep(1000) // Simple wait
-    return address
 }
 
 /**

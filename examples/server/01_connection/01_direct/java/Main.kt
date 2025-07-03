@@ -94,29 +94,25 @@ fun handleKeyPackageCallback(account: Account, keyPackage: KeyPackage) {
     // This is a simplified implementation that demonstrates the concept
     var groupAddressHex: String = ""
     println("\n🎉 Connection request received!")
-    
-    // In a real implementation, you would:
-    // 1. Extract the sender's address from the key package
-    // 2. Establish connection using account.connectionEstablish()
-    // 3. Handle the secure group creation
+
     account.connectionEstablish(asAddress =  keyPackage.toAddress(), keyPackage = keyPackage.keyPackage(),
         onCompletion = { status: SelfStatus, groupAddress: PublicKey ->
             if (!status.success()) {
                 println("❌ Failed to establish connection: %v")
                 println("💡 This might happen if the key package is invalid or network issues occur")
+            } else {
+                groupAddressHex = groupAddress.encodeHex()
+                println("✅ Successfully established encrypted connection!")
+                println("📱 Connected to: ${keyPackage.fromAddress().encodeHex()}")
+                println("🔐 Secure group created: $groupAddressHex")
+                println("🚀 Connection is now ready for secure messaging!")
             }
-            groupAddressHex = groupAddress.encodeHex()
 
             signal.release()
         }
     )
     signal.acquire()
-    
-    println("✅ Successfully established encrypted connection!")
-    println("📱 Connected to: ${keyPackage.fromAddress().encodeHex()}")
-    println("🔐 Secure group created: ${groupAddressHex}")
-    println("🚀 Connection is now ready for secure messaging!")
-    
+
     // Exit the program for this demo (in production, you'd continue running)
     println("\n🏁 Demo completed - connection established successfully!")
 }
