@@ -11,9 +11,9 @@ fun main() {
     println("🔗 Connection Example - Server Side")
     println("====================================")
 
-    // Setup: Create Self account with connection handling
+    // Setup: Create a Self account with connection handling
     println("Setting up Self account...")
-    val account = Common.setupAccount(object: Common.Callbacks {
+    val account = Common.setupAccount(callbacks = object: Common.Callbacks {
         override fun onWelcome(account: Account, welcome: Welcome) {
             handleIncomingConnection(account, welcome)
             signal.release()

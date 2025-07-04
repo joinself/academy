@@ -146,6 +146,11 @@ claims := map[string]interface{}{
 cd examples/go/02_credentials/01_issuing_credentials/05_comprehensive
 go run main.go
 ```
+### Java
+```bash
+cd java
+gradle run
+```
 
 ## Expected Output
 

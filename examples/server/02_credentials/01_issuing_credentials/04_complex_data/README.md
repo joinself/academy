@@ -153,6 +153,12 @@ cd examples/go/02_credentials/01_issuing_credentials/04_complex_data
 go run main.go
 ```
 
+### Java
+```bash
+cd java
+gradle run
+```
+
 ## Expected Output
 
 ```

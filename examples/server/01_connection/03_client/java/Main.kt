@@ -30,7 +30,7 @@ fun main(args: Array<String>) {
 
     // Setup: Create Self account for client connection
     println("Setting up client account...")
-    val clientAccount = Common.setupAccount(object: Common.Callbacks {
+    val clientAccount = Common.setupAccount(callbacks = object: Common.Callbacks {
         override fun onWelcome(account: Account, welcome: Welcome) {
             handleConnectionResponse(account, welcome)
         }

@@ -48,7 +48,7 @@ fun createDemoAccount(): Account {
     }
 
     println("🔧 Creating account for loading demonstration...")
-    val account = Common.setupAccount(object : Common.Callbacks {
+    val account = Common.setupAccount(callbacks = object : Common.Callbacks {
         override fun onConnect() {
             println("✅ Demo account connected to Self network")
             println("✅ Demo account created successfully!")
@@ -63,7 +63,7 @@ fun accountExists(): Boolean {
 }
 
 fun loadExistingAccount(): Account {
-    val account = Common.setupAccount(object: Common.Callbacks {
+    val account = Common.setupAccount(callbacks = object: Common.Callbacks {
         override fun onConnect() {
             println("✅ Reconnected to Self network")
             println("✅ Account loaded successfully!")

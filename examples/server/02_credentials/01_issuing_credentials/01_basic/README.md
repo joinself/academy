@@ -21,7 +21,7 @@ go run main.go
 ### Java
 ```bash
 cd java
-# Coming soon - Java implementation
+gradle run
 ```
 
 ### Expected Output

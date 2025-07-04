@@ -15,7 +15,7 @@ fun main() {
 
     // Create and configure Self account
     println("🔧 Setting up Self account...")
-    val account = Common.setupAccount(object: Common.Callbacks {
+    val account = Common.setupAccount(callbacks = object: Common.Callbacks {
         override fun onMessage(account: Account, msg: Message) {
             handleMessage(account, msg)
         }
