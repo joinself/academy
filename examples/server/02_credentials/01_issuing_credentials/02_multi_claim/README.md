@@ -107,11 +107,19 @@ credentialBuilder := credential.NewCredential().
 - Numeric values for quantitative data (GPA, credits)
 - Boolean flags for achievements (honors)
 
-## Running the Example
+## 🚀 Quick Start
+
+### Go
 
 ```bash
 cd examples/go/02_credentials/01_issuing_credentials/02_multi_claim
 go run main.go
+```
+
+### Java
+```bash
+cd java
+gradle run
 ```
 
 ## Expected Output
