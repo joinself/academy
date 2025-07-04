@@ -63,8 +63,8 @@ fun demonstrateBasicCredential(issuer: Account, holder: Account) {
     println("\n1. Basic Email Credential")
     println("=========================")
 
-    val issuerAddress = Common.openInbox(issuer) ?: return
-    val holderAddress = Common.openInbox(holder) ?: return
+    val issuerAddress = issuer.keychainSigningCreate()
+    val holderAddress = holder.keychainSigningCreate()
 
     val claims = mapOf(
         "emailAddress" to "john.doe@example.com",
@@ -98,8 +98,8 @@ fun demonstrateProfileCredential(issuer: Account, holder: Account) {
     println("\n2. Profile Credential")
     println("=====================")
 
-    val issuerAddress = Common.openInbox(issuer) ?: return
-    val holderAddress = Common.openInbox(holder) ?: return
+    val issuerAddress = issuer.keychainSigningCreate()
+    val holderAddress = holder.keychainSigningCreate()
 
     val claims = mapOf(
         "firstName" to "John",
@@ -136,8 +136,8 @@ fun demonstrateCustomCredentialWithEvidence(issuer: Account, holder: Account) {
     println("\n3. Custom Credential with Evidence")
     println("==================================")
 
-    val issuerAddress = Common.openInbox(issuer) ?: return
-    val holderAddress = Common.openInbox(holder) ?: return
+    val issuerAddress = issuer.keychainSigningCreate()
+    val holderAddress = holder.keychainSigningCreate()
 
     // 1. Create and upload evidence asset
     val certificateData = """
@@ -205,8 +205,8 @@ fun demonstrateOrganizationCredential(issuer: Account, holder: Account) {
     println("\n4. Organization Credential (Complex Data)")
     println("=========================================")
 
-    val issuerAddress = Common.openInbox(issuer) ?: return
-    val holderAddress = Common.openInbox(holder) ?: return
+    val issuerAddress = issuer.keychainSigningCreate()
+    val holderAddress = holder.keychainSigningCreate()
 
     val claims = mapOf<String, Any>(
         "organizationName" to "Acme Corporation",
@@ -296,7 +296,7 @@ fun demonstrateOrganizationCredential(issuer: Account, holder: Account) {
  */
 fun createPresentation(account: Account, cred: VerifiableCredential): VerifiablePresentation? {
     println("   Creating verifiable presentation...")
-    val holderAddress = Common.openInbox(account) ?: return null
+    val holderAddress = account.keychainSigningCreate()
 
     return runCatching {
         val unsignedPresentation = PresentationBuilder()
