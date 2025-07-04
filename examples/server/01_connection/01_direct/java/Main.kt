@@ -11,7 +11,7 @@ fun main() {
 
     // Setup: Create Self account with connection handling
     println("Setting up Self account...")
-    val account = Common.setupAccount(object: Common.Callbacks {
+    val account = Common.setupAccount(callbacks = object: Common.Callbacks {
         override fun onKeyPackage(account: Account, keyPackage: KeyPackage) {
             handleKeyPackageCallback(account, keyPackage)
             signal.release()

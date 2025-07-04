@@ -31,14 +31,14 @@ class Common {
         }
     }
     companion object {
-        fun setupAccount(callbacks: Callbacks? = null): Account {
+        fun setupAccount(storagePath: String = "./storage", callbacks: Callbacks? = null): Account {
             val signal = Semaphore(0)
             val storageKey = "276cb6191a345753adb0897c2c0a89370aebf44ef99e612747bee3cd4e757ffa"
                 .chunked(2).map { it.toInt(16).toByte() }.toByteArray()
 
             val account = Account()
             account.configure(
-                storagePath = "./storage",
+                storagePath = storagePath,
                 storageKey = storageKey,
                 rpcEndpoint = Target.PRODUCTION_SANDBOX.rpcEndpoint(),
                 objectEndpoint = Target.PRODUCTION_SANDBOX.objectEndpoint(),
@@ -61,6 +61,17 @@ class Common {
 
             signal.acquire() // Simple wait for connection
             return account
+        }
+
+        fun openInbox(account: Account): PublicKey? {
+            val signal = Semaphore(0)
+            var inboxAddress: PublicKey? = null
+            account.inboxOpen { status, addr ->
+                if (status.success()) inboxAddress = addr
+                signal.release()
+            }
+            signal.acquire() // wait for opening inbox complete
+            return inboxAddress
         }
 
         fun getAccountAddress(account: Account): String {
