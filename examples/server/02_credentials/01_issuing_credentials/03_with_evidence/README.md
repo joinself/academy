@@ -131,9 +131,16 @@ presentation, err := issuer.PresentationIssue(unsignedPresentation)
 
 ## Running the Example
 
+### Go
 ```bash
 cd examples/go/02_credentials/01_issuing_credentials/03_with_evidence
 go run main.go
+```
+
+### Java
+```bash
+cd java
+gradle run
 ```
 
 ## Expected Output

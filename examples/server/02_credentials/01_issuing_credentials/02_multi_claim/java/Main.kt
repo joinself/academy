@@ -13,8 +13,8 @@ fun main() {
 
     // Create issuer and holder accounts
     println("Setting up Self account...")
-    val issuer = Common.setupAccount(storagePath = "./issuer")
-    val holder = Common.setupAccount(storagePath = "./holder")
+    val issuer = Common.setupAccount(storagePath = "./multi_issuer_storage")
+    val holder = Common.setupAccount(storagePath = "./multi_holder_storage")
     println("✅ Account ready!")
 
     println()

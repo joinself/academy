@@ -11,8 +11,8 @@ fun main() {
 
     // Setup: Create a Self account with connection handling
     println("Setting up Self account...")
-    val issuer = Common.setupAccount(storagePath = "./issuer")
-    val holder = Common.setupAccount(storagePath = "./holder")
+    val issuer = Common.setupAccount(storagePath = "./basic_issuer")
+    val holder = Common.setupAccount(storagePath = "./basic_holder")
 
     println("✅ Account ready!")
     Common.displayAccountInfo(issuer, "Issuer")
