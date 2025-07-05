@@ -1,5 +1,6 @@
 # 🔗 Connection Examples - Master Self SDK Connections
 
+> **📖 Learn the concepts first:** [Secure Connections Concepts](../../../docs/concepts/secure-connections.md)  
 > **🎯 What you'll learn:** Complete connection patterns for Self SDK, from server setup to client connections to mobile integration
 
 This directory contains **three complementary examples** that demonstrate the full spectrum of Self SDK connection patterns. Together, they show how to build complete client-server applications with encrypted peer-to-peer communication.

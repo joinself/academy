@@ -1,5 +1,7 @@
 # Credential Exchange - Presentation Requests
 
+> **📖 Learn the concepts first:** [Verifiable Credentials Concepts](../../../../../../docs/concepts/verifiable-credentials.md)
+
 🎯 **What you'll learn:**
 - How credential issuance enables exchange workflows
 - Credential storage and organization patterns

@@ -1,5 +1,6 @@
 # 🆕 New Account Creation - Your First Self Account
 
+> **📖 Learn the concepts first:** [Decentralized Identity Concepts](../../../../docs/concepts/decentralized-identity.md)  
 > **🎯 What you'll learn:** How to create a brand new Self account from scratch with proper storage and network registration
 
 This example demonstrates the **first-time setup** process for a Self SDK account. Perfect for new users, development environments, and clean demo setups.

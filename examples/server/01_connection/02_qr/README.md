@@ -1,5 +1,6 @@
 # 🔗 QR Connection Example - Mobile-Friendly Connections
 
+> **📖 Learn the concepts first:** [Secure Connection Concepts](../../../../docs/concepts/secure-connections.md)
 > **🎯 What you'll learn:** How to create a server that securely connects with mobile apps using QR codes
 
 This example demonstrates **QR CODE-BASED CONNECTIONS** with Self SDK. Perfect for mobile app onboarding and user-friendly visual connection establishment.

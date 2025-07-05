@@ -2,39 +2,45 @@
 
 This repository is the central hub for all educational materials related to the Joinself ecosystem. Our mission is to make decentralized identity accessible to all developers by providing a clear, structured, and hands-on learning experience.
 
-## 🚀 The Self SDK: Your Powerful Development Toolkit
+## 🚀 Learn by Building: Practical Examples for Real Applications
 
-The Self SDK provides direct access to the core decentralized identity functionality, enabling you to build robust applications with full control and flexibility.
+This academy provides hands-on examples that teach you how to integrate decentralized identity into your applications. Each example is designed to be practical, educational, and ready for real-world implementation.
 
-The SDK offers:
-- 🎯 **Direct Core Access**: Complete control over account management, storage, and messaging
-- 🔧 **Flexible Configuration**: Customizable settings for production and development environments  
-- 📚 **Educational Examples**: Every feature comes with learning-focused examples
-- 🚀 **Production Ready**: Battle-tested patterns for real-world applications
+Our examples offer:
+- 🎯 **Progressive Learning**: Start simple and build complexity step by step
+- 🔧 **Multiple Languages**: Examples available in Go and Java  
+- 📚 **Clear Documentation**: Every example explains what you'll learn and what happened
+- 🚀 **Production Patterns**: Battle-tested approaches for real applications
 
 ## 🗺️ Repository Structure
 
-This repository is a monorepo containing the following key areas:
+This repository combines theoretical understanding with practical implementation:
 
-- 📚 **/docs**: Source content for our documentation, built with [MkDocs](https://www.mkdocs.org/).
-- 💻 **/sdks**: Contains the source code for the Self SDK for various languages.
-  - `go/`: Go SDK implementation.
-  - `java/`: (Placeholder) Java SDK implementation.
-  - `mobile/`: (Placeholder) Mobile (Swift/Kotlin) SDK implementations.
-- 🧪 **/examples**: Houses practical code examples that correspond to the documentation. These are structured to provide a progressive learning path from beginner to advanced.
-  - `go/`: Examples for the Go SDK.
-  - `java/`: (Placeholder) Examples for the Java SDK.
-  - `mobile/`: (Placeholder) Examples for the mobile SDKs.
+- 📚 **/docs**: Complete learning documentation with concepts, examples, and architecture
+  - 🧠 **concepts/**: Theoretical foundations (decentralized identity, cryptography, security)
+  - 🔧 **examples/**: Hands-on guides linking theory to practice  
+  - 🏗️ **architecture/**: System design and integration patterns
+- 🧪 **/examples**: Progressive learning examples for server-side integration
+  - `server/`: Server-side examples organized by learning progression:
+    - `00_setup/`: Account creation and configuration basics
+    - `01_connection/`: Establishing connections between identities
+    - `02_credentials/`: Issuing and exchanging verifiable credentials
+    - `03_chat/`: Building messaging and communication features
+    - `04_advanced_features/`: Advanced patterns and integrations
+    - `common/`: Shared utilities and helper functions
 
 ## 🧠 Our Learning Philosophy
 
-We believe in learning by doing, with a focus on building confidence through progressive steps:
+We believe in combining theoretical understanding with hands-on practice:
 
-1.  **🟢 Start Simple**: Begin with easy-to-understand examples that provide quick wins.
-2.  **🟡 Build Complexity**: Gradually introduce more advanced concepts and features.
-3.  **🔴 Master the Core**: Gain a deep understanding of the underlying SDK for full control.
+**Theory + Practice = Mastery**
 
-Each example is designed to teach a specific concept, with clear explanations of "what you'll learn" and "what just happened."
+1.  **🟢 Understand Concepts**: Learn the "why" behind decentralized identity
+2.  **🟡 Build Practical Skills**: Apply concepts through working code
+3.  **🟠 Master Integration**: Combine theory and practice for real solutions
+4.  **🔴 Production Ready**: Deploy robust, secure applications
+
+Each topic provides both conceptual foundation and practical implementation, with examples in Go and Java.
 
 ## 🙌 Contributing
 

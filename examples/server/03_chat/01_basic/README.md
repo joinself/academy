@@ -1,5 +1,7 @@
 # Basic Chat Example 🟢
 
+> **📖 Learn the concepts first:** [Message Layer Security](../../../../docs/concepts/message-layer-security.md)
+
 A straightforward demonstration of the Self SDK's chat messaging capabilities using the core SDK. This example focuses on essential chat functionality with clean, production-ready code patterns.
 
 ## 🎯 What You'll Learn

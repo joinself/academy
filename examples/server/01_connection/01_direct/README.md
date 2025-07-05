@@ -1,5 +1,6 @@
 # 🔗 Direct Connection Example - Address-Based Connections
 
+> **📖 Learn the concepts first:** [Secure Connection Concepts](../../../../docs/concepts/secure-connections.md)
 > **🎯 What you'll learn:** How to establish secure connections using inbox addresses for programmatic server-to-server communication
 
 This example demonstrates **DIRECT ADDRESS-BASED CONNECTIONS** with Self SDK. Perfect for server-to-server communication, APIs, and automated systems.

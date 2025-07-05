@@ -1,5 +1,7 @@
 # Advanced Features Examples
 
+> **📖 Learn the concepts first:** [System Architecture](../../../docs/architecture/overview.md)
+
 This directory contains comprehensive examples for implementing advanced Self SDK capabilities and production-ready patterns, organized by feature area for specialized learning and implementation.
 
 ## 🗂️ Examples Organization

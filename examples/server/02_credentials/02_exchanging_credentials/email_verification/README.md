@@ -1,5 +1,7 @@
 # Email Credential Verification 📧
 
+> **📖 Learn the concepts first:** [Verifiable Credentials Concepts](../../../../../../docs/concepts/verifiable-credentials.md)
+
 🎯 **What you'll learn:**
 - Email verification credential workflows
 - Real-world credential exchange scenarios

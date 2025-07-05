@@ -1,5 +1,7 @@
 # Complex Data Structure Credentials
 
+> **📖 Learn the concepts first:** [Verifiable Credentials Concepts](../../../../../../docs/concepts/verifiable-credentials.md)
+
 🎯 **What you'll learn:**
 - How to structure complex nested data in credentials
 - Arrays and collections in claims

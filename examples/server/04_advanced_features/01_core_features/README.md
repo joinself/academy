@@ -1,5 +1,7 @@
 # Core Advanced Features Example 🔴
 
+> **📖 Learn the concepts first:** [System Architecture](../../../../docs/architecture/system-overview.md)
+
 A comprehensive demonstration of the Self SDK's core advanced capabilities using the core SDK directly. This example showcases production-ready patterns for encrypted storage, event-driven messaging, and advanced account management.
 
 ## 🚀 Quick Start

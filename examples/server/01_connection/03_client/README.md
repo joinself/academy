@@ -1,5 +1,6 @@
 # 🔗 Connection Client Example
 
+> **📖 Learn the concepts first:** [Secure Connection Concepts](../../../../docs/concepts/secure-connections.md)
 > **🎯 What you'll learn:** How to connect TO a known inbox address from the client side
 
 This example demonstrates the **CLIENT SIDE** of direct address-based connections. It connects TO any inbox address from Self SDK sources - servers, mobile apps, or other Self-enabled applications.
