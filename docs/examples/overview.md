@@ -1,8 +1,8 @@
-# 🚀 Examples Overview
+# Examples Overview
 
 Welcome to the hands-on learning section! These examples provide practical, working code that teaches Self SDK concepts through implementation.
 
-## 🎯 Learning Philosophy
+## Learning Philosophy
 
 Our examples follow a progressive learning approach:
 
@@ -11,39 +11,39 @@ Our examples follow a progressive learning approach:
 - **🟠 Handle credentials** - Digital identity and verification
 - **🔴 Advanced features** - Production-ready patterns
 
-## 📚 Example Categories
+## Example Categories
 
-### 🛠️ Setup & Configuration
+### Setup & Configuration
 Master account creation, management, and basic operations.
 
-**📖 Concepts:** [Decentralized Identity](../concepts/decentralized-identity.md)  
-**🔧 Examples:** [Setup Guide](setup.md)
+- **Concepts:** [Decentralized Identity](../concepts/decentralized-identity.md)  
+- **Examples:** [Setup Guide](setup.md)
 
-### 🔗 Connections & Discovery
+### Connections & Discovery
 Learn secure connection establishment between identities.
 
-**📖 Concepts:** [Secure Connections](../concepts/secure-connections.md)  
-**🔧 Examples:** [Connection Guide](connections.md)
+- **Concepts:** [Secure Connections](../concepts/secure-connections.md)  
+- **Examples:** [Connection Guide](connections.md)
 
-### 🎫 Verifiable Credentials
+### Verifiable Credentials
 Create, exchange, and verify digital credentials.
 
-**📖 Concepts:** [Verifiable Credentials](../concepts/verifiable-credentials.md)  
-**🔧 Examples:** [Credential Guide](credentials.md)
+- **Concepts:** [Verifiable Credentials](../concepts/verifiable-credentials.md)  
+- **Examples:** [Credential Guide](credentials.md)
 
-### 💬 Chat & Messaging
+### Chat & Messaging
 Build secure messaging and communication features.
 
-**📖 Concepts:** [Message Layer Security](../concepts/message-layer-security.md)  
-**🔧 Examples:** [Chat Guide](chat.md)
+- **Concepts:** [Message Layer Security](../concepts/message-layer-security.md)  
+- **Examples:** [Chat Guide](chat.md)
 
-### 🚀 Advanced Features
+### Advanced Features
 Production-ready patterns and advanced integrations.
 
-**📖 Concepts:** [System Architecture](../architecture/overview.md)  
-**🔧 Examples:** [Advanced Guide](advanced.md)
+- **Concepts:** [System Architecture](../architecture/overview.md)  
+- **Examples:** [Advanced Guide](advanced.md)
 
-## 🎯 Quick Start Paths
+## Quick Start Paths
 
 ### New to Self SDK?
 1. [Setup Guide](setup.md) - Create your first Self identity
@@ -63,25 +63,25 @@ Production-ready patterns and advanced integrations.
 ## 🔗 Cross-References
 
 Each example page provides:
-- **📖 Related Concepts** - Theoretical background
-- **🔧 Code Examples** - Working implementations
-- **🚀 Next Steps** - Progressive learning path
-- **💡 Real-world Applications** - Practical use cases
+- **Related Concepts** - Theoretical background
+- **Code Examples** - Working implementations
+- **Next Steps** - Progressive learning path
+- **Real-world Applications** - Practical use cases
 
-## 📁 Repository Structure
+## Repository Structure
 
 All examples are located in `/examples/server/`:
 
 ```
 examples/server/
-├── 00_setup/           # Account creation and management
-├── 01_connection/      # Secure connections
-├── 02_credentials/     # Verifiable credentials  
-├── 03_chat/           # Messaging and communication
-├── 04_advanced_features/  # Production patterns
-└── common/            # Shared utilities
+├── 00_setup/                # Account creation and management
+├── 01_connection/           # Secure connections
+├── 02_credentials/          # Verifiable credentials  
+├── 03_chat/                 # Messaging and communication
+├── 04_advanced_features/    # Production patterns
+└── common/                  # Shared utilities
 ```
 
-## 🌟 Ready to Start?
+## Ready to Start?
 
 Choose your learning path and dive into the hands-on examples! 

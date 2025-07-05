@@ -41,13 +41,12 @@ theme:
     accent: custom
   font:
     text: antialiased
-    code: Roboto Mono
+    code: Open Sauce One, sans-serif
 
 extra_css:
   - assets/stylesheets/custom.css
 
 nav:
-  - Home: index.md
   - Concepts:
     - concepts/overview.md
     - Identity Foundations: concepts/decentralized-identity.md

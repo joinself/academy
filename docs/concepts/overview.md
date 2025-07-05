@@ -1,6 +1,6 @@
-# 🧠 Concepts Overview
+# Concepts Overview
 
-Welcome to the theoretical foundations of the Joinself ecosystem. These concept guides provide the essential knowledge to understand the "why" and "how" behind the practical examples.
+Welcome to the theoretical foundations of the Self ecosystem. These concept guides provide the essential knowledge to understand the "why" and "how" behind the practical examples.
 
 ## 🎯 Learning Philosophy
 

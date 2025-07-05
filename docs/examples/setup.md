@@ -1,7 +1,7 @@
 # Setup & Configuration Examples
 
-> **📖 Theory foundation:** [Decentralized Identity Concepts](../concepts/decentralized-identity.md)  
-> **🎯 What you'll learn:** How to create, load, and manage Self identities with cryptographic ownership
+> **Theory foundation:** [Decentralized Identity Concepts](../concepts/decentralized-identity.md)  
+> **What you'll learn:** How to create, load, and manage Self identities with cryptographic ownership
 
 Welcome to your **first hands-on experience** with decentralized identity! These examples transform the concepts you've learned into working code that creates real Self accounts.
 
@@ -11,11 +11,11 @@ Welcome to your **first hands-on experience** with decentralized identity! These
 
 By completing these setup examples, you'll master:
 
-- **🆔 Identity Creation**: Generate cryptographically secure Self accounts from scratch
-- **🔐 Key Management**: Understand how private keys create ownership and security
-- **💾 Persistence**: How Self accounts maintain identity across sessions
-- **📬 Network Integration**: Connect your identity to the Self network for communication
-- **🔄 Account Lifecycle**: Complete workflow from creation to production use
+- **Identity Creation**: Generate cryptographically secure Self accounts from scratch
+- **Key Management**: Understand how private keys create ownership and security
+- **Persistence**: How Self accounts maintain identity across sessions
+- **Network Integration**: Connect your identity to the Self network for communication
+- **Account Lifecycle**: Complete workflow from creation to production use
 
 **⏱️ Time Investment**: 15 minutes to complete all three examples  
 **💡 Immediate Result**: Working Self identity ready for messaging and credentials
@@ -43,7 +43,7 @@ Self-sovereign control        →    You own your identity completely
 Follow this **progressive learning path** to master Self account management:
 
 ### **Step 1:** Create Your First Identity
-**[New Account Creation](../../examples/server/00_setup/01_new_account/)**
+**[New Account Creation](https://github.com/joinself/academy/examples/server/00_setup/01_new_account/README.md)**
 
 🎯 **What it demonstrates:**
 - Fresh DID generation from cryptographic keys
@@ -54,10 +54,10 @@ Follow this **progressive learning path** to master Self account management:
 ```go
 // This simple code creates a permanent digital identity
 account := common.SetupAccount(config)
-// ✅ Generates unique DID: did:self:ABC123...
-// ✅ Creates cryptographic key pair
-// ✅ Registers with Self network
-// ✅ Ready for secure communication
+// - Generates unique DID: did:self:ABC123...
+// - Creates cryptographic key pair
+// - Registers with Self network
+// - Ready for secure communication
 ```
 
 **🔑 Key Concept**: Unlike username/password systems, this identity is **mathematically yours** - no company can take it away.
@@ -68,7 +68,7 @@ account := common.SetupAccount(config)
 ---
 
 ### **Step 2:** Master Account Persistence
-**[Existing Account Loading](../../examples/server/00_setup/02_existing_account/)**
+**[Existing Account Loading](https://github.com/joinself/academy/examples/server/00_setup/02_existing_account/README.md)**
 
 🎯 **What it demonstrates:**
 - How Self accounts persist across application restarts
@@ -79,9 +79,9 @@ account := common.SetupAccount(config)
 ```go
 // Load your previously created identity
 selfAccount := loadExistingAccount()
-// ✅ Restores your exact same DID
-// ✅ Reloads cryptographic keys securely
-// ✅ Reconnects to Self network
+// - Restores your exact same DID
+// - Reloads cryptographic keys securely
+// - Reconnects to Self network
 // ✅ Maintains all connections and data
 ```
 
@@ -93,7 +93,8 @@ selfAccount := loadExistingAccount()
 ---
 
 ### **Step 3:** Access Your Identity Network
-**[Inbox Access & Addressing](../../examples/server/00_setup/03_inbox_access/)**
+**[Inbox Access & Addressing](https://github.com/joinself/academy/examples/server/00_setup/03_inbox_access/README.md)**
+
 
 🎯 **What it demonstrates:**
 - How to get your shareable inbox address
@@ -105,9 +106,9 @@ selfAccount := loadExistingAccount()
 // Get your public address for communication
 inboxAddress, err := selfAccount.InboxOpen()
 fmt.Printf("📬 Share this address: %s\n", inboxAddress.String())
-// ✅ Others can now send you messages
-// ✅ Ready for credential exchange
-// ✅ Connected to decentralized network
+// - Others can now send you messages
+// - Ready for credential exchange
+// - Connected to decentralized network
 ```
 
 **🔑 Key Concept**: Your inbox address is like your **email for the decentralized web** - others need it to reach you.
@@ -122,19 +123,19 @@ fmt.Printf("📬 Share this address: %s\n", inboxAddress.String())
 ### **Identity Revolution Experienced**
 You've just experienced the **identity revolution** firsthand:
 
-- **🚫 No passwords** - Your identity is secured by cryptography, not memorized secrets
-- **🔐 True ownership** - Your private key means YOU control your identity  
-- **🌐 Universal identity** - One identity works across all Self-enabled applications
-- **🛡️ Maximum security** - Cryptographic proofs instead of vulnerable databases
+- **No passwords** - Your identity is secured by cryptography, not memorized secrets
+- **True ownership** - Your private key means YOU control your identity  
+- **Universal identity** - One identity works across all Self-enabled applications
+- **Maximum security** - Cryptographic proofs instead of vulnerable databases
 
 ### **Decentralized vs Traditional: You Built Both**
 
 | Traditional Identity | Your Self Identity |
 |---------------------|-------------------|
-| 🏢 Company controls | 👤 **You control** |
-| 🔓 Password vulnerable | 🔐 **Cryptographically secure** |
-| 📱 App-specific | 🌐 **Universal across apps** |
-| ❌ Can be revoked | ✅ **Permanently yours** |
+| Company controls | **You control** |
+| Password vulnerable | **Cryptographically secure** |
+| App-specific | **Universal across apps** |
+| Can be revoked | **Permanently yours** |
 
 ### **Real-World Impact Achieved**
 Your new Self identity can now:
@@ -146,27 +147,27 @@ Your new Self identity can now:
 
 ---
 
-## 🔧 Technical Foundation Established
+## Technical Foundation Established
 
-### 🏗️ **Architecture Understanding**
+### **Architecture Understanding**
 Through these examples, you've built this complete system:
 
 ```
 Your Self Identity System
-├── 🔑 Cryptographic Keys (your ownership proof)
-├── 🆔 Unique DID (your permanent identifier)  
-├── 💾 Encrypted Storage (your secure data vault)
-├── 📡 Network Connection (your communication channel)
-└── 📬 Inbox Address (your public communication endpoint)
+├── Cryptographic Keys (your ownership proof)
+├── Unique DID (your permanent identifier)  
+├── Encrypted Storage (your secure data vault)
+├── Network Connection (your communication channel)
+└── Inbox Address (your public communication endpoint)
 ```
 
-### 🔐 **Security Model Implemented**
+### **Security Model Implemented**
 - **Private Key**: Never leaves your device, proves identity ownership
 - **Public Key**: Shared with network, enables others to verify your signatures
 - **DID**: Permanent identifier derived from your public key
 - **Encrypted Storage**: All account data protected on your device
 
-### 📡 **Network Integration Achieved**  
+### **Network Integration Achieved**  
 - **Registration**: Your DID is registered with Self network for discovery
 - **Communication**: Inbox address enables peer-to-peer messaging
 - **Verification**: Network can verify your identity cryptographically
@@ -174,7 +175,7 @@ Your Self Identity System
 
 ---
 
-## 🚀 Next Steps: Build On Your Foundation
+## Next Steps: Build On Your Foundation
 
 With your Self identity established, you're ready for advanced patterns:
 
@@ -196,23 +197,23 @@ With your Self identity established, you're ready for advanced patterns:
 
 ---
 
-## 💡 Production Considerations
+## Production Considerations
 
-### 🚀 **Moving to Production**
+### **Moving to Production**
 Your setup examples taught you development patterns. For production:
 
-- **🔒 Key Management**: Implement proper key backup and recovery
-- **📊 Monitoring**: Add logging and health checks for network connectivity  
-- **🔄 Error Handling**: Robust error handling for network and storage issues
-- **📱 Multi-Device**: Sync identity across user devices securely
+- **Key Management**: Implement proper key backup and recovery
+- **Monitoring**: Add logging and health checks for network connectivity  
+- **Error Handling**: Robust error handling for network and storage issues
+- **Multi-Device**: Sync identity across user devices securely
 
-### ⚡ **Performance Optimization**
+### **Performance Optimization**
 - **Connection Pooling**: Reuse network connections efficiently
 - **Storage Optimization**: Index frequently accessed account data
 - **Background Sync**: Keep account state synchronized asynchronously
 - **Caching**: Cache inbox addresses and network status
 
-### 🛡️ **Security Hardening**
+### **Security Hardening**
 - **Key Rotation**: Implement periodic key rotation strategies
 - **Storage Encryption**: Additional encryption layers for sensitive data
 - **Network Security**: TLS configuration and certificate pinning
@@ -220,26 +221,26 @@ Your setup examples taught you development patterns. For production:
 
 ---
 
-## 🎯 Success Checklist
+## Success Checklist
 
 Confirm you've mastered the setup fundamentals:
 
-**✅ Identity Creation**
+**Identity Creation**
 - [ ] Can create new Self accounts from scratch
 - [ ] Understand how DIDs are generated from keys
 - [ ] Know where account data is stored securely
 
-**✅ Account Management**  
+**Account Management**  
 - [ ] Can load existing accounts reliably
 - [ ] Understand identity persistence across sessions
 - [ ] Can verify account integrity after loading
 
-**✅ Network Integration**
+**Network Integration**
 - [ ] Can access inbox addresses for communication
 - [ ] Understand how others can reach your identity
 - [ ] Ready to receive connections and messages
 
-**✅ Conceptual Understanding**
+**Conceptual Understanding**
 - [ ] Know why decentralized identity is revolutionary  
 - [ ] Understand cryptographic ownership model
 - [ ] Can explain benefits to other developers
@@ -274,24 +275,24 @@ Confirm you've mastered the setup fundamentals:
 
 ---
 
-## 📚 Additional Resources
+## Additional Resources
 
-### **🔗 Related Concepts**
+### **Related Concepts**
 - **[Cryptographic Foundations](../concepts/cryptographic-foundations.md)** - Deep dive into the mathematics
 - **[Secure Connections](../concepts/secure-connections.md)** - How identities connect safely
 
-### **🛠️ Developer Tools**
+### **Developer Tools**
 - **Self SDK Documentation** - Complete API reference
 - **Example Applications** - Full applications using Self identities
 - **Testing Utilities** - Tools for testing identity workflows
 
-### **🌐 Community**
+### **Community**
 - **Self Developer Forum** - Get help and share experiences  
 - **GitHub Issues** - Report bugs and request features
 - **Discord Community** - Real-time chat with other developers
 
 ---
 
-**🎉 Congratulations!** You've built your first decentralized identity and experienced the future of digital identity firsthand. Your Self account is now ready for secure communication, credential exchange, and passwordless authentication across the Self ecosystem.
+**Congratulations!** You've built your first decentralized identity and experienced the future of digital identity firsthand. Your Self account is now ready for secure communication, credential exchange, and passwordless authentication across the Self ecosystem.
 
-**Ready to connect with others?** Continue with [Connection Examples](connections.md) to establish secure relationships with other Self users! 🚀
+**Ready to connect with others?** Continue with [Connection Examples](connections.md) to establish secure relationships with other Self users!
