@@ -11,13 +11,13 @@ Our theoretical documentation follows the same progressive approach as our examp
 - **🟠 Explore deeper concepts** - Advanced topics when you're ready
 - **🔴 Master the architecture** - Complete system understanding
 
-## 📚 Concept Categories
+## Concept Categories
 
 ### Identity Foundations
 Understanding decentralized identity, self-sovereign principles, and how traditional identity systems compare to decentralized approaches.
 
-**📖 Read:** [Decentralized Identity Concepts](decentralized-identity.md)  
-**🔧 Try:** [Setup Examples](../examples/setup.md)
+**Read:** [Decentralized Identity Concepts](decentralized-identity.md)  
+**Try:** [Setup Examples](../examples/setup.md)
 
 ### Secure Connections
 Learn how cryptographic connections work, key exchange protocols, and the security guarantees they provide.
