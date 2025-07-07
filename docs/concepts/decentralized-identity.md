@@ -280,6 +280,7 @@ You've learned the foundational concepts that make Self SDK revolutionary:
 - **[The SSI Orbit](https://northernblock.io/the-ssi-orbit/)** - Weekly newsletter covering SSI developments
 
 ### **Related Concepts to Explore**
+
 - **Zero-Knowledge Proofs** - Privacy-preserving credential verification
 - **Blockchain and Distributed Ledgers** - Infrastructure for decentralized systems
 - **Web3 and Decentralized Web** - Broader context of decentralized technologies
@@ -306,6 +307,7 @@ Want to understand the technical details?
 ### **Real-World Applications**
 
 Consider how decentralized identity could improve:
+
 - **User onboarding** - No more registration forms
 - **Data sharing** - Users control what they share
 - **Account recovery** - No "forgot password" needed
@@ -313,40 +315,12 @@ Consider how decentralized identity could improve:
 
 ---
 
-## Key Takeaways
-
-**For Users:**
-- Own and control your digital identity
-- Use one identity across all Self-enabled apps  
-- No more passwords or account recovery hassles
-
-**For Developers:**
-- Build more secure applications with less complexity
-- Provide better user experience with universal identity
-- Focus on your app's core value, not identity management
-
-**For Society:**
-- Reduce data breaches and identity theft
-- Give individuals control over their digital lives
-- Create interoperable, user-centric digital services
-
----
-
-**Ready to experience decentralized identity firsthand?** [Start with the Setup Examples](../examples/setup.md) and create your first Self identity in under 5 minutes! 🚀
-
-## Key Concepts Preview
-
-- **Self-Sovereign Identity**
-- **Decentralized Identifiers (DIDs)**  
-- **Identity Ownership**
-- **Cryptographic Keys**
-- **Identity Verification**
 
 ## Related Examples
 
-- [Creating New Accounts](../../examples/server/00_setup/01_new_account/)
-- [Loading Existing Accounts](../../examples/server/00_setup/02_existing_account/)
-- [Account Management](../../examples/server/00_setup/03_inbox_access/)
+- [Creating New Accounts](https://github.com/joinself/academy/blob/main/examples/server/00_setup/01_new_account/)
+- [Loading Existing Accounts](https://github.com/joinself/academy/blob/main/examples/server/00_setup/02_existing_account/)
+- [Account Management](https://github.com/joinself/academy/blob/main/examples/server/00_setup/03_inbox_access/)
 
 ## Next Concepts
 

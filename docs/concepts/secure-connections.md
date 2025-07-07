@@ -93,42 +93,24 @@ inboxAddress, err := selfAccount.InboxOpen()
 **How cryptographic material is exchanged**
 
 #### Option A: QR Code Pattern (Mobile-Friendly)
-```go
-// Step 2: Generate cryptographic key package for secure communication
-keyPackage, _ := selfAccount.ConnectionNegotiateOutOfBand(
-    inboxAddress,
-    time.Now().Add(30*time.Minute), // Expires in 30 minutes
-)
 
-// Step 3: Build discovery request message
-content, _ := message.NewDiscoveryRequest().
-    KeyPackage(keyPackage).
-    Expires(time.Now().Add(30 * time.Minute)).
-    Finish()
-
-// Step 4: Create anonymous message and encode to QR
-anonymousMsg := event.NewAnonymousMessage(content)
-anonymousMsg.SetFlags(event.MessageFlagTargetSandbox)
-
-qrCode, _ := anonymousMsg.EncodeToQR(event.QREncodingUnicode)
-
-// Mobile app scans QR, extracts key package, initiates connection
-```
-> Check out the [QR connection example](https://github.com/joinself/academy/tree/main/examples/server/01_connection/02_qr) for the working code.
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/01_connection/02_qr/go/main.go#L80-L112"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
 
 #### Option B: Direct Address Pattern (Programmatic)
-```go
-// Client initiates connection to known inbox address
-recipientKey := signing.FromAddress(inboxAddress)
-senderKey := signing.FromAddress(clientInboxAddress.String())
 
-err = clientAccount.ConnectionNegotiate(senderKey, recipientKey, expirationTime)
-// Sends cryptographic connection request
-// Includes client's key material for encryption
-// Server receives via OnKeyPackage callback
-```
-
-> Check out the [Direct connection example](https://github.com/joinself/academy/tree/main/examples/server/01_connection/01_direct) for the working code.
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/01_connection/03_client/go/main.go#L94-L110"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
 
 > **Key Concept**: Both patterns exchange **cryptographic key packages** that contain the mathematical material needed for secure communication.
 
@@ -216,6 +198,7 @@ inboxAddress, err := selfAccount.InboxOpen()
 ```
 
 **Use when:**
+
 - Building APIs and backend services
 - Microservice communication  
 - Automated systems and scripts
@@ -234,6 +217,7 @@ qrCode, err := anonymousMsg.EncodeToQR(event.QREncodingUnicode)
 ```
 
 **Use when:**
+
 - Mobile app onboarding
 - User-facing applications
 - In-person connection establishment
@@ -252,6 +236,7 @@ err = clientAccount.ConnectionNegotiate(senderKey, recipientKey, expirationTime)
 ```
 
 **Use when:**
+
 - Client applications connecting to services
 - Mobile apps connecting to backend APIs
 - Scheduled/automated connection workflows
@@ -284,6 +269,7 @@ You now understand how Self SDK provides **revolutionary security**:
 ### **Real-World Security Impact**
 
 Your connections now provide:
+
 - **No password vulnerabilities** - connections use cryptographic proofs
 - **End-to-end encryption** - even Self can't read your messages
 - **Identity authenticity** - impossible to impersonate connection parties
@@ -335,35 +321,6 @@ With secure connections mastered, you're ready for advanced communication:
 ### **Architecture Deep Dive** 🔴
 - **[Security Model](../architecture/security-model.md)** - Complete threat analysis
 - **[System Overview](../architecture/system-overview.md)** - How security fits the bigger picture
-
----
-
-## Security Mastery Checklist
-
-Confirm you've mastered cryptographic connections:
-
-**Connection Understanding**
-- [ ] Know why connections are required before communication
-- [ ] Understand cryptographic handshake process
-- [ ] Can explain forward secrecy benefits
-- [ ] Recognize different connection patterns
-
-**Technical Implementation**
-- [ ] Can create inbox addresses for receiving connections
-- [ ] Understand key package generation and exchange
-- [ ] Know how to handle connection callbacks
-- [ ] Can implement all three connection patterns
-
-**Security Model**
-- [ ] Understand end-to-end encryption guarantees
-- [ ] Know how identity verification works
-- [ ] Can explain mathematical security properties
-- [ ] Recognize security vs usability tradeoffs
-
-**Practical Application**
-- [ ] Can choose appropriate connection pattern for use case
-- [ ] Know when to use direct vs QR vs client-initiated patterns
-- [ ] Can implement production security best practices
 
 ---
 
