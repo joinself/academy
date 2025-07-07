@@ -341,21 +341,15 @@ The troubleshooting guide includes detailed solutions, common causes, and debugg
 
 ---
 
-## Additional Resources
+## 📚 Resources & Next Steps
 
-### **Related Concepts**
-- **[Cryptographic Foundations](../concepts/cryptographic-foundations.md)** - Mathematical basis of connection security
-- **[Message Layer Security](../concepts/message-layer-security.md)** - Protocol details and security properties
+**Need more connection resources?** Check our comprehensive **[Resources & Community Guide](resources.md)** for everything you need to build secure connections:
 
-### **Developer Tools**
-- **Connection Testing**: Use client example to test any server implementation
-- **Debug Logging**: Enable SDK debug logging for connection troubleshooting  
-- **Network Monitoring**: Monitor connection establishment and key exchange
+- 📖 **[Cryptographic Foundations](resources.md#related-concepts)** - Mathematical basis of connection security and MLS protocol details
+- 🛠️ **[Developer Tools](resources.md#developer-tools)** - Connection testing utilities, debug logging, and network monitoring
+- 👥 **[Community Support](resources.md#community-support)** - Get help with connection implementation and report connection bugs
 
-### **Community**
-- **Self Developer Forum** - Get help with connection implementation
-- **GitHub Issues** - Report connection bugs and request features
-- **Discord Community** - Real-time chat with other developers building secure connections
+The resources guide includes complete documentation for connection patterns, security standards, and community guidelines.
 
 ---
 

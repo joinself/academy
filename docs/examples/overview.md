@@ -86,6 +86,13 @@ examples/server/
 
 **Having issues?** Check our comprehensive **[Troubleshooting Guide](troubleshooting.md)** for solutions to common problems across all examples, including setup, connections, credentials, messaging, and more.
 
+## 📚 Resources & Community
+
+**Need documentation, tools, or support?** Visit our **[Resources & Community Guide](resources.md)** for:
+- 📖 Complete SDK documentation and concept guides  
+- 🛠️ Developer tools, testing utilities, and debugging resources
+- 👥 Community forums, Discord, and GitHub support channels
+
 ## Ready to Start?
 
 Choose your learning path and dive into the hands-on examples! 

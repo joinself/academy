@@ -649,26 +649,16 @@ The troubleshooting guide includes detailed solutions, common causes, and debugg
 
 ---
 
-## Additional Resources
+## 📚 Resources & Next Steps
 
-### **Related Concepts**
-- **[Cryptographic Foundations](../concepts/cryptographic-foundations.md)** - Mathematical basis of credential security
-- **[Secure Connections](../concepts/secure-connections.md)** - How credentials travel securely between parties
+**Building credential systems?** Check our comprehensive **[Resources & Community Guide](resources.md)** for everything you need to work with verifiable credentials:
 
-### **Standards and Specifications**
-- **W3C Verifiable Credentials** - Official standard for credential data model
-- **JSON-LD Specification** - Data format used in verifiable credentials
-- **DID Core Specification** - Decentralized identifiers for credential subjects
+- 📋 **[Standards & Specifications](resources.md#standards--specifications)** - W3C Verifiable Credentials, JSON-LD, and DID Core specifications
+- 🛠️ **[Developer Tools](resources.md#developer-tools)** - Credential validation, testing utilities, and mock issuers/holders for development
+- 📖 **[Related Concepts](resources.md#related-concepts)** - Cryptographic foundations and secure connection patterns for credentials
+- 👥 **[Community Support](resources.md#community-support)** - Get help with credential implementation and connect with other developers
 
-### **Developer Tools**
-- **Credential Validation**: Built-in SDK validation for credential integrity
-- **Debug Logging**: Enable detailed logging for credential operations
-- **Testing Utilities**: Mock issuers and holders for development
-
-### **Community**
-- **Self Developer Forum** - Get help with credential implementation challenges
-- **GitHub Issues** - Report credential bugs and request new features  
-- **Discord Community** - Real-time chat with other developers building credential systems
+The resources guide includes complete documentation for credential standards, development tools, and community support.
 
 ---
 

@@ -263,21 +263,15 @@ The troubleshooting guide includes detailed solutions, common causes, and debugg
 
 ---
 
-## Additional Resources
+## 📚 Resources & Next Steps
 
-### **Related Concepts**
-- **[Cryptographic Foundations](../concepts/cryptographic-foundations.md)** - Deep dive into the mathematics
-- **[Secure Connections](../concepts/secure-connections.md)** - How identities connect safely
+**Ready to dive deeper?** Check our comprehensive **[Resources & Community Guide](resources.md)** for everything you need to build with Self SDK:
 
-### **Developer Tools**
-- **Self SDK Documentation** - Complete API reference
-- **Example Applications** - Full applications using Self identities
-- **Testing Utilities** - Tools for testing identity workflows
+- 📖 **[Related Concepts](resources.md#related-concepts)** - Deep dives into cryptographic foundations and system architecture
+- 🛠️ **[Developer Tools](resources.md#developer-tools)** - SDK documentation, testing utilities, and debugging tools
+- 👥 **[Community Support](resources.md#community-support)** - Forums, Discord, and GitHub for getting help and contributing
 
-### **Community**
-- **Self Developer Forum** - Get help and share experiences  
-- **GitHub Issues** - Report bugs and request features
-- **Discord Community** - Real-time chat with other developers
+The resources guide includes complete SDK documentation, standards references, community guidelines, and integration resources for all platforms.
 
 ---
 
