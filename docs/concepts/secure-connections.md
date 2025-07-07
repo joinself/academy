@@ -117,23 +117,22 @@ inboxAddress, err := selfAccount.InboxOpen()
 ### **Act 3: Establishment**
 **How the secure channel is created**
 
-```go
-// Server accepts connection (from OnKeyPackage or OnWelcome callback)
-groupAddress, err := selfAccount.ConnectionEstablish(
-    kpg.ToAddress(),  // Where they sent the request
-    kpg.KeyPackage(), // Their cryptographic material
-)
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/01_connection/01_direct/go/main.go#L127-L132"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
 
-// Client completes handshake (from OnWelcome callback)
-groupAddress, err := clientAccount.ConnectionAccept(
-    welcome.ToAddress(), 
-    welcome.Welcome(),
-)
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/01_connection/02_qr/go/main.go#L141-L146"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
 
-// Secure communication channel established!
-// All future messages automatically encrypted
-// Both parties verified cryptographically
-```
 
 > **Key Concept**: The `groupAddress` represents a **secure communication group** where all messages are end-to-end encrypted.
 
@@ -155,13 +154,14 @@ Mathematical Guarantees:
 
 ### **Forward Secrecy in Action**
 
-```go
-// Every connection uses ephemeral keys
-keyPackage, err := selfAccount.ConnectionNegotiateOutOfBand(
-    inboxAddress,
-    time.Now().Add(30*time.Minute), // Keys expire!
-)
-```
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/01_connection/02_qr/go/main.go#L87-L91"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
 
 **What this means**:
 - **Each connection uses different keys** - compromising one doesn't affect others

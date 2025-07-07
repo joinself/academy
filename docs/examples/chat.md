@@ -383,53 +383,15 @@ Chat builds on and connects with other Academy examples:
 - **[Advanced Features](advanced.md)**: Production-ready chat systems
 - **[Notification Examples](advanced.md#notifications)**: Real-time chat alerts
 
-## 🔍 Troubleshooting
+## 🔧 Need Help?
 
-### No Messages Received
-```bash
-✅ Chat demo ready! Press Ctrl+C to exit.
-# ... no activity ...
-```
+**Having chat issues?** Check our comprehensive **[Troubleshooting Guide](troubleshooting.md)** for solutions to messaging problems, including:
 
-**Common Causes:**
-- No one has your inbox address to send messages
-- Sender hasn't established a connection first  
-- Network connectivity issues
+- 💬 **[Chat & Messaging Issues](troubleshooting.md#chat--messaging-issues)** - Message send failures, decode errors, and no messages received
+- 🤝 **[Connection Issues](troubleshooting.md#connection-issues)** - Connection problems that affect messaging
+- 🌐 **[Network Issues](troubleshooting.md#network--connectivity-issues)** - Connectivity problems affecting chat operations
 
-**Solutions:**
-1. Share your inbox address from the output
-2. First establish a connection using [Connection Examples](connections.md)
-3. Verify both sides can reach the Self network
-
-### Message Send Failures
-```bash
-❌ [15:04:05] Failed to send response: connection not found
-```
-
-**Common Causes:**
-- No active connection to the recipient
-- Recipient address is invalid or expired
-- Network interruption during send
-
-**Solutions:**
-1. Verify connection exists before sending
-2. Check recipient address format (should start with `did:self:`)
-3. Retry after network connectivity is restored
-
-### Chat Decode Errors
-```bash
-❌ [15:04:05] Failed to decode chat message: invalid content type
-```
-
-**Common Causes:**
-- Receiving non-chat message types
-- Message corruption during transmission
-- SDK version incompatibility
-
-**Solutions:**
-1. Check `ContentTypeOf()` before calling `DecodeChat()`
-2. Add error handling for different message types
-3. Verify both sides use compatible SDK versions
+The troubleshooting guide includes detailed solutions, common causes, and debugging tips for all Self SDK examples.
 
 ## 📚 Next Steps
 

@@ -82,6 +82,10 @@ examples/server/
 └── common/                  # Shared utilities
 ```
 
+## 🔧 Need Help?
+
+**Having issues?** Check our comprehensive **[Troubleshooting Guide](troubleshooting.md)** for solutions to common problems across all examples, including setup, connections, credentials, messaging, and more.
+
 ## Ready to Start?
 
 Choose your learning path and dive into the hands-on examples! 

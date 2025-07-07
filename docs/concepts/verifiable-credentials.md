@@ -77,25 +77,25 @@ University Issues → Student Holds → Employer Verifies (instantly)
 The verifiable credentials ecosystem has three key roles:
 
 ```
-    🏛️ ISSUER
+    ISSUER
     (Creates & Signs)
          │
          ▼
-    👤 HOLDER          🔍 VERIFIER
+    HOLDER          🔍 VERIFIER
     (Stores & Presents) → (Requests & Verifies)
 ```
 
-#### **🏛️ Issuer** (The Authority)
+#### **Issuer** (The Authority)
 - **Who**: Universities, employers, government agencies, certification bodies
 - **What they do**: Create and cryptographically sign credentials
 - **Why they matter**: Provide authoritative proof of claims
 
-#### **👤 Holder** (The Individual)
+#### **Holder** (The Individual)
 - **Who**: Students, employees, citizens, professionals
 - **What they do**: Store credentials and present them when requested
 - **Why they matter**: Control their own credentials and privacy
 
-#### **🔍 Verifier** (The Checker)
+#### **Verifier** (The Checker)
 - **Who**: Employers, service providers, government agencies
 - **What they do**: Request specific proofs and verify their authenticity
 - **Why they matter**: Make trust decisions based on verified credentials
@@ -116,6 +116,7 @@ degree := "Bachelor of Computer Science, MIT, 2020"
 ```
 
 #### Self SDK Process (Verifiable)
+
 ```go
 // University issues verifiable credential
 degreeCredential := credential.NewCredential().
@@ -157,52 +158,47 @@ if credential.VerifySignature(degreeCredential) {
 
 ### Anatomy of a Verifiable Credential
 
-```go
-credential := credential.NewCredential().
-    CredentialType([]string{"VerifiableCredential", "EmailCredential"}).    // What type of credential
-    CredentialSubject(credential.AddressKey(holderAddress)).                // Who it's about
-    CredentialSubjectClaims(map[string]interface{}{                        // What it proves
-        "emailAddress": "alice@example.com",
-        "verified":     true,
-        "domain":       "example.com",
-    }).
-    Issuer(credential.AddressKey(issuerAddress)).                          // Who issued it
-    ValidFrom(time.Now()).                                                 // When it's valid
-    SignWith(issuerAddress, time.Now())                                    // Cryptographic signature
-```
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/01_basic/go/main.go#L67-L73"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
 
 ### Understanding Claims
 
 **Claims** are the actual assertions being made:
 
-```go
-// Single claim credential
-emailClaims := map[string]interface{}{
-    "emailAddress": "alice@example.com",
-    "verified":     true,
-}
+Single claim credential:
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/01_basic/go/main.go#L61-L65"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
 
-// Multi-claim credential  
-profileClaims := map[string]interface{}{
-    "firstName":     "Alice",
-    "lastName":      "Smith", 
-    "country":       "United States",
-    "age":           30,
-    "isActive":      true,
-    "profileLevel":  "verified",
-}
 
-// Complex credential with nested data
-degreeClaims := map[string]interface{}{
-    "institution":      "University of Technology",
-    "degree":           "Bachelor of Science",
-    "major":            "Computer Science", 
-    "graduationYear":   2020,
-    "gpa":              3.8,
-    "honors":           true,
-    "creditsCompleted": 120,
-}
-```
+Multi-claim credential:
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/02_multi_claim/go/main.go#L119-L128"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
+Complex credential with nested data
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/04_complex_data/go/main.go#L129-L146"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
 
 ### Credential Types
 
@@ -527,25 +523,6 @@ Consider how verifiable credentials could improve:
 
 ---
 
-## Key Takeaways
-
-**For Users:**
-- Own and control your educational, professional, and identity credentials
-- Share only necessary information with different verifiers
-- No more lost certificates or verification delays
-
-**For Developers:**
-- Build applications with instant verification instead of manual processes
-- Reduce fraud risk through cryptographic proof
-- Create better user experiences with verifiable digital credentials
-
-**For Organizations:**
-- Issue tamper-proof credentials that enhance your brand trust
-- Reduce verification costs and manual processes
-- Enable new business models based on verified digital identity
-
----
-
 **Ready to experience verifiable credentials firsthand?** [Start with the Credential Examples](../examples/credentials.md) and issue your first cryptographically verifiable credential! 🚀
 
 ## Key Concepts Preview
@@ -559,10 +536,10 @@ Consider how verifiable credentials could improve:
 
 ## Related Examples
 
-- [Basic Credential Issuance](../../examples/server/02_credentials/01_issuing_credentials/01_basic/)
-- [Multi-Claim Credentials](../../examples/server/02_credentials/01_issuing_credentials/02_multi_claim/)
-- [Evidence-Based Credentials](../../examples/server/02_credentials/01_issuing_credentials/03_with_evidence/)
-- [Credential Exchange](../../examples/server/02_credentials/02_exchanging_credentials/)
+- [Basic Credential Issuance](https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/01_basic/)
+- [Multi-Claim Credentials](https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/02_multi_claim/)
+- [Evidence-Based Credentials](https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/03_with_evidence/)
+- [Credential Exchange](https://github.com/joinself/academy/blob/main/examples/server/02_credentials/02_exchanging_credentials/)
 
 ## Next Concepts
 

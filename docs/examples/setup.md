@@ -226,52 +226,40 @@ Your setup examples taught you development patterns. For production:
 Confirm you've mastered the setup fundamentals:
 
 **Identity Creation**
+
 - [ ] Can create new Self accounts from scratch
 - [ ] Understand how DIDs are generated from keys
 - [ ] Know where account data is stored securely
 
 **Account Management**  
+
 - [ ] Can load existing accounts reliably
 - [ ] Understand identity persistence across sessions
 - [ ] Can verify account integrity after loading
 
 **Network Integration**
+
 - [ ] Can access inbox addresses for communication
 - [ ] Understand how others can reach your identity
 - [ ] Ready to receive connections and messages
 
 **Conceptual Understanding**
+
 - [ ] Know why decentralized identity is revolutionary  
 - [ ] Understand cryptographic ownership model
 - [ ] Can explain benefits to other developers
 
 ---
 
-## 🔧 Troubleshooting & Common Issues
+## 🔧 Need Help?
 
-### 📁 **Storage Issues**
-```bash
-⚠️ Account already exists in storage directory
-```
-**Solution**: Delete `./storage/` for fresh start, or use existing account example
+**Having issues?** Check our comprehensive **[Troubleshooting Guide](troubleshooting.md)** for solutions to common setup and account problems, including:
 
-### 🌐 **Network Issues**  
-```bash
-❌ Failed to connect to Self network
-```
-**Solution**: Check internet connection and firewall settings
+- 🏗️ **[Setup & Account Issues](troubleshooting.md#setup--account-issues)** - Storage conflicts, account creation, and loading problems
+- 🌐 **[Network Issues](troubleshooting.md#network--connectivity-issues)** - Connectivity and Self network problems  
+- 📁 **[Storage & Permission Issues](troubleshooting.md#storage--permission-issues)** - Directory permissions and storage corruption
 
-### 🔑 **Permission Issues**
-```bash
-❌ Failed to create storage directory  
-```
-**Solution**: Ensure write permissions in working directory
-
-### 💾 **Storage Corruption**
-```bash
-❌ Failed to load account: invalid storage format
-```
-**Solution**: Recreate account with new account example if no backup exists
+The troubleshooting guide includes detailed solutions, common causes, and debugging tips for all Self SDK examples.
 
 ---
 

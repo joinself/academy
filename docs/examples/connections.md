@@ -329,31 +329,15 @@ Confirm you've mastered secure connections:
 
 ---
 
-## Troubleshooting & Common Issues
+## 🔧 Need Help?
 
-### **Connection Failed to Establish**
-```bash
-❌ Failed to establish connection
-```
-**Solution**: Verify both parties use compatible SDK versions and have network connectivity
+**Having connection issues?** Check our comprehensive **[Troubleshooting Guide](troubleshooting.md)** for solutions to connection problems, including:
 
-### **Inbox Address Not Created**
-```bash
-❌ Failed to open inbox
-```  
-**Solution**: Ensure account is properly initialized and connected to Self network
+- 🤝 **[Connection Issues](troubleshooting.md#connection-issues)** - Connection establishment, handshake failures, and QR code problems
+- 🌐 **[Network Issues](troubleshooting.md#network--connectivity-issues)** - Connectivity and Self network problems
+- 🏗️ **[Setup Issues](troubleshooting.md#setup--account-issues)** - Account initialization and configuration problems
 
-### **QR Code Not Displaying**
-```bash
-❌ Failed to generate QR code
-```
-**Solution**: Check account setup and network connectivity; may occur in sandbox environments
-
-### **Client Cannot Connect**
-```bash
-❌ Connection request failed
-```
-**Solution**: Verify inbox address is correct and server is running and accepting connections
+The troubleshooting guide includes detailed solutions, common causes, and debugging tips for all Self SDK examples.
 
 ---
 

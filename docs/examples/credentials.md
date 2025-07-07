@@ -637,31 +637,15 @@ Confirm you've mastered verifiable credentials:
 
 ---
 
-## Troubleshooting & Common Issues
+## 🔧 Need Help?
 
-### **Credential Issuance Failed**
-```bash
-❌ Failed to issue credential
-```
-**Solution**: Verify both issuer and holder accounts are properly initialized and connected
+**Having credential issues?** Check our comprehensive **[Troubleshooting Guide](troubleshooting.md)** for solutions to credential problems, including:
 
-### **Evidence Upload Failed**
-```bash
-❌ Failed to upload evidence
-```  
-**Solution**: Check file size limits and network connectivity; ensure proper object creation
+- 🎫 **[Credential Issues](troubleshooting.md#credential-issues)** - Issuance failures, evidence upload problems, verification errors, and presentation creation issues
+- 🏗️ **[Setup Issues](troubleshooting.md#setup--account-issues)** - Account initialization for issuers and holders
+- 🌐 **[Network Issues](troubleshooting.md#network--connectivity-issues)** - Connectivity problems affecting credential operations
 
-### **Credential Verification Failed**
-```bash
-❌ Failed to verify credential signature
-```
-**Solution**: Ensure credential hasn't been modified and issuer signature is valid
-
-### **Presentation Creation Failed**
-```bash
-❌ Failed to create verifiable presentation
-```
-**Solution**: Verify all credentials in presentation are valid and properly signed
+The troubleshooting guide includes detailed solutions, common causes, and debugging tips for all Self SDK examples.
 
 ---
 
