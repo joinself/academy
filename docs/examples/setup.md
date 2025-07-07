@@ -197,27 +197,18 @@ With your Self identity established, you're ready for advanced patterns:
 
 ---
 
-## Production Considerations
+## 🏭 Production Deployment
 
-### **Moving to Production**
-Your setup examples taught you development patterns. For production:
+**Ready for production?** Check our comprehensive **[Production Deployment Guide](production.md)** for everything you need to deploy Self SDK applications in production:
 
-- **Key Management**: Implement proper key backup and recovery
-- **Monitoring**: Add logging and health checks for network connectivity  
-- **Error Handling**: Robust error handling for network and storage issues
-- **Multi-Device**: Sync identity across user devices securely
+- 🚀 **[Moving to Production](production.md#moving-to-production)** - Environment migration, configuration management, and data migration strategies
+- 🔐 **[Security Hardening](production.md#security-hardening)** - Key management, network security, and application security best practices  
+- ⚡ **[Performance Optimization](production.md#performance-optimization)** - Connection pooling, caching strategies, and resource optimization
+- 📊 **[Monitoring & Observability](production.md#monitoring--observability)** - Logging, health checks, and alerting systems
+- 📈 **[Scalability Patterns](production.md#scalability-patterns)** - Load balancing, data partitioning, and distributed architectures
+- 🔄 **[Deployment & Operations](production.md#deployment--operations)** - Blue-green deployments, configuration management, and maintenance
 
-### **Performance Optimization**
-- **Connection Pooling**: Reuse network connections efficiently
-- **Storage Optimization**: Index frequently accessed account data
-- **Background Sync**: Keep account state synchronized asynchronously
-- **Caching**: Cache inbox addresses and network status
-
-### **Security Hardening**
-- **Key Rotation**: Implement periodic key rotation strategies
-- **Storage Encryption**: Additional encryption layers for sensitive data
-- **Network Security**: TLS configuration and certificate pinning
-- **Access Control**: Proper permissions for storage directories
+The production guide includes code examples, checklists, and templates for enterprise-grade Self SDK deployments.
 
 ---
 

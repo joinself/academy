@@ -275,27 +275,17 @@ With secure connections established, you're ready for advanced communication:
 
 ---
 
-## Production Considerations
+## 🏭 Production Deployment
 
-### **Moving to Production**
-Your connection examples taught development patterns. For production:
+**Ready for production connections?** Check our comprehensive **[Production Deployment Guide](production.md)** for everything you need to deploy secure connection systems:
 
-- **🔑 Key Management**: Implement secure key backup and recovery procedures
-- **📊 Monitoring**: Log connection attempts and security events for analysis
-- **🔄 Error Handling**: Robust error handling for network and cryptographic failures
-- **⚡ Performance**: Connection pooling and efficient resource management
+- 🚀 **[Moving to Production](production.md#moving-to-production)** - Connection security patterns, key management, and monitoring strategies
+- 🔐 **[Security Hardening](production.md#security-hardening)** - Connection filtering, rate limiting, access control, and audit trails
+- ⚡ **[Performance Optimization](production.md#performance-optimization)** - Connection pooling, load balancing, and resource management
+- 📊 **[Monitoring & Observability](production.md#monitoring--observability)** - Connection monitoring, security event logging, and performance metrics
+- 📈 **[Scalability Patterns](production.md#scalability-patterns)** - Distributed connection handling and high-availability architectures
 
-### **Security Hardening**
-- **Connection Filtering**: Implement validation before accepting connections
-- **Rate Limiting**: Prevent connection spam and denial of service attacks  
-- **Access Control**: Role-based connection acceptance policies
-- **Audit Trails**: Complete logging of all connection security events
-
-### **Scalability Optimization**
-- **Connection Pooling**: Reuse established connections efficiently
-- **Load Balancing**: Distribute connection load across multiple servers
-- **Resource Management**: Monitor cryptographic CPU and memory usage
-- **Caching**: Cache frequently used cryptographic material appropriately
+The production guide includes connection-specific security patterns, performance optimization techniques, and enterprise deployment strategies.
 
 ---
 

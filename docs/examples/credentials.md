@@ -583,27 +583,17 @@ With verifiable credentials mastered, you're ready for advanced applications:
 
 ---
 
-## Production Considerations
+## 🏭 Production Deployment
 
-### **Moving to Production**
-Your credential examples taught development patterns. For production:
+**Ready for production credentials?** Check our comprehensive **[Production Deployment Guide](production.md)** for everything you need to deploy credential systems at scale:
 
-- **🔑 Key Management**: Implement secure issuer key backup and recovery
-- **📊 Monitoring**: Track credential issuance, verification, and usage analytics
-- **🔄 Revocation**: Handle credential expiration and revocation workflows
-- **⚡ Performance**: Optimize credential storage and search for scale
+- 🚀 **[Moving to Production](production.md#moving-to-production)** - Issuer key management, credential revocation workflows, and performance optimization
+- 🔐 **[Security Hardening](production.md#security-hardening)** - Issuer validation, credential filtering, access control, and audit trails
+- ⚡ **[Performance Optimization](production.md#performance-optimization)** - Credential indexing, batch operations, storage optimization, and caching strategies
+- 📊 **[Monitoring & Observability](production.md#monitoring--observability)** - Issuance analytics, verification tracking, and usage monitoring
+- 📈 **[Scalability Patterns](production.md#scalability-patterns)** - Large-scale credential collections, distributed storage, and high-throughput processing
 
-### **Security Hardening**
-- **Issuer Validation**: Verify issuer identity and authorization before accepting credentials
-- **Credential Filtering**: Implement validation logic for credential types and claims
-- **Audit Trails**: Complete logging of all credential issuance and verification events
-- **Access Control**: Role-based permissions for credential management operations
-
-### **Scalability Optimization**
-- **Credential Indexing**: Efficient search and retrieval for large credential collections
-- **Batch Operations**: Process multiple credentials efficiently
-- **Storage Optimization**: Compress and optimize credential storage formats
-- **Caching**: Cache frequently accessed credentials and verification results
+The production guide includes credential-specific security patterns, enterprise deployment strategies, and scalability optimization techniques.
 
 ---
 

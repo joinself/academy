@@ -93,6 +93,14 @@ examples/server/
 - 🛠️ Developer tools, testing utilities, and debugging resources
 - 👥 Community forums, Discord, and GitHub support channels
 
+## 🏭 Production Deployment
+
+**Ready for production?** Check our comprehensive **[Production Deployment Guide](production.md)** for everything you need to deploy Self SDK applications in production environments:
+- 🚀 Environment migration and configuration management strategies
+- 🔐 Security hardening and key management best practices
+- ⚡ Performance optimization and scalability patterns
+- 📊 Monitoring, observability, and operational procedures
+
 ## Ready to Start?
 
 Choose your learning path and dive into the hands-on examples! 

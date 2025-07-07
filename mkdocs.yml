@@ -65,6 +65,9 @@ nav:
     - Credentials: examples/credentials.md
     - Chat & Messaging: examples/chat.md
     - Advanced Features: examples/advanced.md
+    - Troubleshooting: examples/troubleshooting.md
+    - Resources & Community: examples/resources.md
+    - Production Deployment: examples/production.md
   - Architecture:
     - architecture/overview.md
     - System Design: architecture/system-overview.md
