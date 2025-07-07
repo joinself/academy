@@ -1,12 +1,12 @@
-# 🔐 Cryptographic Foundations
+# Cryptographic Foundations
 
-> **🔧 Hands-on Learning:** These concepts underpin all [Academy Examples](../examples/overview.md)
+> **Hands-on Learning:** These concepts underpin all [Academy Examples](../examples/overview.md)
 
 ## What You'll Learn
 
 The Self SDK builds on proven cryptographic primitives to provide secure, decentralized identity and messaging. This page explains the mathematical foundations that make everything work - from your first account creation to complex credential exchanges.
 
-**🎯 Learning Goals:**
+**Learning Goals:**
 - Understand the cryptographic algorithms powering Self SDK
 - Learn about Ed25519 signatures and X25519 key exchange  
 - Discover how hash functions provide integrity and security
@@ -15,7 +15,7 @@ The Self SDK builds on proven cryptographic primitives to provide secure, decent
 
 ---
 
-## 🔑 Core Cryptographic Algorithms
+## Core Cryptographic Algorithms
 
 The Self SDK uses state-of-the-art cryptographic algorithms chosen for security, performance, and interoperability.
 
@@ -33,12 +33,12 @@ The Self SDK uses state-of-the-art cryptographic algorithms chosen for security,
 
 **Why Ed25519?**
 ```
-✅ High Performance: Faster than RSA and ECDSA
-✅ Small Keys & Signatures: Efficient network usage
-✅ Deterministic: No need for secure random per signature
-✅ Side-Channel Resistant: Protection against timing attacks
-✅ Simple Implementation: Fewer edge cases than ECDSA
-✅ Collision Resistant: Hash collisions don't break signatures
+- High Performance: Faster than RSA and ECDSA
+- Small Keys & Signatures: Efficient network usage
+- Deterministic: No need for secure random per signature
+- Side-Channel Resistant: Protection against timing attacks
+- Simple Implementation: Fewer edge cases than ECDSA
+- Collision Resistant: Hash collisions don't break signatures
 ```
 
 **Real Example from Self SDK:**
@@ -78,7 +78,7 @@ Party A                           Party B
 
 **Real Example from Self SDK:**
 ```go
-// From examples/server/01_connection/01_direct/go/main.go
+// From https://github.com/joinself/academy/tree/main/examples/server/01_connection/01_direct/go/main.go
 kpg.KeyPackage(), // Their cryptographic key package for encryption
 ```
 
@@ -97,7 +97,7 @@ kpg.KeyPackage(), // Their cryptographic key package for encryption
 
 **Real Example from Self SDK:**
 ```go
-// From examples/server/04_advanced_features/01_core_features/go/main.go
+// From https://github.com/joinself/academy/tree/main/examples/server/04_advanced_features/01_core_features/go/main.go
 import (
     "crypto/rand"
     "crypto/sha256"
@@ -132,7 +132,7 @@ func generateStorageKey(seed string) []byte {
 - Isolated storage per account
 
 ```go
-// From examples/server/04_advanced_features/01_core_features/go/main.go
+// From https://github.com/joinself/academy/tree/main/examples/server/04_advanced_features/01_core_features/go/main.go
 cfg := &account.Config{
     StorageKey:  generateStorageKey("advanced_demo"), // 32-byte AES key
     StoragePath: "./advanced_demo_storage",           // Encrypted storage
@@ -153,7 +153,7 @@ cfg := &account.Config{
 - Signature verification proves credential authenticity
 
 ```go
-// From examples/server/02_credentials/01_issuing_credentials/05_comprehensive/go/main.go
+// From https://github.com/joinself/academy/tree/main/examples/server/02_credentials/01_issuing_credentials/05_comprehensive/go/main.go
 // centralized authorities while maintaining cryptographic integrity and privacy.
 ```
 
@@ -177,7 +177,7 @@ cfg := &account.Config{
 - Self-sovereign identity without central authority
 
 ```go
-// From examples/server/02_credentials/01_issuing_credentials/05_comprehensive/go/main.go
+// From https://github.com/joinself/academy/tree/main/examples/server/02_credentials/01_issuing_credentials/05_comprehensive/go/main.go
 // DIDs (Decentralized Identifiers) are cryptographically verifiable identities
 ```
 
@@ -237,7 +237,7 @@ holderCfg := &account.Config{
 
 **Connection Key Exchange:**
 ```go
-// From examples/server/01_connection/02_qr/go/main.go
+// From https://github.com/joinself/academy/tree/main/examples/server/01_connection/02_qr/go/main.go
 // Step 2: Generate cryptographic key package for secure communication
 kpg, err := acc.KeyPackageGenerate()
 ```
@@ -258,7 +258,7 @@ The Self SDK implements **Message Layer Security** for group messaging:
 
 **Integration with Examples:**
 ```go
-// From examples/server/04_advanced_features/01_core_features/go/main.go
+// From https://github.com/joinself/academy/tree/main/examples/server/04_advanced_features/01_core_features/go/main.go
 Callbacks: account.Callbacks{
     OnWelcome:    d.onWelcomeMessage,    // MLS welcome handling
     OnKeyPackage: d.onKeyPackage,        // Key package management
@@ -275,7 +275,7 @@ Callbacks: account.Callbacks{
 3. **Secure Channel Phase**: Begin encrypted communication
 
 ```go
-// From examples/server/01_connection/01_direct/go/main.go
+// From https://github.com/joinself/academy/tree/main/examples/server/01_connection/01_direct/go/main.go
 connection, err := senderAccount.ConnectionNegotiate(
     recipientKey,  // Ed25519 public key for verification
     kpg.KeyPackage(), // X25519 key package for encryption
@@ -291,7 +291,7 @@ connection, err := senderAccount.ConnectionNegotiate(
 3. **Credential Packaging**: Combine claims + signature + metadata
 
 ```go
-// From examples/server/02_credentials/01_issuing_credentials/01_basic/go/main.go
+// From https://github.com/joinself/academy/tree/main/examples/server/02_credentials/01_issuing_credentials/01_basic/go/main.go
 emailCred, err := credential.NewCredential().
     ClaimObject(credential.ClaimTypeEmailAddress, map[string]interface{}{
         "emailAddress": "alice@example.com",
@@ -302,7 +302,7 @@ emailCred, err := credential.NewCredential().
 
 ---
 
-## 🚀 Performance Characteristics
+## Performance Characteristics
 
 ### Ed25519 Performance
 
@@ -330,52 +330,12 @@ emailCred, err := credential.NewCredential().
 
 ---
 
-## 🔮 Post-Quantum Considerations
-
-### Current Quantum Threat
-
-**Timeline Assessment:**
-- **Short-term (5-10 years)**: Current algorithms remain secure
-- **Medium-term (10-20 years)**: Quantum computers may threaten ECC
-- **Long-term (20+ years)**: Large-scale quantum computers likely
-
-**Algorithm Vulnerabilities:**
-- **Ed25519**: Vulnerable to Shor's algorithm on quantum computers
-- **X25519**: Also vulnerable to quantum ECDLP attacks
-- **SHA-256/SHA-512**: Quantum resistant (halved security but still strong)
-
-### Migration Strategy
-
-**Hybrid Approach:**
-The Self SDK is designed for algorithm agility, enabling future migration:
-
-```go
-// Current pattern allows for future algorithm changes
-type account.Config struct {
-    StorageKey  []byte           // Could use post-quantum keys
-    // Future: QuantumSafeMode bool
-    // Future: SignatureAlgorithm string
-}
-```
-
-**Recommended Post-Quantum Algorithms:**
-- **Signatures**: Dilithium, Falcon, or SPHINCS+
-- **Key Exchange**: Kyber or NTRU
-- **Hash Functions**: SHA-256/SHA-512 (already quantum resistant)
-
-**Migration Considerations:**
-- **Larger Key Sizes**: Post-quantum keys are typically much larger
-- **Performance Impact**: Some post-quantum algorithms are slower
-- **Backwards Compatibility**: Need to support legacy and new algorithms
-
----
-
 ## 📚 Real-World Examples
 
 ### Example 1: Account Creation Cryptography
 
 ```go
-// From examples/server/00_setup/01_new_account/go/main.go
+// From https://github.com/joinself/academy/tree/main/examples/server/00_setup/01_new_account/go/main.go
 // When you create a new Self account:
 
 1. Generate Ed25519 keypair for signatures
@@ -395,7 +355,7 @@ type account.Config struct {
 ### Example 2: Secure Connection Establishment
 
 ```go
-// From examples/server/01_connection/01_direct/go/main.go
+// From https://github.com/joinself/academy/tree/main/examples/server/01_connection/01_direct/go/main.go
 // When two accounts connect:
 
 1. Exchange Ed25519 public keys (identity verification)
@@ -414,7 +374,7 @@ type account.Config struct {
 ### Example 3: Credential Issuance Cryptography
 
 ```go
-// From examples/server/02_credentials/01_issuing_credentials/01_basic/go/main.go
+// From https://github.com/joinself/academy/tree/main/examples/server/02_credentials/01_issuing_credentials/01_basic/go/main.go
 // When issuing a verifiable credential:
 
 1. Issuer structures credential claims

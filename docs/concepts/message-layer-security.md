@@ -1,12 +1,12 @@
-# 🔒 Message Layer Security
+# Message Layer Security
 
-> **🔧 Hands-on Learning:** After reading this, try the [Chat Examples](../examples/chat.md)
+> **Hands-on Learning:** After reading this, try the [Chat Examples](../examples/chat.md)
 
 ## What You'll Learn
 
 Message Layer Security (MLS) is the protocol that powers Self SDK's secure communication. It provides end-to-end encryption, forward secrecy, and post-compromise security for both individual and group conversations. This page explains how MLS works and why it's essential for secure messaging.
 
-**🎯 Learning Goals:**
+**Learning Goals:**
 - Understand how MLS provides end-to-end encryption
 - Learn about forward secrecy and post-compromise security
 - Explore group messaging security challenges and solutions
@@ -15,28 +15,28 @@ Message Layer Security (MLS) is the protocol that powers Self SDK's secure commu
 
 ---
 
-## 🛡️ What is Message Layer Security?
+## What is Message Layer Security?
 
 **Message Layer Security (MLS)** is a cryptographic protocol designed for secure group messaging. Unlike traditional point-to-point encryption, MLS enables efficient, scalable security for groups of any size while maintaining strong security properties.
 
 ### Core Security Properties
 
-**🔐 End-to-End Encryption:**
+**End-to-End Encryption:**
 - Messages encrypted before leaving sender's device
 - Only intended recipients can decrypt messages
 - Network infrastructure cannot read message content
 
-**⏰ Forward Secrecy:**
+**Forward Secrecy:**
 - Compromising current keys doesn't affect past messages
 - Keys automatically rotated and old keys deleted
 - Past communications remain secure even after key theft
 
-**🔄 Post-Compromise Security:**
+**Post-Compromise Security:**
 - System can heal from key compromise
 - New secure communication established automatically
 - Group continues functioning even after partial compromise
 
-**👥 Efficient Group Operations:**
+**Efficient Group Operations:**
 - Adding/removing members doesn't require N² operations
 - Scalable key management for large groups
 - Minimal bandwidth overhead for group changes
@@ -52,16 +52,16 @@ Traditional Encryption = Simple Door Lock
 └── Same security level forever
 
 MLS = Smart Conference Room
-├── 🔑 Keys change automatically every meeting
-├── 🚪 New people get fresh room keys  
-├── 🗝️ Old keys stop working immediately
-├── 🔄 Room "heals" if security compromised
-└── 📱 All handled automatically by your device
+├── Keys change automatically every meeting
+├── New people get fresh room keys  
+├── Old keys stop working immediately
+├── Room "heals" if security compromised
+└── All handled automatically by your device
 ```
 
 ---
 
-## 🔧 MLS in the Self SDK
+## MLS in the Self SDK
 
 The Self SDK implements MLS transparently - you get enterprise-grade security without managing the complexity.
 
@@ -72,26 +72,34 @@ The Self SDK implements MLS transparently - you get enterprise-grade security wi
 // From examples/server/04_advanced_features/01_core_features/go/main.go
 cfg := &account.Config{
     Callbacks: account.Callbacks{
-        OnWelcome:    d.onWelcomeMessage,    // New group member joined
-        OnKeyPackage: d.onKeyPackage,        // Key material exchange
-        OnMessage:    d.onMessage,           // Encrypted messages
-        OnCommit:     d.onCommit,            // Group state changes
-        OnProposal:   d.onProposal,          // Proposed group changes
+        OnConnect:         d.onConnect,         // Account connected to network
+        OnDisconnect:      d.onDisconnect,      // Account disconnected from network
+        OnAcknowledgement: d.onAcknowledgement, // Message delivery confirmed
+        OnError:           d.onError,           // Error occurred during operation
+        OnMessage:         d.onMessage,         // Encrypted messages received and decrypted
+        OnCommit:          d.onCommit,          // Group state changes confirmed
+        OnKeyPackage:      d.onKeyPackage,      // Cryptographic material for establishing connections
+        OnProposal:        d.onProposal,        // Proposed group changes
+        OnWelcome:         d.onWelcomeMessage,  // New group member joined (including 1:1 "groups")
     },
 }
 ```
 
 **What Each Callback Handles:**
+- **OnConnect**: Account successfully connected to Self network infrastructure
+- **OnDisconnect**: Account disconnected (with optional error details)
+- **OnAcknowledgement**: Message delivery confirmed by recipient
+- **OnError**: Error occurred during account operation (with reference and error details)
+- **OnMessage**: Encrypted messages received and automatically decrypted by MLS
+- **OnCommit**: Group membership or key changes confirmed and applied
+- **OnKeyPackage**: Cryptographic material exchanged during connection establishment
+- **OnProposal**: Pending changes to group security or membership proposed
 - **OnWelcome**: Someone joined a secure group (including 1:1 "groups")
-- **OnKeyPackage**: Cryptographic material for establishing connections
-- **OnMessage**: Encrypted messages received and decrypted
-- **OnCommit**: Group membership or key changes confirmed
-- **OnProposal**: Pending changes to group security or membership
 
 ### Message Flow Example
 
 ```go
-// From examples/server/03_chat/01_basic/go/main.go
+// From https://github.com/joinself/academy/blob/main/examples/server/03_chat/01_basic/go/main.go
 func handleMessage(acc *account.Account, msg *event.Message) {
     // MLS automatically decrypted this message before delivery
     switch event.ContentTypeOf(msg) {
@@ -118,15 +126,15 @@ func sendResponse(acc *account.Account, toAddress *signing.PublicKey, responseTe
 
 ---
 
-## 🔑 Key Management Deep Dive
+## Key Management Deep Dive
 
 MLS's security comes from sophisticated key management that happens automatically.
 
 ### Key Lifecycle
 
-**🌱 Key Generation:**
+**Key Generation:**
 ```go
-// From examples/server/04_advanced_features/01_core_features/go/main.go
+// From https://github.com/joinself/academy/blob/main/examples/server/04_advanced_features/01_core_features/go/main.go
 // Generate key package for connection (valid for 15 minutes)
 keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
     inboxAddress,
@@ -134,12 +142,12 @@ keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
 )
 ```
 
-**🔄 Key Rotation:**
+**Key Rotation:**
 - **Automatic**: Keys rotate on schedule and group changes
 - **Triggered**: Member joins/leaves, security events
 - **Transparent**: Applications never see raw cryptographic material
 
-**🗑️ Key Deletion:**
+**Key Deletion:**
 - **Forward Secrecy**: Old keys deleted after rotation
 - **Memory Safety**: Keys zeroed out when no longer needed
 - **Storage Cleanup**: Historical keys removed from device storage
@@ -148,21 +156,21 @@ keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
 
 ```
 Key Package (exchanged during connection setup):
-├── 🔑 Identity Key (Ed25519)
+├── Identity Key (Ed25519)
 │   └── Long-term identity verification
-├── 🔐 Encryption Key (X25519)  
+├── Encryption Key (X25519)  
 │   └── Message encryption material
-├── ⏰ Expiration Time
+├── Expiration Time
 │   └── Automatic key material expiry
-├── 🔒 Signature
+├── Signature
 │   └── Proof of authenticity
-└── 📋 Supported Features
+└── Supported Features
     └── Protocol capabilities
 ```
 
 **Real Example from Self SDK:**
 ```go
-// From examples/server/04_advanced_features/01_core_features/go/main.go
+// From https://github.com/joinself/academy/blob/main/examples/server/04_advanced_features/01_core_features/go/main.go
 func (d *AdvancedDemo) onKeyPackage(acc *account.Account, keyPackageMsg *event.KeyPackage) {
     fmt.Printf("🔑 Key package received from %s\n", keyPackageMsg.FromAddress().String())
     // SDK automatically processes the cryptographic material
@@ -229,7 +237,7 @@ groupAddress, err := selfAccount.ConnectionEstablish(
 ### Real Group Example
 
 ```go
-// From examples/server/04_advanced_features/01_core_features/go/main.go
+// From https://github.com/joinself/academy/blob/main/examples/server/04_advanced_features/01_core_features/go/main.go
 func (d *AdvancedDemo) onWelcomeMessage(acc *account.Account, welcomeMsg *event.Welcome) {
     // New member joined our secure group
     peerAddress := welcomeMsg.FromAddress()
@@ -252,7 +260,7 @@ func (d *AdvancedDemo) onWelcomeMessage(acc *account.Account, welcomeMsg *event.
 
 ---
 
-## 🔒 Security Guarantees Explained
+## Security Guarantees Explained
 
 ### Forward Secrecy in Practice
 
@@ -264,13 +272,13 @@ Time: 10:30 AM - Message 2 sent (Key B)
 Time: 10:45 AM - Attacker compromises device
 
 Result:
-✅ Message 2 can be decrypted (Key B compromised)
-✅ Message 1 CANNOT be decrypted (Key A was deleted)
+Message 2 can be decrypted (Key B compromised)
+Message 1 CANNOT be decrypted (Key A was deleted)
 ```
 
 **Real Implementation:**
 ```go
-// From examples/server/04_advanced_features/01_core_features/go/main.go
+// From https://github.com/joinself/academy/blob/main/examples/server/04_advanced_features/01_core_features/go/main.go
 keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
     inboxAddress,
     time.Now().Add(15*time.Minute), // Keys automatically expire
@@ -281,16 +289,16 @@ keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
 
 **Healing Process:**
 ```
-1. 🚨 Compromise Detected/Suspected
+1. Compromise Detected/Suspected
    └── Device compromised or key leaked
    
-2. 🔄 Healing Initiated  
+2. Healing Initiated  
    └── New key material generated
    
-3. 🔑 Key Distribution
+3. Key Distribution
    └── Fresh keys distributed to group
    
-4. 🛡️ Security Restored
+4. Security Restored
    └── Future communication secure again
 ```
 
@@ -331,13 +339,13 @@ keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
 ┌─────────────────────────────────────┐
 │           Application Layer         │ ← Your chat, credentials, etc.
 ├─────────────────────────────────────┤
-│      Self SDK Message Layer        │ ← Message routing, addressing
+│      Self SDK Message Layer         │ ← Message routing, addressing
 ├─────────────────────────────────────┤  
-│     Message Layer Security (MLS)   │ ← End-to-end encryption
+│     Message Layer Security (MLS)    │ ← End-to-end encryption
 ├─────────────────────────────────────┤
-│        Transport Security          │ ← TLS, connection security
+│        Transport Security           │ ← TLS, connection security
 ├─────────────────────────────────────┤
-│           Network Layer            │ ← Internet routing
+│           Network Layer             │ ← Internet routing
 └─────────────────────────────────────┘
 ```
 
@@ -362,12 +370,12 @@ keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
 
 ---
 
-## 📱 Real-World Examples
+## Real-World Examples
 
 ### Example 1: Simple Chat Security
 
 ```go
-// From examples/server/03_chat/01_basic/go/main.go
+// From https://github.com/joinself/academy/blob/main/examples/server/03_chat/01_basic/go/main.go
 // When you send a chat message:
 
 1. Your app calls acc.MessageSend(peer, content)
@@ -386,7 +394,7 @@ keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
 ### Example 2: Group Connection Process
 
 ```go
-// From examples/server/04_advanced_features/01_core_features/go/main.go
+// From https://github.com/joinself/academy/blob/main/examples/server/04_advanced_features/01_core_features/go/main.go
 // When someone scans your QR code:
 
 1. QR contains discovery request with key package
@@ -433,7 +441,7 @@ keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
 **MLS Solution**: Pre-generated key packages enable offline delivery
 
 ```go
-// From examples/server/04_advanced_features/01_core_features/go/main.go
+// From https://github.com/joinself/academy/blob/main/examples/server/04_advanced_features/01_core_features/go/main.go
 keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
     inboxAddress,
     time.Now().Add(15*time.Minute), // Valid even if offline
@@ -452,7 +460,7 @@ keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
 **MLS + Verifiable Credentials = Enhanced Security:**
 
 ```go
-// From examples/server/02_credentials/01_issuing_credentials/01_basic/go/main.go
+// From https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/01_basic/go/main.go
 // Credentials can be shared through MLS-protected channels
 
 1. Issue credential using normal credential API
@@ -485,24 +493,6 @@ keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
 - **Granular Control**: Different security policies per device
 
 ---
-
-## 🔮 Future Considerations
-
-### Post-Quantum MLS
-
-**Current Status:**
-- MLS RFC 9420 supports algorithm agility
-- Self SDK can migrate to post-quantum algorithms
-- Key packages can specify quantum-resistant cryptography
-
-**Migration Path:**
-```go
-// Future Self SDK might support:
-cfg := &account.Config{
-    QuantumSafety: account.PostQuantumEnabled,
-    // This would use algorithms like Kyber, Dilithium
-}
-```
 
 ### Federation and Interoperability
 

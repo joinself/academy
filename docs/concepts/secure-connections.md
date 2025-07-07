@@ -1,4 +1,4 @@
-# 🔐 Secure Connections Concepts 🟡
+# Secure Connections Concepts
 
 > **🛠️ Hands-on Learning:** After reading this, try the [Connection Examples](../examples/connections.md)  
 > **🎯 What you'll learn:** How cryptographic handshakes establish secure communication channels between Self identities
@@ -7,89 +7,114 @@ Welcome to the **heart of Self SDK security**! Here you'll discover how two Self
 
 ---
 
-## 🎯 What You'll Learn
+## What You'll Learn
 
 By understanding secure connections, you'll master:
 
-- **🤝 Cryptographic Handshakes**: How two parties prove identity and establish trust
-- **🔐 Key Exchange**: How communication keys are generated and shared securely
-- **🛡️ Forward Secrecy**: Why past messages stay secure even if current keys are compromised
-- **📡 Connection Types**: When to use direct addresses vs QR codes vs client-initiated patterns
-- **🔒 Security Guarantees**: What protections Self connections provide automatically
+- **Cryptographic Handshakes**: How two parties prove identity and establish trust
+- **Key Exchange**: How communication keys are generated and shared securely
+- **Forward Secrecy**: Why past messages stay secure even if current keys are compromised
+- **Connection Types**: When to use direct addresses vs QR codes vs client-initiated patterns
+- **Security Guarantees**: What protections Self connections provide automatically
 
-**⏱️ Time Investment**: 10 minutes to understand, lifetime of secure communication  
-**💡 Immediate Result**: Deep understanding of why Self connections are cryptographically secure
+**Time Investment**: 10 minutes to understand, lifetime of secure communication  
+**Immediate Result**: Deep understanding of why Self connections are cryptographically secure
 
 ---
 
-## 🌟 The Big Picture: Why Connections Matter
+## The Big Picture: Why Connections Matter
 
 In traditional systems, security is an afterthought. In Self SDK, **security is the foundation**. Before any communication happens, parties must establish a **cryptographically secure channel** that guarantees:
 
-### 🛡️ **Four Security Pillars**
+### **Four Security Pillars**
 
-```
-🔐 CONFIDENTIALITY     🔍 AUTHENTICITY     🛡️ INTEGRITY     🔄 FORWARD SECRECY
-Only you can read   →  Senders are real  →  Messages can't  →  Past messages stay
-your messages          and verified         be tampered       secure forever
+```mermaid
+graph LR
+    A[🔐 CONFIDENTIALITY<br/>Only you can read<br/>your messages]
+    B[🔍 AUTHENTICITY<br/>Senders are real<br/>and verified]
+    C[🛡️ INTEGRITY<br/>Messages can't<br/>be tampered]
+    D[🔄 FORWARD SECRECY<br/>Past messages stay<br/>secure forever]
+    
+    A --> B --> C --> D
+    
+    style A fill:#2E3138
+    style B fill:#2E3138
+    style C fill:#2E3138
+    style D fill:#2E3138
 ```
 
-### 🔄 **Traditional vs Self Connections**
+### **Traditional vs Self Connections**
 
 | Traditional (Broken) | Self SDK (Secure) |
 |---------------------|-------------------|
-| 🔓 "HTTPS is enough" | 🔐 **End-to-end encryption** |
-| 🏢 Company controls keys | 👤 **You control cryptographic keys** |
-| 📧 Anyone can email you | 🛡️ **Connection required before communication** |
-| ❌ No forward secrecy | ✅ **Mathematical forward secrecy guarantee** |
+| "HTTPS is enough" | **End-to-end encryption** |
+| Company controls keys | **You control cryptographic keys** |
+| Anyone can email you | **Connection required before communication** |
+| No forward secrecy | **Mathematical forward secrecy guarantee** |
 
 ---
 
-## 🤝 The Cryptographic Handshake: How It Really Works
+## The Cryptographic Handshake: How It Really Works
 
-### 🎭 **The Three-Act Drama**
+### **The Three-Act Drama**
 
 Every Self connection follows this **cryptographic protocol**:
 
+```mermaid
+graph LR
+    A[DISCOVERY<br/>Find each other]
+    B[NEGOTIATION<br/>Exchange keys]
+    C[ESTABLISHMENT<br/>Secure channel ready]
+    
+    A --> B --> C
+    
+    style A fill:#2E3138
+    style B fill:#2E3138
+    style C fill:#2E3138
 ```
-ACT 1: Discovery        ACT 2: Negotiation       ACT 3: Establishment
-🔍 Find each other  →   🤝 Exchange keys     →   🔐 Secure channel ready
-```
+
 
 Let's see this in **actual working code**:
 
-### **Act 1: Discovery** 🔍
+### **Act 1: Discovery**
 **How parties find each other**
 
 ```go
 // Server creates discoverable inbox address
 inboxAddress, err := selfAccount.InboxOpen()
-// ✅ Creates temporary address: did:self:inbox:ABC123...
-// ✅ Ready to receive connection requests
-// ✅ Address can be shared via QR code or direct sharing
+// Creates temporary address: did:self:inbox:ABC123...
+// Ready to receive connection requests
+// Address can be shared via QR code or direct sharing
 ```
 
 **🔑 Key Concept**: Inbox addresses are **temporary** and **secure** - they expire automatically and can't be guessed or brute-forced.
 
-### **Act 2: Negotiation** 🤝
+### **Act 2: Negotiation** 
 **How cryptographic material is exchanged**
 
 #### Option A: QR Code Pattern (Mobile-Friendly)
 ```go
-// Server generates cryptographic key package
-keyPackage, err := selfAccount.ConnectionNegotiateOutOfBand(
+// Step 2: Generate cryptographic key package for secure communication
+keyPackage, _ := selfAccount.ConnectionNegotiateOutOfBand(
     inboxAddress,
     time.Now().Add(30*time.Minute), // Expires in 30 minutes
 )
 
-// Package into QR code for mobile scanning
-content, err := message.NewDiscoveryRequest().
+// Step 3: Build discovery request message
+content, _ := message.NewDiscoveryRequest().
     KeyPackage(keyPackage).
     Expires(time.Now().Add(30 * time.Minute)).
     Finish()
 
+// Step 4: Create anonymous message and encode to QR
+anonymousMsg := event.NewAnonymousMessage(content)
+anonymousMsg.SetFlags(event.MessageFlagTargetSandbox)
+
+qrCode, _ := anonymousMsg.EncodeToQR(event.QREncodingUnicode)
+
 // Mobile app scans QR, extracts key package, initiates connection
 ```
+> Check out the [QR connection example](https://github.com/joinself/academy/tree/main/examples/server/01_connection/02_qr) for the working code.
 
 #### Option B: Direct Address Pattern (Programmatic)
 ```go
@@ -98,14 +123,16 @@ recipientKey := signing.FromAddress(inboxAddress)
 senderKey := signing.FromAddress(clientInboxAddress.String())
 
 err = clientAccount.ConnectionNegotiate(senderKey, recipientKey, expirationTime)
-// ✅ Sends cryptographic connection request
-// ✅ Includes client's key material for encryption
-// ✅ Server receives via OnKeyPackage callback
+// Sends cryptographic connection request
+// Includes client's key material for encryption
+// Server receives via OnKeyPackage callback
 ```
 
-**🔑 Key Concept**: Both patterns exchange **cryptographic key packages** that contain the mathematical material needed for secure communication.
+> Check out the [Direct connection example](https://github.com/joinself/academy/tree/main/examples/server/01_connection/01_direct) for the working code.
 
-### **Act 3: Establishment** 🔐
+> **Key Concept**: Both patterns exchange **cryptographic key packages** that contain the mathematical material needed for secure communication.
+
+### **Act 3: Establishment**
 **How the secure channel is created**
 
 ```go
@@ -121,30 +148,30 @@ groupAddress, err := clientAccount.ConnectionAccept(
     welcome.Welcome(),
 )
 
-// ✅ Secure communication channel established!
-// ✅ All future messages automatically encrypted
-// ✅ Both parties verified cryptographically
+// Secure communication channel established!
+// All future messages automatically encrypted
+// Both parties verified cryptographically
 ```
 
-**🔑 Key Concept**: The `groupAddress` represents a **secure communication group** where all messages are end-to-end encrypted.
+> **Key Concept**: The `groupAddress` represents a **secure communication group** where all messages are end-to-end encrypted.
 
 ---
 
-## 🔐 Cryptographic Deep Dive: The Math Behind The Magic
+## Cryptographic Deep Dive: The Math Behind The Magic
 
-### 🧮 **Key Exchange Protocol**
+### **Key Exchange Protocol**
 
 Self SDK uses **Message Layer Security (MLS)** protocol for group key management:
 
 ```
 Mathematical Guarantees:
-├── 🔑 Perfect Forward Secrecy (PFS)
-├── 🔄 Post-Compromise Security (PCS)  
-├── 🛡️ Authentication of all participants
-└── 🔐 End-to-end encryption by default
+├── Perfect Forward Secrecy (PFS)
+├── Post-Compromise Security (PCS)  
+├── Authentication of all participants
+└── End-to-end encryption by default
 ```
 
-### 🔄 **Forward Secrecy in Action**
+### **Forward Secrecy in Action**
 
 ```go
 // Every connection uses ephemeral keys
@@ -155,31 +182,31 @@ keyPackage, err := selfAccount.ConnectionNegotiateOutOfBand(
 ```
 
 **What this means**:
-- **🔑 Each connection uses different keys** - compromising one doesn't affect others
-- **⏰ Keys expire automatically** - old keys become useless over time  
-- **🔄 Key rotation happens automatically** - SDK handles key refresh behind the scenes
-- **📜 Past messages stay secure** - even if current keys are stolen
+- **Each connection uses different keys** - compromising one doesn't affect others
+- **Keys expire automatically** - old keys become useless over time  
+- **Key rotation happens automatically** - SDK handles key refresh behind the scenes
+- **Past messages stay secure** - even if current keys are stolen
 
-### 🛡️ **Identity Verification Process**
+### **Identity Verification Process**
 
 ```go
 // Every connection cryptographically verifies identity
 fmt.Printf("Connection received from: %s\n", kpg.FromAddress().String())
-// ✅ FromAddress is cryptographically verified
-// ✅ Cannot be spoofed or impersonated
-// ✅ Backed by their private key signature
+// FromAddress is cryptographically verified
+// Cannot be spoofed or impersonated
+// Backed by their private key signature
 ```
 
 **Security guarantee**: When you see a `FromAddress`, you can **mathematically prove** that message came from the holder of that DID's private key.
 
 ---
 
-## 🎨 Connection Patterns: Choose Your Security Model
+## Connection Patterns: Choose Your Security Model
 
 Self SDK provides **three connection patterns** for different use cases:
 
-### 🔗 **Pattern 1: Direct Address Connections** 
-**[Try it: Direct Connection Example](../../examples/server/01_connection/01_direct/)**
+### **Pattern 1: Direct Address Connections** 
+**[Try it: Direct Connection Example](https://github.com/joinself/academy/tree/main/examples/server/01_connection/01_direct/)**
 
 ```go
 // Perfect for server-to-server communication
@@ -188,16 +215,16 @@ inboxAddress, err := selfAccount.InboxOpen()
 // Other services connect using address directly
 ```
 
-**✅ Use when:**
+**Use when:**
 - Building APIs and backend services
 - Microservice communication  
 - Automated systems and scripts
 - Development and testing environments
 
-**🔐 Security model:** Address sharing controls who can initiate connections
+**Security model:** Address sharing controls who can initiate connections
 
 ### 📱 **Pattern 2: QR Code Connections**
-**[Try it: QR Connection Example](../../examples/server/01_connection/02_qr/)**
+**[Try it: QR Connection Example](https://github.com/joinself/academy/tree/main/examples/server/01_connection/02_qr/)**
 
 ```go
 // Mobile-friendly visual discovery
@@ -206,16 +233,16 @@ qrCode, err := anonymousMsg.EncodeToQR(event.QREncodingUnicode)
 // Automatic connection establishment
 ```
 
-**✅ Use when:**
+**Use when:**
 - Mobile app onboarding
 - User-facing applications
 - In-person connection establishment
 - Conference/event networking
 
-**🔐 Security model:** Physical access to QR code controls who can connect
+**Security model:** Physical access to QR code controls who can connect
 
-### 🎯 **Pattern 3: Client-Initiated Connections**
-**[Try it: Client Connection Example](../../examples/server/01_connection/03_client/)**
+### **Pattern 3: Client-Initiated Connections**
+**[Try it: Client Connection Example](https://github.com/joinself/academy/tree/main/examples/server/01_connection/03_client/)**
 
 ```go
 // Programmatic connection initiation
@@ -224,88 +251,72 @@ err = clientAccount.ConnectionNegotiate(senderKey, recipientKey, expirationTime)
 // Server handles via OnKeyPackage callback
 ```
 
-**✅ Use when:**
+**Use when:**
 - Client applications connecting to services
 - Mobile apps connecting to backend APIs
 - Scheduled/automated connection workflows
 - Service discovery patterns
 
-**🔐 Security model:** Knowledge of target address controls connection initiation
+**Security model:** Knowledge of target address controls connection initiation
 
 ---
 
-## 🎓 What Just Happened? Cryptographic Security Achieved
+## What Just Happened? Cryptographic Security Achieved
 
-### ✅ **Security Revolution Experienced**
+### **Security Revolution Experienced**
 
 You now understand how Self SDK provides **revolutionary security**:
 
-- **🔐 Military-grade encryption** - Every connection uses state-of-the-art cryptography
-- **🛡️ Identity verification** - Mathematical proof of who you're talking to
-- **🔄 Forward secrecy** - Past messages stay secure even if keys are compromised  
-- **⚡ Automatic protection** - All security happens behind the scenes
+- **Military-grade encryption** - Every connection uses state-of-the-art cryptography
+- **Identity verification** - Mathematical proof of who you're talking to
+- **Forward secrecy** - Past messages stay secure even if keys are compromised  
+- **Automatic protection** - All security happens behind the scenes
 
-### ✅ **Connection Security vs Traditional**
+### **Connection Security vs Traditional**
 
 | Traditional Connections | Self SDK Connections |
 |------------------------|---------------------|
-| 🔓 "Login with password" | 🔐 **Cryptographic handshake** |
-| 🏢 "Trust the server" | 🛡️ **Mutual authentication** |
-| 📧 "Anyone can email" | 🤝 **Connection required first** |
-| ❌ "Hope it's secure" | ✅ **Mathematical security guarantee** |
+| "Login with password" | **Cryptographic handshake** |
+| "Trust the server" | **Mutual authentication** |
+| "Anyone can email" | **Connection required first** |
+| "Hope it's secure" | **Mathematical security guarantee** |
 
-### ✅ **Real-World Security Impact**
+### **Real-World Security Impact**
 
 Your connections now provide:
-- **🚫 No password vulnerabilities** - connections use cryptographic proofs
-- **🔐 End-to-end encryption** - even Self can't read your messages
-- **🛡️ Identity authenticity** - impossible to impersonate connection parties
-- **🔄 Perfect forward secrecy** - compromised keys don't compromise history
+- **No password vulnerabilities** - connections use cryptographic proofs
+- **End-to-end encryption** - even Self can't read your messages
+- **Identity authenticity** - impossible to impersonate connection parties
+- **Perfect forward secrecy** - compromised keys don't compromise history
 
 ---
 
-## 🏗️ Technical Architecture: How It All Fits Together
+## Technical Architecture: How It All Fits Together
 
-### 🎯 **Complete Connection Architecture**
+### **Complete Connection Architecture**
 
 Through the examples, you've built this **cryptographically secure system**:
 
 ```
 Self Connection Architecture
-├── 🆔 Identity Layer (DIDs + Cryptographic Keys)
-├── 🤝 Connection Layer (Handshakes + Key Exchange)  
-├── 🔐 Encryption Layer (MLS + Forward Secrecy)
-├── 📡 Transport Layer (Network + Routing)
-└── 📱 Application Layer (Messages + Credentials)
+├── Identity Layer (DIDs + Cryptographic Keys)
+├── Connection Layer (Handshakes + Key Exchange)  
+├── Encryption Layer (MLS + Forward Secrecy)
+├── Transport Layer (Network + Routing)
+└── Application Layer (Messages + Credentials)
 ```
 
-### 🔐 **Security Layers in Practice**
+### **Network Security Model**
 
-```go
-// Layer 1: Identity (your permanent DID)
-account := common.SetupAccount(config)
-
-// Layer 2: Connection (temporary inbox for handshakes)  
-inboxAddress, err := selfAccount.InboxOpen()
-
-// Layer 3: Encryption (automatic key exchange)
-groupAddress, err := selfAccount.ConnectionEstablish(toAddr, keyPackage)
-
-// Layer 4: Transport (secure message delivery)
-// Layer 5: Application (your messages and credentials)
-```
-
-### 📡 **Network Security Model**
-
-- **🔍 Discovery**: Inbox addresses enable secure discovery
-- **🤝 Handshake**: MLS protocol ensures secure key exchange
-- **🔐 Encryption**: All communication is end-to-end encrypted
-- **🛡️ Verification**: Every message is cryptographically authenticated
-- **🔄 Rotation**: Keys rotate automatically for forward secrecy
+- **Discovery**: Inbox addresses enable secure discovery
+- **Handshake**: MLS protocol ensures secure key exchange
+- **Encryption**: All communication is end-to-end encrypted
+- **Verification**: Every message is cryptographically authenticated
+- **Rotation**: Keys rotate automatically for forward secrecy
 
 ---
 
-## 🚀 Next Steps: Build On Your Secure Foundation
+## Next Steps: Build On Your Secure Foundation
 
 With secure connections mastered, you're ready for advanced communication:
 
@@ -327,78 +338,54 @@ With secure connections mastered, you're ready for advanced communication:
 
 ---
 
-## 💡 Production Security Considerations
-
-### 🚀 **Moving to Production**
-Your connection examples taught development patterns. For production security:
-
-- **🔑 Key Management**: Implement secure key backup and recovery procedures
-- **🕐 Expiration Policy**: Set appropriate key and connection expiration times
-- **🔍 Monitoring**: Log connection attempts and security events
-- **🚨 Incident Response**: Plan for key compromise and security breaches
-
-### ⚡ **Performance vs Security**
-- **Connection Pooling**: Reuse established connections efficiently
-- **Key Caching**: Cache cryptographic material appropriately  
-- **Batch Operations**: Group operations to reduce handshake overhead
-- **Resource Management**: Monitor cryptographic CPU and memory usage
-
-### 🛡️ **Advanced Security Hardening**
-- **Key Rotation**: Implement proactive key rotation policies
-- **Network Security**: Add TLS and certificate pinning
-- **Access Control**: Implement connection filtering and rate limiting
-- **Audit Trails**: Log all connection events for security analysis
-
----
-
-## 🎯 Security Mastery Checklist
+## Security Mastery Checklist
 
 Confirm you've mastered cryptographic connections:
 
-**✅ Connection Understanding**
+**Connection Understanding**
 - [ ] Know why connections are required before communication
 - [ ] Understand cryptographic handshake process
 - [ ] Can explain forward secrecy benefits
 - [ ] Recognize different connection patterns
 
-**✅ Technical Implementation**
+**Technical Implementation**
 - [ ] Can create inbox addresses for receiving connections
 - [ ] Understand key package generation and exchange
 - [ ] Know how to handle connection callbacks
 - [ ] Can implement all three connection patterns
 
-**✅ Security Model**
+**Security Model**
 - [ ] Understand end-to-end encryption guarantees
 - [ ] Know how identity verification works
 - [ ] Can explain mathematical security properties
 - [ ] Recognize security vs usability tradeoffs
 
-**✅ Practical Application**
+**Practical Application**
 - [ ] Can choose appropriate connection pattern for use case
 - [ ] Know when to use direct vs QR vs client-initiated patterns
 - [ ] Can implement production security best practices
 
 ---
 
-## 🔧 Common Security Questions & Troubleshooting
+## Common Security Questions & Troubleshooting
 
-### 🔐 **"How secure are Self connections really?"**
+### **"How secure are Self connections really?"**
 **Answer**: Self connections use **Message Layer Security (MLS)**, the same protocol being standardized by the IETF for next-generation secure messaging. This provides:
 - Perfect Forward Secrecy (PFS)
 - Post-Compromise Security (PCS)  
 - Cryptographic authentication
 - End-to-end encryption
 
-### 🕐 **"Why do connections expire?"**
+### **"Why do connections expire?"**
 **Answer**: Expiration provides **forward secrecy** - if keys are compromised later, past communications remain secure. It also prevents indefinite accumulation of stale connection attempts.
 
-### 🔍 **"Can connections be intercepted?"**
+### **"Can connections be intercepted?"**
 **Answer**: Self connections use **end-to-end encryption** with **identity verification**. Even if network traffic is intercepted, attackers cannot:
 - Decrypt the messages (no keys)
 - Impersonate parties (no private keys)
 - Modify messages (cryptographic integrity)
 
-### 🤝 **"What happens if connection establishment fails?"**
+### **"What happens if connection establishment fails?"**
 ```bash
 ❌ Failed to establish connection
 ```
@@ -410,23 +397,23 @@ Confirm you've mastered cryptographic connections:
 
 ---
 
-## 📚 Additional Security Resources
+## Additional Security Resources
 
-### **🔗 Cryptographic Concepts**
+### **Cryptographic Concepts**
 - **[Cryptographic Foundations](cryptographic-foundations.md)** - Mathematical primitives explained
 - **[Message Layer Security](message-layer-security.md)** - Deep dive into MLS protocol
 
-### **🛠️ Implementation Guides**  
+### **Implementation Guides**  
 - **[Connection Examples](../examples/connections.md)** - Hands-on connection patterns
 - **[Security Best Practices](../architecture/security-model.md)** - Production security guidance
 
-### **🌐 Standards & Specifications**
+### **Standards & Specifications**
 - **[IETF MLS Working Group](https://datatracker.ietf.org/wg/mls/)** - Message Layer Security standard
 - **[RFC 9420](https://tools.ietf.org/rfc/rfc9420.txt)** - The MLS Protocol specification
 - **[Double Ratchet Algorithm](https://signal.org/docs/specifications/doubleratchet/)** - Forward secrecy foundations
 
 ---
 
-**🎉 Congratulations!** You now understand the **cryptographic foundations** that make Self SDK communications secure. Every connection you create provides military-grade security with the simplicity of a single function call.
+**Congratulations!** You now understand the **cryptographic foundations** that make Self SDK communications secure. Every connection you create provides military-grade security with the simplicity of a single function call.
 
-**Ready to send secure messages?** Continue with [Message Layer Security](message-layer-security.md) to understand how messages are protected over your secure connections! 🚀
+**Ready to send secure messages?** Continue with [Message Layer Security](message-layer-security.md) to understand how messages are protected over your secure connections!

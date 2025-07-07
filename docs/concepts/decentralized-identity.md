@@ -149,9 +149,9 @@ account.SendMessage("Hello!", recipientDID)
 ```go
 // When someone receives your message
 if (verifySignature(message, senderPublicKey)) {
-    // ✅ Message is authentic
-    // ✅ Sender identity is verified
-    // ✅ Message hasn't been tampered with
+// ✅ Message is authentic
+// ✅ Sender identity is verified
+// ✅ Message hasn't been tampered with
 }
 ```
 

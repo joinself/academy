@@ -22,28 +22,28 @@ Understanding decentralized identity, self-sovereign principles, and how traditi
 ### Secure Connections
 Learn how cryptographic connections work, key exchange protocols, and the security guarantees they provide.
 
-**📖 Read:** [Secure Connection Concepts](secure-connections.md)  
-**🔧 Try:** [Connection Examples](../examples/connections.md)
+**Read:** [Secure Connection Concepts](secure-connections.md)  
+**Try:** [Connection Examples](../examples/connections.md)
 
 ### Verifiable Credentials
 Deep dive into the W3C verifiable credentials standard, claim structures, and proof mechanisms.
 
-**📖 Read:** [Verifiable Credentials Concepts](verifiable-credentials.md)  
-**🔧 Try:** [Credential Examples](../examples/credentials.md)
+**Read:** [Verifiable Credentials Concepts](verifiable-credentials.md)  
+**Try:** [Credential Examples](../examples/credentials.md)
 
 ### Message Security
 Understanding end-to-end encryption, Message Layer Security (MLS), and secure group communications.
 
-**📖 Read:** [Message Layer Security](message-layer-security.md)  
-**🔧 Try:** [Chat Examples](../examples/chat.md)
+**Read:** [Message Layer Security](message-layer-security.md)  
+**Try:** [Chat Examples](../examples/chat.md)
 
 ### Cryptographic Foundations
 The mathematical and cryptographic primitives that secure the entire system.
 
-**📖 Read:** [Cryptographic Foundations](cryptographic-foundations.md)  
-**🔧 Apply:** All examples use these foundations
+**Read:** [Cryptographic Foundations](cryptographic-foundations.md)  
+**Apply:** All examples use these foundations
 
-## 🚀 How to Use These Guides
+## How to Use These Guides
 
 ### For Beginners
 Start with [Decentralized Identity](decentralized-identity.md), then follow the [Setup Examples](../examples/setup.md).
