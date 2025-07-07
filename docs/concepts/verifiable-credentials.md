@@ -371,6 +371,39 @@ certificationCredential := credential.NewCredential().
 
 ---
 
+## Live Code Examples
+
+See these concepts in action with real working code from our examples repository:
+
+=== "Basic Credential Issuance"
+    <div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/01_basic/go/main.go#L1-L50"
+         data-style="github-dark"
+         data-show-border="true"
+         data-show-line-numbers="true"
+         data-show-file-meta="true"
+         data-show-full-path="true"
+         data-show-copy="true"></div>
+
+=== "Multi-Claim Credentials"
+    <div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/02_multi_claim/go/main.go#L1-L50"
+         data-style="github-dark"
+         data-show-border="true"
+         data-show-line-numbers="true"
+         data-show-file-meta="true"
+         data-show-full-path="true"
+         data-show-copy="true"></div>
+
+=== "Credential Exchange"
+    <div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/02_exchanging_credentials/presentation_request/go/main.go#L1-L50"
+         data-style="github-dark"
+         data-show-border="true"
+         data-show-line-numbers="true"
+         data-show-file-meta="true"
+         data-show-full-path="true"
+         data-show-copy="true"></div>
+
+---
+
 ## Selective Disclosure and Privacy
 
 ### The Privacy Problem

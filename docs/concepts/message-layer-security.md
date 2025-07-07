@@ -98,27 +98,25 @@ cfg := &account.Config{
 
 ### Message Flow Example
 
-```go
-// From https://github.com/joinself/academy/blob/main/examples/server/03_chat/01_basic/go/main.go
-func handleMessage(acc *account.Account, msg *event.Message) {
-    // MLS automatically decrypted this message before delivery
-    switch event.ContentTypeOf(msg) {
-    case message.ContentTypeChat:
-        handleChatMessage(acc, msg, timestamp)
-    }
-}
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/03_chat/01_basic/go/main.go#L39-L50"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
 
-func sendResponse(acc *account.Account, toAddress *signing.PublicKey, responseText string) {
-    chatContent, err := message.NewChat().
-        Message(responseText).
-        Finish()
-    
-    // MLS automatically encrypts before sending
-    err = acc.MessageSend(toAddress, chatContent)
-}
-```
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/03_chat/01_basic/go/main.go#L84-L100"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
 
 **What Just Happened:**
+
 1. **Incoming**: MLS decrypted message using current group keys
 2. **Processing**: Your app handles the plaintext message content
 3. **Outgoing**: MLS encrypts response with fresh cryptographic material
@@ -133,14 +131,13 @@ MLS's security comes from sophisticated key management that happens automaticall
 ### Key Lifecycle
 
 **Key Generation:**
-```go
-// From https://github.com/joinself/academy/blob/main/examples/server/04_advanced_features/01_core_features/go/main.go
-// Generate key package for connection (valid for 15 minutes)
-keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
-    inboxAddress,
-    time.Now().Add(15*time.Minute), // Keys expire automatically!
-)
-```
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/04_advanced_features/01_core_features/go/main.go#L195-L199"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
 
 **Key Rotation:**
 - **Automatic**: Keys rotate on schedule and group changes
@@ -169,13 +166,14 @@ Key Package (exchanged during connection setup):
 ```
 
 **Real Example from Self SDK:**
-```go
-// From https://github.com/joinself/academy/blob/main/examples/server/04_advanced_features/01_core_features/go/main.go
-func (d *AdvancedDemo) onKeyPackage(acc *account.Account, keyPackageMsg *event.KeyPackage) {
-    fmt.Printf("🔑 Key package received from %s\n", keyPackageMsg.FromAddress().String())
-    // SDK automatically processes the cryptographic material
-}
-```
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/04_advanced_features/01_core_features/go/main.go#L285-L288"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
 
 ---
 
@@ -236,20 +234,14 @@ groupAddress, err := selfAccount.ConnectionEstablish(
 
 ### Real Group Example
 
-```go
-// From https://github.com/joinself/academy/blob/main/examples/server/04_advanced_features/01_core_features/go/main.go
-func (d *AdvancedDemo) onWelcomeMessage(acc *account.Account, welcomeMsg *event.Welcome) {
-    // New member joined our secure group
-    peerAddress := welcomeMsg.FromAddress()
-    d.connections[peerAddress.String()] = true
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/04_advanced_features/01_core_features/go/main.go#L241-L283"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
 
-    // Accept them into the group
-    _, err := acc.ConnectionAccept(welcomeMsg.ToAddress(), welcomeMsg.Welcome())
-    
-    // Send welcome message (automatically encrypted for group)
-    d.sendAdvancedWelcomeMessage(peerAddress)
-}
-```
 
 **What Just Happened:**
 1. **Welcome Event**: Someone wants to join secure communication
@@ -277,13 +269,13 @@ Message 1 CANNOT be decrypted (Key A was deleted)
 ```
 
 **Real Implementation:**
-```go
-// From https://github.com/joinself/academy/blob/main/examples/server/04_advanced_features/01_core_features/go/main.go
-keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
-    inboxAddress,
-    time.Now().Add(15*time.Minute), // Keys automatically expire
-)
-```
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/04_advanced_features/01_core_features/go/main.go#L195-L199"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
 
 ### Post-Compromise Security
 
@@ -352,6 +344,7 @@ keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
 ### MLS vs. Other Protocols
 
 **MLS vs. Signal Protocol:**
+
 | Feature | MLS | Signal Protocol |
 |---------|-----|-----------------|
 | Group Efficiency | ✅ Efficient tree-based | ❌ Pairwise only |
@@ -361,6 +354,7 @@ keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
 | Scalability | ✅ Large groups | ❌ Small groups only |
 
 **MLS vs. Traditional TLS:**
+
 | Feature | MLS | TLS |
 |---------|-----|-----|
 | End-to-End | ✅ Client-to-client | ❌ Client-to-server |
@@ -440,13 +434,14 @@ keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
 **Challenge**: Recipients might be offline when message sent
 **MLS Solution**: Pre-generated key packages enable offline delivery
 
-```go
-// From https://github.com/joinself/academy/blob/main/examples/server/04_advanced_features/01_core_features/go/main.go
-keyPackage, err := d.account.ConnectionNegotiateOutOfBand(
-    inboxAddress,
-    time.Now().Add(15*time.Minute), // Valid even if offline
-)
-```
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/04_advanced_features/01_core_features/go/main.go#L195-L199"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
 
 **How It Works:**
 1. **Key Pre-Generation**: Recipients create key packages in advance

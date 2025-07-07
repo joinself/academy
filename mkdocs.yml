@@ -46,6 +46,10 @@ theme:
 extra_css:
   - assets/stylesheets/custom.css
 
+extra_javascript:
+  - assets/javascripts/custom.js
+  - https://emgithub.com/embed-v2.js
+
 nav:
   - Concepts:
     - concepts/overview.md
