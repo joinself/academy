@@ -130,7 +130,7 @@ class AdvancedDemo {
 
         storageData.forEach { (key, value) ->
             runCatching {
-                account.valueStore(key, value.toByteArray())
+                account.valueStore(key, value.encodeToByteArray())
                 println("   ✅ Stored '$key'")
             }.onFailure {
                 println("   ❌ Failed to store '$key': ${it.message}")
@@ -139,17 +139,17 @@ class AdvancedDemo {
 
         println("🔹 Data Retrieval Verification")
         runCatching {
-            val profileData = account.valueLookup("user_profile")?.toString(Charsets.UTF_8)
+            val profileData = account.valueLookup("user_profile")?.decodeToString()
             val profile = profileData?.let { json.decodeFromString<UserProfile>(it) }
             println("   📖 Retrieved profile: ${profile?.name} (${profile?.role})")
 
-            val settingsData = account.valueLookup("app_settings")?.toString(Charsets.UTF_8)
+            val settingsData = account.valueLookup("app_settings")?.decodeToString()
             val settings = settingsData?.let { json.decodeFromString<AppSettings>(it) }
             println("   🎨 Dark mode: ${settings?.darkMode}, Notifications: ${settings?.notifications}")
         }.onFailure {
             println("   ❌ Failed to retrieve or parse stored data: ${it.message}")
         }
-        println()
+        println("✅ Storage operations completed successfully")
     }
 
     /**
@@ -182,6 +182,12 @@ class AdvancedDemo {
             val expirationTime = Instant.now().plus(Duration.ofMinutes(15))
             val formatter = DateTimeFormatter.ofPattern("HH:mm:ss").withZone(ZoneId.systemDefault())
             println("⏰ Expires in 15 minutes (${formatter.format(expirationTime)})")
+
+            println("💡 What happens when someone connects:")
+            println("   • Secure connection established")
+            println("   • Welcome message sent automatically")
+            println("   • Advanced storage updated with connection info")
+            println("   • Demo showcases real-time message handling")
         }.onFailure {
             println("❌ Failed to generate discovery QR code: ${it.message}")
         }
@@ -192,6 +198,7 @@ class AdvancedDemo {
      * Handles new connection welcome messages from peers.
      */
     private fun onWelcomeMessage(welcomeMsg: Welcome) {
+        val signal = Semaphore(0)
         val peerAddress = welcomeMsg.fromAddress()
         connections[peerAddress.encodeHex()] = true
 
@@ -201,9 +208,10 @@ class AdvancedDemo {
 
         runCatching {
             account.connectionAccept(welcomeMsg.toAddress(), welcomeMsg.welcome()) { status: SelfStatus, groupAddress: PublicKey ->
-
+                println("✅ Connection accepted.")
+                signal.release()
             }
-            println("✅ Connection accepted.")
+            signal.acquire()
 
             val connectionInfo = ConnectionInfo(
                 peerId = peerAddress.encodeHex(),
@@ -364,6 +372,22 @@ class AdvancedDemo {
         println("   ✅ Discovery QR generation and connection handling")
         println("   ✅ Real-time event-driven message processing")
         println("   ✅ Graceful shutdown and resource management")
+
+        println("🚀 Advanced features unlocked:")
+        println("   • Direct core SDK usage")
+        println("   • Encrypted storage for secure data persistence")
+        println("   • Event-driven architecture with callbacks")
+        println("   • Real-time connection and message handling")
+        println("   • Production patterns for robust applications")
+        println()
+
+        println("📚 Next steps:")
+        println("   • Explore individual subdirectories for deep dives")
+        println("   • Build production applications using these patterns")
+        println("   • Integrate advanced features into your own projects")
+        println()
+
+        println("✅ Advanced features demo completed!")
     }
 }
 
