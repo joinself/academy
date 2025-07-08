@@ -198,6 +198,12 @@ cd examples/go/02_credentials/02_exchanging_credentials/presentation_request
 go run main.go
 ```
 
+### Java
+```bash
+cd java
+gradle run
+```
+
 ## Expected Output
 
 ```
