@@ -7,6 +7,7 @@
 Now that you understand the [cryptographic foundations](../concepts/cryptographic-foundations.md), [MLS security](../concepts/message-layer-security.md), and have built [connections](../examples/connections.md), [credentials](../examples/credentials.md), and [chat applications](../examples/chat.md), let's see how everything fits together in the complete Self SDK architecture.
 
 **🎯 Learning Goals:**
+
 - Understand the layered architecture of the Self SDK ecosystem
 - See how cryptographic components integrate with application features
 - Learn about network topology and infrastructure patterns

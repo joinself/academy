@@ -89,6 +89,7 @@ examples/server/
 ## 📚 Resources & Community
 
 **Need documentation, tools, or support?** Visit our **[Resources & Community Guide](resources.md)** for:
+
 - 📖 Complete SDK documentation and concept guides  
 - 🛠️ Developer tools, testing utilities, and debugging resources
 - 👥 Community forums, Discord, and GitHub support channels
@@ -96,6 +97,7 @@ examples/server/
 ## 🏭 Production Deployment
 
 **Ready for production?** Check our comprehensive **[Production Deployment Guide](production.md)** for everything you need to deploy Self SDK applications in production environments:
+
 - 🚀 Environment migration and configuration management strategies
 - 🔐 Security hardening and key management best practices
 - ⚡ Performance optimization and scalability patterns
