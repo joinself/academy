@@ -16,6 +16,29 @@ Welcome to the Self SDK mobile examples! This directory contains examples for An
 | **Advanced** | [Core Features](04_advanced_features/01_core_features/) | Mobile SDK integration patterns | Android, iOS |
 | **Advanced** | [Notifications](04_advanced_features/03_notifications/) | Mobile push notifications | Android, iOS |
 
+## ✅ Implementation Status
+
+### 🔧 Setup Examples
+- [ ] **01_new_account** - Create Self identity with mobile UI
+- [ ] **02_existing_account** - Load saved accounts with biometric auth
+
+### 🔗 Connection Examples  
+- [ ] **02_qr** - Scan QR codes to connect with camera UI
+- [ ] **03_client** - Connect to server addresses with mobile UI
+
+### 💬 Chat Examples
+- [ ] **01_basic** - Secure messaging with mobile chat UI
+
+### 🆔 Credential Examples
+- [ ] **email_verification** - Mobile email verification flow with UI
+- [ ] **presentation_request** - Share credentials via mobile UI
+
+### 🚀 Advanced Examples
+- [ ] **01_core_features** - Mobile SDK integration patterns
+- [ ] **03_notifications** - Mobile push notifications with UI
+
+**Total Examples: 9** | **Implemented: 0** | **Remaining: 9**
+
 ## 🚀 Quick Start
 
 ### Android
