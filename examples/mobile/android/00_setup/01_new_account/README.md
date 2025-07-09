@@ -13,7 +13,7 @@ Create a new Self identity with mobile UI components.
 
 ### Android 
 
-1. Install the app to your phone 
+1. Install the app to your phone ios
 2. Open Self Academy app in your phone
 
 ```bash
