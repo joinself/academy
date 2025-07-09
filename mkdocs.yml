@@ -51,25 +51,30 @@ extra_javascript:
   - https://emgithub.com/embed-v2.js
 
 nav:
+  - Solutions:
+    - Overview: solutions/overview.md
+    - Authentication: solutions/authentication.md
+    - Identity Verification: solutions/identity-verification.md
+    - Digital Signatures: solutions/digital-signatures.md
   - Concepts:
-    - concepts/overview.md
+    - Overview: concepts/overview.md
     - Identity Foundations: concepts/decentralized-identity.md
     - Secure Connections: concepts/secure-connections.md
     - Verifiable Credentials: concepts/verifiable-credentials.md
     - Message Security: concepts/message-layer-security.md
     - Cryptographic Foundations: concepts/cryptographic-foundations.md
   - Examples:
-    - examples/overview.md
+    - Overview: examples/overview.md
     - Setup Guide: examples/setup.md
     - Connections: examples/connections.md
-    - Credentials: examples/credentials.md
+    - Credentials: examples.md
     - Chat & Messaging: examples/chat.md
     - Advanced Features: examples/advanced.md
     - Troubleshooting: examples/troubleshooting.md
     - Resources & Community: examples/resources.md
     - Production Deployment: examples/production.md
   - Architecture:
-    - architecture/overview.md
+    - Overview: architecture/overview.md
     - System Design: architecture/system-overview.md
     - Security Model: architecture/security-model.md
     - Integration Patterns: architecture/integration-patterns.md
