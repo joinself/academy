@@ -160,9 +160,7 @@ academy/
 │   │   ├── connections.md      # 🟡 Connection patterns with crypto theory
 │   │   ├── credentials.md      # 🟡 Credential workflows with VC concepts
 │   │   ├── chat.md            # 🟠 Messaging with MLS theory
-│   │   └── advanced.md        # 🔴 Production patterns with architecture
-│   │
-│   ├── architecture/           # 🏗️ System design supporting both theory and practice
+│   │   └── advanced.md        # 🔴 Production patterns with theory and practice
 │   │   ├── overview.md         # Design principles
 │   │   ├── system-overview.md  # Complete architecture
 │   │   ├── security-model.md   # Trust and threat model

@@ -302,7 +302,6 @@ Want to understand the technical details?
 
 - **[Secure Connections](secure-connections.md)** - How identities connect securely
 - **[Cryptographic Foundations](cryptographic-foundations.md)** - The math behind the magic
-- **[System Architecture](../architecture/system-overview.md)** - How it all fits together
 
 ### **Real-World Applications**
 

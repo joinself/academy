@@ -73,11 +73,6 @@ nav:
     - Troubleshooting: examples/troubleshooting.md
     - Resources & Community: examples/resources.md
     - Production Deployment: examples/production.md
-  - Architecture:
-    - Overview: architecture/overview.md
-    - System Design: architecture/system-overview.md
-    - Security Model: architecture/security-model.md
-    - Integration Patterns: architecture/integration-patterns.md
 
 # Extensions
 markdown_extensions:

@@ -191,10 +191,6 @@ With your Self identity established, you're ready for advanced patterns:
 - **[Advanced Examples](advanced.md)** - Production patterns and optimization
 - **Multi-device** - Use your identity across multiple devices
 
-### **Architecture Deep Dive** 🔴
-- **[System Overview](../architecture/system-overview.md)** - Complete technical architecture
-- **[Security Model](../architecture/security-model.md)** - Threat analysis and mitigations
-
 ---
 
 ## 🏭 Production Deployment

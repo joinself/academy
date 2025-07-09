@@ -27,43 +27,24 @@ hide:
   }
 </style>
 
-<h1>Welcome to the Joinself Academy</h1>
-<p class="subtitle">The definitive guide for developers building the future of digital identity.</p>
+# Welcome to the Self Academy
 
-<div class="homepage-cta">
-    <a href="examples/setup/" class="md-button md-button--primary">Get Started with Your First Self ID</a>
-</div>
+The Self Academy is your comprehensive resource for learning how to build next-generation applications with decentralized identity. Whether you're new to the concepts or an experienced developer, you'll find everything you need to get started and build production-ready systems.
 
-<div class="landing-grid">
-    <div class="card">
-        <h3><a href="concepts/overview/">Understand the Fundamentals</a></h3>
-        <ul>
-            <li><span class="icon">📄</span> <a href="concepts/decentralized-identity/">Decentralized Identity</a></li>
-            <li><span class="icon">🔐</span> <a href="concepts/cryptographic-foundations/">Cryptographic Foundations</a></li>
-            <li><span class="icon">🤝</span> <a href="concepts/secure-connections/">Secure Connections</a></li>
-            <li><span class="icon">🎫</span> <a href="concepts/verifiable-credentials/">Verifiable Credentials</a></li>
-            <li><span class="icon">🤫</span> <a href="concepts/message-layer-security/">Message Layer Security</a></li>
-        </ul>
-    </div>
-    <div class="card">
-        <h3><a href="examples/overview/">Learn by Building</a></h3>
-        <ul>
-            <li><span class="icon">🛠️</span> <a href="examples/setup/">Setup & Configuration</a></li>
-            <li><span class="icon">🔗</span> <a href="examples/connections/">Connections & Discovery</a></li>
-            <li><span class="icon">🎫</span> <a href="examples/credentials/">Verifiable Credentials</a></li>
-            <li><span class="icon">💬</span> <a href="examples/chat/">Chat & Messaging</a></li>
-            <li><span class="icon">⚙️</span> <a href="examples/advanced/">Advanced Features</a></li>
-        </ul>
-    </div>
-    <div class="card">
-        <h3><a href="architecture/overview/">Deploy with Confidence</a></h3>
-        <ul>
-            <li><span class="icon">🗺️</span> <a href="architecture/system-overview/">System Overview</a></li>
-            <li><span class="icon">🛡️</span> <a href="architecture/security-model/">Security Model</a></li>
-            <li><span class="icon">🧩</span> <a href="architecture/integration-patterns/">Integration Patterns</a></li>
-        </ul>
-    </div>
-</div>
+## 🚀 Get Started with Solutions
+
+Our new solution guides are the best place to start. They provide a direct path from a business use case to the code you need to write.
+
+- [**Authentication**](./solutions/authentication.md): Build passwordless login flows.
+- [**Identity Verification**](./solutions/identity-verification.md): Verify user identities with cryptographic proof.
+- [**Digital Signatures**](./solutions/digital-signatures.md): Create legally binding, biometric-backed signatures.
+
+## 📚 Core Learning Paths
+
+- **[Concepts](./concepts/overview.md)**: Start here to understand the core theories and principles behind decentralized identity, verifiable credentials, and secure connections.
+
+- **[Examples](./examples/overview.md)**: Dive into runnable code examples that demonstrate specific features and use cases for our server and mobile SDKs.
+
 
 <div class="try-it-out">
     <h2><span class="icon">⚡</span> Try It Out</h2>

@@ -1,7 +1,5 @@
 # 🚀 Advanced Features Examples
 
-> **📖 Learn the concepts first:** [System Architecture](../architecture/overview.md) | [Security Model](../architecture/security-model.md)
-
 ## What You'll Learn
 
 Welcome to the final set of examples, where we transition from foundational concepts to **production-ready patterns**. These advanced examples demonstrate how to build robust, scalable, and feature-rich applications using the Self SDK.
@@ -198,7 +196,6 @@ You have now completed the entire **Examples** section of the Academy!
 
 With this comprehensive knowledge, you are fully equipped to:
 - **Build Your Own Applications**: Use these patterns as a starting point.
-- **Deepen Architectural Knowledge**: Review the [Architecture section](../architecture/overview.md) with a practical understanding of how features are built.
 - **Contribute to the Ecosystem**: Your expertise can help improve the SDK and documentation.
 
 ## 💡 Key Takeaways

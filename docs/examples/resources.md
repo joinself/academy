@@ -24,13 +24,6 @@ Essential theoretical foundations for understanding Self SDK:
 - **[Message Layer Security](../concepts/message-layer-security.md)** - Protocol details and security properties of MLS
 - **[Verifiable Credentials](../concepts/verifiable-credentials.md)** - W3C standard implementation for digital credentials
 
-### **Architecture & Design**
-Deep dives into system design and integration patterns:
-
-- **[System Overview](../architecture/system-overview.md)** - Complete technical architecture and component interaction
-- **[Security Model](../architecture/security-model.md)** - Threat analysis, mitigations, and security guarantees
-- **[Integration Patterns](../architecture/integration-patterns.md)** - Production deployment patterns and best practices
-
 ---
 
 ## 🛠️ Developer Tools

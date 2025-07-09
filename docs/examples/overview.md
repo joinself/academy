@@ -40,7 +40,6 @@ Build secure messaging and communication features.
 ### Advanced Features
 Production-ready patterns and advanced integrations.
 
-- **Concepts:** [System Architecture](../architecture/overview.md)  
 - **Examples:** [Advanced Guide](advanced.md)
 
 ## Quick Start Paths
@@ -57,8 +56,6 @@ Production-ready patterns and advanced integrations.
 
 ### Ready for Production?
 1. [Advanced Guide](advanced.md) - Core production patterns
-2. [System Architecture](../architecture/overview.md) - Understand the complete system
-3. [Integration Patterns](../architecture/integration-patterns.md) - Best practices
 
 ## 🔗 Cross-References
 

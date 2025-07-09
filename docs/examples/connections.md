@@ -271,7 +271,6 @@ With secure connections established, you're ready for advanced communication:
 
 ### **Architecture Deep Dive** 🔴
 - **[Message Layer Security](../concepts/message-layer-security.md)** - Deep dive into MLS protocol
-- **[Security Model](../architecture/security-model.md)** - Complete threat analysis
 
 ---
 

@@ -511,7 +511,6 @@ Want to understand the technical details?
 
 - **[Cryptographic Foundations](cryptographic-foundations.md)** - Mathematical basis of credential security
 - **[Secure Connections](secure-connections.md)** - How credentials travel securely
-- **[System Architecture](../architecture/system-overview.md)** - How credentials fit the bigger picture
 
 ### **Real-World Applications**
 

@@ -1,7 +1,5 @@
 # 🚀 Mobile Advanced Features
 
-> **📖 Learn the concepts first:** [System Architecture](../../../../docs/architecture/overview.md)
-
 This directory contains mobile examples for advanced Self SDK features with built-in UI components.
 
 ## 📱 Examples Overview

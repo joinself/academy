@@ -577,9 +577,6 @@ With verifiable credentials mastered, you're ready for advanced applications:
 - **Multi-device Sync** - Credential portability across devices
 - **Enterprise Integration** - Large-scale credential management
 
-### **Level 3: Architecture Deep Dive** 🔴
-- **[System Overview](../architecture/system-overview.md)** - Complete system design with credentials
-- **[Integration Patterns](../architecture/integration-patterns.md)** - Production deployment patterns
 
 ---
 

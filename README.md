@@ -16,10 +16,10 @@ Our examples offer:
 
 This repository combines theoretical understanding with practical implementation:
 
-- 📚 **/docs**: Complete learning documentation with concepts, examples, and architecture
+- 📚 **/docs**: Complete learning documentation with solutions, concepts and examples
   - 🧠 **concepts/**: Theoretical foundations (decentralized identity, cryptography, security)
   - 🔧 **examples/**: Hands-on guides linking theory to practice  
-  - 🏗️ **architecture/**: System design and integration patterns
+  - 🏗️ **solutions/**: Self's solutions to your company problems
 - 🧪 **/examples**: Progressive learning examples for server-side integration
   - `server/`: Server-side examples organized by learning progression:
     - `00_setup/`: Account creation and configuration basics

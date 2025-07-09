@@ -318,10 +318,6 @@ With secure connections mastered, you're ready for advanced communication:
 - **[Message Layer Security](message-layer-security.md)** - Deep dive into MLS protocol
 - **[Cryptographic Foundations](cryptographic-foundations.md)** - Mathematical primitives
 
-### **Architecture Deep Dive** 🔴
-- **[Security Model](../architecture/security-model.md)** - Complete threat analysis
-- **[System Overview](../architecture/system-overview.md)** - How security fits the bigger picture
-
 ---
 
 ## Common Security Questions & Troubleshooting
@@ -362,7 +358,6 @@ With secure connections mastered, you're ready for advanced communication:
 
 ### **Implementation Guides**  
 - **[Connection Examples](../examples/connections.md)** - Hands-on connection patterns
-- **[Security Best Practices](../architecture/security-model.md)** - Production security guidance
 
 ### **Standards & Specifications**
 - **[IETF MLS Working Group](https://datatracker.ietf.org/wg/mls/)** - Message Layer Security standard

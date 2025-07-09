@@ -51,9 +51,6 @@ Start with [Decentralized Identity](decentralized-identity.md), then follow the 
 ### For Developers
 Read the concept that matches your current example, then implement the corresponding code.
 
-### For Architects
-Begin with [System Overview](../architecture/system-overview.md) for the big picture.
-
 ## 🔗 Quick Navigation
 
 | I want to understand... | Read this concept | Then try this example |
@@ -62,7 +59,6 @@ Begin with [System Overview](../architecture/system-overview.md) for the big pic
 | **How connections work** | [Secure Connections](secure-connections.md) | [Connection Examples](../examples/connections.md) |
 | **Digital credentials** | [Verifiable Credentials](verifiable-credentials.md) | [Credential Examples](../examples/credentials.md) |
 | **Encrypted messaging** | [Message Security](message-layer-security.md) | [Chat Examples](../examples/chat.md) |
-| **System architecture** | [System Overview](../architecture/system-overview.md) | [Advanced Examples](../examples/advanced.md) |
 
 ---
 

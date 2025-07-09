@@ -45,4 +45,3 @@ The act of "signing" is performed by the user on their mobile device when they a
 ## Next Steps
 
 - **[Complex Data Credentials](https://github.com/joinself/academy/tree/main/examples/server/02_credentials/01_issuing_credentials/04_complex_data/)**: Learn how to model more complex agreements with nested data structures in your credential claims.
-- **[Architecture Overview](https://github.com/joinself/academy/tree/main/architecture/overview.md)**: Understand the system design for building high-trust, production-ready applications. 
