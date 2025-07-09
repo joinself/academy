@@ -2,19 +2,40 @@ package com.joinself.app.academy
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.joinself.common.Environment
+import com.joinself.common.exception.InvalidCredentialException
 import com.joinself.sdk.SelfSDK
 import com.joinself.sdk.models.Account
+import com.joinself.sdk.ui.addLivenessCheckRoute
+import com.joinself.ui.theme.SelfModifier
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class MainActivity : ComponentActivity() {
@@ -45,7 +66,61 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     containerColor = Color.White
                 ) { innerPadding ->
-                    Text(text = "Hello, Vu!", modifier = Modifier.padding(innerPadding))
+                    val coroutineScope = rememberCoroutineScope()
+                    val navController = rememberNavController()
+                    val selfModifier = SelfModifier.sdk()
+
+                    var isRegistered by remember { mutableStateOf(account.registered()) }
+
+                    NavHost(navController = navController, startDestination = "main", modifier = Modifier.padding(innerPadding)) {
+                        composable("main") {
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(10.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier
+                                    .padding(start = 8.dp, end = 8.dp)
+                                    .fillMaxWidth()
+                            ) {
+                                Text(modifier = Modifier.padding(top = 40.dp), text = "Registered: $isRegistered")
+                                Button(
+                                    modifier = Modifier.padding(top = 20.dp),
+                                    onClick = {
+                                        navController.navigate("livenessRoute")
+                                    },
+                                    enabled = !isRegistered
+                                ) {
+                                    Text(text = "Create Account")
+                                }
+                            }
+                        }
+
+                        // add liveness check to main navigation
+                        addLivenessCheckRoute(navController, route = "livenessRoute", selfModifier = selfModifier,
+                            account = { account },
+                            withCredential = true,
+                            onFinish = { selfie, credentials ->
+                                if (!account.registered()) {
+                                    coroutineScope.launch(Dispatchers.IO) {
+                                        try {
+                                            if (selfie.isNotEmpty() && credentials.isNotEmpty()) {
+                                                val success = account.register(selfieImage = selfie, credentials = credentials)
+                                                if (success) {
+                                                    isRegistered = true
+                                                    withContext(Dispatchers.Main) {
+                                                        Toast.makeText(applicationContext, "Register account successfully", Toast.LENGTH_LONG).show()
+                                                    }
+                                                }
+                                            }
+                                        } catch (_: InvalidCredentialException) { }
+                                    }
+                                }
+                                // nav back to main
+                                coroutineScope.launch(Dispatchers.Main) {
+                                    navController.popBackStack("livenessRoute", true)
+                                }
+                            }
+                        )
+                    }
                 }
             }
         }
