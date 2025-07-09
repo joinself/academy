@@ -35,12 +35,12 @@ theme:
     - toc.follow
     # - toc.integrate
   palette:
-    # Lock to dark mode (slate)
-    scheme: slate
-    primary: black
+    # Set to light mode
+    scheme: default
+    primary: indigo
     accent: custom
   font:
-    text: antialiased
+    text: Open Sauce One, sans-serif
     code: Open Sauce One, sans-serif
 
 extra_css:

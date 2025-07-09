@@ -1,24 +1,33 @@
-/* Custom styles for Joinself Academy homepage - Stripe-inspired */
+:root {
+    --md-primary-fg-color: #0E1C42; /* Indigo for text */
+    --md-accent-fg-color: #FB2191; /* Ruby for accents */
+    --md-accent-fg-color--light: #ff5eb9;
+    --md-accent-fg-color--dark: #D01A79;
 
-:root > * {
-    --md-accent-fg-color: #FFC048;
-    --md-accent-fg-color--light: #FFD479;
-    --md-accent-fg-color--dark: #D4A13D;
-    --stripe-blue: #635BFF;
-    --stripe-purple: #0A2540;
-    --stripe-light-bg: #FAFBFC;
-    --stripe-border: rgba(255, 255, 255, 0.1);
-    --stripe-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    --stripe-shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.25);
+    --theme-cloud: #BCBEC0;
+    --theme-indigo: #0E1C42;
+    --theme-ruby: #FB2191;
+    
+    --theme-bg-color: #ffffff;
+    --theme-text-color: #212529; /* Dark Gray for body text */
+    --theme-light-bg: #F8F9FA;
+    --theme-border: rgba(0, 0, 0, 0.1);
+    --theme-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --theme-shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
 
 /* Hero Section Styles */
 .custom-homepage .hero-section {
     text-align: center;
-    padding: 8rem 0 5rem 0;
-    margin-bottom: 2rem;
+    padding: 0;
+    margin-bottom: 0;
     position: relative;
     overflow: hidden;
+    background-color: transparent;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .custom-homepage .hero-section::before {
@@ -29,7 +38,7 @@
     right: -50px;
     bottom: -50px;
     z-index: 0;
-    background-image: 
+    background-image:
         /* Cloud Bubbles */
         radial-gradient(circle at 10% 20%, rgba(188, 190, 192, 0.2) 25px, transparent 0),
         radial-gradient(circle at 15% 80%, rgba(188, 190, 192, 0.3) 10px, transparent 0),
@@ -57,7 +66,6 @@
         radial-gradient(circle at 5% 50%, rgba(113, 180, 255, 0.25) 23px, transparent 0),
         radial-gradient(circle at 98% 80%, rgba(188, 190, 192, 0.3) 9px, transparent 0),
         radial-gradient(circle at 48% 98%, rgba(251, 33, 145, 0.25) 16px, transparent 0);
-    
     animation: subtle-drift 30s ease-in-out infinite;
 }
 
@@ -71,16 +79,14 @@
     font-weight: 700;
     line-height: 1.1;
     margin-bottom: 1.5rem;
-    background: linear-gradient(135deg, var(--md-accent-fg-color) 0%, var(--md-accent-fg-color--light) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--theme-indigo);
 }
 
 .custom-homepage .hero-subtitle {
     font-size: 1.5rem;
     font-weight: 400;
-    color: var(--md-default-fg-color--light);
+    color: var(--theme-text-color);
+    opacity: 0.8;
     margin-bottom: 3rem;
     line-height: 1.4;
     max-width: 600px;
@@ -99,10 +105,19 @@
     border-radius: 0.375rem;
 }
 
+.custom-homepage .hero-cta .md-button--primary {
+    background: linear-gradient(135deg, var(--md-accent-fg-color) 0%, var(--md-accent-fg-color--dark) 100%);
+    box-shadow: 0 2px 6px rgba(251, 33, 145, 0.25);
+}
+
+.custom-homepage .hero-cta .md-button--primary:hover {
+    box-shadow: 0 3px 8px rgba(251, 33, 145, 0.3);
+}
+
 /* Responsive Hero Section */
 @media screen and (max-width: 76.1875em) {
     .custom-homepage .hero-section {
-        padding: 4rem 0 3rem 0;
+        padding: 0;
     }
     
     .custom-homepage .hero-section h1 {
@@ -122,7 +137,7 @@
 
 @media screen and (max-width: 48em) {
     .custom-homepage .hero-section {
-        padding: 3rem 0 2rem 0;
+        padding: 0 1rem;
     }
     
     .custom-homepage .hero-section h1 {
@@ -146,6 +161,7 @@
 .md-typeset h1, .md-typeset h2, .md-typeset h3, .md-typeset h4 {
     font-weight: 600;
     letter-spacing: -0.02em;
+    color: var(--theme-indigo);
 }
 
 .md-typeset h1 {
@@ -167,8 +183,8 @@
 .md-header {
     height: auto;
     backdrop-filter: blur(20px);
-    background: rgba(26, 28, 32, 0.95);
-    border-bottom: 1px solid var(--stripe-border);
+    background: rgba(255, 255, 255, 0.85);
+    border-bottom: 1px solid var(--theme-border);
 }
 
 .md-header__inner {
@@ -184,6 +200,10 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
+}
+
+.md-header__topic {
+    color: var(--theme-indigo);
 }
 
 .md-tabs {
@@ -216,10 +236,12 @@
     padding: 0.5rem 0;
     border-bottom: 2px solid transparent;
     transition: all 0.2s ease;
+    color: var(--theme-indigo);
 }
 
 .md-tabs__link:hover {
     border-bottom-color: var(--md-accent-fg-color);
+    color: var(--md-accent-fg-color);
 }
 
 .md-search {
@@ -249,26 +271,27 @@
 }
 
 .md-button--primary {
-    background: linear-gradient(135deg, var(--md-accent-fg-color) 0%, var(--md-accent-fg-color--dark) 100%);
-    color: #000;
-    border-color: var(--md-accent-fg-color);
-    box-shadow: 0 2px 6px rgba(255, 192, 72, 0.25);
+    background: linear-gradient(135deg, var(--theme-indigo) 0%, #0A132D 100%);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 2px 6px rgba(14, 28, 66, 0.25);
 }
 
 .md-button--primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(255, 192, 72, 0.3);
+    box-shadow: 0 3px 8px rgba(14, 28, 66, 0.3);
 }
 
 .md-button:not(.md-button--primary) {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: var(--stripe-border);
-    color: var(--md-default-fg-color);
+    background: transparent;
+    border-color: var(--theme-cloud);
+    color: var(--theme-text-color);
 }
 
 .md-button:not(.md-button--primary):hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--theme-light-bg);
     border-color: var(--md-accent-fg-color);
+    color: var(--md-accent-fg-color);
     transform: translateY(-1px);
 }
 
@@ -276,12 +299,13 @@
 .custom-homepage .path-card,
 .custom-homepage .product-card,
 .custom-homepage .try-button {
-    background: linear-gradient(135deg, #2E3138 0%, #3a3f47 100%);
-    border: 1px solid var(--stripe-border);
+    background: var(--theme-bg-color);
+    border: 1px solid var(--theme-border);
     border-radius: 0.75rem;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    box-shadow: var(--theme-shadow);
 }
 
 .custom-homepage .path-card::before,
@@ -292,7 +316,7 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, var(--md-accent-fg-color) 0%, var(--stripe-blue) 100%);
+    background: linear-gradient(90deg, var(--theme-ruby) 0%, var(--theme-indigo) 100%);
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -307,13 +331,13 @@
 .custom-homepage .try-button:hover {
     transform: translateY(-8px);
     border-color: var(--md-accent-fg-color);
-    box-shadow: var(--stripe-shadow-hover);
+    box-shadow: var(--theme-shadow-hover);
 }
 
 /* Code blocks with Stripe-style enhancements */
 .custom-homepage .test-credentials {
-    background: linear-gradient(135deg, #1A1C20 0%, #252932 100%);
-    border: 1px solid rgba(255, 192, 72, 0.2);
+    background: var(--theme-light-bg);
+    border: 1px solid var(--theme-border);
     border-radius: 0.75rem;
     padding: 1.25rem;
     margin: 2rem 0;
@@ -329,7 +353,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, var(--md-accent-fg-color) 0%, var(--md-accent-fg-color--dark) 100%);
+    background: linear-gradient(90deg, var(--md-accent-fg-color) 0%, var(--theme-indigo) 100%);
 }
 
 .custom-homepage .test-credentials h4 {
@@ -340,10 +364,11 @@
 }
 
 .custom-homepage .test-credentials code {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.05);
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     font-weight: 500;
+    color: var(--theme-text-color);
 }
 
 /* Enhanced try section */
@@ -369,11 +394,11 @@
     margin: 3rem 0 4rem 0;
     padding: 3rem;
     background: 
-        radial-gradient(circle at 20% 50%, rgba(255, 192, 72, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(99, 91, 255, 0.1) 0%, transparent 50%),
-        linear-gradient(135deg, #1A1C20 0%, #252932 100%);
+        radial-gradient(circle at 10% 10%, rgba(251, 33, 145, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(14, 28, 66, 0.08) 0%, transparent 50%),
+        var(--theme-light-bg);
     border-radius: 1rem;
-    border: 1px solid var(--stripe-border);
+    border: 1px solid var(--theme-border);
     position: relative;
 }
 
@@ -389,11 +414,12 @@
             45deg,
             transparent,
             transparent 2px,
-            rgba(255, 192, 72, 0.03) 2px,
-            rgba(255, 192, 72, 0.03) 4px
+            rgba(188, 190, 192, 0.2) 2px,
+            rgba(188, 190, 192, 0.2) 4px
         );
     border-radius: 1rem;
     pointer-events: none;
+    opacity: 0.5;
 }
 
 .custom-homepage .learning-paths h2 {
@@ -402,6 +428,7 @@
     font-size: 1.8rem;
     position: relative;
     z-index: 1;
+    color: var(--theme-indigo);
 }
 
 .custom-homepage .path-selector {
@@ -413,9 +440,9 @@
 }
 
 .custom-homepage .learning-card {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--theme-bg-color);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid var(--theme-border);
     border-radius: 1rem;
     padding: 2rem 1.5rem;
     text-align: center;
@@ -431,7 +458,7 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, var(--md-accent-fg-color) 0%, var(--stripe-blue) 100%);
+    background: linear-gradient(90deg, var(--md-accent-fg-color) 0%, var(--theme-indigo) 100%);
     opacity: 0;
     transition: opacity 0.3s ease;
     border-radius: 1rem 1rem 0 0;
@@ -444,15 +471,15 @@
 .custom-homepage .learning-card:hover {
     transform: translateY(-8px) scale(1.02);
     border-color: var(--md-accent-fg-color);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    background: var(--theme-bg-color);
 }
 
 /* Products Section - Horizontal card layout */
 .custom-homepage .products-section {
     margin: 4rem 0;
     padding: 2rem 0;
-    background: linear-gradient(90deg, transparent 0%, rgba(255, 192, 72, 0.05) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, rgba(251, 33, 145, 0.04) 50%, transparent 100%);
 }
 
 .custom-homepage .products-grid {
@@ -463,8 +490,8 @@
 }
 
 .custom-homepage .product-card {
-    background: linear-gradient(135deg, #2E3138 0%, #3a3f47 100%);
-    border: 1px solid var(--stripe-border);
+    background: var(--theme-bg-color);
+    border: 1px solid var(--theme-border);
     border-radius: 0.75rem;
     padding: 1.5rem;
     transition: all 0.3s ease;
@@ -493,16 +520,17 @@
 
 .custom-homepage .product-card:hover {
     transform: translateY(-5px);
-    border-color: rgba(255, 192, 72, 0.5);
-    box-shadow: 0 10px 30px rgba(255, 192, 72, 0.15);
+    border-color: rgba(251, 33, 145, 0.5);
+    box-shadow: 0 10px 30px rgba(251, 33, 145, 0.15);
 }
 
 /* Try Section - Asymmetric grid with visual elements */
 .custom-homepage .try-section {
     background: 
-        radial-gradient(ellipse at top left, rgba(99, 91, 255, 0.1) 0%, transparent 50%),
-        linear-gradient(135deg, #2E3138 0%, #3a3f47 50%, #2E3138 100%);
-    border: 1px solid var(--stripe-border);
+        radial-gradient(ellipse at top left, rgba(14, 28, 66, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(251, 33, 145, 0.08) 0%, transparent 50%),
+        var(--theme-light-bg);
+    border: 1px solid var(--theme-border);
     border-radius: 1rem;
     padding: 3rem;
     margin: 4rem 0;
@@ -518,7 +546,7 @@
     width: 100%;
     height: 100%;
     background: 
-        radial-gradient(circle, rgba(255, 192, 72, 0.1) 0%, transparent 70%);
+        radial-gradient(circle, rgba(14, 28, 66, 0.08) 0%, transparent 70%);
     animation: float 6s ease-in-out infinite;
 }
 
@@ -534,8 +562,8 @@
 }
 
 .custom-homepage .try-button:first-child {
-    background: linear-gradient(135deg, #1A1C20 0%, #2a2d35 100%);
-    border: 2px solid rgba(255, 192, 72, 0.3);
+    background: var(--theme-bg-color);
+    border: 2px solid rgba(14, 28, 66, 0.3);
     position: relative;
 }
 
@@ -549,8 +577,8 @@
 }
 
 .custom-homepage .try-button {
-    background: linear-gradient(135deg, #252932 0%, #2E3138 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--theme-bg-color);
+    border: 1px solid var(--theme-border);
     border-radius: 0.75rem;
     padding: 1.5rem;
     text-decoration: none;
@@ -569,7 +597,7 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 192, 72, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(14, 28, 66, 0.1), transparent);
     transition: left 0.5s ease;
 }
 
@@ -580,30 +608,32 @@
 .custom-homepage .try-button:hover {
     border-color: var(--md-accent-fg-color);
     transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
 }
 
 /* Implementation Paths - Simplified and cleaner */
 .custom-homepage .implementation-paths {
     background: 
-        linear-gradient(45deg, transparent 0%, rgba(255, 192, 72, 0.03) 50%, transparent 100%),
-        #1A1C20;
+        linear-gradient(45deg, transparent 0%, rgba(14, 28, 66, 0.03) 50%, transparent 100%),
+        var(--theme-bg-color);
     border-radius: 1rem;
     padding: 4rem 3rem;
     margin: 5rem 0;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--theme-border);
 }
 
 .custom-homepage .implementation-paths h2 {
     text-align: center;
     margin-bottom: 1rem;
     font-size: 2rem;
+    color: var(--theme-indigo);
 }
 
 .custom-homepage .implementation-subtitle {
     text-align: center;
     font-size: 1.1rem;
-    color: var(--md-default-fg-color--light);
+    color: var(--theme-text-color);
+    opacity: 0.8;
     margin-bottom: 3rem;
     font-weight: 300;
 }
@@ -617,9 +647,8 @@
 }
 
 .custom-homepage .path-card {
-    background: 
-        linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--theme-light-bg);
+    border: 1px solid var(--theme-border);
     border-radius: 1rem;
     padding: 2.5rem 2rem;
     transition: all 0.4s ease;
@@ -639,7 +668,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--md-accent-fg-color) 0%, var(--stripe-blue) 100%);
+    background: linear-gradient(90deg, var(--md-accent-fg-color) 0%, var(--theme-indigo) 100%);
     border-radius: 1rem 1rem 0 0;
     transform: scaleX(0);
     transition: transform 0.4s ease;
@@ -653,9 +682,9 @@
     transform: translateY(-6px);
     border-color: var(--md-accent-fg-color);
     box-shadow: 
-        0 15px 30px rgba(0, 0, 0, 0.25),
-        0 0 0 1px rgba(255, 192, 72, 0.1);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+        0 15px 30px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(14, 28, 66, 0.1);
+    background: var(--theme-bg-color);
 }
 
 .custom-homepage .path-icon {
@@ -666,54 +695,55 @@
     justify-content: center;
     width: 80px;
     height: 80px;
-    background: rgba(255, 192, 72, 0.1);
+    background: rgba(14, 28, 66, 0.1);
     border-radius: 1.25rem;
-    border: 1px solid rgba(255, 192, 72, 0.3);
+    border: 1px solid rgba(14, 28, 66, 0.3);
 }
 
 .custom-homepage .path-card h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    color: var(--md-accent-fg-color);
+    color: var(--theme-indigo);
     font-weight: 600;
 }
 
 .custom-homepage .path-card p {
     margin-bottom: 1.5rem;
     line-height: 1.6;
-    color: var(--md-default-fg-color--light);
+    color: var(--theme-text-color);
+    opacity: 0.9;
     flex-grow: 1;
 }
 
 .custom-homepage .path-highlight {
-    background: rgba(255, 192, 72, 0.15);
-    color: var(--md-accent-fg-color);
+    background: rgba(251, 33, 145, 0.1);
+    color: var(--theme-ruby);
     padding: 0.75rem 1rem;
     border-radius: 0.75rem;
     font-size: 0.9rem;
     font-weight: 500;
     margin-bottom: 2rem;
-    border: 1px solid rgba(255, 192, 72, 0.3);
+    border: 1px solid rgba(251, 33, 145, 0.2);
 }
 
 .custom-homepage .path-cta {
     padding: 0.625rem 1.25rem;
     font-size: 0.85rem;
     font-weight: 500;
-    background: linear-gradient(135deg, var(--md-accent-fg-color) 0%, var(--md-accent-fg-color--dark) 100%);
-    color: #000;
+    background: linear-gradient(135deg, var(--theme-indigo) 0%, #0A132D 100%);
+    color: #fff;
     text-decoration: none;
     border-radius: 0.375rem;
     display: inline-block;
     transition: all 0.2s ease;
     margin-top: 1rem;
-    box-shadow: 0 2px 4px rgba(255, 192, 72, 0.2);
+    box-shadow: 0 2px 4px rgba(14, 28, 66, 0.2);
 }
 
 .custom-homepage .path-cta:hover {
     transform: translateY(-1px);
-    box-shadow: 0 3px 6px rgba(255, 192, 72, 0.3);
-    color: #000;
+    box-shadow: 0 3px 6px rgba(14, 28, 66, 0.3);
+    color: #fff;
     text-decoration: none;
 }
 
@@ -723,10 +753,10 @@
     margin: 6rem 0 4rem 0;
     padding: 4rem 2rem;
     background: 
-        radial-gradient(ellipse at center, rgba(255, 192, 72, 0.15) 0%, transparent 70%),
-        linear-gradient(135deg, #2E3138 0%, #1A1C20 100%);
+        radial-gradient(ellipse at center, rgba(251, 33, 145, 0.12) 0%, transparent 70%),
+        linear-gradient(135deg, var(--theme-light-bg) 0%, #F4F6F9 100%);
     border-radius: 1rem;
-    border: 2px solid rgba(255, 192, 72, 0.3);
+    border: 2px solid rgba(14, 28, 66, 0.3);
     position: relative;
     overflow: hidden;
 }
@@ -734,12 +764,14 @@
 .custom-homepage .final-cta h3 {
     font-size: 2rem;
     margin-bottom: 1rem;
+    color: var(--theme-indigo);
 }
 
 .custom-homepage .final-cta p {
     font-size: 1.1rem;
     margin: 1rem 0 2rem 0;
     opacity: 0.9;
+    color: var(--theme-text-color);
 }
 
 .custom-homepage .final-cta .button-group {
@@ -793,18 +825,18 @@
     display: inline-block;
     margin-top: 0.75rem;
     font-size: 0.8rem;
-    color: var(--md-accent-fg-color);
+    color: var(--theme-ruby);
     font-weight: 600;
-    background: rgba(255, 192, 72, 0.15);
+    background: rgba(251, 33, 145, 0.1);
     padding: 0.25rem 0.75rem;
     border-radius: 1rem;
-    border: 1px solid rgba(255, 192, 72, 0.3);
+    border: 1px solid rgba(251, 33, 145, 0.2);
 }
 
 /* Try button content styling */
 .custom-homepage .try-button h4 {
     margin: 0 0 0.75rem 0;
-    color: var(--md-accent-fg-color);
+    color: var(--theme-indigo);
     font-size: 1.1rem;
     position: relative;
     z-index: 1;
@@ -813,7 +845,8 @@
 .custom-homepage .try-button p {
     margin: 0 0 0.5rem 0;
     font-size: 0.9rem;
-    color: var(--md-default-fg-color--light);
+    color: var(--theme-text-color);
+    opacity: 0.9;
     line-height: 1.4;
     position: relative;
     z-index: 1;
@@ -827,12 +860,14 @@
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
+    color: var(--theme-indigo);
 }
 
 .custom-homepage .subtitle {
     text-align: center;
     font-size: 1.3rem;
-    color: var(--md-default-fg-color--light);
+    color: var(--theme-text-color);
+    opacity: 0.8;
     margin-bottom: 2rem;
     font-weight: 300;
 }
@@ -852,6 +887,7 @@
     text-align: center;
     margin: 3rem 0;
     font-size: 1.1rem;
+    color: var(--theme-text-color);
 }
 
 .custom-homepage .implementation-paths h2 {
@@ -873,11 +909,14 @@
     font-size: 1.8rem;
     text-align: center;
     margin-bottom: 1rem;
+    color: var(--theme-indigo);
 }
 
 .custom-homepage .try-section .subtitle {
     text-align: center;
     margin-bottom: 2rem;
+    color: var(--theme-text-color);
+    opacity: 0.8;
 }
 
 /* Removed - now handled in new try section styling above */
@@ -887,15 +926,16 @@
     margin: 5rem 0;
     padding: 4rem 0;
     background: 
-        radial-gradient(ellipse at center, rgba(255, 192, 72, 0.08) 0%, transparent 70%),
-        linear-gradient(90deg, transparent 0%, rgba(255, 192, 72, 0.05) 50%, transparent 100%);
+        radial-gradient(ellipse at center, rgba(14, 28, 66, 0.05) 0%, transparent 70%),
+        linear-gradient(90deg, transparent 0%, rgba(14, 28, 66, 0.03) 50%, transparent 100%);
     position: relative;
 }
 
 .custom-homepage .products-subtitle {
     text-align: center;
     font-size: 1.2rem;
-    color: var(--md-default-fg-color--light);
+    color: var(--theme-text-color);
+    opacity: 0.8;
     margin-bottom: 3rem;
     font-weight: 300;
 }
@@ -908,8 +948,8 @@
 }
 
 .custom-homepage .product-card {
-    background: linear-gradient(135deg, #2E3138 0%, #3a3f47 100%);
-    border: 1px solid var(--stripe-border);
+    background: var(--theme-bg-color);
+    border: 1px solid var(--theme-border);
     border-radius: 1rem;
     padding: 2rem;
     transition: all 0.4s ease;
@@ -918,11 +958,12 @@
     flex-direction: column;
     height: 100%;
     overflow: hidden;
+    box-shadow: var(--theme-shadow);
 }
 
 .custom-homepage .product-card.featured {
-    border: 2px solid rgba(255, 192, 72, 0.4);
-    box-shadow: 0 8px 25px rgba(255, 192, 72, 0.15);
+    border: 2px solid rgba(14, 28, 66, 0.4);
+    box-shadow: 0 8px 25px rgba(14, 28, 66, 0.15);
     transform: scale(1.02);
 }
 
@@ -933,7 +974,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--md-accent-fg-color) 0%, var(--stripe-blue) 100%);
+    background: linear-gradient(90deg, var(--md-accent-fg-color) 0%, var(--theme-indigo) 100%);
     border-radius: 1rem 1rem 0 0;
 }
 
@@ -951,14 +992,14 @@
     justify-content: center;
     width: 60px;
     height: 60px;
-    background: rgba(255, 192, 72, 0.1);
+    background: rgba(14, 28, 66, 0.1);
     border-radius: 1rem;
-    border: 1px solid rgba(255, 192, 72, 0.3);
+    border: 1px solid rgba(14, 28, 66, 0.3);
 }
 
 .custom-homepage .product-badge {
-    background: linear-gradient(135deg, var(--md-accent-fg-color) 0%, var(--md-accent-fg-color--dark) 100%);
-    color: #000;
+    background: linear-gradient(135deg, var(--theme-indigo) 0%, #0A132D 100%);
+    color: #fff;
     padding: 0.25rem 0.75rem;
     border-radius: 1rem;
     font-size: 0.75rem;
@@ -968,7 +1009,7 @@
 }
 
 .custom-homepage .product-card h4 {
-    color: var(--md-accent-fg-color);
+    color: var(--theme-indigo);
     margin-bottom: 1rem;
     font-size: 1.3rem;
     font-weight: 600;
@@ -976,13 +1017,18 @@
 
 .custom-homepage .product-card h4 a {
     text-decoration: none;
-    color: inherit;
+    color: var(--theme-ruby);
     transition: color 0.2s ease;
+}
+
+.custom-homepage .product-card h4 a:hover {
+    color: var(--theme-indigo);
 }
 
 .custom-homepage .product-card .description {
     font-size: 0.95rem;
-    color: var(--md-default-fg-color--light);
+    color: var(--theme-text-color);
+    opacity: 0.9;
     margin-bottom: 1.5rem;
     line-height: 1.6;
     flex-grow: 1;
@@ -990,11 +1036,11 @@
 
 /* Product Preview Sections */
 .custom-homepage .product-preview {
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--theme-light-bg);
     border-radius: 0.75rem;
     padding: 1.25rem;
     margin: 1.5rem 0;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--theme-border);
 }
 
 .custom-homepage .code-snippet {
@@ -1006,7 +1052,7 @@
 }
 
 .custom-homepage .code-line {
-    color: var(--md-accent-fg-color--light);
+    color: var(--theme-text-color);
     padding: 0.25rem 0;
     display: block;
     opacity: 0.9;
@@ -1018,8 +1064,8 @@
 }
 
 .custom-homepage .credential-card {
-    background: linear-gradient(135deg, #1A1C20 0%, #252932 100%);
-    border: 1px solid rgba(255, 192, 72, 0.3);
+    background: var(--theme-bg-color);
+    border: 1px solid var(--theme-border);
     border-radius: 0.5rem;
     padding: 1rem 1.5rem;
     display: flex;
@@ -1030,7 +1076,7 @@
 
 .custom-homepage .credential-title {
     font-weight: 600;
-    color: var(--md-default-fg-color);
+    color: var(--theme-text-color);
     font-size: 0.9rem;
 }
 
@@ -1046,8 +1092,8 @@
 }
 
 .custom-homepage .document-mockup {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--theme-light-bg);
+    border: 1px solid var(--theme-border);
     border-radius: 0.5rem;
     padding: 1rem;
     display: flex;
@@ -1058,7 +1104,7 @@
 
 .custom-homepage .doc-line {
     height: 2px;
-    background: rgba(255, 255, 255, 0.3);
+    background: var(--theme-cloud);
     border-radius: 1px;
     width: 100%;
 }
@@ -1084,13 +1130,13 @@
 }
 
 .custom-homepage .stat {
-    background: rgba(255, 192, 72, 0.1);
-    color: var(--md-accent-fg-color--light);
+    background: rgba(14, 28, 66, 0.1);
+    color: var(--theme-indigo);
     padding: 0.375rem 0.75rem;
     border-radius: 1rem;
     font-size: 0.8rem;
     font-weight: 500;
-    border: 1px solid rgba(255, 192, 72, 0.2);
+    border: 1px solid rgba(14, 28, 66, 0.2);
     white-space: nowrap;
 }
 
@@ -1098,34 +1144,34 @@
 .custom-homepage .product-cta {
     display: inline-block;
     padding: 0.625rem 1.25rem;
-    background: linear-gradient(135deg, var(--md-accent-fg-color) 0%, var(--md-accent-fg-color--dark) 100%);
-    color: #000;
+    background: linear-gradient(135deg, var(--theme-indigo) 0%, #0A132D 100%);
+    color: #fff;
     text-decoration: none;
     border-radius: 0.375rem;
     font-weight: 500;
     font-size: 0.85rem;
     transition: all 0.2s ease;
     margin-top: 1rem;
-    box-shadow: 0 2px 4px rgba(255, 192, 72, 0.2);
+    box-shadow: 0 2px 4px rgba(14, 28, 66, 0.2);
 }
 
 .custom-homepage .product-cta:hover {
     transform: translateY(-1px);
-    box-shadow: 0 3px 6px rgba(255, 192, 72, 0.3);
-    color: #000;
+    box-shadow: 0 3px 6px rgba(14, 28, 66, 0.3);
+    color: #fff;
     text-decoration: none;
 }
 
 /* Enhanced hover effects */
 .custom-homepage .product-card:hover {
     transform: translateY(-8px);
-    border-color: rgba(255, 192, 72, 0.6);
-    box-shadow: 0 15px 35px rgba(255, 192, 72, 0.2);
+    border-color: rgba(14, 28, 66, 0.6);
+    box-shadow: 0 15px 35px rgba(14, 28, 66, 0.2);
 }
 
 .custom-homepage .product-card.featured:hover {
     transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(255, 192, 72, 0.25);
+    box-shadow: 0 20px 40px rgba(14, 28, 66, 0.25);
 }
 
 .custom-homepage .product-card::after {
@@ -1154,6 +1200,7 @@
 .custom-homepage .products-section-title {
     text-align: center;
     margin-bottom: 2rem;
+    color: var(--theme-indigo);
 }
 
 .custom-homepage .product-card ul {
@@ -1459,6 +1506,15 @@
     }
 }
 
+/* Global link styles */
+.md-typeset a {
+    color: var(--md-accent-fg-color);
+}
+
+.md-nav__link.md-nav__link--active {
+    color: var(--md-accent-fg-color);
+}
+
 /* Enhanced link styles */
 .custom-homepage a {
     color: var(--md-accent-fg-color);
@@ -1481,12 +1537,14 @@
 .custom-homepage p {
     line-height: 1.6;
     font-size: 1rem;
+    color: var(--theme-text-color);
+    opacity: 0.9;
 }
 
 /* Dark mode specific enhancements */
 .md-typeset code {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: var(--md-accent-fg-color--light);
+    background-color: rgba(0, 0, 0, 0.07);
+    color: var(--theme-indigo);
     border-radius: 0.25rem;
     padding: 0.125rem 0.375rem;
     font-weight: 500;
@@ -1517,7 +1575,7 @@
 
 .custom-homepage .learning-card h4 {
     margin: 0 0 0.75rem 0;
-    color: var(--md-accent-fg-color);
+    color: var(--theme-indigo);
     font-size: 1.1rem;
     position: relative;
     z-index: 1;
@@ -1526,7 +1584,8 @@
 .custom-homepage .learning-card p {
     margin: 0 0 1rem 0;
     font-size: 0.9rem;
-    color: var(--md-default-fg-color--light);
+    color: var(--theme-text-color);
+    opacity: 0.9;
     line-height: 1.5;
     position: relative;
     z-index: 1;
@@ -1536,7 +1595,7 @@
     font-weight: 600;
     font-size: 0.9rem;
     text-decoration: none;
-    color: var(--md-accent-fg-color);
+    color: var(--theme-ruby);
     transition: color 0.2s ease;
     position: relative;
     z-index: 1;
