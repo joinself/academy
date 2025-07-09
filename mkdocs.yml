@@ -67,7 +67,7 @@ nav:
     - Overview: examples/overview.md
     - Setup Guide: examples/setup.md
     - Connections: examples/connections.md
-    - Credentials: examples.md
+    - Credentials: examples/credentials.md
     - Chat & Messaging: examples/chat.md
     - Advanced Features: examples/advanced.md
     - Troubleshooting: examples/troubleshooting.md

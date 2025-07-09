@@ -1,22 +1,134 @@
-/* Custom styles for Joinself Academy homepage */
+/* Custom styles for Joinself Academy homepage - Stripe-inspired */
 
 :root > * {
     --md-accent-fg-color: #FFC048;
     --md-accent-fg-color--light: #FFD479;
     --md-accent-fg-color--dark: #D4A13D;
+    --stripe-blue: #635BFF;
+    --stripe-purple: #0A2540;
+    --stripe-light-bg: #FAFBFC;
+    --stripe-border: rgba(255, 255, 255, 0.1);
+    --stripe-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    --stripe-shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* Hero Section Styles */
+.custom-homepage .hero-section {
+    text-align: center;
+    padding: 8rem 0 5rem 0;
+    margin-bottom: 2rem;
+}
+
+.custom-homepage .hero-section h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, var(--md-accent-fg-color) 0%, var(--md-accent-fg-color--light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.custom-homepage .hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--md-default-fg-color--light);
+    margin-bottom: 3rem;
+    line-height: 1.4;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.custom-homepage .hero-cta {
+    margin-bottom: 2rem;
+}
+
+.custom-homepage .hero-cta .md-button {
+    font-size: 1rem;
+    padding: 0.875rem 2rem;
+    font-weight: 500;
+}
+
+/* Responsive Hero Section */
+@media screen and (max-width: 76.1875em) {
+    .custom-homepage .hero-section {
+        padding: 4rem 0 3rem 0;
+    }
+    
+    .custom-homepage .hero-section h1 {
+        font-size: 2.5rem;
+    }
+    
+    .custom-homepage .hero-subtitle {
+        font-size: 1.25rem;
+        margin-bottom: 2.5rem;
+    }
+    
+    .custom-homepage .hero-cta .md-button {
+        font-size: 0.95rem;
+        padding: 0.75rem 1.75rem;
+    }
+}
+
+@media screen and (max-width: 48em) {
+    .custom-homepage .hero-section {
+        padding: 3rem 0 2rem 0;
+    }
+    
+    .custom-homepage .hero-section h1 {
+        font-size: 2rem;
+    }
+    
+    .custom-homepage .hero-subtitle {
+        font-size: 1.1rem;
+        padding: 0 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .custom-homepage .hero-cta .md-button {
+        font-size: 0.9rem;
+        padding: 0.75rem 1.5rem;
+        margin: 0.5rem;
+    }
+}
+
+/* Enhanced typography following Stripe's style */
+.md-typeset h1, .md-typeset h2, .md-typeset h3, .md-typeset h4 {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.md-typeset h1 {
+    font-size: 2.5rem;
+    line-height: 1.1;
+}
+
+.md-typeset h2 {
+    font-size: 1.875rem;
+    line-height: 1.2;
+}
+
+.md-typeset h3 {
+    font-size: 1.5rem;
+    line-height: 1.3;
 }
 
 /* Fix navigation bar vertical alignment */
 .md-header {
     height: auto;
+    backdrop-filter: blur(20px);
+    background: rgba(26, 28, 32, 0.95);
+    border-bottom: 1px solid var(--stripe-border);
 }
 
 .md-header__inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 3rem;
-    padding: 0 1rem;
+    height: 3.5rem;
+    padding: 0 1.5rem;
     position: relative;
 }
 
@@ -42,9 +154,24 @@
 .md-tabs__list {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 2.5rem;
     margin: 0;
     white-space: nowrap;
+}
+
+.md-tabs__item {
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.md-tabs__link {
+    padding: 0.5rem 0;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.md-tabs__link:hover {
+    border-bottom-color: var(--md-accent-fg-color);
 }
 
 .md-search {
@@ -59,158 +186,1291 @@
     }
 }
 
-.custom-homepage h1 {
-    color: var(--md-accent-fg-color);
-}
-
-.homepage-cta {
-    text-align: center;
-    margin: 1rem 0 3rem 0;
-}
-
-.homepage-cta .md-button {
-    font-weight: 700;
-    font-size: 1rem;
-    padding: 0.8rem 1.6rem;
-    transition: transform .2s, box-shadow .2s;
-    background-color: var(--md-accent-fg-color);
-    color: white;
-    border-color: var(--md-accent-fg-color);
+/* Enhanced button styles following Stripe's approach - lighter weight */
+.md-button {
     border-radius: 0.5rem;
-}
-
-.homepage-cta .md-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-/* Style the three main cards */
-.landing-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin-top: 2rem;
-}
-
-/* On mobile, stack the cards */
-@media screen and (max-width: 76.1875em) {
-  .landing-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.landing-grid .card {
-    background: #2E3138; /* A darker card background */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: .5rem;
-    padding: 1.5rem;
-    transition: all .25s;
-    display: flex;
-    flex-direction: column;
-}
-
-.landing-grid .card:hover {
-    transform: translateY(-5px);
-    border-color: var(--md-accent-fg-color);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-}
-
-.landing-grid .card h3 {
-    margin: 0 0 1rem 0;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 1rem;
-    font-size: 1.1rem;
-    line-height: 1.2;
-}
-
-.landing-grid .card h3 a {
-    color: var(--md-accent-fg-color);
-}
-
-.landing-grid .card p {
+    font-weight: 500;
     font-size: 0.9rem;
-    line-height: 1.6;
-    color: var(--md-default-fg-color--light);
-}
-
-.landing-grid .card ul {
-    margin: 1rem 0 0 0;
-    padding-left: 0;
-    list-style-type: none;
-    font-size: .85rem;
-}
-
-.landing-grid .card li {
-    padding-bottom: 0.75em;
-    display: flex;
+    padding: 0.625rem 1.25rem;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
 }
 
-.landing-grid .card li .icon {
-    margin-right: 0.5rem;
-    opacity: 0.7;
+.md-button--primary {
+    background: linear-gradient(135deg, var(--md-accent-fg-color) 0%, var(--md-accent-fg-color--dark) 100%);
+    color: #000;
+    border-color: var(--md-accent-fg-color);
+    box-shadow: 0 2px 6px rgba(255, 192, 72, 0.25);
 }
 
-/* Style the "Try It Out" section */
-.try-it-out {
-    margin-top: 4rem;
-    background: #2E3138;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: .5rem;
-    padding: 2rem;
+.md-button--primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(255, 192, 72, 0.3);
 }
 
-.try-it-out h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin: 0;
-    display: flex;
-    align-items: center;
-}
-.try-it-out h2 .icon {
-    margin-right: 0.75rem;
-    color: var(--md-accent-fg-color);
+.md-button:not(.md-button--primary) {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--stripe-border);
+    color: var(--md-default-fg-color);
 }
 
-.try-it-out p {
-    margin: 1rem 0;
-    color: var(--md-default-fg-color--light);
+.md-button:not(.md-button--primary):hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--md-accent-fg-color);
+    transform: translateY(-1px);
 }
 
-.try-it-out .code-wrapper {
-    background-color: #1A1C20;
-    border-radius: .5rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    margin-top: 1.5rem;
+/* Enhanced card styles */
+.custom-homepage .path-card,
+.custom-homepage .product-card,
+.custom-homepage .try-button {
+    background: linear-gradient(135deg, #2E3138 0%, #3a3f47 100%);
+    border: 1px solid var(--stripe-border);
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+    position: relative;
     overflow: hidden;
 }
 
-.try-it-out .code-header {
-    background-color: #333740;
-    padding: 0.75rem 1rem;
-    color: #ccc;
+.custom-homepage .path-card::before,
+.custom-homepage .product-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--md-accent-fg-color) 0%, var(--stripe-blue) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.custom-homepage .path-card:hover::before,
+.custom-homepage .product-card:hover::before {
+    opacity: 1;
+}
+
+.custom-homepage .path-card:hover,
+.custom-homepage .product-card:hover,
+.custom-homepage .try-button:hover {
+    transform: translateY(-8px);
+    border-color: var(--md-accent-fg-color);
+    box-shadow: var(--stripe-shadow-hover);
+}
+
+/* Code blocks with Stripe-style enhancements */
+.custom-homepage .test-credentials {
+    background: linear-gradient(135deg, #1A1C20 0%, #252932 100%);
+    border: 1px solid rgba(255, 192, 72, 0.2);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    margin: 2rem 0;
     font-family: var(--md-code-font-family);
-    font-size: .75rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+    position: relative;
 }
 
-.try-it-out .code-header:before {
-    content: "● ● ●";
-    margin-right: 1em;
-    color: #6a6e78;
-    letter-spacing: 0.4em;
-    font-size: 0.6rem;
+.custom-homepage .test-credentials::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--md-accent-fg-color) 0%, var(--md-accent-fg-color--dark) 100%);
 }
 
-.try-it-out .highlight {
-    background-color: transparent;
-    border-radius: 0;
-    padding: 0; margin: 0;
+.custom-homepage .test-credentials h4 {
+    margin: 0 0 0.75rem 0;
+    color: var(--md-accent-fg-color);
+    font-family: inherit;
+    font-weight: 600;
 }
-.try-it-out pre {
+
+.custom-homepage .test-credentials code {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-weight: 500;
+}
+
+/* Enhanced try section */
+/* Removed - now handled in new section styling above */
+
+/* Enhanced grid layouts */
+.custom-homepage .try-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+}
+
+.custom-homepage .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin: 2.5rem 0;
+}
+
+/* Learning Paths Section - Unique gradient background with pattern */
+.custom-homepage .learning-paths {
+    margin: 3rem 0 4rem 0;
+    padding: 3rem;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(255, 192, 72, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(99, 91, 255, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #1A1C20 0%, #252932 100%);
+    border-radius: 1rem;
+    border: 1px solid var(--stripe-border);
+    position: relative;
+}
+
+.custom-homepage .learning-paths::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 2px,
+            rgba(255, 192, 72, 0.03) 2px,
+            rgba(255, 192, 72, 0.03) 4px
+        );
+    border-radius: 1rem;
+    pointer-events: none;
+}
+
+.custom-homepage .learning-paths h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    position: relative;
+    z-index: 1;
+}
+
+.custom-homepage .path-selector {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.custom-homepage .learning-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 1rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.custom-homepage .learning-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--md-accent-fg-color) 0%, var(--stripe-blue) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 1rem 1rem 0 0;
+}
+
+.custom-homepage .learning-card:hover::before {
+    opacity: 1;
+}
+
+.custom-homepage .learning-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: var(--md-accent-fg-color);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Products Section - Horizontal card layout */
+.custom-homepage .products-section {
+    margin: 4rem 0;
+    padding: 2rem 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 192, 72, 0.05) 50%, transparent 100%);
+}
+
+.custom-homepage .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+}
+
+.custom-homepage .product-card {
+    background: linear-gradient(135deg, #2E3138 0%, #3a3f47 100%);
+    border: 1px solid var(--stripe-border);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.custom-homepage .product-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--md-accent-fg-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    border-radius: 0 0 0.75rem 0.75rem;
+}
+
+.custom-homepage .product-card:hover::after {
+    transform: scaleX(1);
+}
+
+.custom-homepage .product-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 192, 72, 0.5);
+    box-shadow: 0 10px 30px rgba(255, 192, 72, 0.15);
+}
+
+/* Try Section - Asymmetric grid with visual elements */
+.custom-homepage .try-section {
+    background: 
+        radial-gradient(ellipse at top left, rgba(99, 91, 255, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #2E3138 0%, #3a3f47 50%, #2E3138 100%);
+    border: 1px solid var(--stripe-border);
+    border-radius: 1rem;
+    padding: 3rem;
+    margin: 4rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.custom-homepage .try-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle, rgba(255, 192, 72, 0.1) 0%, transparent 70%);
+    animation: float 6s ease-in-out infinite;
+}
+
+.custom-homepage .try-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+    position: relative;
+    z-index: 1;
+    min-height: 320px;
+}
+
+.custom-homepage .try-button:first-child {
+    background: linear-gradient(135deg, #1A1C20 0%, #2a2d35 100%);
+    border: 2px solid rgba(255, 192, 72, 0.3);
+    position: relative;
+}
+
+.custom-homepage .try-button:first-child::after {
+    content: '🌟';
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.2rem;
+    opacity: 0.7;
+}
+
+.custom-homepage .try-button {
+    background: linear-gradient(135deg, #252932 0%, #2E3138 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.custom-homepage .try-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 192, 72, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.custom-homepage .try-button:hover::before {
+    left: 100%;
+}
+
+.custom-homepage .try-button:hover {
+    border-color: var(--md-accent-fg-color);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+/* Implementation Paths - Simplified and cleaner */
+.custom-homepage .implementation-paths {
+    background: 
+        linear-gradient(45deg, transparent 0%, rgba(255, 192, 72, 0.03) 50%, transparent 100%),
+        #1A1C20;
+    border-radius: 1rem;
+    padding: 4rem 3rem;
+    margin: 5rem 0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.custom-homepage .implementation-paths h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.custom-homepage .implementation-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--md-default-fg-color--light);
+    margin-bottom: 3rem;
+    font-weight: 300;
+}
+
+.custom-homepage .path-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin: 3rem 0 2rem 0;
+    width: 100%;
+}
+
+.custom-homepage .path-card {
+    background: 
+        linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    padding: 2.5rem 2rem;
+    transition: all 0.4s ease;
+    position: relative;
+    backdrop-filter: blur(10px);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+    width: 100%;
+}
+
+.custom-homepage .path-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--md-accent-fg-color) 0%, var(--stripe-blue) 100%);
+    border-radius: 1rem 1rem 0 0;
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+
+.custom-homepage .path-card:hover::before {
+    transform: scaleX(1);
+}
+
+.custom-homepage .path-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--md-accent-fg-color);
+    box-shadow: 
+        0 15px 30px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 192, 72, 0.1);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+}
+
+.custom-homepage .path-icon {
+    font-size: 3rem;
+    margin: 0 auto 1.5rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 192, 72, 0.1);
+    border-radius: 1.25rem;
+    border: 1px solid rgba(255, 192, 72, 0.3);
+}
+
+.custom-homepage .path-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--md-accent-fg-color);
+    font-weight: 600;
+}
+
+.custom-homepage .path-card p {
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    color: var(--md-default-fg-color--light);
+    flex-grow: 1;
+}
+
+.custom-homepage .path-highlight {
+    background: rgba(255, 192, 72, 0.15);
+    color: var(--md-accent-fg-color);
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 192, 72, 0.3);
+}
+
+.custom-homepage .path-cta {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background: linear-gradient(135deg, var(--md-accent-fg-color) 0%, var(--md-accent-fg-color--dark) 100%);
+    color: #000;
+    text-decoration: none;
+    border-radius: 0.375rem;
+    display: inline-block;
+    transition: all 0.2s ease;
+    margin-top: 1rem;
+    box-shadow: 0 2px 4px rgba(255, 192, 72, 0.2);
+}
+
+.custom-homepage .path-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(255, 192, 72, 0.3);
+    color: #000;
+    text-decoration: none;
+}
+
+/* Final CTA - Centered with special styling */
+.custom-homepage .final-cta {
+    text-align: center;
+    margin: 6rem 0 4rem 0;
+    padding: 4rem 2rem;
+    background: 
+        radial-gradient(ellipse at center, rgba(255, 192, 72, 0.15) 0%, transparent 70%),
+        linear-gradient(135deg, #2E3138 0%, #1A1C20 100%);
+    border-radius: 1rem;
+    border: 2px solid rgba(255, 192, 72, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.custom-homepage .final-cta h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.custom-homepage .final-cta p {
+    font-size: 1.1rem;
+    margin: 1rem 0 2rem 0;
+    opacity: 0.9;
+}
+
+.custom-homepage .final-cta .button-group {
+    margin-top: 2.5rem;
+}
+
+.custom-homepage .final-cta .md-button {
+    font-size: 1rem;
+    padding: 0.875rem 1.75rem;
+    margin: 0.75rem;
+    font-weight: 500;
+}
+
+@keyframes borderGlow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+/* Remove duplicate - handled above */
+
+/* Tutorial Time Badges */
+.custom-homepage .tutorial-time {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--md-accent-fg-color);
+    font-weight: 600;
+    background: rgba(255, 192, 72, 0.15);
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 192, 72, 0.3);
+}
+
+/* Try button content styling */
+.custom-homepage .try-button h4 {
+    margin: 0 0 0.75rem 0;
+    color: var(--md-accent-fg-color);
+    font-size: 1.1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.custom-homepage .try-button p {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--md-default-fg-color--light);
+    line-height: 1.4;
+    position: relative;
+    z-index: 1;
+}
+
+/* Removed - no longer needed with simplified design */
+
+/* Homepage-specific styles */
+.custom-homepage h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.custom-homepage .subtitle {
+    text-align: center;
+    font-size: 1.3rem;
+    color: var(--md-default-fg-color--light);
+    margin-bottom: 2rem;
+    font-weight: 300;
+}
+
+.custom-homepage .hero-cta {
+    text-align: center;
+    margin: 2rem 0 3rem 0;
+}
+
+.custom-homepage .hero-cta .md-button {
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+    margin: 0 0.5rem;
+}
+
+.custom-homepage .quick-start {
+    text-align: center;
+    margin: 3rem 0;
+    font-size: 1.1rem;
+}
+
+.custom-homepage .implementation-paths h2 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.custom-homepage .path-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin: 2rem 0 4rem 0;
+}
+
+/* Removed - now handled in new implementation paths styling above */
+
+.custom-homepage .try-section h2 {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.custom-homepage .try-section .subtitle {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Removed - now handled in new try section styling above */
+
+/* Enhanced Products Section */
+.custom-homepage .products-section {
+    margin: 5rem 0;
+    padding: 4rem 0;
+    background: 
+        radial-gradient(ellipse at center, rgba(255, 192, 72, 0.08) 0%, transparent 70%),
+        linear-gradient(90deg, transparent 0%, rgba(255, 192, 72, 0.05) 50%, transparent 100%);
+    position: relative;
+}
+
+.custom-homepage .products-subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--md-default-fg-color--light);
+    margin-bottom: 3rem;
+    font-weight: 300;
+}
+
+.custom-homepage .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.custom-homepage .product-card {
+    background: linear-gradient(135deg, #2E3138 0%, #3a3f47 100%);
+    border: 1px solid var(--stripe-border);
+    border-radius: 1rem;
+    padding: 2rem;
+    transition: all 0.4s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.custom-homepage .product-card.featured {
+    border: 2px solid rgba(255, 192, 72, 0.4);
+    box-shadow: 0 8px 25px rgba(255, 192, 72, 0.15);
+    transform: scale(1.02);
+}
+
+.custom-homepage .product-card.featured::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--md-accent-fg-color) 0%, var(--stripe-blue) 100%);
+    border-radius: 1rem 1rem 0 0;
+}
+
+.custom-homepage .product-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.custom-homepage .product-icon {
+    font-size: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 192, 72, 0.1);
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 192, 72, 0.3);
+}
+
+.custom-homepage .product-badge {
+    background: linear-gradient(135deg, var(--md-accent-fg-color) 0%, var(--md-accent-fg-color--dark) 100%);
+    color: #000;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.custom-homepage .product-card h4 {
+    color: var(--md-accent-fg-color);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.custom-homepage .product-card h4 a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s ease;
+}
+
+.custom-homepage .product-card .description {
+    font-size: 0.95rem;
+    color: var(--md-default-fg-color--light);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+/* Product Preview Sections */
+.custom-homepage .product-preview {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.custom-homepage .code-snippet {
+    font-family: var(--md-code-font-family);
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.custom-homepage .code-line {
+    color: var(--md-accent-fg-color--light);
+    padding: 0.25rem 0;
+    display: block;
+    opacity: 0.9;
+}
+
+.custom-homepage .credential-preview {
+    display: flex;
+    justify-content: center;
+}
+
+.custom-homepage .credential-card {
+    background: linear-gradient(135deg, #1A1C20 0%, #252932 100%);
+    border: 1px solid rgba(255, 192, 72, 0.3);
+    border-radius: 0.5rem;
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 120px;
+}
+
+.custom-homepage .credential-title {
+    font-weight: 600;
+    color: var(--md-default-fg-color);
+    font-size: 0.9rem;
+}
+
+.custom-homepage .credential-status {
+    font-size: 0.8rem;
+    color: var(--md-accent-fg-color);
+    font-weight: 500;
+}
+
+.custom-homepage .signature-preview {
+    display: flex;
+    justify-content: center;
+}
+
+.custom-homepage .document-mockup {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 160px;
+}
+
+.custom-homepage .doc-line {
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 1px;
+    width: 100%;
+}
+
+.custom-homepage .doc-line.short {
+    width: 70%;
+}
+
+.custom-homepage .signature-line {
+    font-size: 0.8rem;
+    color: var(--md-accent-fg-color);
+    font-weight: 500;
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+/* Product Stats */
+.custom-homepage .product-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+}
+
+.custom-homepage .stat {
+    background: rgba(255, 192, 72, 0.1);
+    color: var(--md-accent-fg-color--light);
+    padding: 0.375rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 192, 72, 0.2);
+    white-space: nowrap;
+}
+
+/* Product CTA */
+.custom-homepage .product-cta {
+    display: inline-block;
+    padding: 0.625rem 1.25rem;
+    background: linear-gradient(135deg, var(--md-accent-fg-color) 0%, var(--md-accent-fg-color--dark) 100%);
+    color: #000;
+    text-decoration: none;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    margin-top: 1rem;
+    box-shadow: 0 2px 4px rgba(255, 192, 72, 0.2);
+}
+
+.custom-homepage .product-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(255, 192, 72, 0.3);
+    color: #000;
+    text-decoration: none;
+}
+
+/* Enhanced hover effects */
+.custom-homepage .product-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 192, 72, 0.6);
+    box-shadow: 0 15px 35px rgba(255, 192, 72, 0.2);
+}
+
+.custom-homepage .product-card.featured:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(255, 192, 72, 0.25);
+}
+
+.custom-homepage .product-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--md-accent-fg-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    border-radius: 0 0 1rem 1rem;
+}
+
+.custom-homepage .product-card:hover::after {
+    transform: scaleX(1);
+}
+
+/* CSS classes for elements that had inline styles */
+.custom-homepage .try-section-footer {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.custom-homepage .products-section-title {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.custom-homepage .product-card ul {
+    list-style: none;
+    padding: 0;
     margin: 0;
-    border-radius: 0;
+}
+
+.custom-homepage .product-card li {
+    padding: 0.25rem 0;
+}
+
+/* Removed - now handled in new final CTA styling above */
+
+/* Responsive enhancements */
+@media screen and (max-width: 76.1875em) {
+    .custom-homepage .path-grid {
+        gap: 2rem;
+    }
+    
+    .custom-homepage .try-buttons {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        min-height: 280px;
+        gap: 1rem;
+    }
+    
+    .custom-homepage .products-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .custom-homepage .product-card.featured {
+        transform: none;
+    }
+    
+    .custom-homepage .product-card.featured:hover {
+        transform: translateY(-5px);
+    }
+    
+    .custom-homepage .products-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .custom-homepage .path-selector {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .custom-homepage .learning-paths {
+        margin: 2rem 0 3rem 0;
+        padding: 2rem 1.5rem;
+    }
+    
+    .custom-homepage .implementation-paths {
+        padding: 3rem 1.5rem;
+    }
+    
+    .custom-homepage .implementation-subtitle {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .custom-homepage .path-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .custom-homepage .path-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 2.5rem;
+    }
+    
+    .custom-homepage .path-cta {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .custom-homepage .product-cta {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .custom-homepage .final-cta .md-button {
+        font-size: 0.95rem;
+        padding: 0.75rem 1.5rem;
+        margin: 0.5rem;
+    }
+    
+    .md-typeset h1 {
+        font-size: 2rem;
+    }
+    
+    .md-typeset h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 48em) {
+    /* Mobile-optimized button sizes */
+    .md-button {
+        font-size: 0.85rem;
+        padding: 0.625rem 1rem;
+    }
+    
+    .custom-homepage .path-cta {
+        padding: 0.625rem 1rem;
+        font-size: 0.8rem;
+        margin-top: 1rem;
+    }
+    
+    .custom-homepage .hero-section h1 {
+        font-size: 2rem;
+    }
+    
+    .custom-homepage .hero-subtitle {
+        font-size: 1.1rem;
+        padding: 0 1rem;
+    }
+    
+    .custom-homepage .try-buttons {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, auto);
+        min-height: auto;
+        gap: 1rem;
+        padding: 0 1rem;
+    }
+    
+    .custom-homepage .learning-paths {
+        padding: 1.5rem 1rem;
+        margin: 1.5rem 0 2.5rem 0;
+    }
+    
+    .custom-homepage .learning-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    .custom-homepage .path-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+    
+    .custom-homepage .implementation-paths {
+        padding: 2.5rem 1rem;
+    }
+    
+    .custom-homepage .implementation-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+        padding: 0 1rem;
+    }
+    
+    .custom-homepage .path-card {
+        padding: 1.5rem;
+    }
+    
+    .custom-homepage .path-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .custom-homepage .path-highlight {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .custom-homepage .final-cta {
+        padding: 2.5rem 1rem;
+        margin: 3rem 0 2rem 0;
+    }
+    
+    .custom-homepage .final-cta h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .custom-homepage .final-cta .md-button {
+        margin: 0.5rem 0.25rem;
+        padding: 0.75rem 1.25rem;
+        font-size: 0.85rem;
+        min-width: 130px;
+    }
+    
+    .custom-homepage .product-card {
+        padding: 1.5rem;
+        margin: 0 1rem;
+    }
+    
+    .custom-homepage .product-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 2rem;
+    }
+    
+    .custom-homepage .product-stats {
+        gap: 0.5rem;
+    }
+    
+    .custom-homepage .stat {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+    }
+    
+    .custom-homepage .product-cta {
+        padding: 0.625rem 1rem;
+        font-size: 0.8rem;
+        margin-top: 1rem;
+    }
+    
+    .custom-homepage .products-section {
+        padding: 0 1rem;
+    }
+    
+    .custom-homepage .try-section {
+        padding: 0 1rem;
+    }
+}
+
+/* Additional mobile-specific optimizations */
+@media screen and (max-width: 30em) {
+    .custom-homepage .hero-section {
+        padding: 2rem 0 1.5rem 0;
+    }
+    
+    .custom-homepage .hero-section h1 {
+        font-size: 1.75rem;
+        margin-bottom: 1rem;
+    }
+    
+    .custom-homepage .hero-subtitle {
+        font-size: 1rem;
+        padding: 0 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .custom-homepage .hero-cta .md-button {
+        font-size: 0.85rem;
+        padding: 0.625rem 1.25rem;
+        margin: 0.25rem;
+        min-width: 120px;
+    }
+    
+    .custom-homepage .final-cta .md-button {
+        display: block;
+        width: 100%;
+        max-width: 280px;
+        margin: 0.5rem auto;
+    }
+    
+    .custom-homepage .path-card {
+        padding: 1.25rem;
+    }
+    
+    .custom-homepage .product-card {
+        margin: 0 0.5rem;
+        padding: 1.25rem;
+    }
+    
+    /* Enhanced touch targets for very small screens */
+    .custom-homepage .learning-card a,
+    .custom-homepage .path-cta,
+    .custom-homepage .product-cta {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+}
+
+/* Touch-friendly enhancements for all mobile */
+@media (hover: none) and (pointer: coarse) {
+    .custom-homepage .path-card:hover,
+    .custom-homepage .product-card:hover,
+    .custom-homepage .learning-card:hover {
+        transform: none;
+    }
+    
+    .custom-homepage .path-card:hover::before,
+    .custom-homepage .product-card:hover::after,
+    .custom-homepage .learning-card:hover::before {
+        opacity: 0.6;
+    }
+    
+    /* Ensure buttons have adequate touch targets */
+    .md-button {
+        min-height: 44px;
+    }
+    
+    .custom-homepage .path-cta,
+    .custom-homepage .product-cta {
+        min-height: 44px;
+        padding: 0.75rem 1.25rem;
+    }
+}
+
+/* Enhanced link styles */
+.custom-homepage a {
+    color: var(--md-accent-fg-color);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.custom-homepage a:hover {
+    color: var(--md-accent-fg-color--light);
+    text-decoration: underline;
+}
+
+/* Animation enhancements */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Improved spacing and typography */
+.custom-homepage p {
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+/* Dark mode specific enhancements */
+.md-typeset code {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--md-accent-fg-color--light);
+    border-radius: 0.25rem;
+    padding: 0.125rem 0.375rem;
+    font-weight: 500;
+}
+
+/* Enhanced focus states for accessibility */
+.custom-homepage .try-button:focus,
+.custom-homepage .path-card:focus,
+.custom-homepage .product-card:focus,
+.md-button:focus {
+    outline: 2px solid var(--md-accent-fg-color);
+    outline-offset: 2px;
+}
+
+/* Progressive enhancement for modern browsers */
+@supports (backdrop-filter: blur(20px)) {
+    .md-header {
+        backdrop-filter: blur(20px);
+    }
+}
+
+@supports (display: grid) and (grid-template-columns: subgrid) {
+    .custom-homepage .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
 } 
+
+.custom-homepage .learning-card h4 {
+    margin: 0 0 0.75rem 0;
+    color: var(--md-accent-fg-color);
+    font-size: 1.1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.custom-homepage .learning-card p {
+    margin: 0 0 1rem 0;
+    font-size: 0.9rem;
+    color: var(--md-default-fg-color--light);
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+}
+
+.custom-homepage .learning-card a {
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: var(--md-accent-fg-color);
+    transition: color 0.2s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.custom-homepage .learning-card a:hover {
+    color: var(--md-accent-fg-color--light);
+} 
+
+/* Removed - now handled in enhanced products section above */ 
+
+/* Removed - now handled in individual section styling above */ 

@@ -2,105 +2,167 @@
 hide:
   - navigation
   - toc
+title: " "
 ---
 
 <div class="custom-homepage">
 
-<style>
-  .custom-homepage h1, .custom-homepage .subtitle {
-    text-align: center;
-  }
-  .custom-homepage .subtitle {
-    font-size: 1.2rem;
-    font-style: italic;
-    color: var(--md-default-fg-color--light);
-  }
-  .custom-homepage .card ul {
-    padding-left: 0;
-  }
-  .custom-homepage .card li a {
-    font-weight: 500;
-  }
-  .custom-homepage .final-cta {
-    text-align: center;
-    margin-top: 3rem;
-  }
-</style>
-
-<h1>Welcome to the Joinself Academy</h1>
-<p class="subtitle">The definitive guide for developers building the future of digital identity.</p>
-
-<div class="homepage-cta">
-    <a href="examples/setup/" class="md-button md-button--primary">Get Started with Your First Self ID</a>
-</div>
-
-<div class="landing-grid">
-    <div class="card">
-        <h3><a href="concepts/overview/">Understand the Fundamentals</a></h3>
-        <ul>
-            <li><span class="icon">📄</span> <a href="concepts/decentralized-identity/">Decentralized Identity</a></li>
-            <li><span class="icon">🔐</span> <a href="concepts/cryptographic-foundations/">Cryptographic Foundations</a></li>
-            <li><span class="icon">🤝</span> <a href="concepts/secure-connections/">Secure Connections</a></li>
-            <li><span class="icon">🎫</span> <a href="concepts/verifiable-credentials/">Verifiable Credentials</a></li>
-            <li><span class="icon">🤫</span> <a href="concepts/message-layer-security/">Message Layer Security</a></li>
-        </ul>
-    </div>
-    <div class="card">
-        <h3><a href="examples/overview/">Learn by Building</a></h3>
-        <ul>
-            <li><span class="icon">🛠️</span> <a href="examples/setup/">Setup & Configuration</a></li>
-            <li><span class="icon">🔗</span> <a href="examples/connections/">Connections & Discovery</a></li>
-            <li><span class="icon">🎫</span> <a href="examples/credentials/">Verifiable Credentials</a></li>
-            <li><span class="icon">💬</span> <a href="examples/chat/">Chat & Messaging</a></li>
-            <li><span class="icon">⚙️</span> <a href="examples/advanced/">Advanced Features</a></li>
-        </ul>
-    </div>
-    <div class="card">
-        <h3><a href="solutions/overview/">Explore Real-World Solutions</a></h3>
-        <ul>
-            <li><span class="icon">🔑</span> <a href="solutions/authentication/">Authentication</a></li>
-            <li><span class="icon">✍️</span> <a href="solutions/digital-signatures/">Digital Signatures</a></li>
-            <li><span class="icon">✅</span> <a href="solutions/identity-verification/">Identity Verification</a></li>
-        </ul>
+<div class="hero-section">
+    <h1>Joinself Academy</h1>
+    <p class="hero-subtitle">Learn to build <strong>passwordless authentication</strong> and manage <strong>verifiable credentials</strong> with hands-on tutorials and comprehensive guides</p>
+    <div class="hero-cta">
+        <a href="examples/overview/" class="md-button md-button--primary">Start Learning</a>
+        <a href="concepts/overview/" class="md-button md-button--secondary">Understand the Concepts</a>
     </div>
 </div>
 
-<div class="try-it-out">
-    <h2><span class="icon">⚡</span> Try It Out</h2>
-    <p>Get a feel for the Self SDK right here. The code below shows how to create a brand new, cryptographically secure Self identity with just a few lines of Go.</p>
-    <p><strong>Run this full example yourself:</strong> <a href="../examples/server/00_setup/01_new_account/go/main.go"><code>examples/server/00_setup/01_new_account/go/main.go</code></a></p>
-    <div class="code-wrapper">
-        <div class="code-header">Go</div>
-        <div class="highlight">
-<pre><code class="language-go">// From: examples/server/00_setup/01_new_account/go/main.go
+<div class="products-section">
+    <h2 class="products-section-title">What You'll Learn to Build</h2>
+    <p class="products-subtitle">Choose your identity solution and start building in minutes</p>
+    
+    <div class="products-grid">
+        <div class="product-card featured">
+            <div class="product-header">
+                <div class="product-icon">🔑</div>
+                <div class="product-badge">Most Popular</div>
+            </div>
+            <h4><a href="solutions/authentication/">Passwordless Authentication</a></h4>
+            <p class="description">Replace passwords with cryptographic identity verification using <strong>biometrics</strong> and device-based authentication</p>
+            
+            <div class="product-stats">
+                <span class="stat">⚡ &nbsp; 30 min setup</span>
+                <span class="stat">📱 &nbsp; iOS + Android</span>
+                <span class="stat">🔒 &nbsp; Zero passwords</span>
+            </div>
+            
+            <a href="solutions/authentication/" class="product-cta">Build Authentication →</a>
+        </div>
+        
+        <div class="product-card">
+            <div class="product-header">
+                <div class="product-icon">✅</div>
+            </div>
+            <h4><a href="solutions/identity-verification/">Identity Verification</a></h4>
+            <p class="description">Issue, verify and manage digital credentials like certificates, licenses, and identity documents</p>
+            
+            <div class="product-stats">
+                <span class="stat">📄 &nbsp; Any credential type</span>
+                <span class="stat">🔍 &nbsp; Instant verification</span>
+                <span class="stat">🌍 &nbsp; Global standards</span>
+            </div>
+            
+            <a href="solutions/identity-verification/" class="product-cta">Build Verification →</a>
+        </div>
+        
+        <div class="product-card">
+            <div class="product-header">
+                <div class="product-icon">✍️</div>
+            </div>
+            <h4><a href="solutions/digital-signatures/">Digital Signatures</a></h4>
+            <p class="description">Sign documents and transactions with cryptographic signatures that are legally binding and tamper-proof</p>
+            
+            <div class="product-stats">
+                <span class="stat">⚖️ &nbsp; Legally binding</span>
+                <span class="stat">🔐 &nbsp; Tamper-proof</span>
+                <span class="stat">📊 &nbsp; Audit trails</span>
+            </div>
+            
+            <a href="solutions/digital-signatures/" class="product-cta">Build Signatures →</a>
+        </div>
 
-// Create a new Self SDK account with a randomly generated key and default storage.
-selfAccount, err := account.New(&account.Config{
-    StorageKey:  generateStorageKey(),
-    StoragePath: "./storage",
-    Environment: account.TargetSandbox,
-})
-if err != nil {
-    log.Fatal("failed to create new account: ", err)
-}
-defer selfAccount.Close()
+    </div>
+</div>
 
-// Open the account's inbox to get its unique address.
-inbox, err := selfAccount.InboxOpen()
-if err != nil {
-    log.Fatal("failed to open inbox: ", err)
-}
-
-fmt.Println("✅ New account created successfully!")
-fmt.Printf("🆔 Account DID: %s\n", inbox.String())
-</code></pre>
+<div class="learning-paths">
+    <h2>Choose Your Learning Path</h2>
+    <div class="path-selector">
+        <div class="learning-card beginner">
+            <h4>👋 &nbsp; New to Identity Tech?</h4>
+            <p>Start with core concepts and theory</p>
+            <a href="concepts/overview/">Begin with Concepts →</a>
+        </div>
+        
+        <div class="learning-card developer">
+            <h4>🚀 &nbsp; Ready to Code?</h4>
+            <p>Jump into hands-on tutorials and examples</p>
+            <a href="examples/overview/">Start with Examples →</a>
+        </div>
+        
+        <div class="learning-card integration">
+            <h4>🔧 &nbsp; Integrating your App?</h4>
+            <p>Find specific implementation solutions</p>
+            <a href="solutions/overview/">View Solutions →</a>
         </div>
     </div>
 </div>
 
+
+<div class="try-section">
+    <h2>⚡ Hands-On Tutorials</h2>
+    <p class="subtitle">Follow step-by-step guides to build real identity features</p>
+    
+    <div class="try-buttons">
+        <a href="/examples/setup/" class="try-button">
+            <h4>Identity Management</h4>
+            <p>Learn the fundamentals by generating your first decentralized identity.</p>
+            <span class="tutorial-time">⏱️ 10 min tutorial</span>
+        </a>
+        
+        <a href="/examples/connections/" class="try-button">
+            <h4>Secure Connections</h4>
+            <p>Establish secure peer-to-peer connections between applications.</p>
+            <span class="tutorial-time">⏱️ 15 min tutorial</span>
+        </a>
+        
+        <a href="/examples/credentials/" class="try-button">
+            <h4>Manage Verifiable Credentials</h4>
+            <p>Create, manage, share and verify digital credentials in your app.</p>
+            <span class="tutorial-time">⏱️ 20 min tutorial</span>
+        </a>
+        
+        <a href="examples/chat/" class="try-button">
+            <h4>Messaging</h4>
+            <p>Build end-to-end encrypted messaging with identity verification.</p>
+            <span class="tutorial-time">⏱️ 25 min tutorial</span>
+        </a>
+    </div>
+    
+    <p class="try-section-footer">
+        <a href="examples/overview/"><strong>Follow the complete development path →</strong></a>
+    </p>
+</div>
+
+<div class="implementation-paths">
+    <h2>Choose Your Development Platform</h2>
+    <p class="implementation-subtitle">Pick the platform that matches your project and start building</p>
+    
+    <div class="path-grid">
+        <div class="path-card">
+            <div class="path-icon">📱</div>
+            <h3>Mobile Apps</h3>
+            <p>Build iOS and Android apps with passwordless authentication and secure identity features.</p>
+            <div class="path-highlight">Perfect for: Consumer apps, mobile-first products</div>
+            <a href="examples/mobile/" class="path-cta">Start Mobile Development →</a>
+        </div>
+        
+        <div class="path-card">
+            <div class="path-icon">🖥️</div>
+            <h3>Backend & APIs</h3>
+            <p>Add identity verification and credential management to your server applications and APIs.</p>
+            <div class="path-highlight">Perfect for: Web apps, enterprise systems, microservices</div>
+            <a href="examples/server/" class="path-cta">Start Backend Integration →</a>
+        </div>
+    </div>
+</div>
+
+
 <div class="final-cta">
-    <h3>🌟 Ready to build the future of digital identity?</h3>
-    <p><a href="examples/setup/"><strong>Start your journey here.</strong></a></p>
+    <h3>🎓 Ready to Master Digital Identity?</h3>
+    <p>Join thousands of developers learning to build the future of authentication</p>
+    <div class="button-group">
+        <a href="examples/setup/" class="md-button md-button--primary">Start Your Learning Journey</a>
+        <a href="examples/resources/" class="md-button">Join Developer Community</a>
+    </div>
 </div>
 
 </div>
