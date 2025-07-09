@@ -69,7 +69,7 @@ fun loadExistingAccount(): Account {
             println("✅ Account loaded successfully!")
         }
 
-        override fun onMessage(msg: Message) {
+        override fun onMessage(account: Account, msg: Message) {
             println("📨 Message received")
         }
     })
