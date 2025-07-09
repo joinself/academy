@@ -1,4 +1,4 @@
-module github.com/joinself/academy/examples/go/common
+module github.com/joinself/academy/examples/server/common
 
 go 1.24.2
 
