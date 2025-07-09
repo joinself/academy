@@ -1,13 +1,17 @@
-// Package main demonstrates email credential verification through mobile delivery.
+// Package main demonstrates requesting and validating real credentials from mobile devices.
+// This example shows how to connect to a mobile device and request actual credentials
+// like email verification and liveness proofs.
 package main
 
 import (
+	"encoding/hex"
 	"fmt"
 	"log"
 	"os"
+	"sync"
 	"time"
 
-	"github.com/joinself/academy/examples/go/common"
+	"github.com/joinself/academy/examples/server/common"
 	"github.com/joinself/self-go-sdk/account"
 	"github.com/joinself/self-go-sdk/credential"
 	"github.com/joinself/self-go-sdk/event"
@@ -15,62 +19,95 @@ import (
 	"github.com/joinself/self-go-sdk/message"
 )
 
-var connectedMobile *signing.PublicKey
+var (
+	connectedMobile *signing.PublicKey
+	requests        sync.Map // Track outstanding requests
+)
 
 func main() {
-	fmt.Println("Email Credential Verification Demo")
-	fmt.Println("=================================")
+	fmt.Println("Real Credential Presentation Request Demo")
+	fmt.Println("=======================================")
 
-	// Create email service provider account
-	emailService := createEmailServiceAccount()
-	defer emailService.Close()
+	// Create credential verifier account
+	verifierService := createVerifierAccount()
+	defer verifierService.Close()
 
-	common.DisplayAccountInfo(emailService, "Email Service Provider")
+	common.DisplayAccountInfo(verifierService, "Credential Verifier")
 
 	// Generate QR code for mobile connection
-	if !generateEmailVerificationQR(emailService) {
+	if !generateConnectionQR(verifierService) {
 		fmt.Println("❌ Failed to generate QR code. Please try again.")
 		return
 	}
 
-	// Wait for mobile connection and credential delivery
-	fmt.Println("\n📱 SCAN QR CODE with Self mobile app to verify email")
+	// Wait for mobile connection and credential requests
+	fmt.Println("\n📱 SCAN QR CODE with Self mobile app")
 	fmt.Println("⏳ Waiting for mobile device connection...")
-	fmt.Println("🔐 Once connected, email verification credential will be created")
+	fmt.Println("📋 Once connected, will request real credentials from your device")
+	fmt.Println("💡 This demonstrates validation of actual mobile credentials")
 
-	// Keep running to handle mobile connections
+	// Keep running to handle mobile connections and requests
 	select {}
 }
 
-func createEmailServiceAccount() *account.Account {
-	fmt.Println("Setting up email service provider...")
+func createVerifierAccount() *account.Account {
+	fmt.Println("Setting up credential verifier...")
 
-	emailService := common.SetupAccount(common.AccountConfig{
-		StorageDir: "email_service",
+	verifierService := common.SetupAccount(common.AccountConfig{
+		StorageDir: "verifier_service",
 		Callbacks: account.Callbacks{
 			OnWelcome: handleMobileConnection,
-			OnMessage: func(acc *account.Account, msg *event.Message) {
-				// Handle any additional messaging if needed
-			},
+			OnMessage: handleMessage,
 		},
 	})
 
-	fmt.Println("✅ Email service provider ready")
-	return emailService
+	fmt.Println("✅ Credential verifier ready")
+	return verifierService
 }
 
-func generateEmailVerificationQR(emailService *account.Account) bool {
-	fmt.Println("Generating QR code for mobile email verification...")
+func handleMessage(acc *account.Account, msg *event.Message) {
+	switch event.ContentTypeOf(msg) {
+	case message.ContentTypeCredentialPresentationResponse:
+		handlePresentationResponse(acc, msg)
+	default:
+		// Handle any other message types if needed
+		fmt.Printf("📨 Received message of type: %s\n", event.ContentTypeOf(msg))
+	}
+}
+
+func handlePresentationResponse(acc *account.Account, msg *event.Message) {
+	fmt.Printf("\n📋 Received credential presentation response from: %s\n", msg.FromAddress().String())
+
+	credentialPresentationResponse, err := message.DecodeCredentialPresentationResponse(msg.Content())
+	if err != nil {
+		log.Printf("❌ Failed to decode presentation response: %v", err)
+		return
+	}
+
+	// Find the corresponding request completer
+	completer, ok := requests.LoadAndDelete(hex.EncodeToString(credentialPresentationResponse.ResponseTo()))
+	if !ok {
+		log.Printf("❌ Received response to unknown request: %s",
+			hex.EncodeToString(credentialPresentationResponse.ResponseTo()))
+		return
+	}
+
+	// Signal the waiting goroutine
+	completer.(chan *message.CredentialPresentationResponse) <- credentialPresentationResponse
+}
+
+func generateConnectionQR(verifierService *account.Account) bool {
+	fmt.Println("Generating QR code for mobile connection...")
 
 	// Open inbox for receiving mobile connections
-	inboxAddress, err := emailService.InboxOpen()
+	inboxAddress, err := verifierService.InboxOpen()
 	if err != nil {
 		log.Printf("❌ Failed to open inbox: %v", err)
 		return false
 	}
 
 	// Generate key package for secure communication
-	keyPackage, err := emailService.ConnectionNegotiateOutOfBand(
+	keyPackage, err := verifierService.ConnectionNegotiateOutOfBand(
 		inboxAddress,
 		time.Now().Add(30*time.Minute),
 	)
@@ -80,7 +117,7 @@ func generateEmailVerificationQR(emailService *account.Account) bool {
 		return false
 	}
 
-	// Build discovery request for email verification
+	// Build discovery request for mobile connection
 	content, err := message.NewDiscoveryRequest().
 		KeyPackage(keyPackage).
 		Expires(time.Now().Add(30 * time.Minute)).
@@ -107,94 +144,145 @@ func generateEmailVerificationQR(emailService *account.Account) bool {
 	return true
 }
 
-func handleMobileConnection(emailService *account.Account, welcome *event.Welcome) {
+func handleMobileConnection(verifierService *account.Account, welcome *event.Welcome) {
 	fmt.Printf("\n📱 Mobile device connected: %s\n", welcome.FromAddress().String())
 
 	// Accept the mobile connection
-	_, err := emailService.ConnectionAccept(welcome.ToAddress(), welcome.Welcome())
+	_, err := verifierService.ConnectionAccept(welcome.ToAddress(), welcome.Welcome())
 	if err != nil {
 		fmt.Printf("❌ Failed to accept connection: %v\n", err)
 		return
 	}
 
 	fmt.Println("✅ Mobile connection established!")
+	fmt.Println("📋 Now requesting real credentials from your mobile device...")
 
-	// Store mobile address for credential delivery
+	// Store mobile address for credential requests
 	connectedMobile = welcome.FromAddress()
 
-	// Create and demonstrate email verification credential
-	demonstrateEmailCredentialCreation(emailService)
+	// Request real credentials from the mobile device
+	go requestCredentialsFromMobile(verifierService)
 }
 
-func demonstrateEmailCredentialCreation(emailService *account.Account) {
+func requestCredentialsFromMobile(verifierService *account.Account) {
 	if connectedMobile == nil {
-		fmt.Println("❌ No mobile device connected")
+		fmt.Println("❌ No mobile device connected for credential request")
 		return
 	}
 
-	fmt.Println("\n📧 Creating email verification credential...")
+	// Wait a moment for connection to stabilize
+	time.Sleep(2 * time.Second)
 
-	issuerAddress, _ := emailService.InboxOpen()
+	fmt.Println("\n📋 Requesting real credentials from mobile device...")
+	fmt.Println("💡 This demonstrates validation of actual mobile credentials")
 
-	// Create email verification credential
-	emailCredential := createEmailVerificationCredential(emailService, issuerAddress, connectedMobile)
-	if emailCredential == nil {
-		fmt.Println("❌ Failed to create email credential")
+	// Create presentation request for multiple credential types
+	content, err := message.NewCredentialPresentationRequest().
+		Type([]string{"VerifiablePresentation", "MobileCredentialPresentation"}).
+		Details(
+			credential.CredentialTypeLiveness,
+			[]*message.CredentialPresentationDetailParameter{
+				message.NewCredentialPresentationDetailParameter(
+					message.OperatorNotEquals,
+					"sourceImageHash",
+					"",
+				),
+			},
+		).
+		Details(
+			credential.CredentialTypeEmail,
+			[]*message.CredentialPresentationDetailParameter{
+				message.NewCredentialPresentationDetailParameter(
+					message.OperatorNotEquals,
+					"emailAddress",
+					"",
+				),
+			},
+		).
+		Finish()
+
+	if err != nil {
+		log.Printf("❌ Failed to create presentation request: %v", err)
 		return
 	}
 
-	fmt.Println("✅ Email verification credential created successfully!")
-	fmt.Println("📱 Credential details:")
-	fmt.Println("   • Email: user@example.com")
-	fmt.Println("   • Status: verified")
-	fmt.Println("   • Domain: example.com")
-	fmt.Println("   • Method: email_link_clicked")
-	fmt.Println("   • Issuer: Example Email Service Provider")
-	fmt.Println()
-	fmt.Println("🎉 Email verification workflow completed!")
-	fmt.Println("💡 In production, this credential would be:")
-	fmt.Println("   • Sent directly to the mobile device")
-	fmt.Println("   • Stored in the user's credential wallet")
-	fmt.Println("   • Available for proving email ownership")
-	fmt.Println("   • Reusable across different services")
+	// Create a channel to track the response
+	presentationCompleter := make(chan *message.CredentialPresentationResponse, 1)
+	requests.Store(hex.EncodeToString(content.ID()), presentationCompleter)
 
-	// Exit after successful credential creation
-	os.Exit(0)
+	fmt.Printf("📤 Sending credential request to mobile: %s\n", connectedMobile.String())
+	fmt.Println("   • Requesting: Liveness and Email credentials")
+	fmt.Println("   • This will show your actual verified credentials")
+
+	// Send the presentation request to the mobile device
+	err = verifierService.MessageSend(connectedMobile, content)
+	if err != nil {
+		log.Printf("❌ Failed to send presentation request: %v", err)
+		return
+	}
+
+	fmt.Println("⏳ Waiting for credential presentation response...")
+
+	// Wait for response with timeout
+	select {
+	case response := <-presentationCompleter:
+		displayReceivedCredentials(verifierService, response)
+	case <-time.After(60 * time.Second):
+		fmt.Println("⏰ Credential request timed out")
+		fmt.Println("💡 In production, you might retry or notify the user")
+		fmt.Println("\n🏁 Demo completed (timed out)")
+		os.Exit(0)
+	}
 }
 
-func createEmailVerificationCredential(issuerAccount *account.Account, issuerAddress, holderAddress *signing.PublicKey) *credential.VerifiableCredential {
-	// Create comprehensive email verification claims
-	claims := map[string]interface{}{
-		"emailAddress":       "user@example.com",
-		"verified":           true,
-		"verificationDate":   time.Now().Format("2006-01-02T15:04:05Z"),
-		"domain":             "example.com",
-		"verificationMethod": "email_link_clicked",
-		"issuerName":         "Example Email Service Provider",
-		"verificationLevel":  "standard",
-		"ipAddress":          "192.168.1.100", // Where verification occurred
-		"userAgent":          "Mozilla/5.0 (Mobile)",
+func displayReceivedCredentials(verifierService *account.Account, response *message.CredentialPresentationResponse) {
+	fmt.Println("\n✅ Received real credentials from mobile device!")
+
+	presentations := response.Presentations()
+	if len(presentations) == 0 {
+		fmt.Println("⚠️  No presentations received")
+		return
 	}
 
-	credentialBuilder := credential.NewCredential().
-		CredentialType([]string{"VerifiableCredential", "EmailCredential"}).
-		CredentialSubject(credential.AddressKey(holderAddress)).
-		CredentialSubjectClaims(claims).
-		Issuer(credential.AddressKey(issuerAddress)).
-		ValidFrom(time.Now()).
-		SignWith(issuerAddress, time.Now())
+	fmt.Printf("✅ Received %d presentation(s) from mobile device:\n", len(presentations))
 
-	unsignedCredential, err := credentialBuilder.Finish()
-	if err != nil {
-		log.Printf("Failed to build email credential: %v", err)
-		return nil
+	// Display the actual credential details from the mobile device
+	for i, presentation := range presentations {
+		fmt.Printf("\n📜 Presentation #%d:\n", i+1)
+		fmt.Printf("   • Type: %v\n", presentation.PresentationType())
+		fmt.Printf("   • Holder: %s\n", presentation.Holder().String())
+
+		credentials := presentation.Credentials()
+		fmt.Printf("   • Contains %d real credential(s):\n", len(credentials))
+
+		for j, cred := range credentials {
+			fmt.Printf("\n   📋 Real Credential #%d:\n", j+1)
+			fmt.Printf("      • Type: %v\n", cred.CredentialType())
+			fmt.Printf("      • Issuer: %s\n", cred.Issuer().String())
+			fmt.Printf("      • Subject: %s\n", cred.CredentialSubject().String())
+			fmt.Printf("      • Valid From: %s\n", cred.ValidFrom().Format("2006-01-02 15:04:05"))
+
+			// Display actual credential claims
+			if claims, err := cred.CredentialSubjectClaims(); err == nil {
+				fmt.Println("      • Actual Claims:")
+				for key, value := range claims {
+					fmt.Printf("        - %s: %v\n", key, value)
+				}
+			} else {
+				fmt.Printf("      ⚠️  Could not parse claims: %v\n", err)
+			}
+		}
 	}
 
-	emailCredential, err := issuerAccount.CredentialIssue(unsignedCredential)
-	if err != nil {
-		log.Printf("Failed to issue email credential: %v", err)
-		return nil
-	}
+	fmt.Println("\n🎉 Real credential validation completed!")
+	fmt.Println("💡 This demonstrates:")
+	fmt.Println("   • Requesting real credentials from mobile devices")
+	fmt.Println("   • Receiving actual verified email addresses and liveness proofs")
+	fmt.Println("   • Validating authentic credentials issued by trusted authorities")
+	fmt.Println("   • Building trust through real identity verification")
+	fmt.Println("\n🏁 Demo completed successfully!")
 
-	return emailCredential
+	// Exit after successful demonstration
+	time.Sleep(2 * time.Second)
+	os.Exit(0)
 }
