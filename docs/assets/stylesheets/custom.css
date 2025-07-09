@@ -17,6 +17,53 @@
     text-align: center;
     padding: 8rem 0 5rem 0;
     margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.custom-homepage .hero-section::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    right: -50px;
+    bottom: -50px;
+    z-index: 0;
+    background-image: 
+        /* Cloud Bubbles */
+        radial-gradient(circle at 10% 20%, rgba(188, 190, 192, 0.2) 25px, transparent 0),
+        radial-gradient(circle at 15% 80%, rgba(188, 190, 192, 0.3) 10px, transparent 0),
+        /* Indigo Bubbles */
+        radial-gradient(circle at 25% 40%, rgba(14, 28, 66, 0.25) 30px, transparent 0),
+        radial-gradient(circle at 20% 90%, rgba(14, 28, 66, 0.3) 15px, transparent 0),
+        /* Ruby Bubbles */
+        radial-gradient(circle at 35% 10%, rgba(251, 33, 145, 0.2) 28px, transparent 0),
+        radial-gradient(circle at 40% 60%, rgba(251, 33, 145, 0.35) 12px, transparent 0),
+        /* Fern Bubbles */
+        radial-gradient(circle at 45% 30%, rgba(0, 200, 135, 0.3) 22px, transparent 0),
+        radial-gradient(circle at 50% 85%, rgba(0, 200, 135, 0.4) 8px, transparent 0),
+        /* Canary Bubbles */
+        radial-gradient(circle at 55% 5%, rgba(255, 192, 72, 0.25) 26px, transparent 0),
+        radial-gradient(circle at 60% 50%, rgba(255, 192, 72, 0.3) 18px, transparent 0),
+        /* Sky Bubbles */
+        radial-gradient(circle at 65% 25%, rgba(113, 180, 255, 0.3) 20px, transparent 0),
+        radial-gradient(circle at 70% 70%, rgba(113, 180, 255, 0.35) 13px, transparent 0),
+        /* More bubbles */
+        radial-gradient(circle at 75% 15%, rgba(188, 190, 192, 0.25) 17px, transparent 0),
+        radial-gradient(circle at 80% 45%, rgba(14, 28, 66, 0.3) 24px, transparent 0),
+        radial-gradient(circle at 85% 95%, rgba(251, 33, 145, 0.3) 29px, transparent 0),
+        radial-gradient(circle at 90% 65%, rgba(0, 200, 135, 0.35) 11px, transparent 0),
+        radial-gradient(circle at 95% 20%, rgba(255, 192, 72, 0.3) 19px, transparent 0),
+        radial-gradient(circle at 5% 50%, rgba(113, 180, 255, 0.25) 23px, transparent 0),
+        radial-gradient(circle at 98% 80%, rgba(188, 190, 192, 0.3) 9px, transparent 0),
+        radial-gradient(circle at 48% 98%, rgba(251, 33, 145, 0.25) 16px, transparent 0);
+    
+    animation: subtle-drift 30s ease-in-out infinite;
+}
+
+.custom-homepage .hero-section .hero-content {
+    position: relative;
+    z-index: 1;
 }
 
 .custom-homepage .hero-section h1 {
@@ -49,6 +96,7 @@
     font-size: 1rem;
     padding: 0.875rem 2rem;
     font-weight: 500;
+    border-radius: 0.375rem;
 }
 
 /* Responsive Hero Section */
@@ -698,11 +746,16 @@
     margin-top: 2.5rem;
 }
 
+.custom-homepage .final-cta .button-group .md-button {
+    border-radius: 0.375rem;
+}
+
 .custom-homepage .final-cta .md-button {
     font-size: 1rem;
     padding: 0.875rem 1.75rem;
     margin: 0.75rem;
     font-weight: 500;
+    
 }
 
 @keyframes borderGlow {
@@ -713,6 +766,24 @@
 @keyframes float {
     0%, 100% { transform: translateY(0) rotate(0deg); }
     50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+@keyframes subtle-drift {
+    0% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(15px, -10px);
+    }
+    50% {
+        transform: translate(-10px, 15px);
+    }
+    75% {
+        transform: translate(10px, 10px);
+    }
+    100% {
+        transform: translate(0, 0);
+    }
 }
 
 /* Remove duplicate - handled above */
@@ -1099,6 +1170,10 @@
 
 /* Responsive enhancements */
 @media screen and (max-width: 76.1875em) {
+    .custom-homepage .hero-section::before {
+        display: none;
+    }
+
     .custom-homepage .path-grid {
         gap: 2rem;
     }

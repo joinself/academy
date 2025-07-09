@@ -8,11 +8,13 @@ title: " "
 <div class="custom-homepage">
 
 <div class="hero-section">
-    <h1>Joinself Academy</h1>
-    <p class="hero-subtitle">Learn to build <strong>passwordless authentication</strong> and manage <strong>verifiable credentials</strong> with hands-on tutorials and comprehensive guides</p>
-    <div class="hero-cta">
-        <a href="examples/overview/" class="md-button md-button--primary">Start Learning</a>
-        <a href="concepts/overview/" class="md-button md-button--secondary">Understand the Concepts</a>
+    <div class="hero-content">
+        <h1>Joinself Academy</h1>
+        <p class="hero-subtitle">Learn to build <strong>passwordless authentication</strong> and manage <strong>verifiable credentials</strong> with hands-on tutorials and comprehensive guides</p>
+        <div class="hero-cta">
+            <a href="examples/overview/" class="md-button md-button--primary">Start Learning</a>
+            <a href="concepts/overview/" class="md-button md-button--secondary">Understand the Concepts</a>
+        </div>
     </div>
 </div>
 
