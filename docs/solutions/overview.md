@@ -1,9 +1,35 @@
 # Solutions
 
-This section provides practical guides to implementing Self's core solutions. Each guide connects a real-world business need to the underlying technical concepts and provides direct links to runnable code examples.
+Welcome to the Self solutions hub. Here, you'll find practical guides to implementing our core services. Each section explains a real-world business need, connects it to the underlying technical concepts, and provides direct links to runnable code examples.
 
-- [**Authentication**](./authentication.md) Learn how to build secure, passwordless authentication flows using verifiable credentials for a seamless user experience.
+---
 
-- [**Identity Verification**](./identity-verification.md) Discover how to verify user identities with cryptographic certainty, using credentials to establish trust and streamline onboarding.
+### [Authentication](./authentication.md)
 
-- [**Digital Signatures**](./digital-signatures.md) Implement legally binding, biometrically-backed digital signatures for contracts, agreements, and other documents. 
+Learn how to build secure, passwordless authentication flows. 
+
+With Self, you can replace traditional logins with 100% biometric authentication, creating a seamless user experience while minimizing the Personally Identifiable Information (PII) you need to store. 
+
+This approach enhances security and simplifies compliance with privacy regulations.
+
+---
+
+### [Identity Verification](./identity-verification.md)
+
+Discover how to verify user identities with cryptographic certainty. 
+
+Self allows you to verify thousands of official documents from nearly 200 countries, combined with biometric checks to ensure constant and reliable verification. 
+
+By empowering users to control their own data, you can establish trust, streamline onboarding, and meet regulatory requirements with ease.
+
+---
+
+### [Digital Signatures](./digital-signatures.md)
+
+Implement legally binding, biometrically-backed digital signatures. 
+
+Self enables users to sign anything from a contract to an SMS with a simple biometric action on their phone. 
+
+You can embed verifiable credentials within the signature request, streamlining agreements and ensuring the authenticity of the signatory. 
+
+Our signatures comply with eIDAS and ESIGN standards, making them legally admissible. 
