@@ -10,7 +10,26 @@ title: " "
 <div class="hero-section">
     <div class="hero-content">
         <h1>Joinself Academy</h1>
-        <p class="hero-subtitle">Learn to build <strong>passwordless authentication</strong> and manage <strong>verifiable credentials</strong> with hands-on tutorials and comprehensive guides</p>
+        <p class="hero-subtitle">Learn to build <strong>Authentication</strong> and manage <strong>verifiable credentials</strong> with hands-on tutorials and comprehensive guides</p>
+        
+        <div class="hero-solutions">
+            <h3>Build Your Identity Solution:</h3>
+            <div class="solution-cards">
+                <a href="solutions/authentication/" class="solution-card">
+                    <span class="solution-icon">🔑</span>
+                    <span class="solution-name">Authentication</span>
+                </a>
+                <a href="solutions/identity-verification/" class="solution-card">
+                    <span class="solution-icon">✅</span>
+                    <span class="solution-name">Identity Verification</span>
+                </a>
+                <a href="solutions/digital-signatures/" class="solution-card">
+                    <span class="solution-icon">✍️</span>
+                    <span class="solution-name">Digital Signatures</span>
+                </a>
+            </div>
+        </div>
+        
         <div class="hero-cta">
             <a href="examples/overview/" class="md-button md-button--primary">Start Learning</a>
             <a href="concepts/overview/" class="md-button md-button--secondary">Understand the Concepts</a>
@@ -29,7 +48,7 @@ title: " "
                 <div class="product-icon">🔑</div>
                 <div class="product-badge">Most Popular</div>
             </div>
-            <h4><a href="solutions/authentication/">Passwordless Authentication</a></h4>
+            <h4><a href="solutions/authentication/">Authentication</a></h4>
             <p class="description">Replace passwords with cryptographic identity verification using <strong>biometrics</strong> and device-based authentication</p>
             
             <div class="product-stats">
@@ -143,7 +162,7 @@ title: " "
         <div class="path-card">
             <div class="path-icon">📱</div>
             <h3>Mobile Apps</h3>
-            <p>Build iOS and Android apps with passwordless authentication and secure identity features.</p>
+            <p>Build iOS and Android apps with Authentication and secure identity features.</p>
             <div class="path-highlight">Perfect for: Consumer apps, mobile-first products</div>
             <a href="examples/mobile/" class="path-cta">Start Mobile Development →</a>
         </div>
