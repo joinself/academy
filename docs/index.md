@@ -31,8 +31,9 @@ title: " "
         </div>
         
         <div class="hero-cta">
-            <a href="examples/overview/" class="md-button md-button--primary">Start Learning</a>
-            <a href="concepts/overview/" class="md-button md-button--secondary">Understand the Concepts</a>
+            <a href="examples/overview/" class="hero-link">Start Learning</a>
+            <span class="hero-link-separator">•</span>
+            <a href="concepts/overview/" class="hero-link">Understand the Concepts</a>
         </div>
     </div>
     <a href="#what-youll-learn" class="scroll-down-arrow" aria-label="Scroll down"></a>
