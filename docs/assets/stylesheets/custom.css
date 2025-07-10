@@ -244,6 +244,11 @@
     color: var(--md-accent-fg-color);
 }
 
+.md-tabs__item--active .md-tabs__link {
+    color: var(--md-accent-fg-color) !important;
+    border-bottom-color: var(--md-accent-fg-color) !important;
+}
+
 .md-search {
     flex-shrink: 0;
     margin-left: auto;
