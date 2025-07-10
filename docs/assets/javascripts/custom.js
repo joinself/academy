@@ -136,3 +136,22 @@
     // Also handle tab switching when DOM is ready
     setTimeout(handleTabSwitching, 500);
 })(); 
+
+document.addEventListener('DOMContentLoaded', function () {
+    const scrollArrow = document.querySelector('.scroll-down-arrow');
+
+    if (scrollArrow) {
+        window.addEventListener('scroll', function() {
+            // Fade out the arrow as the user scrolls down
+            const scrollPosition = window.scrollY;
+            const fadeOutDistance = 150; // pixels
+            let opacity = 1 - (scrollPosition / fadeOutDistance);
+            
+            if (opacity < 0) {
+                opacity = 0;
+            }
+            
+            scrollArrow.style.opacity = opacity;
+        });
+    }
+}); 

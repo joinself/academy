@@ -16,10 +16,11 @@ title: " "
             <a href="concepts/overview/" class="md-button md-button--secondary">Understand the Concepts</a>
         </div>
     </div>
+    <a href="#what-youll-learn" class="scroll-down-arrow" aria-label="Scroll down"></a>
 </div>
 
 <div class="products-section">
-    <h2 class="products-section-title">What You'll Learn to Build</h2>
+    <h2 class="products-section-title" id="what-youll-learn">What You'll Learn to Build</h2>
     <p class="products-subtitle">Choose your identity solution and start building in minutes</p>
     
     <div class="products-grid">

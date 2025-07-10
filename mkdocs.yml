@@ -16,7 +16,6 @@ theme:
     # - content.tabs.link
     - content.tooltips
     - header.autohide
-    # - header.autohide
     - navigation.expand
     - navigation.footer
     - navigation.indexes
