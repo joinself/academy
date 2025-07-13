@@ -23,14 +23,16 @@ import (
 	"github.com/joinself/self-go-sdk/message"
 )
 
-// AuthService manages Self authentication flows
+// AuthService manages Self authentication flows with proper multi-user support
 type AuthService struct {
 	account              *account.Account
 	config               *Config
 	connections          map[string]*Connection
 	sessions             map[string]*Session
 	pendingAuth          map[string]*AuthRequest
-	credentialRequestMap map[string]string // Maps credential request ID to original content ID
+	discoveryResponseMap map[string]string       // Maps discovery response ID to original content ID
+	credentialRequestMap map[string]string       // Maps credential request ID to original content ID
+	userChannels         map[string]*UserChannel // Maps user DID to their communication channel
 	mutex                sync.RWMutex
 	logger               *logging.Logger
 }
@@ -54,6 +56,7 @@ type Connection struct {
 	LastSeen      time.Time
 	Status        ConnectionStatus
 	ContentID     string // 🔑 Content ID from the original request this connection belongs to
+	ChannelID     string // 🔑 Channel ID for this connection
 }
 
 // Session represents an authenticated user session
@@ -64,6 +67,7 @@ type Session struct {
 	ExpiresAt    time.Time
 	Claims       map[string]interface{}
 	ConnectionID string
+	ChannelID    string // 🔑 Channel ID for this session
 }
 
 // AuthRequest represents a pending authentication request
@@ -86,6 +90,17 @@ type AuthResult struct {
 	Claims  map[string]interface{}
 }
 
+// UserChannel represents a communication channel with a specific user
+type UserChannel struct {
+	ID                string
+	UserDID           *signing.PublicKey
+	CreatedAt         time.Time
+	LastActivity      time.Time
+	ConnectionID      string
+	OriginalContentID string // 🔑 The content ID that established this channel
+	Status            ChannelStatus
+}
+
 // ConnectionStatus represents the state of a connection
 type ConnectionStatus int
 
@@ -95,7 +110,16 @@ const (
 	ConnectionDisconnected
 )
 
-// NewAuthService creates a new authentication service
+// ChannelStatus represents the state of a user channel
+type ChannelStatus int
+
+const (
+	ChannelActive ChannelStatus = iota
+	ChannelIdle
+	ChannelClosed
+)
+
+// NewAuthService creates a new authentication service with enhanced multi-user support
 func NewAuthService(config *Config, logger *logging.Logger) (*AuthService, error) {
 	if config == nil {
 		config = DefaultConfig()
@@ -112,7 +136,9 @@ func NewAuthService(config *Config, logger *logging.Logger) (*AuthService, error
 		connections:          make(map[string]*Connection),
 		sessions:             make(map[string]*Session),
 		pendingAuth:          make(map[string]*AuthRequest),
+		discoveryResponseMap: make(map[string]string),
 		credentialRequestMap: make(map[string]string),
+		userChannels:         make(map[string]*UserChannel),
 		logger:               logger,
 	}
 
@@ -129,7 +155,7 @@ func NewAuthService(config *Config, logger *logging.Logger) (*AuthService, error
 
 	service.account = selfAccount
 
-	service.logger.Info("Authentication service initialized", slog.String("service_did", service.GetServiceDID()))
+	service.logger.Info("Authentication service initialized with enhanced multi-user support", slog.String("service_did", service.GetServiceDID()))
 
 	return service, nil
 }
@@ -282,6 +308,20 @@ func (a *AuthService) Close() error {
 		close(authReq.CompleteChan)
 		delete(a.pendingAuth, requestID)
 	}
+
+	// Clean up all user channels
+	for channelID := range a.userChannels {
+		delete(a.userChannels, channelID)
+	}
+
+	// Clean up all connections
+	for connectionID := range a.connections {
+		delete(a.connections, connectionID)
+	}
+
+	// Clean up response mappings
+	a.discoveryResponseMap = make(map[string]string)
+	a.credentialRequestMap = make(map[string]string)
 	a.mutex.Unlock()
 
 	// Close Self account
@@ -372,52 +412,114 @@ func (a *AuthService) onWelcome(acc *account.Account, welcome *event.Welcome) {
 		return
 	}
 
-	// 🔑 Find the oldest pending request to assign to this connection
-	a.mutex.Lock()
-	var oldestRequest *AuthRequest
-	var oldestRequestContentID string
+	// 🔑 Connection established - we'll wait for discovery response to correlate with request
+	a.logger.Info("Connection accepted, waiting for discovery response from", slog.String("from_address", welcome.FromAddress().String()))
+}
 
-	for _, authReq := range a.pendingAuth {
-		if oldestRequest == nil || authReq.CreatedAt.Before(oldestRequest.CreatedAt) {
-			oldestRequest = authReq
-			oldestRequestContentID = authReq.ContentID
+func (a *AuthService) onMessage(acc *account.Account, msg *event.Message) {
+	userDID := msg.FromAddress()
+
+	// Update channel activity
+	a.updateChannelActivity(userDID)
+
+	// Handle different message types
+	switch event.ContentTypeOf(msg) {
+	case message.ContentTypeDiscoveryResponse:
+		a.handleDiscoveryResponse(acc, msg)
+	case message.ContentTypeCredentialPresentationResponse:
+		a.handleCredentialResponse(acc, msg)
+	default:
+		a.logger.Info("Received message",
+			slog.String("content_type", fmt.Sprintf("%d", event.ContentTypeOf(msg))),
+			slog.String("from_address", userDID.String()))
+	}
+}
+
+// handleDiscoveryResponse processes discovery responses and establishes channels
+func (a *AuthService) handleDiscoveryResponse(acc *account.Account, msg *event.Message) {
+	discoveryResponse, err := message.DecodeDiscoveryResponse(msg.Content())
+	if err != nil {
+		a.logger.Error("Failed to decode discovery response", slog.String("error", err.Error()))
+		return
+	}
+
+	userDID := msg.FromAddress()
+	responseToID := hex.EncodeToString(discoveryResponse.ResponseTo())
+
+	a.logger.Info("Received discovery response",
+		slog.String("user_did", userDID.String()),
+		slog.String("response_to", responseToID))
+
+	// 🔑 Find the matching auth request using the response ID
+	a.mutex.Lock()
+	var matchingRequest *AuthRequest
+	var matchingRequestID string
+
+	for requestID, authReq := range a.pendingAuth {
+		if authReq.ContentID == responseToID {
+			matchingRequest = authReq
+			matchingRequestID = requestID
+			break
 		}
 	}
 	a.mutex.Unlock()
 
-	if oldestRequestContentID == "" {
-		a.logger.Warn("No pending requests for new connection from", slog.String("from_address", welcome.FromAddress().String()))
+	if matchingRequest == nil {
+		a.logger.Warn("No matching auth request found for discovery response",
+			slog.String("response_to", responseToID),
+			slog.String("user_did", userDID.String()))
 		return
 	}
 
-	// Create connection record with content ID
+	// 🔑 Establish user channel and connection
+	channelID := generateID("channel")
 	connectionID := generateID("conn")
+
+	// Create user channel
+	channel := &UserChannel{
+		ID:                channelID,
+		UserDID:           userDID,
+		CreatedAt:         time.Now(),
+		LastActivity:      time.Now(),
+		ConnectionID:      connectionID,
+		OriginalContentID: responseToID,
+		Status:            ChannelActive,
+	}
+
+	// Create connection record
 	connection := &Connection{
 		ID:            connectionID,
-		UserDID:       welcome.FromAddress(),
+		UserDID:       userDID,
 		EstablishedAt: time.Now(),
 		LastSeen:      time.Now(),
 		Status:        ConnectionEstablished,
-		ContentID:     oldestRequestContentID, // 🔑 Link to specific request
+		ContentID:     responseToID,
+		ChannelID:     channelID,
 	}
 
 	a.mutex.Lock()
+	a.userChannels[userDID.String()] = channel
 	a.connections[connectionID] = connection
 	a.mutex.Unlock()
 
-	a.logger.Info("Connection established", slog.String("connection_id", connectionID), slog.String("request_content_id", oldestRequestContentID))
+	a.logger.Info("Channel and connection established",
+		slog.String("user_did", userDID.String()),
+		slog.String("channel_id", channelID),
+		slog.String("connection_id", connectionID),
+		slog.String("request_id", matchingRequestID))
 
-	// Request credentials from the connected user with content ID
-	go a.requestCredentials(welcome.FromAddress(), oldestRequestContentID)
+	// Now request credentials from the connected user
+	go a.requestCredentials(userDID, responseToID)
 }
 
-func (a *AuthService) onMessage(acc *account.Account, msg *event.Message) {
-	// Handle credential presentation responses
-	switch event.ContentTypeOf(msg) {
-	case message.ContentTypeCredentialPresentationResponse:
-		a.handleCredentialResponse(acc, msg)
-	default:
-		a.logger.Info("Received message", slog.String("content_type", fmt.Sprintf("%d", event.ContentTypeOf(msg))))
+// updateChannelActivity updates the last activity time for a user channel
+func (a *AuthService) updateChannelActivity(userDID *signing.PublicKey) {
+	a.mutex.Lock()
+	defer a.mutex.Unlock()
+
+	if channel, exists := a.userChannels[userDID.String()]; exists {
+		channel.LastActivity = time.Now()
+		a.logger.Debug("Updated channel activity", slog.String("user_did", userDID.String()))
 	}
 }
 
@@ -512,20 +614,27 @@ func (a *AuthService) handleCredentialResponse(acc *account.Account, msg *event.
 
 	// Create session for authenticated user
 	sessionID := generateID("sess")
+	connectionID := a.findConnectionID(userDID)
+	channelID := a.findChannelID(userDID)
+
 	session := &Session{
 		ID:           sessionID,
 		UserDID:      userDID,
 		CreatedAt:    time.Now(),
 		ExpiresAt:    time.Now().Add(a.config.SessionTimeout),
 		Claims:       claims,
-		ConnectionID: a.findConnectionID(userDID),
+		ConnectionID: connectionID,
+		ChannelID:    channelID,
 	}
 
 	a.mutex.Lock()
 	a.sessions[sessionID] = session
 	a.mutex.Unlock()
 
-	a.logger.Info("User authenticated successfully", slog.String("user_did", userDID.String()), slog.String("session_id", sessionID))
+	a.logger.Info("User authenticated successfully",
+		slog.String("user_did", userDID.String()),
+		slog.String("session_id", sessionID),
+		slog.String("channel_id", channelID))
 
 	// Complete the specific auth request using the original content ID
 	a.completeSpecificAuthRequest(originalContentID, &AuthResult{
@@ -545,6 +654,17 @@ func (a *AuthService) findConnectionID(userDID *signing.PublicKey) string {
 		if conn.UserDID.String() == userDID.String() {
 			return conn.ID
 		}
+	}
+	return ""
+}
+
+// findChannelID finds the channel ID for a given user DID
+func (a *AuthService) findChannelID(userDID *signing.PublicKey) string {
+	a.mutex.RLock()
+	defer a.mutex.RUnlock()
+
+	if channel, exists := a.userChannels[userDID.String()]; exists {
+		return channel.ID
 	}
 	return ""
 }
@@ -594,4 +714,58 @@ func (a *AuthService) cleanupExpiredAuthRequest(requestID string) {
 			a.logger.Info("Cleaned up expired auth request", slog.String("request_id", requestID))
 		}
 	}
+}
+
+// GetUserChannel returns the channel for a given user DID
+func (a *AuthService) GetUserChannel(userDID *signing.PublicKey) (*UserChannel, error) {
+	a.mutex.RLock()
+	defer a.mutex.RUnlock()
+
+	if channel, exists := a.userChannels[userDID.String()]; exists {
+		return channel, nil
+	}
+	return nil, fmt.Errorf("channel not found for user %s", userDID.String())
+}
+
+// CloseUserChannel closes a user channel and associated connection
+func (a *AuthService) CloseUserChannel(userDID *signing.PublicKey) error {
+	a.mutex.Lock()
+	defer a.mutex.Unlock()
+
+	userDIDString := userDID.String()
+
+	if channel, exists := a.userChannels[userDIDString]; exists {
+		// Update channel status
+		channel.Status = ChannelClosed
+
+		// Close associated connection
+		if connection, connExists := a.connections[channel.ConnectionID]; connExists {
+			connection.Status = ConnectionDisconnected
+		}
+
+		// Remove from active channels
+		delete(a.userChannels, userDIDString)
+
+		a.logger.Info("Closed user channel",
+			slog.String("user_did", userDIDString),
+			slog.String("channel_id", channel.ID))
+
+		return nil
+	}
+
+	return fmt.Errorf("channel not found for user %s", userDIDString)
+}
+
+// GetActiveChannels returns all active user channels
+func (a *AuthService) GetActiveChannels() map[string]*UserChannel {
+	a.mutex.RLock()
+	defer a.mutex.RUnlock()
+
+	activeChannels := make(map[string]*UserChannel)
+	for userDID, channel := range a.userChannels {
+		if channel.Status == ChannelActive {
+			activeChannels[userDID] = channel
+		}
+	}
+	return activeChannels
 }

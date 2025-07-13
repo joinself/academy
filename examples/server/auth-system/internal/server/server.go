@@ -64,6 +64,7 @@ type SessionInfo struct {
 	ExpiresAt    string                 `json:"expires_at"`
 	Claims       map[string]interface{} `json:"claims"`
 	ConnectionID string                 `json:"connection_id"`
+	ChannelID    string                 `json:"channel_id"`
 }
 
 // ErrorResponse represents an API error response
@@ -163,6 +164,13 @@ func (s *Server) setupRoutes() *mux.Router {
 
 	// Shared session endpoint (no auth required - for checking if ANY session exists)
 	api.HandleFunc("/session/check", s.handleSessionCheck).Methods("GET")
+
+	// Channel management endpoints
+	channels := api.PathPrefix("/channels").Subrouter()
+	channels.Use(s.authMiddleware) // Require authentication
+	channels.HandleFunc("/active", s.handleActiveChannels).Methods("GET")
+	channels.HandleFunc("/info", s.handleChannelInfo).Methods("GET")
+	channels.HandleFunc("/close", s.handleCloseChannel).Methods("POST")
 
 	// Protected endpoints (examples)
 	protected := api.PathPrefix("/protected").Subrouter()
@@ -294,6 +302,7 @@ func (s *Server) handleSessionInfo(w http.ResponseWriter, r *http.Request) {
 		ExpiresAt:    session.ExpiresAt.Format(time.RFC3339),
 		Claims:       session.Claims,
 		ConnectionID: session.ConnectionID,
+		ChannelID:    session.ChannelID,
 	}
 
 	s.sendJSON(w, response, http.StatusOK)
@@ -384,6 +393,81 @@ func (s *Server) handleProtectedData(w http.ResponseWriter, r *http.Request) {
 	}
 
 	s.sendJSON(w, data, http.StatusOK)
+}
+
+// handleActiveChannels returns all active user channels
+func (s *Server) handleActiveChannels(w http.ResponseWriter, r *http.Request) {
+	activeChannels := s.authService.GetActiveChannels()
+
+	response := make(map[string]interface{})
+	for userDID, channel := range activeChannels {
+		response[userDID] = map[string]interface{}{
+			"channel_id":    channel.ID,
+			"created_at":    channel.CreatedAt.Format(time.RFC3339),
+			"last_activity": channel.LastActivity.Format(time.RFC3339),
+			"connection_id": channel.ConnectionID,
+			"status":        channel.Status,
+		}
+	}
+
+	s.sendJSON(w, map[string]interface{}{
+		"active_channels": response,
+		"count":           len(activeChannels),
+	}, http.StatusOK)
+}
+
+// handleChannelInfo returns information about the current user's channel
+func (s *Server) handleChannelInfo(w http.ResponseWriter, r *http.Request) {
+	userDID := r.Context().Value("user_did").(string)
+
+	// Find the channel using string comparison since we stored it as string
+	activeChannels := s.authService.GetActiveChannels()
+	channel, exists := activeChannels[userDID]
+
+	if !exists {
+		s.sendError(w, "Channel not found", http.StatusNotFound)
+		return
+	}
+
+	response := map[string]interface{}{
+		"channel_id":          channel.ID,
+		"user_did":            userDID,
+		"created_at":          channel.CreatedAt.Format(time.RFC3339),
+		"last_activity":       channel.LastActivity.Format(time.RFC3339),
+		"connection_id":       channel.ConnectionID,
+		"original_content_id": channel.OriginalContentID,
+		"status":              channel.Status,
+	}
+
+	s.sendJSON(w, response, http.StatusOK)
+}
+
+// handleCloseChannel closes the current user's channel
+func (s *Server) handleCloseChannel(w http.ResponseWriter, r *http.Request) {
+	userDID := r.Context().Value("user_did").(string)
+
+	// For now, we'll use a simplified approach to find the user's signing.PublicKey
+	// In a production system, you'd want proper DID resolution
+	activeChannels := s.authService.GetActiveChannels()
+	channel, exists := activeChannels[userDID]
+
+	if !exists {
+		s.sendError(w, "Channel not found", http.StatusNotFound)
+		return
+	}
+
+	// Close the channel
+	err := s.authService.CloseUserChannel(channel.UserDID)
+	if err != nil {
+		s.sendError(w, "Failed to close channel", http.StatusInternalServerError)
+		return
+	}
+
+	s.sendJSON(w, map[string]interface{}{
+		"message":    "Channel closed successfully",
+		"channel_id": channel.ID,
+		"user_did":   userDID,
+	}, http.StatusOK)
 }
 
 // handleHealth returns server health status
