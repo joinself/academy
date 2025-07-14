@@ -106,7 +106,7 @@ func NewServer(authService *auth.AuthService, config *Config, logger *logging.Lo
 func DefaultServerConfig() *Config {
 	return &Config{
 		Address:         "localhost",
-		Port:            8080,
+		Port:            8081,
 		SessionKey:      []byte("your-secret-session-key-change-in-production"),
 		EnableTLS:       false,
 		RequestTimeout:  30 * time.Second,

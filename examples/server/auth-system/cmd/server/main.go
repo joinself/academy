@@ -31,6 +31,7 @@ import (
 	"time"
 
 	"github.com/joinself/academy/examples/server/auth-system/internal/auth"
+	"github.com/joinself/academy/examples/server/auth-system/internal/config"
 	"github.com/joinself/academy/examples/server/auth-system/internal/logging"
 	"github.com/joinself/academy/examples/server/auth-system/internal/server"
 )
@@ -41,11 +42,9 @@ func main() {
 	slogLogger := logging.Setup(logConfig)
 	logger := logging.New(slogLogger).WithComponent("main")
 
-	// Create authentication service
-	logger.Info("Initializing authentication service")
-	authConfig := auth.DefaultConfig()
-	authConfig.SessionTimeout = 1 * time.Hour      // Extended for demo
-	authConfig.QRCodeExpiration = 10 * time.Minute // Extended for demo
+	// Create authentication service with environment-based configuration
+	logger.Info("Loading authentication configuration from environment")
+	authConfig := config.LoadAuthConfigFromEnv()
 
 	authService, err := auth.NewAuthService(authConfig, logging.New(slogLogger).WithComponent("auth"))
 	if err != nil {
@@ -54,11 +53,9 @@ func main() {
 	}
 	defer authService.Close()
 
-	// Create HTTP server
-	logger.Info("Setting up HTTP server")
-	serverConfig := server.DefaultServerConfig()
-	serverConfig.Port = 8081
-	serverConfig.Address = "localhost"
+	// Create HTTP server with environment-based configuration
+	logger.Info("Loading server configuration from environment")
+	serverConfig := config.LoadServerConfigFromEnv()
 
 	httpServer := server.NewServer(authService, serverConfig, logging.New(slogLogger).WithComponent("server"))
 

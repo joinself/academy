@@ -120,9 +120,8 @@ const (
 
 // NewAuthService creates a new authentication service with enhanced multi-user support
 func NewAuthService(config *Config, logger *logging.Logger) (*AuthService, error) {
-	if config == nil {
-		config = DefaultConfig()
-	}
+	// Merge provided config with defaults, filling in missing values
+	mergedConfig := mergeConfigWithDefaults(config)
 
 	if logger == nil {
 		// Create a default logger if none provided
@@ -131,7 +130,7 @@ func NewAuthService(config *Config, logger *logging.Logger) (*AuthService, error
 	}
 
 	service := &AuthService{
-		config:               config,
+		config:               mergedConfig,
 		connections:          make(map[string]*Connection),
 		sessions:             make(map[string]*Session),
 		pendingAuth:          make(map[string]*AuthRequest),
@@ -143,10 +142,10 @@ func NewAuthService(config *Config, logger *logging.Logger) (*AuthService, error
 
 	// Create Self account for authentication service with service callbacks
 	accountConfig := &account.Config{
-		StorageKey:  config.StorageKey,
-		StoragePath: config.StoragePath,
-		Environment: &config.Environment,
-		LogLevel:    config.LogLevel,
+		StorageKey:  mergedConfig.StorageKey,
+		StoragePath: mergedConfig.StoragePath,
+		Environment: &mergedConfig.Environment,
+		LogLevel:    mergedConfig.LogLevel,
 		Callbacks: account.Callbacks{
 			OnConnect:    service.onConnect,
 			OnDisconnect: service.onDisconnect,
@@ -165,6 +164,69 @@ func NewAuthService(config *Config, logger *logging.Logger) (*AuthService, error
 	service.logger.Info("Authentication service initialized with enhanced multi-user support", slog.String("service_did", service.GetServiceDID()))
 
 	return service, nil
+}
+
+// mergeConfigWithDefaults merges a provided config with default values, filling in missing fields
+func mergeConfigWithDefaults(config *Config) *Config {
+	defaults := DefaultConfig()
+	
+	// If no config provided, return defaults
+	if config == nil {
+		return defaults
+	}
+
+	merged := &Config{}
+
+	// StoragePath: use provided or default
+	if config.StoragePath != "" {
+		merged.StoragePath = config.StoragePath
+	} else {
+		merged.StoragePath = defaults.StoragePath
+	}
+
+	// StorageKey: use provided or default
+	if config.StorageKey != nil && len(config.StorageKey) > 0 {
+		merged.StorageKey = config.StorageKey
+	} else {
+		merged.StorageKey = defaults.StorageKey
+	}
+
+	// Environment: use provided or default
+	if config.Environment != (account.Target{}) {
+		merged.Environment = config.Environment
+	} else {
+		merged.Environment = defaults.Environment
+	}
+
+	// LogLevel: use provided or default
+	if config.LogLevel != 0 {
+		merged.LogLevel = config.LogLevel
+	} else {
+		merged.LogLevel = defaults.LogLevel
+	}
+
+	// SessionTimeout: use provided or default
+	if config.SessionTimeout != 0 {
+		merged.SessionTimeout = config.SessionTimeout
+	} else {
+		merged.SessionTimeout = defaults.SessionTimeout
+	}
+
+	// QRCodeExpiration: use provided or default
+	if config.QRCodeExpiration != 0 {
+		merged.QRCodeExpiration = config.QRCodeExpiration
+	} else {
+		merged.QRCodeExpiration = defaults.QRCodeExpiration
+	}
+
+	// RequiredClaims: use provided or default
+	if config.RequiredClaims != nil && len(config.RequiredClaims) > 0 {
+		merged.RequiredClaims = config.RequiredClaims
+	} else {
+		merged.RequiredClaims = defaults.RequiredClaims
+	}
+
+	return merged
 }
 
 // DefaultConfig returns a default configuration suitable for development

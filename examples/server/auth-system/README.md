@@ -32,6 +32,33 @@ curl -X POST http://localhost:8081/api/v1/auth/request \
 # 4. Watch the logs - you'll see the enhanced correlation working!
 ```
 
+## ⚙️ Configuration
+
+The authentication system uses environment variables for configuration. For most users, you only need to set the storage key.
+
+### 🔑 Essential Configuration
+
+**Storage Key** (Required for persistent accounts):
+```bash
+# Generate a secure 32-byte storage key
+openssl rand -base64 32
+
+# Run with your storage key
+SELF_AUTH_STORAGE_KEY="your-base64-encoded-32-byte-key" \
+go run cmd/server/main.go
+```
+
+**⚠️ Security Note**: Keep your storage key secret and consistent across restarts. Never commit it to version control.
+
+### 🔧 Advanced Configuration
+
+For advanced users, additional environment variables are available:
+- **Server settings**: `SELF_SERVER_PORT`, `SELF_SERVER_ADDRESS`, `SELF_SERVER_ENABLE_TLS`
+- **Auth settings**: `SELF_AUTH_SESSION_TIMEOUT`, `SELF_AUTH_QR_EXPIRATION`, `SELF_AUTH_REQUIRED_CLAIMS`
+- **Logging**: `SELF_AUTH_LOG_LEVEL`
+
+See [`internal/config/config.go`](internal/config/config.go) for the complete list of supported environment variables and their defaults.
+
 ## 🔑 Core Innovation: Enhanced Multi-User Authentication
 
 ### The Problem This Solves
