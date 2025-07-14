@@ -63,14 +63,9 @@ See [`internal/config/config.go`](internal/config/config.go) for the complete li
 
 ### The Problem This Solves
 
-Traditional authentication systems struggle with:
-- **Session Mixing**: Alice's authentication completing Bob's request
-- **Race Conditions**: Multiple users scanning QR codes simultaneously
-- **Poor Isolation**: Shared state causing cross-user contamination
+Traditional authentication systems struggle with **session mixing** - Alice's authentication completing Bob's request. This system uses **cryptographically unique request identification** to ensure perfect user isolation.
 
 ### Our Solution: Mathematical User Isolation
-
-This system uses **cryptographically unique request identification** combined with **SDK-native correlation** to ensure perfect user isolation:
 
 ```go
 // 1. Generate unique discovery request
@@ -82,7 +77,7 @@ discoveryResponse, err := message.DecodeDiscoveryResponse(msg.Content())
 responseToID := hex.EncodeToString(discoveryResponse.ResponseTo())
 // Perfect match: responseToID == contentID
 
-// 3. Establish dedicated channel
+// 3. Establish dedicated channel for this user
 channel := &UserChannel{
     ID:                channelID,
     UserDID:           userDID,
@@ -93,11 +88,10 @@ channel := &UserChannel{
 
 ### 🎯 What Just Happened
 
-1. **Discovery Request**: Each QR code contains a unique `content.ID()`
-2. **Response Correlation**: Mobile app responds with `ResponseTo()` matching the original ID
-3. **Channel Establishment**: System creates dedicated communication channel for that user
-4. **Credential Exchange**: All subsequent communication uses the established channel
-5. **Session Creation**: Final session includes channel information for perfect isolation
+1. **Unique Request**: Each QR code contains a cryptographically unique `content.ID()`
+2. **Perfect Correlation**: Mobile app responds with `ResponseTo()` matching the original ID
+3. **User Isolation**: System creates dedicated communication channel for that user
+4. **Session Security**: Final session includes channel information for perfect isolation
 
 ## 🏗️ Architecture Overview
 
@@ -106,51 +100,33 @@ channel := &UserChannel{
 ```mermaid
 sequenceDiagram
     participant A as Alice's Browser
-    participant B as Bob's Browser
     participant S as Server
     participant AM as Alice's Mobile
-    participant BM as Bob's Mobile
     
     A->>S: POST /auth/request
     Note over S: Generate unique content.ID()
     S->>A: {qr_code, request_id}
     
-    B->>S: POST /auth/request  
-    Note over S: Generate different content.ID()
-    S->>B: {qr_code, request_id}
-    
-    AM->>S: Scan Alice's QR → Discovery Response
+    AM->>S: Scan QR → Discovery Response
     Note over S: Match ResponseTo() with Alice's ID<br/>Create Alice's channel
     
-    BM->>S: Scan Bob's QR → Discovery Response
-    Note over S: Match ResponseTo() with Bob's ID<br/>Create Bob's channel
-    
     S->>AM: Credential request (Alice's channel)
-    S->>BM: Credential request (Bob's channel)
-    
     AM->>S: Credential response
-    BM->>S: Credential response
     
     S->>A: ✅ Alice authenticated
-    S->>B: ✅ Bob authenticated
 ```
 
 ### Key Components
 
-**🔐 AuthService**: Core authentication logic with enhanced multi-user support
+**🔐 AuthService**: Core authentication with enhanced multi-user support
 - Discovery request/response correlation
 - User channel management
 - Session isolation
 
-**🌐 HTTP Server**: RESTful API with authentication middleware
-- Authentication endpoints
-- Channel management endpoints
-- Protected resource examples
-
-**🔗 User Channels**: Dedicated communication channels per user
-- Channel lifecycle management
-- Activity tracking
-- Proper cleanup
+**🌐 HTTP Server**: RESTful API with authentication endpoints
+- Authentication flow endpoints
+- Session management
+- Health monitoring
 
 ## 📚 API Reference
 
@@ -159,6 +135,13 @@ sequenceDiagram
 #### Start Authentication
 ```bash
 POST /api/v1/auth/request
+```
+
+**Request Body** (optional):
+```json
+{
+  "required_claims": ["liveness"]
+}
 ```
 
 **Response**:
@@ -181,86 +164,82 @@ GET /api/v1/auth/status/{request_id}
   "status": "completed",
   "session_id": "sess_xyz789",
   "user_did": "did:self:user123",
-  "claims": {"email": "user@example.com"}
+  "claims": {"liveness": "verified"}
 }
 ```
 
-### Channel Management Endpoints
-
-#### Get Active Channels
+#### Logout
 ```bash
-GET /api/v1/channels/active
+POST /api/v1/auth/logout
 ```
 
-#### Get Channel Info
-```bash
-GET /api/v1/channels/info
+**Response**:
+```json
+{
+  "message": "Logged out successfully"
+}
 ```
 
-#### Close Channel
+### Health Check
+
+#### Server Health
 ```bash
-POST /api/v1/channels/close
+GET /health
 ```
 
-### Protected Endpoints
-
-#### User Profile
-```bash
-GET /api/v1/protected/profile
-```
-
-#### Protected Data
-```bash
-GET /api/v1/protected/data
+**Response**:
+```json
+{
+  "status": "healthy",
+  "timestamp": "2024-01-01T12:00:00Z",
+  "service": "self-auth-system",
+  "version": "1.0.0"
+}
 ```
 
 ## 🛡️ Security Guarantees
 
 ### Mathematical User Isolation
 
+This system provides **cryptographic guarantees** that prevent cross-user authentication:
+
 | Security Feature | Implementation | Guarantee |
 |------------------|----------------|-----------|
-| **Unique Request IDs** | `content.ID()` | Cryptographically unique |
-| **Response Correlation** | `ResponseTo()` | SDK-native matching |
-| **Channel Isolation** | Per-user channels | Zero cross-contamination |
-| **Session Security** | Channel-based sessions | Perfect user isolation |
+| **Unique Request IDs** | `content.ID()` | Cryptographically unique per request |
+| **Response Correlation** | `ResponseTo()` | SDK-native matching prevents mixing |
+| **User Isolation** | Per-user channels | Zero cross-contamination |
 
 ### Impossible Attack Scenarios
 
 - ❌ **Cross-User Authentication**: Alice can't complete Bob's request
-- ❌ **Session Hijacking**: Sessions tied to specific channels
+- ❌ **Session Hijacking**: Sessions tied to specific user channels
 - ❌ **Race Conditions**: Deterministic correlation prevents timing attacks
-- ❌ **Identity Spoofing**: Cryptographic signatures verify authenticity
 
 ## 🎯 Production Integration
 
 ### Basic Integration
 
 ```go
-// 1. Create authentication service
+// Create and start the authentication system
 authService, err := auth.NewAuthService(auth.DefaultConfig(), logger)
 if err != nil {
     log.Fatal(err)
 }
 defer authService.Close()
 
-// 2. Create HTTP server
 httpServer := server.NewServer(authService, server.DefaultServerConfig(), logger)
-
-// 3. Start server
 log.Fatal(httpServer.Start())
 ```
 
-### Advanced Configuration
+### Custom Configuration
 
 ```go
 // Custom authentication configuration
 authConfig := &auth.Config{
     StoragePath:      "./production_storage",
-    Environment:      *account.TargetProduction,
+    Environment:      *account.TargetSandbox,
     SessionTimeout:   30 * time.Minute,
-    QRCodeExpiration: 5 * time.Minute,
-    RequiredClaims:   []string{"email", "name"},
+    RequiredClaims:   []string{"liveness"},
 }
 
 // Custom server configuration
@@ -270,55 +249,7 @@ serverConfig := &server.Config{
     EnableTLS:       true,
     TLSCertFile:     "/path/to/cert.pem",
     TLSKeyFile:      "/path/to/key.pem",
-    SessionKey:      loadSecretKey(),
-    RequestTimeout:  30 * time.Second,
 }
-```
-
-## 🧪 Testing Multiple Users
-
-### Test Scenario 1: Concurrent Authentication
-
-```bash
-# Terminal 1: Alice requests authentication
-curl -X POST http://localhost:8081/api/v1/auth/request
-
-# Terminal 2: Bob requests authentication  
-curl -X POST http://localhost:8081/api/v1/auth/request
-
-# Both users can scan their respective QR codes
-# System will handle them independently with zero cross-contamination
-```
-
-### Test Scenario 2: Channel Management
-
-```bash
-# After authentication, check active channels
-curl -H "Cookie: session_cookie" http://localhost:8081/api/v1/channels/active
-
-# Get specific channel info
-curl -H "Cookie: session_cookie" http://localhost:8081/api/v1/channels/info
-
-# Close channel when done
-curl -X POST -H "Cookie: session_cookie" http://localhost:8081/api/v1/channels/close
-```
-
-## 🔍 Understanding the Logs
-
-When you run the system, you'll see logs showing the enhanced correlation:
-
-```
-# Discovery request generated
-Generated auth request: request_id=auth_req_123, content_id=abc123
-
-# User connects and responds
-Received discovery response: response_to=abc123
-
-# Perfect correlation
-Channel and connection established: user_did=user123, channel_id=channel_456
-
-# Session creation with channel info
-User authenticated successfully: session_id=sess_789, channel_id=channel_456
 ```
 
 ## 🚀 Next Steps
@@ -326,22 +257,17 @@ User authenticated successfully: session_id=sess_789, channel_id=channel_456
 ### 🟢 Beginner: Try the Basic Flow
 1. Run the server and authenticate one user
 2. Examine the logs to see the correlation working
-3. Try the protected endpoints
+3. Test the logout functionality
 
 ### 🟡 Intermediate: Multiple Users
 1. Test concurrent authentication with multiple users
-2. Explore the channel management endpoints
-3. Monitor active channels and their activity
+2. Monitor the logs to see user isolation in action
+3. Verify that each user gets their own session
 
 ### 🟠 Advanced: Production Integration
 1. Integrate with your existing application
 2. Customize the configuration for production
 3. Add monitoring and alerting
-
-### 🔴 Expert: Custom Extensions
-1. Add custom credential requirements
-2. Implement advanced channel management
-3. Build custom authentication flows
 
 ## 📖 Learn More
 
@@ -351,4 +277,4 @@ User authenticated successfully: session_id=sess_789, channel_id=channel_456
 
 ---
 
-> **🎓 Key Takeaway**: This system demonstrates production-ready multi-user authentication with mathematical guarantees of user isolation. The enhanced architecture using proper request/response correlation and channel management eliminates all cross-user authentication vulnerabilities while maintaining the simplicity and security of passwordless authentication. 
+> **🎓 Key Takeaway**: This system demonstrates production-ready multi-user authentication with mathematical guarantees of user isolation. The enhanced architecture using proper request/response correlation eliminates cross-user authentication vulnerabilities while maintaining the simplicity and security of passwordless authentication. 

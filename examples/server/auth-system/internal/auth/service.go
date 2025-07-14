@@ -22,40 +22,20 @@ import (
 	"github.com/joinself/self-go-sdk/message"
 )
 
-// AuthService manages Self authentication flows with proper multi-user support
+// AuthService manages Self authentication flows with unified request tracking
 type AuthService struct {
-	account              *account.Account
-	config               *Config
-	connections          map[string]*Connection
-	sessions             map[string]*Session
-	pendingAuth          map[string]*AuthRequest
-	discoveryResponseMap map[string]string       // Maps discovery response ID to original content ID
-	credentialRequestMap map[string]string       // Maps credential request ID to original content ID
-	userChannels         map[string]*UserChannel // Maps user DID to their communication channel
-	mutex                sync.RWMutex
-	logger               *logging.Logger
+	account      *account.Account
+	config       *Config
+	authRequests map[string]*AuthRequest // Single source of truth - maps request ID to auth request with embedded state
+	sessions     map[string]*Session     // Active user sessions
+	mutex        sync.RWMutex
+	logger       *logging.Logger
 }
 
-// Config holds authentication service configuration
+// Config holds essential authentication service configuration
 type Config struct {
-	StoragePath      string
-	StorageKey       []byte
-	Environment      account.Target
-	LogLevel         account.LogLevel
-	SessionTimeout   time.Duration
-	QRCodeExpiration time.Duration
-	RequiredClaims   []string
-}
-
-// Connection represents an established connection with a user
-type Connection struct {
-	ID            string
-	UserDID       *signing.PublicKey
-	EstablishedAt time.Time
-	LastSeen      time.Time
-	Status        ConnectionStatus
-	ContentID     string // 🔑 Content ID from the original request this connection belongs to
-	ChannelID     string // 🔑 Channel ID for this connection
+	StoragePath string // Where to store account data
+	StorageKey  []byte // Encryption key for storage (REQUIRED)
 }
 
 // Session represents an authenticated user session
@@ -66,10 +46,9 @@ type Session struct {
 	ExpiresAt    time.Time
 	Claims       map[string]interface{}
 	ConnectionID string
-	ChannelID    string // 🔑 Channel ID for this session
 }
 
-// AuthRequest represents a pending authentication request
+// AuthRequest represents a pending authentication request with embedded state
 type AuthRequest struct {
 	ID             string
 	QRCode         string
@@ -78,7 +57,26 @@ type AuthRequest struct {
 	RequiredClaims []string
 	CompleteChan   chan *AuthResult
 	ContentID      string // 🔑 Content ID from the discovery request for direct mapping
+
+	// Embedded state that replaces separate tracking maps
+	UserDID             *signing.PublicKey // Set when user connects
+	ConnectionID        string             // Set when connection established
+	CredentialRequestID string             // Set when credential request sent
+	Status              AuthRequestStatus  // Tracks request progress
+	ConnectedAt         time.Time          // When user connected
 }
+
+// AuthRequestStatus represents the state of an authentication request
+type AuthRequestStatus int
+
+const (
+	AuthRequestPending             AuthRequestStatus = iota // Initial state, waiting for user
+	AuthRequestConnected                                    // User connected via QR
+	AuthRequestCredentialRequested                          // Liveness check sent
+	AuthRequestCompleted                                    // Authentication successful
+	AuthRequestExpired                                      // Request timed out
+	AuthRequestFailed                                       // Authentication failed
+)
 
 // AuthResult contains the result of an authentication attempt
 type AuthResult struct {
@@ -89,36 +87,7 @@ type AuthResult struct {
 	Claims  map[string]interface{}
 }
 
-// UserChannel represents a communication channel with a specific user
-type UserChannel struct {
-	ID                string
-	UserDID           *signing.PublicKey
-	CreatedAt         time.Time
-	LastActivity      time.Time
-	ConnectionID      string
-	OriginalContentID string // 🔑 The content ID that established this channel
-	Status            ChannelStatus
-}
-
-// ConnectionStatus represents the state of a connection
-type ConnectionStatus int
-
-const (
-	ConnectionPending ConnectionStatus = iota
-	ConnectionEstablished
-	ConnectionDisconnected
-)
-
-// ChannelStatus represents the state of a user channel
-type ChannelStatus int
-
-const (
-	ChannelActive ChannelStatus = iota
-	ChannelIdle
-	ChannelClosed
-)
-
-// NewAuthService creates a new authentication service with enhanced multi-user support
+// NewAuthService creates a new authentication service with unified request tracking
 func NewAuthService(config *Config, logger *logging.Logger) (*AuthService, error) {
 	// Merge provided config with defaults, filling in missing values
 	mergedConfig := mergeConfigWithDefaults(config)
@@ -130,22 +99,18 @@ func NewAuthService(config *Config, logger *logging.Logger) (*AuthService, error
 	}
 
 	service := &AuthService{
-		config:               mergedConfig,
-		connections:          make(map[string]*Connection),
-		sessions:             make(map[string]*Session),
-		pendingAuth:          make(map[string]*AuthRequest),
-		discoveryResponseMap: make(map[string]string),
-		credentialRequestMap: make(map[string]string),
-		userChannels:         make(map[string]*UserChannel),
-		logger:               logger,
+		config:       mergedConfig,
+		authRequests: make(map[string]*AuthRequest),
+		sessions:     make(map[string]*Session),
+		logger:       logger,
 	}
 
 	// Create Self account for authentication service with service callbacks
 	accountConfig := &account.Config{
 		StorageKey:  mergedConfig.StorageKey,
 		StoragePath: mergedConfig.StoragePath,
-		Environment: &mergedConfig.Environment,
-		LogLevel:    mergedConfig.LogLevel,
+		Environment: account.TargetSandbox, // Use sandbox environment for examples
+		LogLevel:    account.LogInfo,       // Use info level logging
 		Callbacks: account.Callbacks{
 			OnConnect:    service.onConnect,
 			OnDisconnect: service.onDisconnect,
@@ -161,7 +126,7 @@ func NewAuthService(config *Config, logger *logging.Logger) (*AuthService, error
 
 	service.account = selfAccount
 
-	service.logger.Info("Authentication service initialized with enhanced multi-user support", slog.String("service_did", service.GetServiceDID()))
+	service.logger.Info("Authentication service initialized with unified request tracking", slog.String("service_did", service.GetServiceDID()))
 
 	return service, nil
 }
@@ -169,7 +134,7 @@ func NewAuthService(config *Config, logger *logging.Logger) (*AuthService, error
 // mergeConfigWithDefaults merges a provided config with default values, filling in missing fields
 func mergeConfigWithDefaults(config *Config) *Config {
 	defaults := DefaultConfig()
-	
+
 	// If no config provided, return defaults
 	if config == nil {
 		return defaults
@@ -191,54 +156,14 @@ func mergeConfigWithDefaults(config *Config) *Config {
 		merged.StorageKey = defaults.StorageKey
 	}
 
-	// Environment: use provided or default
-	if config.Environment != (account.Target{}) {
-		merged.Environment = config.Environment
-	} else {
-		merged.Environment = defaults.Environment
-	}
-
-	// LogLevel: use provided or default
-	if config.LogLevel != 0 {
-		merged.LogLevel = config.LogLevel
-	} else {
-		merged.LogLevel = defaults.LogLevel
-	}
-
-	// SessionTimeout: use provided or default
-	if config.SessionTimeout != 0 {
-		merged.SessionTimeout = config.SessionTimeout
-	} else {
-		merged.SessionTimeout = defaults.SessionTimeout
-	}
-
-	// QRCodeExpiration: use provided or default
-	if config.QRCodeExpiration != 0 {
-		merged.QRCodeExpiration = config.QRCodeExpiration
-	} else {
-		merged.QRCodeExpiration = defaults.QRCodeExpiration
-	}
-
-	// RequiredClaims: use provided or default
-	if config.RequiredClaims != nil && len(config.RequiredClaims) > 0 {
-		merged.RequiredClaims = config.RequiredClaims
-	} else {
-		merged.RequiredClaims = defaults.RequiredClaims
-	}
-
 	return merged
 }
 
 // DefaultConfig returns a default configuration suitable for development
 func DefaultConfig() *Config {
 	return &Config{
-		StoragePath:      "./auth_service_storage",
-		StorageKey:       generateStorageKey("auth_service"),
-		Environment:      *account.TargetSandbox,
-		LogLevel:         account.LogWarn,
-		SessionTimeout:   30 * time.Minute,
-		QRCodeExpiration: 5 * time.Minute,
-		RequiredClaims:   []string{"liveness"}, // Default to requiring liveness verification
+		StoragePath: "./auth_service_storage",
+		StorageKey:  generateStorageKey("auth_service"),
 	}
 }
 
@@ -254,33 +179,33 @@ func (a *AuthService) GetServiceDID() string {
 
 // GenerateAuthRequest creates a new authentication request with QR code
 func (a *AuthService) GenerateAuthRequest(ctx context.Context, requiredClaims []string) (*AuthRequest, error) {
-	if requiredClaims == nil {
-		requiredClaims = a.config.RequiredClaims
+	// Use default liveness claim if none provided
+	if requiredClaims == nil || len(requiredClaims) == 0 {
+		requiredClaims = []string{"liveness"} // Default to requiring liveness verification
 	}
 
-	// Generate unique request ID
-	requestID := generateID("auth_req")
+	requestID := generateID("auth")
 
-	// Create QR code for mobile connection and capture content ID
 	qrCode, contentID, err := a.generateConnectionQR()
 	if err != nil {
+		a.logger.Error("Failed to generate QR code", slog.String("error", err.Error()))
 		return nil, fmt.Errorf("failed to generate QR code: %w", err)
 	}
 
-	// Create auth request
 	authRequest := &AuthRequest{
 		ID:             requestID,
 		QRCode:         qrCode,
 		CreatedAt:      time.Now(),
-		ExpiresAt:      time.Now().Add(a.config.QRCodeExpiration),
+		ExpiresAt:      time.Now().Add(5 * time.Minute), // Default 5 minute expiration
 		RequiredClaims: requiredClaims,
 		CompleteChan:   make(chan *AuthResult, 1),
-		ContentID:      contentID, // 🔑 Store the discovery request content ID
+		ContentID:      contentID,          // 🔑 Store the discovery request content ID
+		Status:         AuthRequestPending, // Initialize with pending status
 	}
 
-	// Store pending request
+	// Store auth request in unified map
 	a.mutex.Lock()
-	a.pendingAuth[requestID] = authRequest
+	a.authRequests[requestID] = authRequest
 	a.mutex.Unlock()
 
 	a.logger.Info("Generated auth request", slog.String("request_id", requestID), slog.String("content_id", contentID))
@@ -294,7 +219,7 @@ func (a *AuthService) GenerateAuthRequest(ctx context.Context, requiredClaims []
 // WaitForAuth waits for authentication to complete for a given request
 func (a *AuthService) WaitForAuth(ctx context.Context, requestID string) (*AuthResult, error) {
 	a.mutex.RLock()
-	authReq, exists := a.pendingAuth[requestID]
+	authReq, exists := a.authRequests[requestID]
 	a.mutex.RUnlock()
 
 	if !exists {
@@ -305,12 +230,12 @@ func (a *AuthService) WaitForAuth(ctx context.Context, requestID string) (*AuthR
 	case result := <-authReq.CompleteChan:
 		// Clean up the auth request
 		a.mutex.Lock()
-		delete(a.pendingAuth, requestID)
+		delete(a.authRequests, requestID)
 		a.mutex.Unlock()
 		return result, nil
 	case <-ctx.Done():
 		return &AuthResult{Success: false, Error: ctx.Err()}, nil
-	case <-time.After(a.config.QRCodeExpiration):
+	case <-time.After(5 * time.Minute): // Default 5 minute timeout
 		return &AuthResult{Success: false, Error: fmt.Errorf("authentication timeout")}, nil
 	}
 }
@@ -367,35 +292,22 @@ func (a *AuthService) GetUserSessions(userDID *signing.PublicKey) []*Session {
 	return userSessions
 }
 
-// Close shuts down the authentication service
+// Close gracefully shuts down the authentication service
 func (a *AuthService) Close() error {
 	a.logger.Info("Shutting down authentication service...")
 
 	// Clean up all pending auth requests
 	a.mutex.Lock()
-	for requestID, authReq := range a.pendingAuth {
+	for requestID, authReq := range a.authRequests {
 		close(authReq.CompleteChan)
-		delete(a.pendingAuth, requestID)
+		delete(a.authRequests, requestID)
 	}
-
-	// Clean up all user channels
-	for channelID := range a.userChannels {
-		delete(a.userChannels, channelID)
-	}
-
-	// Clean up all connections
-	for connectionID := range a.connections {
-		delete(a.connections, connectionID)
-	}
-
-	// Clean up response mappings
-	a.discoveryResponseMap = make(map[string]string)
-	a.credentialRequestMap = make(map[string]string)
 	a.mutex.Unlock()
 
-	// Close Self account
-	if a.account != nil {
-		a.account.Close()
+	// Close Self account connection
+	if err := a.account.Close(); err != nil {
+		a.logger.Error("Failed to close Self account", slog.String("error", err.Error()))
+		return err
 	}
 
 	a.logger.Info("Authentication service shutdown complete")
@@ -404,7 +316,7 @@ func (a *AuthService) Close() error {
 
 // generateConnectionQR creates a QR code for mobile connection
 func (a *AuthService) generateConnectionQR() (string, string, error) {
-	// Open inbox for receiving connections
+	// Open inbox for receiving mobile connections
 	inboxAddress, err := a.account.InboxOpen()
 	if err != nil {
 		return "", "", fmt.Errorf("failed to open inbox: %w", err)
@@ -413,7 +325,7 @@ func (a *AuthService) generateConnectionQR() (string, string, error) {
 	// Generate key package for secure communication
 	keyPackage, err := a.account.ConnectionNegotiateOutOfBand(
 		inboxAddress,
-		time.Now().Add(a.config.QRCodeExpiration),
+		time.Now().Add(5*time.Minute), // Default 5 minute expiration
 	)
 	if err != nil {
 		return "", "", fmt.Errorf("failed to generate key package: %w", err)
@@ -422,7 +334,7 @@ func (a *AuthService) generateConnectionQR() (string, string, error) {
 	// Build discovery request for mobile connection
 	content, err := message.NewDiscoveryRequest().
 		KeyPackage(keyPackage).
-		Expires(time.Now().Add(a.config.QRCodeExpiration)).
+		Expires(time.Now().Add(5 * time.Minute)). // Default 5 minute expiration
 		Finish()
 	if err != nil {
 		return "", "", fmt.Errorf("failed to build discovery request: %w", err)
@@ -488,9 +400,6 @@ func (a *AuthService) onWelcome(acc *account.Account, welcome *event.Welcome) {
 func (a *AuthService) onMessage(acc *account.Account, msg *event.Message) {
 	userDID := msg.FromAddress()
 
-	// Update channel activity
-	a.updateChannelActivity(userDID)
-
 	// Handle different message types
 	switch event.ContentTypeOf(msg) {
 	case message.ContentTypeDiscoveryResponse:
@@ -504,7 +413,7 @@ func (a *AuthService) onMessage(acc *account.Account, msg *event.Message) {
 	}
 }
 
-// handleDiscoveryResponse processes discovery responses and establishes channels
+// handleDiscoveryResponse processes discovery responses from users
 func (a *AuthService) handleDiscoveryResponse(acc *account.Account, msg *event.Message) {
 	discoveryResponse, err := message.DecodeDiscoveryResponse(msg.Content())
 	if err != nil {
@@ -513,87 +422,48 @@ func (a *AuthService) handleDiscoveryResponse(acc *account.Account, msg *event.M
 	}
 
 	userDID := msg.FromAddress()
+	a.logger.Info("Received discovery response from", slog.String("user_did", userDID.String()))
+
+	// 🔑 Use SDK's native response matching to find the original request
 	responseToID := hex.EncodeToString(discoveryResponse.ResponseTo())
 
-	a.logger.Info("Received discovery response",
-		slog.String("user_did", userDID.String()),
-		slog.String("response_to", responseToID))
-
-	// 🔑 Find the matching auth request using the response ID
+	// Find the auth request by content ID
 	a.mutex.Lock()
-	var matchingRequest *AuthRequest
+	var matchingAuthReq *AuthRequest
 	var matchingRequestID string
-
-	for requestID, authReq := range a.pendingAuth {
+	for reqID, authReq := range a.authRequests {
 		if authReq.ContentID == responseToID {
-			matchingRequest = authReq
-			matchingRequestID = requestID
+			matchingAuthReq = authReq
+			matchingRequestID = reqID
 			break
 		}
 	}
-	a.mutex.Unlock()
 
-	if matchingRequest == nil {
-		a.logger.Warn("No matching auth request found for discovery response",
-			slog.String("response_to", responseToID),
-			slog.String("user_did", userDID.String()))
+	if matchingAuthReq == nil {
+		a.mutex.Unlock()
+		a.logger.Warn("No matching auth request found for discovery response", slog.String("response_to_id", responseToID))
 		return
 	}
 
-	// 🔑 Establish user channel and connection
-	channelID := generateID("channel")
+	// Update auth request with connection info
 	connectionID := generateID("conn")
-
-	// Create user channel
-	channel := &UserChannel{
-		ID:                channelID,
-		UserDID:           userDID,
-		CreatedAt:         time.Now(),
-		LastActivity:      time.Now(),
-		ConnectionID:      connectionID,
-		OriginalContentID: responseToID,
-		Status:            ChannelActive,
-	}
-
-	// Create connection record
-	connection := &Connection{
-		ID:            connectionID,
-		UserDID:       userDID,
-		EstablishedAt: time.Now(),
-		LastSeen:      time.Now(),
-		Status:        ConnectionEstablished,
-		ContentID:     responseToID,
-		ChannelID:     channelID,
-	}
-
-	a.mutex.Lock()
-	a.userChannels[userDID.String()] = channel
-	a.connections[connectionID] = connection
+	matchingAuthReq.UserDID = userDID
+	matchingAuthReq.ConnectionID = connectionID
+	matchingAuthReq.Status = AuthRequestConnected
+	matchingAuthReq.ConnectedAt = time.Now()
 	a.mutex.Unlock()
 
-	a.logger.Info("Channel and connection established",
+	a.logger.Info("Connection established",
 		slog.String("user_did", userDID.String()),
-		slog.String("channel_id", channelID),
 		slog.String("connection_id", connectionID),
 		slog.String("request_id", matchingRequestID))
 
-	// Now request credentials from the connected user
-	go a.requestCredentials(userDID, responseToID)
-}
-
-// updateChannelActivity updates the last activity time for a user channel
-func (a *AuthService) updateChannelActivity(userDID *signing.PublicKey) {
-	a.mutex.Lock()
-	defer a.mutex.Unlock()
-
-	if channel, exists := a.userChannels[userDID.String()]; exists {
-		channel.LastActivity = time.Now()
-		a.logger.Debug("Updated channel activity", slog.String("user_did", userDID.String()))
-	}
+	// Request credentials from the user
+	go a.requestCredentials(userDID, responseToID, matchingRequestID)
 }
 
 // requestCredentials sends a liveness check request to a user
-func (a *AuthService) requestCredentials(userDID *signing.PublicKey, contentID string) {
+func (a *AuthService) requestCredentials(userDID *signing.PublicKey, contentID string, requestID string) {
 	time.Sleep(2 * time.Second) // Wait for connection to stabilize
 
 	a.logger.Info("Requesting liveness check from user", slog.String("user_did", userDID.String()), slog.String("content_id", contentID))
@@ -603,7 +473,13 @@ func (a *AuthService) requestCredentials(userDID *signing.PublicKey, contentID s
 		Type([]string{"VerifiablePresentation"}).
 		Details(
 			credential.CredentialTypeLiveness,
-			[]*message.CredentialPresentationDetailParameter{},
+			[]*message.CredentialPresentationDetailParameter{
+				message.NewCredentialPresentationDetailParameter(
+					message.OperatorNotEquals,
+					"sourceImageHash",
+					"",
+				),
+			},
 		).
 		Finish()
 
@@ -614,25 +490,23 @@ func (a *AuthService) requestCredentials(userDID *signing.PublicKey, contentID s
 
 	// 🔑 Store the credential request content ID for response matching
 	credentialRequestID := hex.EncodeToString(content.ID())
-	a.storeCredentialRequestMapping(userDID, credentialRequestID, contentID)
 
 	// Send the liveness check request
 	err = a.account.MessageSend(userDID, content)
 	if err != nil {
-		a.logger.Error("Failed to send liveness request", slog.String("error", err.Error()))
+		a.logger.Error("Failed to send credential request", slog.String("error", err.Error()))
 		return
 	}
 
-	a.logger.Info("Liveness check sent to", slog.String("user_did", userDID.String()), slog.String("request_id", credentialRequestID))
-}
-
-// storeCredentialRequestMapping stores the mapping between credential request ID and original content ID
-func (a *AuthService) storeCredentialRequestMapping(userDID *signing.PublicKey, credentialRequestID, originalContentID string) {
+	// Update auth request with credential request info
 	a.mutex.Lock()
-	defer a.mutex.Unlock()
+	if authReq, exists := a.authRequests[requestID]; exists {
+		authReq.CredentialRequestID = credentialRequestID
+		authReq.Status = AuthRequestCredentialRequested
+	}
+	a.mutex.Unlock()
 
-	a.credentialRequestMap[credentialRequestID] = originalContentID
-	a.logger.Info("Stored credential request mapping", slog.String("credential_request_id", credentialRequestID), slog.String("original_content_id", originalContentID))
+	a.logger.Info("Liveness check sent", slog.String("credential_request_id", credentialRequestID))
 }
 
 // handleCredentialResponse processes liveness check responses
@@ -649,27 +523,35 @@ func (a *AuthService) handleCredentialResponse(acc *account.Account, msg *event.
 	// 🔑 Use SDK's native response matching to find the original request
 	responseToID := hex.EncodeToString(credentialResponse.ResponseTo())
 
+	// Find the auth request by credential request ID
 	a.mutex.Lock()
-	originalContentID, exists := a.credentialRequestMap[responseToID]
-	delete(a.credentialRequestMap, responseToID) // Clean up mapping
+	var matchingAuthReq *AuthRequest
+	var originalContentID string
+	for _, authReq := range a.authRequests {
+		if authReq.CredentialRequestID == responseToID {
+			matchingAuthReq = authReq
+			originalContentID = authReq.ContentID
+			break
+		}
+	}
 	a.mutex.Unlock()
 
-	if !exists {
-		a.logger.Warn("No mapping found for credential response ID", slog.String("credential_response_id", responseToID))
+	if matchingAuthReq == nil {
+		a.logger.Warn("No matching auth request found for credential response", slog.String("credential_response_id", responseToID))
 		return
 	}
 
-	a.logger.Info("Matched credential response", slog.String("credential_response_id", responseToID), slog.String("original_request_content_id", originalContentID))
-
-	// Extract claims from the credentials
+	// Extract claims from the credential
 	claims := make(map[string]interface{})
 	presentations := credentialResponse.Presentations()
 
-	for _, presentation := range presentations {
-		for _, cred := range presentation.Credentials() {
-			if credClaims, err := cred.CredentialSubjectClaims(); err == nil {
-				for key, value := range credClaims {
-					claims[key] = value
+	if len(presentations) > 0 {
+		for _, presentation := range presentations {
+			for _, cred := range presentation.Credentials() {
+				if credClaims, err := cred.CredentialSubjectClaims(); err == nil {
+					for key, value := range credClaims {
+						claims[key] = value
+					}
 				}
 			}
 		}
@@ -677,27 +559,24 @@ func (a *AuthService) handleCredentialResponse(acc *account.Account, msg *event.
 
 	// Create session for authenticated user
 	sessionID := generateID("sess")
-	connectionID := a.findConnectionID(userDID)
-	channelID := a.findChannelID(userDID)
 
 	session := &Session{
 		ID:           sessionID,
 		UserDID:      userDID,
 		CreatedAt:    time.Now(),
-		ExpiresAt:    time.Now().Add(a.config.SessionTimeout),
+		ExpiresAt:    time.Now().Add(30 * time.Minute), // Default 30 minute session timeout
 		Claims:       claims,
-		ConnectionID: connectionID,
-		ChannelID:    channelID,
+		ConnectionID: matchingAuthReq.ConnectionID,
 	}
 
 	a.mutex.Lock()
 	a.sessions[sessionID] = session
+	matchingAuthReq.Status = AuthRequestCompleted
 	a.mutex.Unlock()
 
 	a.logger.Info("User authenticated successfully",
 		slog.String("user_did", userDID.String()),
-		slog.String("session_id", sessionID),
-		slog.String("channel_id", channelID))
+		slog.String("session_id", sessionID))
 
 	// Complete the specific auth request using the original content ID
 	a.completeSpecificAuthRequest(originalContentID, &AuthResult{
@@ -708,30 +587,6 @@ func (a *AuthService) handleCredentialResponse(acc *account.Account, msg *event.
 	})
 }
 
-// findConnectionID finds the connection ID for a given user DID
-func (a *AuthService) findConnectionID(userDID *signing.PublicKey) string {
-	a.mutex.RLock()
-	defer a.mutex.RUnlock()
-
-	for _, conn := range a.connections {
-		if conn.UserDID.String() == userDID.String() {
-			return conn.ID
-		}
-	}
-	return ""
-}
-
-// findChannelID finds the channel ID for a given user DID
-func (a *AuthService) findChannelID(userDID *signing.PublicKey) string {
-	a.mutex.RLock()
-	defer a.mutex.RUnlock()
-
-	if channel, exists := a.userChannels[userDID.String()]; exists {
-		return channel.ID
-	}
-	return ""
-}
-
 // completeSpecificAuthRequest completes a specific authentication request by content ID
 func (a *AuthService) completeSpecificAuthRequest(contentID string, result *AuthResult) {
 	a.mutex.Lock()
@@ -739,42 +594,49 @@ func (a *AuthService) completeSpecificAuthRequest(contentID string, result *Auth
 
 	// 🔑 Find the specific request by content ID
 	var targetRequestID string
-	var targetRequest *AuthRequest
-
-	for requestID, authReq := range a.pendingAuth {
+	for requestID, authReq := range a.authRequests {
 		if authReq.ContentID == contentID {
 			targetRequestID = requestID
-			targetRequest = authReq
 			break
 		}
 	}
 
-	if targetRequest == nil {
-		a.logger.Warn("No pending request found for content ID", slog.String("content_id", contentID))
+	if targetRequestID == "" {
+		a.logger.Warn("No auth request found for content ID", slog.String("content_id", contentID))
 		return
 	}
 
-	// Complete only the specific request
+	authReq := a.authRequests[targetRequestID]
+
+	// Send result through the channel
 	select {
-	case targetRequest.CompleteChan <- result:
-		a.logger.Info("Completed auth request", slog.String("request_id", targetRequestID), slog.String("content_id", contentID), slog.String("user_did", result.UserDID.String()))
+	case authReq.CompleteChan <- result:
+		a.logger.Info("Auth request completed", slog.String("request_id", targetRequestID), slog.Bool("success", result.Success))
 	default:
-		a.logger.Warn("Could not complete auth request (channel full)", slog.String("request_id", targetRequestID))
+		a.logger.Warn("Failed to send auth result, channel may be closed", slog.String("request_id", targetRequestID))
 	}
 }
 
 // cleanupExpiredAuthRequest removes expired authentication requests
 func (a *AuthService) cleanupExpiredAuthRequest(requestID string) {
-	time.Sleep(a.config.QRCodeExpiration)
+	// Wait for expiration time
+	a.mutex.RLock()
+	authReq, exists := a.authRequests[requestID]
+	a.mutex.RUnlock()
 
-	a.mutex.Lock()
-	defer a.mutex.Unlock()
-
-	if authReq, exists := a.pendingAuth[requestID]; exists {
-		if time.Now().After(authReq.ExpiresAt) {
-			close(authReq.CompleteChan)
-			delete(a.pendingAuth, requestID)
-			a.logger.Info("Cleaned up expired auth request", slog.String("request_id", requestID))
-		}
+	if !exists {
+		return
 	}
+
+	time.Sleep(time.Until(authReq.ExpiresAt))
+
+	// Check if request is still pending and remove it
+	a.mutex.Lock()
+	if authReq, exists := a.authRequests[requestID]; exists && authReq.Status == AuthRequestPending {
+		authReq.Status = AuthRequestExpired
+		close(authReq.CompleteChan)
+		delete(a.authRequests, requestID)
+		a.logger.Info("Cleaned up expired auth request", slog.String("request_id", requestID))
+	}
+	a.mutex.Unlock()
 }

@@ -3,6 +3,7 @@ package server
 
 import (
 	"context"
+	"crypto/rand"
 	"encoding/json"
 	"fmt"
 	"log/slog"
@@ -23,16 +24,10 @@ type Server struct {
 	logger       *logging.Logger
 }
 
-// Config holds server configuration
+// Config holds essential server configuration
 type Config struct {
-	Address         string
-	Port            int
-	SessionKey      []byte
-	EnableTLS       bool
-	TLSCertFile     string
-	TLSKeyFile      string
-	RequestTimeout  time.Duration
-	ShutdownTimeout time.Duration
+	Address string // Server address (default: localhost)
+	Port    int    // Server port (default: 8081)
 }
 
 // AuthRequest represents an authentication request
@@ -72,13 +67,17 @@ func NewServer(authService *auth.AuthService, config *Config, logger *logging.Lo
 		logger = logging.New(slog.Default())
 	}
 
-	// Create session store
-	sessionStore := sessions.NewCookieStore(config.SessionKey)
+	// Generate a secure session key
+	sessionKey := make([]byte, 32)
+	rand.Read(sessionKey)
+
+	// Create session store with sensible defaults
+	sessionStore := sessions.NewCookieStore(sessionKey)
 	sessionStore.Options = &sessions.Options{
 		Path:     "/",
-		MaxAge:   int(config.RequestTimeout.Seconds()),
+		MaxAge:   1800, // 30 minutes
 		HttpOnly: true,
-		Secure:   config.EnableTLS,
+		Secure:   false, // Allow HTTP for development
 		SameSite: http.SameSiteStrictMode,
 	}
 
@@ -91,12 +90,12 @@ func NewServer(authService *auth.AuthService, config *Config, logger *logging.Lo
 	// Set up routes
 	router := server.setupRoutes()
 
-	// Configure HTTP server
+	// Configure HTTP server with sensible defaults
 	server.httpServer = &http.Server{
 		Addr:         fmt.Sprintf("%s:%d", config.Address, config.Port),
 		Handler:      router,
-		ReadTimeout:  config.RequestTimeout,
-		WriteTimeout: config.RequestTimeout,
+		ReadTimeout:  30 * time.Second, // Default timeout
+		WriteTimeout: 30 * time.Second, // Default timeout
 	}
 
 	return server
@@ -105,22 +104,14 @@ func NewServer(authService *auth.AuthService, config *Config, logger *logging.Lo
 // DefaultServerConfig returns a default server configuration
 func DefaultServerConfig() *Config {
 	return &Config{
-		Address:         "localhost",
-		Port:            8081,
-		SessionKey:      []byte("your-secret-session-key-change-in-production"),
-		EnableTLS:       false,
-		RequestTimeout:  30 * time.Second,
-		ShutdownTimeout: 5 * time.Second,
+		Address: "localhost",
+		Port:    8081,
 	}
 }
 
 // Start starts the HTTP server
 func (s *Server) Start() error {
 	s.logger.Info("Starting authentication server", slog.String("address", s.httpServer.Addr))
-
-	if s.httpServer.TLSConfig != nil {
-		return s.httpServer.ListenAndServeTLS("", "")
-	}
 	return s.httpServer.ListenAndServe()
 }
 
