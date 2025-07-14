@@ -138,6 +138,8 @@ sequenceDiagram
      data-show-full-path="true"
      data-show-copy="true"></div>
 
+> **📖 Full Implementation:** See the complete backend implementation with HTTP server, UI, and production-ready architecture at **[examples/server/auth-system/](https://github.com/joinself/academy/blob/main/examples/server/auth-system/)**
+
 ## Request-Response Correlation System
 
 A critical aspect of Self authentication is the sophisticated correlation system that tracks requests through their complete lifecycle using cryptographic content IDs.
