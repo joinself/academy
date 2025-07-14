@@ -323,126 +323,6 @@
             min-width: 200px;
         }
 
-        .protected-data {
-            margin: 20px 0;
-            padding: 0;
-            background: transparent;
-            border-radius: 15px;
-            text-align: left;
-            display: none;
-        }
-
-        .protected-data-header {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 20px;
-            border-radius: 15px 15px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .protected-data-header h4 {
-            margin: 0;
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .protected-data-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .data-action-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .data-action-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .protected-data-content {
-            background: white;
-            border-radius: 0 0 15px 15px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .data-textarea {
-            width: 100%;
-            height: 300px;
-            border: none;
-            padding: 20px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.6;
-            background: #f8fafc;
-            color: #2d3748;
-            resize: vertical;
-            overflow-y: auto;
-            white-space: pre;
-            box-sizing: border-box;
-        }
-
-        .data-textarea:focus {
-            outline: none;
-            background: #ffffff;
-            box-shadow: inset 0 0 0 2px #667eea;
-        }
-
-        .data-info {
-            padding: 15px 20px;
-            background: #f7fafc;
-            border-top: 1px solid #e2e8f0;
-            font-size: 12px;
-            color: #718096;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .data-stats {
-            display: flex;
-            gap: 15px;
-        }
-
-        .data-format-toggle {
-            display: flex;
-            gap: 5px;
-        }
-
-        .format-btn {
-            background: #e2e8f0;
-            color: #4a5568;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .format-btn.active {
-            background: #667eea;
-            color: white;
-        }
-
-        .format-btn:hover {
-            background: #cbd5e0;
-        }
-
-        .format-btn.active:hover {
-            background: #5a67d8;
-        }
-
         .loading {
             display: inline-block;
             width: 20px;
@@ -541,51 +421,6 @@
                 font-size: 11px;
                 padding: 3px 6px;
             }
-            
-            .protected-data-header {
-                padding: 15px;
-                flex-direction: column;
-                gap: 10px;
-                align-items: stretch;
-            }
-            
-            .protected-data-header h4 {
-                font-size: 16px;
-                text-align: center;
-            }
-            
-            .protected-data-actions {
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-            
-            .data-action-btn {
-                flex: 1;
-                min-width: 80px;
-            }
-            
-            .data-textarea {
-                height: 250px;
-                padding: 15px;
-                font-size: 12px;
-            }
-            
-            .data-info {
-                padding: 12px 15px;
-                flex-direction: column;
-                gap: 10px;
-                align-items: stretch;
-            }
-            
-            .data-stats {
-                justify-content: center;
-                flex-wrap: wrap;
-                gap: 10px;
-            }
-            
-            .data-format-toggle {
-                justify-content: center;
-            }
         }
     </style>
 </head>
@@ -639,12 +474,6 @@
                 </div>
                 
                 <div class="detail-card">
-                    <h4>🔐 Session Information</h4>
-                    <div class="detail-value" id="sessionId"></div>
-                    <button class="copy-btn" onclick="copyToClipboard('sessionId')">📋 Copy Session ID</button>
-                </div>
-                
-                <div class="detail-card">
                     <h4>✅ Verified Claims</h4>
                     <div class="claims-display" id="claimsDisplay">
                         <div class="claim-item">
@@ -655,47 +484,9 @@
                 </div>
                 
                 <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="getProtectedData()">
-                        🔒 Access Protected Data
+                    <button class="btn btn-secondary" onclick="window.location.reload()">
+                        🔄 Start Over
                     </button>
-                    <button class="btn btn-secondary" onclick="logout()">
-                        🚪 Logout
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="protected-data" id="protectedData">
-            <div class="protected-data-header">
-                <h4>🔒 Protected Data</h4>
-                <div class="protected-data-actions">
-                    <button class="data-action-btn" onclick="copyProtectedData()" id="copyDataBtn">
-                        📋 Copy
-                    </button>
-                    <button class="data-action-btn" onclick="refreshProtectedData()">
-                        🔄 Refresh
-                    </button>
-                    <button class="data-action-btn" onclick="downloadProtectedData()">
-                        📥 Download
-                    </button>
-                </div>
-            </div>
-            <div class="protected-data-content">
-                <textarea 
-                    id="protectedContent" 
-                    class="data-textarea" 
-                    readonly 
-                    placeholder="Protected data will appear here after clicking 'Access Protected Data'..."
-                ></textarea>
-                <div class="data-info">
-                    <div class="data-stats">
-                        <span id="dataSize">Size: 0 bytes</span>
-                        <span id="dataAccess">Last accessed: Never</span>
-                    </div>
-                    <div class="data-format-toggle">
-                        <button class="format-btn active" onclick="formatData('json')" id="jsonBtn">JSON</button>
-                        <button class="format-btn" onclick="formatData('compact')" id="compactBtn">Compact</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -788,146 +579,6 @@
             }
         }
 
-        let protectedDataCache = null;
-        let currentDataFormat = 'json';
-
-        async function getProtectedData() {
-            try {
-                const response = await fetch('/api/v1/protected/data', {
-                    credentials: 'include'
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                protectedDataCache = data;
-                
-                // Display formatted data
-                displayProtectedData(data);
-                
-                // Update stats
-                updateDataStats(data);
-                
-                // Show the protected data section
-                document.getElementById('protectedData').style.display = 'block';
-                
-            } catch (error) {
-                showStatus(`Error accessing protected data: ${error.message}`, 'error');
-            }
-        }
-
-        function displayProtectedData(data) {
-            const content = document.getElementById('protectedContent');
-            if (currentDataFormat === 'json') {
-                content.value = JSON.stringify(data, null, 2);
-            } else {
-                content.value = JSON.stringify(data);
-            }
-        }
-
-        function updateDataStats(data) {
-            const jsonString = JSON.stringify(data);
-            const size = new Blob([jsonString]).size;
-            const now = new Date().toLocaleString();
-            
-            document.getElementById('dataSize').textContent = `Size: ${formatBytes(size)}`;
-            document.getElementById('dataAccess').textContent = `Last accessed: ${now}`;
-        }
-
-        function formatBytes(bytes) {
-            if (bytes === 0) return '0 bytes';
-            const k = 1024;
-            const sizes = ['bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-
-        async function refreshProtectedData() {
-            showStatus('Refreshing protected data...', 'pending');
-            await getProtectedData();
-            showStatus('Protected data refreshed', 'success');
-            setTimeout(() => hideStatus(), 2000);
-        }
-
-        function copyProtectedData() {
-            const content = document.getElementById('protectedContent');
-            navigator.clipboard.writeText(content.value).then(() => {
-                const copyBtn = document.getElementById('copyDataBtn');
-                const originalText = copyBtn.textContent;
-                copyBtn.textContent = '✅ Copied!';
-                copyBtn.style.background = 'rgba(72, 187, 120, 0.3)';
-                
-                setTimeout(() => {
-                    copyBtn.textContent = originalText;
-                    copyBtn.style.background = 'rgba(255, 255, 255, 0.2)';
-                }, 2000);
-            }).catch(err => {
-                showStatus('Failed to copy data to clipboard', 'error');
-            });
-        }
-
-        function downloadProtectedData() {
-            if (!protectedDataCache) {
-                showStatus('No data to download', 'error');
-                return;
-            }
-            
-            const jsonString = JSON.stringify(protectedDataCache, null, 2);
-            const blob = new Blob([jsonString], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `protected-data-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showStatus('Data downloaded successfully', 'success');
-            setTimeout(() => hideStatus(), 2000);
-        }
-
-        function formatData(format) {
-            if (!protectedDataCache) return;
-            
-            currentDataFormat = format;
-            
-            // Update button states
-            document.getElementById('jsonBtn').classList.toggle('active', format === 'json');
-            document.getElementById('compactBtn').classList.toggle('active', format === 'compact');
-            
-            // Update display
-            displayProtectedData(protectedDataCache);
-        }
-
-        async function logout() {
-            try {
-                const response = await fetch('/api/v1/auth/logout', {
-                    method: 'POST',
-                    credentials: 'include'
-                });
-                
-                if (response.ok) {
-                    // Reset UI
-                    isAuthenticated = false;
-                    currentRequestId = null;
-                    hideUserInfo();
-                    hideQRContainer();
-                    hideProtectedData();
-                    showStatus('Logged out successfully', 'success');
-                    setTimeout(() => hideStatus(), 3000);
-                } else {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-            } catch (error) {
-                showStatus(`Error during logout: ${error.message}`, 'error');
-            }
-        }
-
         function showStatus(message, type) {
             const statusDiv = document.getElementById('statusMessage');
             statusDiv.textContent = message;
@@ -941,7 +592,6 @@
 
         function showUserInfo(data) {
             document.getElementById('userDid').textContent = data.user_did;
-            document.getElementById('sessionId').textContent = data.session_id;
             
             // Display claims in a more user-friendly format
             const claimsDisplay = document.getElementById('claimsDisplay');
@@ -1075,35 +725,6 @@
         function hideQRContainer() {
             document.getElementById('qrContainer').style.display = 'none';
         }
-
-        function hideProtectedData() {
-            document.getElementById('protectedData').style.display = 'none';
-        }
-
-        // Check if already authenticated on page load
-        window.addEventListener('load', async () => {
-            try {
-                const response = await fetch('/api/v1/session/validate', {
-                    credentials: 'include'
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.valid) {
-                        isAuthenticated = true;
-                        showUserInfo({
-                            user_did: data.user_did,
-                            session_id: data.session_id,
-                            claims: {}
-                        });
-                        showStatus('Already authenticated', 'success');
-                    }
-                }
-            } catch (error) {
-                // Not authenticated, which is fine
-                console.log('Not authenticated on load');
-            }
-        });
     </script>
 </body>
 </html> 

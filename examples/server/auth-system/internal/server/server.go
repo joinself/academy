@@ -3,7 +3,6 @@ package server
 
 import (
 	"context"
-	"crypto/rand"
 	"encoding/json"
 	"fmt"
 	"log/slog"
@@ -11,16 +10,14 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/gorilla/sessions"
 	"github.com/joinself/academy/examples/server/auth-system/internal/auth"
 )
 
 // Server wraps the HTTP server with authentication functionality
 type Server struct {
-	authService  *auth.AuthService
-	sessionStore *sessions.CookieStore
-	httpServer   *http.Server
-	logger       *slog.Logger
+	authService *auth.AuthService
+	httpServer  *http.Server
+	logger      *slog.Logger
 }
 
 // Config holds essential server configuration
@@ -66,24 +63,9 @@ func NewServer(authService *auth.AuthService, config *Config, logger *slog.Logge
 		logger = slog.Default()
 	}
 
-	// Generate a secure session key
-	sessionKey := make([]byte, 32)
-	rand.Read(sessionKey)
-
-	// Create session store with sensible defaults
-	sessionStore := sessions.NewCookieStore(sessionKey)
-	sessionStore.Options = &sessions.Options{
-		Path:     "/",
-		MaxAge:   1800, // 30 minutes
-		HttpOnly: true,
-		Secure:   false, // Allow HTTP for development
-		SameSite: http.SameSiteStrictMode,
-	}
-
 	server := &Server{
-		authService:  authService,
-		sessionStore: sessionStore,
-		logger:       logger,
+		authService: authService,
+		logger:      logger,
 	}
 
 	// Set up routes
@@ -132,7 +114,6 @@ func (s *Server) setupRoutes() *mux.Router {
 	auth := api.PathPrefix("/auth").Subrouter()
 	auth.HandleFunc("/request", s.handleAuthRequest).Methods("POST", "OPTIONS")
 	auth.HandleFunc("/status/{requestId}", s.handleAuthStatus).Methods("GET", "OPTIONS")
-	auth.HandleFunc("/logout", s.handleLogout).Methods("POST", "OPTIONS")
 
 	// Static files (for demo UI)
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./web/")))
@@ -197,9 +178,6 @@ func (s *Server) handleAuthStatus(w http.ResponseWriter, r *http.Request) {
 		response.UserDID = result.UserDID.String()
 		response.Claims = result.Claims
 
-		// Set session cookie for shared sessions
-		s.setSessionCookie(w, r, result.Session)
-
 		s.logger.Info("Authentication completed successfully",
 			slog.String("request_id", requestID),
 			slog.String("user_did", result.UserDID.String()),
@@ -218,40 +196,6 @@ func (s *Server) handleAuthStatus(w http.ResponseWriter, r *http.Request) {
 	s.sendJSON(w, response, http.StatusOK)
 }
 
-// handleLogout logs out the current user
-func (s *Server) handleLogout(w http.ResponseWriter, r *http.Request) {
-	// Get session from cookie
-	session, err := s.sessionStore.Get(r, "self-auth-session")
-	if err != nil {
-		s.sendJSON(w, map[string]interface{}{
-			"message": "No active session to logout",
-		}, http.StatusOK)
-		return
-	}
-
-	sessionID, ok := session.Values["session_id"].(string)
-	if !ok || sessionID == "" {
-		s.sendJSON(w, map[string]interface{}{
-			"message": "No active session to logout",
-		}, http.StatusOK)
-		return
-	}
-
-	// Revoke session
-	err = s.authService.RevokeSession(sessionID)
-	if err != nil {
-		s.logger.Warn("Failed to revoke session", slog.String("error", err.Error()))
-	}
-
-	// Clear session cookie
-	session.Options.MaxAge = -1
-	session.Save(r, w)
-
-	s.sendJSON(w, map[string]interface{}{
-		"message": "Logged out successfully",
-	}, http.StatusOK)
-}
-
 // Helper methods
 
 func (s *Server) sendJSON(w http.ResponseWriter, data interface{}, statusCode int) {
@@ -267,14 +211,4 @@ func (s *Server) sendError(w http.ResponseWriter, message string, statusCode int
 		Code:    statusCode,
 	}
 	s.sendJSON(w, errorResp, statusCode)
-}
-
-// setSessionCookie sets the session cookie for shared sessions
-func (s *Server) setSessionCookie(w http.ResponseWriter, r *http.Request, authSession *auth.Session) {
-	session, _ := s.sessionStore.Get(r, "self-auth-session")
-	session.Values["session_id"] = authSession.ID
-	session.Values["user_did"] = authSession.UserDID.String()
-	session.Save(r, w)
-
-	s.logger.Info("Session cookie set", slog.String("user_did", authSession.UserDID.String()))
 }
