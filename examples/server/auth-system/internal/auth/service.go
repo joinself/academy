@@ -14,7 +14,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/joinself/academy/examples/server/auth-system/internal/logging"
 	"github.com/joinself/self-go-sdk/account"
 	"github.com/joinself/self-go-sdk/credential"
 	"github.com/joinself/self-go-sdk/event"
@@ -29,7 +28,7 @@ type AuthService struct {
 	authRequests map[string]*AuthRequest // Single source of truth - maps request ID to auth request with embedded state
 	sessions     map[string]*Session     // Active user sessions
 	mutex        sync.RWMutex
-	logger       *logging.Logger
+	logger       *slog.Logger
 }
 
 // Config holds essential authentication service configuration
@@ -88,14 +87,14 @@ type AuthResult struct {
 }
 
 // NewAuthService creates a new authentication service with unified request tracking
-func NewAuthService(config *Config, logger *logging.Logger) (*AuthService, error) {
+func NewAuthService(config *Config, logger *slog.Logger) (*AuthService, error) {
 	// Merge provided config with defaults, filling in missing values
 	mergedConfig := mergeConfigWithDefaults(config)
 
 	if logger == nil {
 		// Create a default logger if none provided
 		slogLogger := slog.Default()
-		logger = logging.New(slogLogger)
+		logger = slogLogger
 	}
 
 	service := &AuthService{
@@ -112,10 +111,8 @@ func NewAuthService(config *Config, logger *logging.Logger) (*AuthService, error
 		Environment: account.TargetSandbox, // Use sandbox environment for examples
 		LogLevel:    account.LogInfo,       // Use info level logging
 		Callbacks: account.Callbacks{
-			OnConnect:    service.onConnect,
-			OnDisconnect: service.onDisconnect,
-			OnWelcome:    service.onWelcome,
-			OnMessage:    service.onMessage,
+			OnWelcome: service.onWelcome,
+			OnMessage: service.onMessage,
 		},
 	}
 
@@ -240,27 +237,6 @@ func (a *AuthService) WaitForAuth(ctx context.Context, requestID string) (*AuthR
 	}
 }
 
-// ValidateSession checks if a session is valid and returns the session data
-func (a *AuthService) ValidateSession(sessionID string) (*Session, error) {
-	a.mutex.RLock()
-	session, exists := a.sessions[sessionID]
-	a.mutex.RUnlock()
-
-	if !exists {
-		return nil, fmt.Errorf("session not found")
-	}
-
-	if time.Now().After(session.ExpiresAt) {
-		// Session expired, clean up
-		a.mutex.Lock()
-		delete(a.sessions, sessionID)
-		a.mutex.Unlock()
-		return nil, fmt.Errorf("session expired")
-	}
-
-	return session, nil
-}
-
 // RevokeSession invalidates a user session
 func (a *AuthService) RevokeSession(sessionID string) error {
 	a.mutex.Lock()
@@ -275,21 +251,6 @@ func (a *AuthService) RevokeSession(sessionID string) error {
 	a.logger.Info("Revoked session", slog.String("session_id", sessionID), slog.String("user_did", session.UserDID.String()))
 
 	return nil
-}
-
-// GetUserSessions returns all active sessions for a user
-func (a *AuthService) GetUserSessions(userDID *signing.PublicKey) []*Session {
-	a.mutex.RLock()
-	defer a.mutex.RUnlock()
-
-	var userSessions []*Session
-	for _, session := range a.sessions {
-		if session.UserDID.String() == userDID.String() {
-			userSessions = append(userSessions, session)
-		}
-	}
-
-	return userSessions
 }
 
 // Close gracefully shuts down the authentication service
@@ -370,18 +331,6 @@ func generateID(prefix string) string {
 }
 
 // Callback implementations
-
-func (a *AuthService) onConnect(acc *account.Account) {
-	a.logger.Info("Auth service connected to Self network")
-}
-
-func (a *AuthService) onDisconnect(acc *account.Account, err error) {
-	if err != nil {
-		a.logger.Error("Auth service disconnected with error", slog.String("error", err.Error()))
-	} else {
-		a.logger.Info("Auth service disconnected")
-	}
-}
 
 func (a *AuthService) onWelcome(acc *account.Account, welcome *event.Welcome) {
 	a.logger.Info("New connection from", slog.String("from_address", welcome.FromAddress().String()))

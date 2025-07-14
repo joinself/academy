@@ -13,7 +13,6 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 	"github.com/joinself/academy/examples/server/auth-system/internal/auth"
-	"github.com/joinself/academy/examples/server/auth-system/internal/logging"
 )
 
 // Server wraps the HTTP server with authentication functionality
@@ -21,7 +20,7 @@ type Server struct {
 	authService  *auth.AuthService
 	sessionStore *sessions.CookieStore
 	httpServer   *http.Server
-	logger       *logging.Logger
+	logger       *slog.Logger
 }
 
 // Config holds essential server configuration
@@ -59,12 +58,12 @@ type ErrorResponse struct {
 }
 
 // NewServer creates a new HTTP server with authentication endpoints
-func NewServer(authService *auth.AuthService, config *Config, logger *logging.Logger) *Server {
+func NewServer(authService *auth.AuthService, config *Config, logger *slog.Logger) *Server {
 	if config == nil {
 		config = DefaultServerConfig()
 	}
 	if logger == nil {
-		logger = logging.New(slog.Default())
+		logger = slog.Default()
 	}
 
 	// Generate a secure session key
@@ -127,17 +126,13 @@ func (s *Server) setupRoutes() *mux.Router {
 
 	// API routes
 	api := router.PathPrefix("/api/v1").Subrouter()
-	api.Use(s.loggingMiddleware)
-	api.Use(s.corsMiddleware)
+	// No middleware for maximum simplicity
 
 	// Authentication endpoints (core functionality only)
 	auth := api.PathPrefix("/auth").Subrouter()
 	auth.HandleFunc("/request", s.handleAuthRequest).Methods("POST", "OPTIONS")
 	auth.HandleFunc("/status/{requestId}", s.handleAuthStatus).Methods("GET", "OPTIONS")
 	auth.HandleFunc("/logout", s.handleLogout).Methods("POST", "OPTIONS")
-
-	// Health check
-	router.HandleFunc("/health", s.handleHealth).Methods("GET")
 
 	// Static files (for demo UI)
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./web/")))
@@ -255,18 +250,6 @@ func (s *Server) handleLogout(w http.ResponseWriter, r *http.Request) {
 	s.sendJSON(w, map[string]interface{}{
 		"message": "Logged out successfully",
 	}, http.StatusOK)
-}
-
-// handleHealth returns server health status
-func (s *Server) handleHealth(w http.ResponseWriter, r *http.Request) {
-	health := map[string]interface{}{
-		"status":    "healthy",
-		"timestamp": time.Now().Format(time.RFC3339),
-		"service":   "self-auth-system",
-		"version":   "1.0.0",
-	}
-
-	s.sendJSON(w, health, http.StatusOK)
 }
 
 // Helper methods

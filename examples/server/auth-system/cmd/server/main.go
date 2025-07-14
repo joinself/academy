@@ -24,47 +24,61 @@ package main
 
 import (
 	"context"
+	"encoding/base64"
 	"log/slog"
 	"os"
 	"os/signal"
+	"strconv"
 	"syscall"
 	"time"
 
 	"github.com/joinself/academy/examples/server/auth-system/internal/auth"
-	"github.com/joinself/academy/examples/server/auth-system/internal/config"
-	"github.com/joinself/academy/examples/server/auth-system/internal/logging"
 	"github.com/joinself/academy/examples/server/auth-system/internal/server"
 )
 
 func main() {
-	// Set up structured logging
-	logConfig := logging.FromEnv()
-	slogLogger := logging.Setup(logConfig)
-	logger := logging.New(slogLogger).WithComponent("main")
+	// Set up structured logging with simple slog
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
+		Level: slog.LevelInfo,
+	})).With("service", "self-auth-system", "version", "1.0.0")
 
-	// Create authentication service with environment-based configuration
-	logger.Info("Loading authentication configuration from environment")
-	authConfig := config.LoadAuthConfigFromEnv()
+	// Load authentication config directly from environment
+	authConfig := auth.DefaultConfig()
+	if storagePath := os.Getenv("SELF_AUTH_STORAGE_PATH"); storagePath != "" {
+		authConfig.StoragePath = storagePath
+	}
+	if storageKeyEncoded := os.Getenv("SELF_AUTH_STORAGE_KEY"); storageKeyEncoded != "" {
+		if storageKey, err := base64.StdEncoding.DecodeString(storageKeyEncoded); err == nil {
+			authConfig.StorageKey = storageKey
+		}
+	}
 
-	authService, err := auth.NewAuthService(authConfig, logging.New(slogLogger).WithComponent("auth"))
+	authService, err := auth.NewAuthService(authConfig, logger.With("component", "auth"))
 	if err != nil {
 		logger.Error("Failed to create auth service", slog.String("error", err.Error()))
 		os.Exit(1)
 	}
 	defer authService.Close()
 
-	// Create HTTP server with environment-based configuration
-	logger.Info("Loading server configuration from environment")
-	serverConfig := config.LoadServerConfigFromEnv()
+	// Load server config directly from environment
+	serverConfig := server.DefaultServerConfig()
+	if address := os.Getenv("SELF_SERVER_ADDRESS"); address != "" {
+		serverConfig.Address = address
+	}
+	if portStr := os.Getenv("SELF_SERVER_PORT"); portStr != "" {
+		if port, err := strconv.Atoi(portStr); err == nil {
+			serverConfig.Port = port
+		}
+	}
 
-	httpServer := server.NewServer(authService, serverConfig, logging.New(slogLogger).WithComponent("server"))
+	httpServer := server.NewServer(authService, serverConfig, logger.With("component", "server"))
 
 	// Set up graceful shutdown
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
 	// Handle shutdown signals
-	go handleShutdown(ctx, authService, httpServer, logging.New(slogLogger).WithComponent("main"))
+	go handleShutdown(ctx, authService, httpServer, logger.With("component", "main"))
 
 	// Start the server
 	logger.Info("Starting server",
@@ -79,7 +93,7 @@ func main() {
 }
 
 // handleShutdown manages graceful shutdown
-func handleShutdown(ctx context.Context, authService *auth.AuthService, httpServer *server.Server, logger *logging.Logger) {
+func handleShutdown(ctx context.Context, authService *auth.AuthService, httpServer *server.Server, logger *slog.Logger) {
 	// Wait for interrupt signal
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
