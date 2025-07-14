@@ -56,17 +56,6 @@ type AuthStatusResponse struct {
 	Error     string                 `json:"error,omitempty"`
 }
 
-// SessionInfo represents session information
-type SessionInfo struct {
-	SessionID    string                 `json:"session_id"`
-	UserDID      string                 `json:"user_did"`
-	CreatedAt    string                 `json:"created_at"`
-	ExpiresAt    string                 `json:"expires_at"`
-	Claims       map[string]interface{} `json:"claims"`
-	ConnectionID string                 `json:"connection_id"`
-	ChannelID    string                 `json:"channel_id"`
-}
-
 // ErrorResponse represents an API error response
 type ErrorResponse struct {
 	Error   string `json:"error"`
@@ -150,33 +139,11 @@ func (s *Server) setupRoutes() *mux.Router {
 	api.Use(s.loggingMiddleware)
 	api.Use(s.corsMiddleware)
 
-	// Authentication endpoints
+	// Authentication endpoints (core functionality only)
 	auth := api.PathPrefix("/auth").Subrouter()
 	auth.HandleFunc("/request", s.handleAuthRequest).Methods("POST", "OPTIONS")
 	auth.HandleFunc("/status/{requestId}", s.handleAuthStatus).Methods("GET", "OPTIONS")
 	auth.HandleFunc("/logout", s.handleLogout).Methods("POST", "OPTIONS")
-
-	// Session endpoints
-	session := api.PathPrefix("/session").Subrouter()
-	session.Use(s.authMiddleware) // Require authentication
-	session.HandleFunc("/info", s.handleSessionInfo).Methods("GET")
-	session.HandleFunc("/validate", s.handleSessionValidate).Methods("GET")
-
-	// Shared session endpoint (no auth required - for checking if ANY session exists)
-	api.HandleFunc("/session/check", s.handleSessionCheck).Methods("GET")
-
-	// Channel management endpoints
-	channels := api.PathPrefix("/channels").Subrouter()
-	channels.Use(s.authMiddleware) // Require authentication
-	channels.HandleFunc("/active", s.handleActiveChannels).Methods("GET")
-	channels.HandleFunc("/info", s.handleChannelInfo).Methods("GET")
-	channels.HandleFunc("/close", s.handleCloseChannel).Methods("POST")
-
-	// Protected endpoints (examples)
-	protected := api.PathPrefix("/protected").Subrouter()
-	protected.Use(s.authMiddleware) // Require authentication
-	protected.HandleFunc("/profile", s.handleProtectedProfile).Methods("GET")
-	protected.HandleFunc("/data", s.handleProtectedData).Methods("GET")
 
 	// Health check
 	router.HandleFunc("/health", s.handleHealth).Methods("GET")
@@ -209,8 +176,8 @@ func (s *Server) handleAuthRequest(w http.ResponseWriter, r *http.Request) {
 		ExpiresAt: authReq.ExpiresAt.Format(time.RFC3339),
 	}
 
-	s.sendJSON(w, response, http.StatusOK)
-	s.logger.Info("Auth request created", slog.String("request_id", authReq.ID))
+	s.logger.Info("Generated auth request", slog.String("request_id", authReq.ID))
+	s.sendJSON(w, response, http.StatusCreated)
 }
 
 // handleAuthStatus checks the status of an authentication request
@@ -223,45 +190,43 @@ func (s *Server) handleAuthStatus(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Wait for authentication result with timeout
+	// Wait for authentication to complete
 	ctx, cancel := context.WithTimeout(r.Context(), 30*time.Second)
 	defer cancel()
 
 	result, err := s.authService.WaitForAuth(ctx, requestID)
 	if err != nil {
-		s.logger.Error("Auth status check failed", slog.String("error", err.Error()))
-		s.sendError(w, "Failed to check authentication status", http.StatusInternalServerError)
+		s.logger.Error("Error waiting for auth", slog.String("error", err.Error()))
+		s.sendError(w, "Authentication error", http.StatusInternalServerError)
 		return
 	}
 
-	var response AuthStatusResponse
+	response := AuthStatusResponse{
+		Status: "pending",
+	}
 
 	if result.Success {
-		// 🎯 SHARED SESSIONS: Set session cookie for ANY successful authentication
+		response.Status = "completed"
+		response.SessionID = result.Session.ID
+		response.UserDID = result.UserDID.String()
+		response.Claims = result.Claims
+
+		// Set session cookie for shared sessions
 		s.setSessionCookie(w, r, result.Session)
 
-		response = AuthStatusResponse{
-			Status:    "completed",
-			SessionID: result.Session.ID,
-			UserDID:   result.Session.UserDID.String(),
-			Claims:    result.Claims,
-		}
-		s.logger.Info("Authentication completed", slog.String("user_did", result.Session.UserDID.String()))
+		s.logger.Info("Authentication completed successfully",
+			slog.String("request_id", requestID),
+			slog.String("user_did", result.UserDID.String()),
+			slog.String("session_id", result.Session.ID))
 	} else {
-		status := "failed"
-		if err != nil && err.Error() == "authentication timeout" {
-			status = "expired"
-		}
-
-		errorMessage := "Unknown error"
+		response.Status = "failed"
 		if result.Error != nil {
-			errorMessage = result.Error.Error()
+			response.Error = result.Error.Error()
 		}
 
-		response = AuthStatusResponse{
-			Status: status,
-			Error:  errorMessage,
-		}
+		s.logger.Info("Authentication failed",
+			slog.String("request_id", requestID),
+			slog.String("error", response.Error))
 	}
 
 	s.sendJSON(w, response, http.StatusOK)
@@ -269,65 +234,11 @@ func (s *Server) handleAuthStatus(w http.ResponseWriter, r *http.Request) {
 
 // handleLogout logs out the current user
 func (s *Server) handleLogout(w http.ResponseWriter, r *http.Request) {
-	session, _ := s.sessionStore.Get(r, "self-auth-session")
-
-	if sessionID, ok := session.Values["session_id"].(string); ok {
-		if err := s.authService.RevokeSession(sessionID); err != nil {
-			s.logger.Warn("Failed to revoke session", slog.String("error", err.Error()))
-		}
-	}
-
-	// Clear session
-	session.Values = make(map[interface{}]interface{})
-	session.Options.MaxAge = -1
-	session.Save(r, w)
-
-	s.sendJSON(w, map[string]string{"status": "logged_out"}, http.StatusOK)
-}
-
-// handleSessionInfo returns information about the current session
-func (s *Server) handleSessionInfo(w http.ResponseWriter, r *http.Request) {
-	sessionID := r.Context().Value(SessionIDKey).(string)
-
-	session, err := s.authService.ValidateSession(sessionID)
-	if err != nil {
-		s.sendError(w, "Session not found", http.StatusNotFound)
-		return
-	}
-
-	response := SessionInfo{
-		SessionID:    session.ID,
-		UserDID:      session.UserDID.String(),
-		CreatedAt:    session.CreatedAt.Format(time.RFC3339),
-		ExpiresAt:    session.ExpiresAt.Format(time.RFC3339),
-		Claims:       session.Claims,
-		ConnectionID: session.ConnectionID,
-		ChannelID:    session.ChannelID,
-	}
-
-	s.sendJSON(w, response, http.StatusOK)
-}
-
-// handleSessionValidate validates the current session
-func (s *Server) handleSessionValidate(w http.ResponseWriter, r *http.Request) {
-	sessionID := r.Context().Value(SessionIDKey).(string)
-	userDID := r.Context().Value(UserDIDKey).(string)
-
-	s.sendJSON(w, map[string]interface{}{
-		"valid":      true,
-		"session_id": sessionID,
-		"user_did":   userDID,
-	}, http.StatusOK)
-}
-
-// handleSessionCheck checks if ANY session exists (for shared sessions)
-func (s *Server) handleSessionCheck(w http.ResponseWriter, r *http.Request) {
-	// Try to get existing session from cookie
+	// Get session from cookie
 	session, err := s.sessionStore.Get(r, "self-auth-session")
 	if err != nil {
 		s.sendJSON(w, map[string]interface{}{
-			"authenticated": false,
-			"message":       "No session found",
+			"message": "No active session to logout",
 		}, http.StatusOK)
 		return
 	}
@@ -335,138 +246,23 @@ func (s *Server) handleSessionCheck(w http.ResponseWriter, r *http.Request) {
 	sessionID, ok := session.Values["session_id"].(string)
 	if !ok || sessionID == "" {
 		s.sendJSON(w, map[string]interface{}{
-			"authenticated": false,
-			"message":       "No active session",
+			"message": "No active session to logout",
 		}, http.StatusOK)
 		return
 	}
 
-	// Validate session with auth service
-	authSession, err := s.authService.ValidateSession(sessionID)
+	// Revoke session
+	err = s.authService.RevokeSession(sessionID)
 	if err != nil {
-		s.sendJSON(w, map[string]interface{}{
-			"authenticated": false,
-			"message":       "Session expired",
-		}, http.StatusOK)
-		return
+		s.logger.Warn("Failed to revoke session", slog.String("error", err.Error()))
 	}
 
-	// Session is valid - return session info
-	s.sendJSON(w, map[string]interface{}{
-		"authenticated": true,
-		"session_id":    authSession.ID,
-		"user_did":      authSession.UserDID.String(),
-		"claims":        authSession.Claims,
-		"expires_at":    authSession.ExpiresAt.Format(time.RFC3339),
-	}, http.StatusOK)
-}
-
-// handleProtectedProfile returns user profile data (example protected endpoint)
-func (s *Server) handleProtectedProfile(w http.ResponseWriter, r *http.Request) {
-	userDID := r.Context().Value(UserDIDKey).(string)
-	claims := r.Context().Value(ClaimsKey).(map[string]interface{})
-
-	profile := map[string]interface{}{
-		"user_did": userDID,
-		"claims":   claims,
-		"profile": map[string]interface{}{
-			"authenticated_at": time.Now().Format(time.RFC3339),
-			"auth_method":      "self_biometric",
-		},
-	}
-
-	s.sendJSON(w, profile, http.StatusOK)
-}
-
-// handleProtectedData returns protected data (example protected endpoint)
-func (s *Server) handleProtectedData(w http.ResponseWriter, r *http.Request) {
-	userDID := r.Context().Value(UserDIDKey).(string)
-
-	data := map[string]interface{}{
-		"message":     "This is protected data only accessible to authenticated users",
-		"user_did":    userDID,
-		"access_time": time.Now().Format(time.RFC3339),
-		"data": []interface{}{
-			map[string]interface{}{"id": 1, "value": "Sensitive data 1"},
-			map[string]interface{}{"id": 2, "value": "Sensitive data 2"},
-		},
-	}
-
-	s.sendJSON(w, data, http.StatusOK)
-}
-
-// handleActiveChannels returns all active user channels
-func (s *Server) handleActiveChannels(w http.ResponseWriter, r *http.Request) {
-	activeChannels := s.authService.GetActiveChannels()
-
-	response := make(map[string]interface{})
-	for userDID, channel := range activeChannels {
-		response[userDID] = map[string]interface{}{
-			"channel_id":    channel.ID,
-			"created_at":    channel.CreatedAt.Format(time.RFC3339),
-			"last_activity": channel.LastActivity.Format(time.RFC3339),
-			"connection_id": channel.ConnectionID,
-			"status":        channel.Status,
-		}
-	}
+	// Clear session cookie
+	session.Options.MaxAge = -1
+	session.Save(r, w)
 
 	s.sendJSON(w, map[string]interface{}{
-		"active_channels": response,
-		"count":           len(activeChannels),
-	}, http.StatusOK)
-}
-
-// handleChannelInfo returns information about the current user's channel
-func (s *Server) handleChannelInfo(w http.ResponseWriter, r *http.Request) {
-	userDID := r.Context().Value(UserDIDKey).(string)
-
-	// Find the channel using string comparison since we stored it as string
-	activeChannels := s.authService.GetActiveChannels()
-	channel, exists := activeChannels[userDID]
-
-	if !exists {
-		s.sendError(w, "Channel not found", http.StatusNotFound)
-		return
-	}
-
-	response := map[string]interface{}{
-		"channel_id":          channel.ID,
-		"user_did":            userDID,
-		"created_at":          channel.CreatedAt.Format(time.RFC3339),
-		"last_activity":       channel.LastActivity.Format(time.RFC3339),
-		"connection_id":       channel.ConnectionID,
-		"original_content_id": channel.OriginalContentID,
-		"status":              channel.Status,
-	}
-
-	s.sendJSON(w, response, http.StatusOK)
-}
-
-// handleCloseChannel closes the current user's channel
-func (s *Server) handleCloseChannel(w http.ResponseWriter, r *http.Request) {
-	userDID := r.Context().Value(UserDIDKey).(string)
-
-	// For now, we'll use a simplified approach to find the user's signing.PublicKey
-	// In a production system, you'd want proper DID resolution
-	activeChannels := s.authService.GetActiveChannels()
-	channel, exists := activeChannels[userDID]
-
-	if !exists {
-		s.sendError(w, "Channel not found", http.StatusNotFound)
-		return
-	}
-
-	// Close the channel
-	err := s.authService.CloseUserChannel(channel.UserDID)
-	if err != nil {
-		s.sendError(w, "Failed to close channel", http.StatusInternalServerError)
-		return
-	}
-
-	s.sendJSON(w, map[string]interface{}{
-		"message":    "Channel closed successfully",
-		"channel_id": channel.ID,
-		"user_did":   userDID,
+		"message": "Logged out successfully",
 	}, http.StatusOK)
 }
 

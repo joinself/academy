@@ -2,20 +2,10 @@
 package server
 
 import (
-	"context"
 	"log/slog"
 	"net/http"
 	"strings"
 	"time"
-)
-
-// ContextKey defines custom types for context keys to avoid collisions
-type ContextKey string
-
-const (
-	SessionIDKey ContextKey = "session_id"
-	UserDIDKey   ContextKey = "user_did"
-	ClaimsKey    ContextKey = "claims"
 )
 
 // loggingMiddleware logs HTTP requests
@@ -55,44 +45,6 @@ func (s *Server) corsMiddleware(next http.Handler) http.Handler {
 		}
 
 		next.ServeHTTP(w, r)
-	})
-}
-
-// authMiddleware validates authentication and sets user context
-func (s *Server) authMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Try to get session from cookie
-		session, err := s.sessionStore.Get(r, "self-auth-session")
-		if err != nil {
-			s.logger.Debug("Invalid session cookie", slog.String("error", err.Error()))
-			s.sendError(w, "Invalid session", http.StatusUnauthorized)
-			return
-		}
-
-		sessionID, ok := session.Values["session_id"].(string)
-		if !ok || sessionID == "" {
-			s.logger.Debug("No active session found")
-			s.sendError(w, "No active session", http.StatusUnauthorized)
-			return
-		}
-
-		// Validate session with auth service
-		authSession, err := s.authService.ValidateSession(sessionID)
-		if err != nil {
-			s.logger.Debug("Session validation failed",
-				slog.String("session_id", sessionID),
-				slog.String("error", err.Error()),
-			)
-			s.sendError(w, "Session expired or invalid", http.StatusUnauthorized)
-			return
-		}
-
-		// Add session information to request context
-		ctx := context.WithValue(r.Context(), SessionIDKey, authSession.ID)
-		ctx = context.WithValue(ctx, UserDIDKey, authSession.UserDID.String())
-		ctx = context.WithValue(ctx, ClaimsKey, authSession.Claims)
-
-		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
 
