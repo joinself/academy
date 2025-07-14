@@ -1,12 +1,12 @@
 # Self Authentication Minimal Demo
 
-A plug-and-play, production-grade example of passwordless authentication using the Self SDK.  
+A plug-and-play, production-grade example of authentication using the Self SDK.  
 **Scan a QR code, authenticate with your Self mobile app, and see your cryptographic identity and claims—no passwords, no sessions, no complexity.**
 
 ---
 
 ## 🎯 What You'll Learn
-- How to implement passwordless authentication with Self SDK
+- How to implement an authentication workflow with Self SDK
 - How QR code-based authentication works
 - How to extract a user's DID and claims
 
@@ -38,7 +38,7 @@ A plug-and-play, production-grade example of passwordless authentication using t
 - The server generates a unique QR code for each authentication request.
 - You scan the QR code with your Self mobile app.
 - The server verifies your identity and displays your DID and verified claims.
-- No passwords, no persistent sessions, no personal data stored.
+- No passwords, no persistent sessions, no personal data processed.
 - Refresh or click "Start Over" to try again!
 
 ---

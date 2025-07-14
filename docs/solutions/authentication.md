@@ -73,22 +73,99 @@ sequenceDiagram
 </details>
 
 
+## Request-Response Correlation & Session Mapping
+
+A critical aspect of Self authentication is properly correlating QR codes, user responses, and authentication sessions. The Self SDK provides a robust mechanism for tracking requests through their entire lifecycle.
+
+### Understanding Content IDs
+
+Every authentication request generates a unique **Content ID** that serves as the primary correlation key:
+
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/auth-system/internal/auth/service.go#L279-L313"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
+### QR Code to Discovery Response Mapping
+
+When a user scans the QR code, their mobile app sends a **Discovery Response** back to your server. The SDK automatically includes correlation data:
+
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/auth-system/internal/auth/service.go#L366-L410"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
+### Credential Response to Auth Request Mapping
+
+The same correlation pattern applies to credential presentation responses:
+
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/auth-system/internal/auth/service.go#L462-L520"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
+### Session Management Patterns
+
+Self authentication supports different session management approaches:
+
+**Stateless Authentication** _(Recommended for simplicity)_
+- No persistent sessions stored
+- Each page refresh starts a new authentication
+- Perfect for demos and simple applications
+
+**Stateful Sessions** _(For production applications)_
+- Create session objects after successful authentication
+- Map sessions to user DIDs and connection IDs
+- Implement session expiration and cleanup
+
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/auth-system/internal/auth/service.go#L503-L520"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
 ## See it in Action
 
-Experience Self authentication with our ready-to-use demo applications. We provide complete implementations for both mobile and server components that you can run immediately.
+Experience Self authentication with our complete, production-ready example that demonstrates all the concepts above.
 
-### Demo Applications
+### 🚀 Ready-to-Run Authentication Example
+
+**[Self Authentication Demo](../examples/server/auth-system/)** - A minimal, production-grade authentication server that showcases:
+
+- ✅ Complete QR code generation and response correlation
+- ✅ Request-response mapping using content IDs  
+- ✅ Stateless authentication flow (no persistent sessions)
+- ✅ Clean separation of auth logic for easy integration
+- ✅ Production-ready error handling and logging
+
+**Quick Start:**
+```bash
+cd examples/server/auth-system
+SELF_AUTH_STORAGE_KEY="$(openssl rand -base64 32)" go run cmd/server/main.go
+# Open http://localhost:8081 and scan the QR code!
+```
+
+This example demonstrates the exact correlation patterns described above in a working application you can run immediately.
+
+### Mobile Demo Applications
 
 **Mobile Demos**
 
 - **[Android Demo App](https://github.com/joinself/self-sdk-examples/tree/main/android/SelfDemo)**: Complete Android implementation with all authentication flows
 - **[iOS Demo App](https://github.com/joinself/self-sdk-examples/tree/main/ios/Example)**: Native iOS implementation with biometric integration
 
-**Server Demo**
-
-- **[Golang Server Demo](https://github.com/joinself/self-sdk-examples/tree/main/golang)**: Complete backend implementation with QR generation, connection handling, and credential verification
-
-> **💡 Note:** These demo applications are fully interoperable - the mobile demos work seamlessly with the server demos and all documentation examples throughout this academy. You can mix and match any server implementation with any mobile app.
+> **💡 Note:** These demo applications are fully interoperable - the mobile demos work seamlessly with our auth-system example and all documentation examples throughout this academy.
 
 
 ### Quick Demo Video
@@ -99,14 +176,16 @@ _[Quick demo video showing the complete authentication flow coming soon]_
 
 ### Get Started Now
 
-1. **Choose your platform**: Pick from Android, iOS, or Golang server examples
-2. **Run the demo**: Follow the README instructions in any example directory
-3. **See it work**: Experience Self authentication firsthand
-4. **Customize**: Adapt the examples to your application's needs
+1. **Run the demo**: Start with our [auth-system example](../examples/server/auth-system/)
+2. **Scan and authenticate**: Use any Self mobile app to experience the flow
+3. **Understand the code**: Study the correlation patterns in the example
+4. **Integrate**: Adapt the auth service to your application's needs
 
 ## Related Examples
 
-### Server-Side Implementation
+### Building Blocks
+
+If you want to understand the individual components that make up authentication, these examples break down the process step-by-step:
 
 #### QR Code Connection
 
@@ -131,6 +210,10 @@ Request and verify user credentials for authentication:
      data-show-file-meta="true"
      data-show-full-path="true"
      data-show-copy="true"></div>
+
+### Production Integration
+
+Our [auth-system example](../examples/server/auth-system/) shows how to combine these building blocks into a complete, production-ready authentication service that you can integrate into any Go application.
 
 ### Mobile Implementation
 
