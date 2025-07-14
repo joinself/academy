@@ -9,6 +9,15 @@ import (
 	"time"
 )
 
+// ContextKey defines custom types for context keys to avoid collisions
+type ContextKey string
+
+const (
+	SessionIDKey ContextKey = "session_id"
+	UserDIDKey   ContextKey = "user_did"
+	ClaimsKey    ContextKey = "claims"
+)
+
 // loggingMiddleware logs HTTP requests
 func (s *Server) loggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -79,51 +88,12 @@ func (s *Server) authMiddleware(next http.Handler) http.Handler {
 		}
 
 		// Add session information to request context
-		ctx := context.WithValue(r.Context(), "session_id", authSession.ID)
-		ctx = context.WithValue(ctx, "user_did", authSession.UserDID.String())
-		ctx = context.WithValue(ctx, "claims", authSession.Claims)
+		ctx := context.WithValue(r.Context(), SessionIDKey, authSession.ID)
+		ctx = context.WithValue(ctx, UserDIDKey, authSession.UserDID.String())
+		ctx = context.WithValue(ctx, ClaimsKey, authSession.Claims)
 
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
-}
-
-// rateLimitMiddleware implements basic rate limiting (optional)
-func (s *Server) rateLimitMiddleware(requestsPerMinute int) func(http.Handler) http.Handler {
-	// This is a simple implementation - for production, use a proper rate limiting library
-	clients := make(map[string][]time.Time)
-
-	return func(next http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			clientIP := getClientIP(r)
-			now := time.Now()
-
-			// Clean old entries
-			if times, exists := clients[clientIP]; exists {
-				var validTimes []time.Time
-				for _, t := range times {
-					if now.Sub(t) < time.Minute {
-						validTimes = append(validTimes, t)
-					}
-				}
-				clients[clientIP] = validTimes
-			}
-
-			// Check rate limit
-			if len(clients[clientIP]) >= requestsPerMinute {
-				s.logger.Warn("Rate limit exceeded",
-					slog.String("client_ip", clientIP),
-					slog.Int("requests_per_minute", requestsPerMinute),
-				)
-				s.sendError(w, "Rate limit exceeded", http.StatusTooManyRequests)
-				return
-			}
-
-			// Add current request
-			clients[clientIP] = append(clients[clientIP], now)
-
-			next.ServeHTTP(w, r)
-		})
-	}
 }
 
 // loggingResponseWriter wraps http.ResponseWriter to capture status code

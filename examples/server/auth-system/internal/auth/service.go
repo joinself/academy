@@ -15,7 +15,6 @@ import (
 	"time"
 
 	"github.com/joinself/academy/examples/server/auth-system/internal/logging"
-	"github.com/joinself/academy/examples/server/common"
 	"github.com/joinself/self-go-sdk/account"
 	"github.com/joinself/self-go-sdk/credential"
 	"github.com/joinself/self-go-sdk/event"
@@ -143,15 +142,23 @@ func NewAuthService(config *Config, logger *logging.Logger) (*AuthService, error
 	}
 
 	// Create Self account for authentication service with service callbacks
-	selfAccount := common.SetupAccount(common.AccountConfig{
-		StorageDir: config.StoragePath,
+	accountConfig := &account.Config{
+		StorageKey:  config.StorageKey,
+		StoragePath: config.StoragePath,
+		Environment: &config.Environment,
+		LogLevel:    config.LogLevel,
 		Callbacks: account.Callbacks{
 			OnConnect:    service.onConnect,
 			OnDisconnect: service.onDisconnect,
 			OnWelcome:    service.onWelcome,
 			OnMessage:    service.onMessage,
 		},
-	})
+	}
+
+	selfAccount, err := account.New(accountConfig)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create Self account: %w", err)
+	}
 
 	service.account = selfAccount
 
@@ -534,13 +541,7 @@ func (a *AuthService) requestCredentials(userDID *signing.PublicKey, contentID s
 		Type([]string{"VerifiablePresentation"}).
 		Details(
 			credential.CredentialTypeLiveness,
-			[]*message.CredentialPresentationDetailParameter{
-				message.NewCredentialPresentationDetailParameter(
-					message.OperatorNotEquals,
-					"sourceImageHash",
-					"",
-				),
-			},
+			[]*message.CredentialPresentationDetailParameter{},
 		).
 		Finish()
 

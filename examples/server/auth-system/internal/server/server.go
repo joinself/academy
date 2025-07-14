@@ -287,7 +287,7 @@ func (s *Server) handleLogout(w http.ResponseWriter, r *http.Request) {
 
 // handleSessionInfo returns information about the current session
 func (s *Server) handleSessionInfo(w http.ResponseWriter, r *http.Request) {
-	sessionID := r.Context().Value("session_id").(string)
+	sessionID := r.Context().Value(SessionIDKey).(string)
 
 	session, err := s.authService.ValidateSession(sessionID)
 	if err != nil {
@@ -310,8 +310,8 @@ func (s *Server) handleSessionInfo(w http.ResponseWriter, r *http.Request) {
 
 // handleSessionValidate validates the current session
 func (s *Server) handleSessionValidate(w http.ResponseWriter, r *http.Request) {
-	sessionID := r.Context().Value("session_id").(string)
-	userDID := r.Context().Value("user_did").(string)
+	sessionID := r.Context().Value(SessionIDKey).(string)
+	userDID := r.Context().Value(UserDIDKey).(string)
 
 	s.sendJSON(w, map[string]interface{}{
 		"valid":      true,
@@ -363,8 +363,8 @@ func (s *Server) handleSessionCheck(w http.ResponseWriter, r *http.Request) {
 
 // handleProtectedProfile returns user profile data (example protected endpoint)
 func (s *Server) handleProtectedProfile(w http.ResponseWriter, r *http.Request) {
-	userDID := r.Context().Value("user_did").(string)
-	claims := r.Context().Value("claims").(map[string]interface{})
+	userDID := r.Context().Value(UserDIDKey).(string)
+	claims := r.Context().Value(ClaimsKey).(map[string]interface{})
 
 	profile := map[string]interface{}{
 		"user_did": userDID,
@@ -380,7 +380,7 @@ func (s *Server) handleProtectedProfile(w http.ResponseWriter, r *http.Request) 
 
 // handleProtectedData returns protected data (example protected endpoint)
 func (s *Server) handleProtectedData(w http.ResponseWriter, r *http.Request) {
-	userDID := r.Context().Value("user_did").(string)
+	userDID := r.Context().Value(UserDIDKey).(string)
 
 	data := map[string]interface{}{
 		"message":     "This is protected data only accessible to authenticated users",
@@ -418,7 +418,7 @@ func (s *Server) handleActiveChannels(w http.ResponseWriter, r *http.Request) {
 
 // handleChannelInfo returns information about the current user's channel
 func (s *Server) handleChannelInfo(w http.ResponseWriter, r *http.Request) {
-	userDID := r.Context().Value("user_did").(string)
+	userDID := r.Context().Value(UserDIDKey).(string)
 
 	// Find the channel using string comparison since we stored it as string
 	activeChannels := s.authService.GetActiveChannels()
@@ -444,7 +444,7 @@ func (s *Server) handleChannelInfo(w http.ResponseWriter, r *http.Request) {
 
 // handleCloseChannel closes the current user's channel
 func (s *Server) handleCloseChannel(w http.ResponseWriter, r *http.Request) {
-	userDID := r.Context().Value("user_did").(string)
+	userDID := r.Context().Value(UserDIDKey).(string)
 
 	// For now, we'll use a simplified approach to find the user's signing.PublicKey
 	// In a production system, you'd want proper DID resolution
