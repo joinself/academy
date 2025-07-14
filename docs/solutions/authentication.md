@@ -2,35 +2,194 @@
 
 > **🎯 What you'll learn:** How to replace traditional logins with secure, passwordless authentication using verifiable credentials for both server-side and mobile applications.
 
-Self's authentication solution enables you to build secure, passwordless login experiences. Instead of relying on vulnerable usernames and passwords, users authenticate using their unique SelfID, backed by biometrics. This approach provides higher security and a more seamless user experience.
+Self's authentication solution enables you to build secure, passwordless login experiences. 
+
+Instead of relying on vulnerable usernames and passwords, users authenticate using their unique SelfID, backed by biometrics. 
+
+This approach provides higher security and a more seamless user experience.
+
+## Architecture Overview
+
+Self's authentication system operates as a **two-application workflow** that fundamentally reimagines how authentication works:
+
+**Server-Side Application** _(Your Backend)_
+
+- Maintains control over access decisions and session management
+- Never handles or stores sensitive or biometric data
+- Cryptographically verifies credentials without touching private keys
+
+**Mobile Application** _(User's Device)_
+
+- Keeps all sensitive operations local and private
+- Uses device-level biometric security for user approval
+- Maintains full control over the user's decentralized identity
+
+This distributed security model eliminates traditional vulnerabilities like password breaches, credential stuffing, and server-side biometric storage risks. 
+
+Users get a seamless experience while developers get enterprise-grade security without the complexity of managing sensitive authentication data.
+
 
 ## How It Works
 
 The typical authentication flow involves these steps:
 
-1.  **Connection**: The user scans a QR code or accepts a notification to establish a secure connection with your application.
-2.  **Presentation Request**: Your application requests proof of identity from the user. This is done by requesting a presentation of one or more verifiable credentials.
-3.  **Presentation Verification**: The user approves the request on their mobile device, and your application cryptographically verifies the received credentials.
-4.  **Session Establishment**: Upon successful verification, the user is granted access and a session is created.
+1. **Connection**: The user scans a QR code to establish a secure connection with your application.
+2. **Presentation Request**: Your server-side application requests proof of identity from the user.
+3. **Credential Presentation**: The user approves the request on their mobile device and presents their verifiable credentials.
+4. **Credential Verification**: Your server-side application cryptographically verifies the received credentials.
+5. **Session Establishment**: Upon successful verification, the user is granted access and a session is created.
 
-## Core Concepts
+<details>
+<summary><strong>📊 View Authentication Flow Diagram</strong></summary>
 
-Authentication is achieved by verifying control over a decentralized identifier (DID) and exchanging verifiable credentials. To understand the foundations, please review these concepts:
+```mermaid  
+sequenceDiagram
+    participant Server as Server-Side Application
+    participant Mobile as User's Mobile Device
+    
+    Note over Server, Mobile: Authentication Flow
+    
+    Server->>Server: Generate QR code with<br/>connection details
+    Server->>Mobile: Display QR code
+    Mobile->>Mobile: User scans QR code
+    Mobile->>Server: Establish secure connection
+    
+    Server->>Mobile: Send presentation request<br/>(proof of identity + biometric check)
+    Mobile->>Mobile: User reviews request<br/>and approves with biometrics
+    Mobile->>Server: Present verifiable credentials
+    
+    Server->>Server: Cryptographically verify<br/>received credentials
+    
+    alt Verification Successful
+        Server->>Server: Create user session
+        Server->>Mobile: Grant access & send success
+        Note over Server, Mobile: User is authenticated
+    else Verification Failed
+        Server->>Mobile: Deny access & send error
+        Note over Server, Mobile: Authentication failed
+    end
+```
 
-- **[Decentralized Identity](../concepts/decentralized-identity.md)**: The core paradigm behind Self's authentication.
-- **[Secure Connections](../concepts/secure-connections.md)**: How two parties establish a trusted communication channel.
-- **[Verifiable Credentials](../concepts/verifiable-credentials.md)**: The data format used to prove identity attributes.
+</details>
 
-## Server-Side Examples
 
-The following examples demonstrate how to implement the core authentication workflows from your backend.
+## Request-Response Correlation & Session Mapping
 
-### 1. Account Setup and Connections
+A critical aspect of Self authentication is properly correlating QR codes, user responses, and authentication sessions. The Self SDK provides a robust mechanism for tracking requests through their entire lifecycle.
 
-Before you can authenticate a user, you need to set up your own application's identity and be able to establish a connection with them.
+### Understanding Content IDs
 
-- **[Setup a new account](https://github.com/joinself/academy/tree/main/examples/server/00_setup/01_new_account/):** Learn how to create a new identity for your application.
-- **[Connect with a user via QR code](https://github.com/joinself/academy/tree/main/examples/server/01_connection/02_qr/)**: The most common way to initiate an interaction with a user is by displaying a QR code they can scan.
+Every authentication request generates a unique **Content ID** that serves as the primary correlation key:
+
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/auth-system/internal/auth/service.go#L279-L313"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
+### QR Code to Discovery Response Mapping
+
+When a user scans the QR code, their mobile app sends a **Discovery Response** back to your server. The SDK automatically includes correlation data:
+
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/auth-system/internal/auth/service.go#L366-L410"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
+### Credential Response to Auth Request Mapping
+
+The same correlation pattern applies to credential presentation responses:
+
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/auth-system/internal/auth/service.go#L462-L520"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
+### Session Management Patterns
+
+Self authentication supports different session management approaches:
+
+**Stateless Authentication** _(Recommended for simplicity)_
+- No persistent sessions stored
+- Each page refresh starts a new authentication
+- Perfect for demos and simple applications
+
+**Stateful Sessions** _(For production applications)_
+- Create session objects after successful authentication
+- Map sessions to user DIDs and connection IDs
+- Implement session expiration and cleanup
+
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/auth-system/internal/auth/service.go#L503-L520"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
+## See it in Action
+
+Experience Self authentication with our complete, production-ready example that demonstrates all the concepts above.
+
+### 🚀 Ready-to-Run Authentication Example
+
+**[Self Authentication Demo](../examples/server/auth-system/)** - A minimal, production-grade authentication server that showcases:
+
+- ✅ Complete QR code generation and response correlation
+- ✅ Request-response mapping using content IDs  
+- ✅ Stateless authentication flow (no persistent sessions)
+- ✅ Clean separation of auth logic for easy integration
+- ✅ Production-ready error handling and logging
+
+**Quick Start:**
+```bash
+cd examples/server/auth-system
+SELF_AUTH_STORAGE_KEY="$(openssl rand -base64 32)" go run cmd/server/main.go
+# Open http://localhost:8081 and scan the QR code!
+```
+
+This example demonstrates the exact correlation patterns described above in a working application you can run immediately.
+
+### Mobile Demo Applications
+
+**Mobile Demos**
+
+- **[Android Demo App](https://github.com/joinself/self-sdk-examples/tree/main/android/SelfDemo)**: Complete Android implementation with all authentication flows
+- **[iOS Demo App](https://github.com/joinself/self-sdk-examples/tree/main/ios/Example)**: Native iOS implementation with biometric integration
+
+> **💡 Note:** These demo applications are fully interoperable - the mobile demos work seamlessly with our auth-system example and all documentation examples throughout this academy.
+
+
+### Quick Demo Video
+
+Watch Self authentication in action - from QR code scan to biometric approval in seconds:
+
+_[Quick demo video showing the complete authentication flow coming soon]_
+
+### Get Started Now
+
+1. **Run the demo**: Start with our [auth-system example](../examples/server/auth-system/)
+2. **Scan and authenticate**: Use any Self mobile app to experience the flow
+3. **Understand the code**: Study the correlation patterns in the example
+4. **Integrate**: Adapt the auth service to your application's needs
+
+## Related Examples
+
+### Building Blocks
+
+If you want to understand the individual components that make up authentication, these examples break down the process step-by-step:
+
+#### QR Code Connection
+
+Generate QR codes that users can scan to establish secure connections:
 
 <div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/01_connection/02_qr/go/main.go#L80-L112"
      data-style="github-dark-dimmed"
@@ -40,22 +199,9 @@ Before you can authenticate a user, you need to set up your own application's id
      data-show-full-path="true"
      data-show-copy="true"></div>
 
-and accept the connection response
+#### Credential Presentation Request
 
-<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/01_connection/02_qr/go/main.go#L140-L142"
-     data-style="github-dark-dimmed"
-     data-show-border="true"
-     data-show-line-numbers="true"
-     data-show-file-meta="true"
-     data-show-full-path="true"
-     data-show-copy="true"></div>
-
-
-### 2. Requesting and Verifying Credentials
-
-Once a connection is established, you can request credentials to authenticate the user. The `email_verification` example is a great starting point, as it shows credential presentation request in a real-world scenario.
-
-- **[Email Verification](https://github.com/joinself/academy/tree/main/examples/server/02_credentials/02_exchanging_credentials/email_verification/):** This example shows a complete flow where a service provider issues an email credential, and a user presents it for verification.
+Request and verify user credentials for authentication:
 
 <div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/02_exchanging_credentials/email_verification/go/main.go#L179-L218"
      data-style="github-dark-dimmed"
@@ -65,12 +211,33 @@ Once a connection is established, you can request credentials to authenticate th
      data-show-full-path="true"
      data-show-copy="true"></div>
 
-## Mobile Implementation
+### Production Integration
 
-From the user's perspective, authentication happens on their mobile device. The Self SDK provides UI components to handle these interactions securely and seamlessly.
+Our [auth-system example](../examples/server/auth-system/) shows how to combine these building blocks into a complete, production-ready authentication service that you can integrate into any Go application.
 
-- **[New Account Creation](https://github.com/joinself/academy/tree/main/examples/mobile/android/00_setup/01_new_account/):** Before a user can authenticate, they need a Self identity. This example shows how a user can create one within your mobile app.
-- **[Credential Presentation](https://github.com/joinself/academy/tree/main/examples/mobile/android/02_credentials/):** These examples showcase how a user is prompted to share their credentials for authentication. The pre-built UI handles the secure presentation of credentials to your application.
+### Mobile Implementation
+
+#### Account Setup
+
+_[View full example](https://github.com/joinself/academy/tree/main/examples/mobile/android/00_setup/01_new_account/)_
+
+Create a new Self identity for users within your mobile app.
+
+#### Credential Presentation
+
+_[View full example](https://github.com/joinself/academy/tree/main/examples/mobile/android/02_credentials/)_
+
+Handle authentication requests with built-in UI components that manage the secure presentation of credentials to your application.
+
+
+## Core Concepts
+
+Authentication is achieved by verifying control over a decentralized identifier (DID) and exchanging verifiable credentials. To understand the foundations, please review these concepts:
+
+- **[Decentralized Identity](../concepts/decentralized-identity.md)**: The core paradigm behind Self's authentication.
+- **[Secure Connections](../concepts/secure-connections.md)**: How two parties establish a trusted communication channel.
+- **[Verifiable Credentials](../concepts/verifiable-credentials.md)**: The data format used to prove identity attributes.
+
 
 ## Next Steps
 

@@ -25,8 +25,6 @@ type AccountConfig struct {
 // SetupAccount creates a Self SDK account with the provided configuration.
 // This centralizes the common account setup pattern used across examples.
 func SetupAccount(config AccountConfig) *account.Account {
-	fmt.Println("🔧 Setting up Self account...")
-
 	storagePath := "./storage"
 	if config.StorageDir != "" {
 		storagePath = fmt.Sprintf("%s_storage", config.StorageDir)
@@ -45,15 +43,12 @@ func SetupAccount(config AccountConfig) *account.Account {
 		log.Fatalf("Failed to create Self account: %v", err)
 	}
 
-	fmt.Println("✅ Self account created successfully")
 	return selfAccount
 }
 
 // SetupIssuerHolder creates both issuer and holder accounts with optional callback customization.
 // This is a common pattern in credential examples.
 func SetupIssuerHolder(issuerCallbacks, holderCallbacks account.Callbacks) (*account.Account, *account.Account) {
-	fmt.Println("🔧 Setting up issuer and holder accounts...")
-
 	issuer := SetupAccount(AccountConfig{
 		StorageDir: "./issuer",
 		Callbacks:  issuerCallbacks,
@@ -73,7 +68,7 @@ func SetupBasicAccount() *account.Account {
 	return SetupAccount(AccountConfig{
 		Callbacks: account.Callbacks{
 			OnConnect: func(acc *account.Account) {
-				fmt.Println("🔗 Connected to Self network")
+				// Connection established - no console output
 			},
 		},
 	})

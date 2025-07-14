@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self Authentication System Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .auth-section {
+            margin: 30px 0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .qr-container {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            display: none;
+        }
+
+        .qr-code {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #ddd;
+            min-height: 300px;
+        }
+
+        .qr-code svg {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+        }
+
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.pending {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .user-info {
+            margin: 30px 0;
+            padding: 0;
+            background: transparent;
+            border-radius: 15px;
+            display: none;
+        }
+
+        .success-header {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            padding: 25px;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+        }
+
+        .success-header h3 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .success-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .user-details {
+            background: white;
+            padding: 25px;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .detail-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .detail-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .detail-card h4 {
+            margin: 0 0 12px 0;
+            color: #2d3748;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-value {
+            color: #4a5568;
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+            word-break: break-all;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: #5a67d8;
+        }
+
+        .claims-display {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .claim-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .claim-item:last-child {
+            border-bottom: none;
+        }
+
+        .claim-key {
+            font-weight: 600;
+            color: #2d3748;
+            text-transform: capitalize;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .claim-value {
+            color: #4a5568;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            word-break: break-all;
+            line-height: 1.4;
+            position: relative;
+        }
+
+        .claim-value.long-value {
+            max-height: 80px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .claim-value.long-value::after {
+            content: '...';
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            background: white;
+            padding-left: 20px;
+            background: linear-gradient(to right, transparent, white 50%);
+        }
+
+        .claim-value.long-value.expanded {
+            max-height: none;
+        }
+
+        .claim-value.long-value.expanded::after {
+            display: none;
+        }
+
+        .expand-btn {
+            background: #e2e8f0;
+            color: #4a5568;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+
+        .expand-btn:hover {
+            background: #cbd5e0;
+        }
+
+        .claim-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .feature-list {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .feature-list li {
+            margin: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .qr-code {
+                padding: 15px;
+                min-height: 250px;
+            }
+            
+            .success-header {
+                padding: 20px;
+            }
+            
+            .success-header h3 {
+                font-size: 20px;
+            }
+            
+            .user-details {
+                padding: 20px;
+            }
+            
+            .detail-card {
+                padding: 15px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn-primary, .btn-secondary {
+                min-width: auto;
+                width: 100%;
+            }
+            
+            .detail-value {
+                font-size: 12px;
+                padding: 10px;
+            }
+            
+            .claim-value {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+            
+            .claim-value.long-value {
+                max-height: 60px;
+            }
+            
+            .claim-actions {
+                flex-wrap: wrap;
+            }
+            
+            .expand-btn {
+                font-size: 11px;
+                padding: 3px 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🔐</div>
+            <h1>Self Authentication System</h1>
+            <p class="subtitle">Experience passwordless authentication with biometric security</p>
+        </div>
+
+        <div class="auth-section" id="authSection">
+            <h3>🎯 Features</h3>
+            <ul class="feature-list">
+                <li>100% passwordless authentication</li>
+                <li>Biometric security from your mobile device</li>
+                <li>Cryptographic identity verification</li>
+                <li>No personal data stored on servers</li>
+                <li>Instant QR code authentication</li>
+            </ul>
+
+            <button class="btn" onclick="startAuthentication()">
+                🚀 Start Authentication
+            </button>
+        </div>
+
+        <div class="qr-container" id="qrContainer">
+            <h3>📱 Scan with Self Mobile App</h3>
+            <p>Open your Self app and scan this QR code to authenticate:</p>
+            <div class="qr-code" id="qrCode"></div>
+            <p><small>QR code expires in 10 minutes</small></p>
+            <button class="btn" onclick="checkStatus()">
+                <span class="loading" id="statusLoading" style="display: none;"></span>
+                Check Status
+            </button>
+        </div>
+
+        <div class="status" id="statusMessage"></div>
+
+        <div class="user-info" id="userInfo">
+            <div class="success-header">
+                <h3>🎉 Authentication Successful!</h3>
+                <p>Welcome! Your identity has been verified and a secure session has been established.</p>
+            </div>
+            
+            <div class="user-details">
+                <div class="detail-card">
+                    <h4>🆔 User Identity</h4>
+                    <div class="detail-value" id="userDid"></div>
+                    <button class="copy-btn" onclick="copyToClipboard('userDid')">📋 Copy DID</button>
+                </div>
+                
+                <div class="detail-card">
+                    <h4>✅ Verified Claims</h4>
+                    <div class="claims-display" id="claimsDisplay">
+                        <div class="claim-item">
+                            <span class="claim-key">Loading claims...</span>
+                            <span class="claim-value">Please wait</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="window.location.reload()">
+                        🔄 Start Over
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🔗 <a href="/api/v1" style="color: #667eea;">API Documentation</a> | 
+               💾 <a href="https://github.com/joinself/academy" style="color: #667eea;">Source Code</a> |
+               📚 <a href="/health" style="color: #667eea;">Health Check</a></p>
+            <p style="margin-top: 10px;"><small>Built with Self SDK • Production-ready authentication system</small></p>
+        </div>
+    </div>
+
+    <script>
+        let currentRequestId = null;
+        let isAuthenticated = false;
+
+        async function startAuthentication() {
+            showStatus('Generating QR code...', 'pending');
+            
+            try {
+                const response = await fetch('/api/v1/auth/request', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({})
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                currentRequestId = data.request_id;
+                
+                // Display QR code (SVG format)
+                document.getElementById('qrCode').innerHTML = data.qr_code;
+                document.getElementById('qrContainer').style.display = 'block';
+                
+                showStatus('QR code generated! Scan with your Self mobile app.', 'pending');
+                
+                // Start auto-checking status
+                setTimeout(autoCheckStatus, 3000);
+                
+            } catch (error) {
+                showStatus(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function checkStatus() {
+            if (!currentRequestId) {
+                showStatus('No active authentication request', 'error');
+                return;
+            }
+
+            const loading = document.getElementById('statusLoading');
+            loading.style.display = 'inline-block';
+            
+            try {
+                const response = await fetch(`/api/v1/auth/status/${currentRequestId}`);
+                const data = await response.json();
+                
+                loading.style.display = 'none';
+                
+                if (data.status === 'completed') {
+                    isAuthenticated = true;
+                    showUserInfo(data);
+                    hideQRContainer();
+                    showStatus('Authentication successful!', 'success');
+                } else if (data.status === 'failed') {
+                    showStatus(`Authentication failed: ${data.error}`, 'error');
+                } else if (data.status === 'expired') {
+                    showStatus('Authentication request expired. Please try again.', 'error');
+                    hideQRContainer();
+                } else {
+                    showStatus('Waiting for authentication...', 'pending');
+                    // Continue checking
+                    setTimeout(autoCheckStatus, 2000);
+                }
+                
+            } catch (error) {
+                loading.style.display = 'none';
+                showStatus(`Error checking status: ${error.message}`, 'error');
+            }
+        }
+
+        async function autoCheckStatus() {
+            if (!isAuthenticated && currentRequestId) {
+                await checkStatus();
+            }
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+            statusDiv.style.display = 'block';
+        }
+
+        function hideStatus() {
+            document.getElementById('statusMessage').style.display = 'none';
+        }
+
+        function showUserInfo(data) {
+            document.getElementById('userDid').textContent = data.user_did;
+            
+            // Display claims in a more user-friendly format
+            const claimsDisplay = document.getElementById('claimsDisplay');
+            if (data.claims && Object.keys(data.claims).length > 0) {
+                claimsDisplay.innerHTML = '';
+                Object.entries(data.claims).forEach(([key, value], index) => {
+                    const claimItem = document.createElement('div');
+                    claimItem.className = 'claim-item';
+                    
+                    const formattedKey = key.replace(/([A-Z])/g, ' $1').trim();
+                    const valueStr = String(value);
+                    const isLongValue = valueStr.length > 50;
+                    const claimValueId = `claim-value-${index}`;
+                    
+                    claimItem.innerHTML = `
+                        <span class="claim-key">${formattedKey}</span>
+                        <div class="claim-value ${isLongValue ? 'long-value' : ''}" id="${claimValueId}">${valueStr}</div>
+                        <div class="claim-actions">
+                            ${isLongValue ? `<button class="expand-btn" onclick="toggleClaimValue('${claimValueId}')">📖 Show More</button>` : ''}
+                            <button class="expand-btn" onclick="copyClaimValue('${claimValueId}')">📋 Copy</button>
+                        </div>
+                    `;
+                    claimsDisplay.appendChild(claimItem);
+                });
+            } else {
+                claimsDisplay.innerHTML = `
+                    <div class="claim-item">
+                        <span class="claim-key">No additional claims</span>
+                        <div class="claim-value">Basic authentication completed</div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('userInfo').style.display = 'block';
+        }
+
+        function toggleClaimValue(claimValueId) {
+            const claimValue = document.getElementById(claimValueId);
+            const button = event.target;
+            
+            if (claimValue.classList.contains('expanded')) {
+                claimValue.classList.remove('expanded');
+                button.textContent = '📖 Show More';
+            } else {
+                claimValue.classList.add('expanded');
+                button.textContent = '📖 Show Less';
+            }
+        }
+
+        function copyClaimValue(claimValueId) {
+            const claimValue = document.getElementById(claimValueId);
+            const text = claimValue.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✅ Copied!';
+                button.style.background = '#48bb78';
+                button.style.color = 'white';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#e2e8f0';
+                    button.style.color = '#4a5568';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✅ Copied!';
+                button.style.background = '#48bb78';
+                button.style.color = 'white';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#e2e8f0';
+                    button.style.color = '#4a5568';
+                }, 2000);
+            });
+        }
+
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                // Show a temporary feedback
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✅ Copied!';
+                button.style.background = '#48bb78';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#667eea';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✅ Copied!';
+                button.style.background = '#48bb78';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#667eea';
+                }, 2000);
+            });
+        }
+
+        function hideUserInfo() {
+            document.getElementById('userInfo').style.display = 'none';
+        }
+
+        function hideQRContainer() {
+            document.getElementById('qrContainer').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 
