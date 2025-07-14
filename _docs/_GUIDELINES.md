@@ -247,3 +247,7 @@ account := common.SetupAccount(config)
 - [ ] Includes real-world examples and analogies
 - [ ] Progressive complexity with clear indicators
 - [ ] Immediate gratification (5-minute success)
+
+## Icons
+
+Important! Please try to only use icons when necessary.
