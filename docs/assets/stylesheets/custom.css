@@ -2250,3 +2250,13 @@
     }
 }
 
+/* Hide the Resources menu item from the top navigation */
+.md-tabs__item:last-child {
+    display: none;
+}
+
+/* Ensure the navigation still works properly */
+.md-tabs__list {
+    justify-content: flex-start;
+}
+

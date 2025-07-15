@@ -84,6 +84,28 @@ nav:
     - Troubleshooting: examples/troubleshooting.md
     - Resources & Community: examples/resources.md
     - Production Deployment: examples/production.md
+  - Resources:
+    - Agreements:
+      - Overview: resources/agreements/overview.md
+      - App Privacy Notice: resources/agreements/app_privacy_notice.md
+      - Commercial Terms: resources/agreements/commercial_terms_and_conditions.md
+      - Consumer Terms: resources/agreements/consumer_terms_and_conditions.md
+      - Country Availability: resources/agreements/country_availability.md
+      - Data Processing Agreement: resources/agreements/data_processing_agreement.md
+      - Privacy Notice: resources/agreements/privacy_notice.md
+    - Licenses:
+      - Overview: resources/licenses/overview.md
+      - Android Licenses:
+        - Overview: resources/licenses/open_source/android/overview.md
+        - Apache: resources/licenses/open_source/android/Apache.md
+        - B2D 2-Clause: resources/licenses/open_source/android/B2D_2Clause.md
+        - B2D 3-Clause: resources/licenses/open_source/android/B2D_3Clause.md
+        - MIT: resources/licenses/open_source/android/MIT.md
+      - iOS Licenses:
+        - Overview: resources/licenses/open_source/ios/overview.md
+        - Apache: resources/licenses/open_source/ios/Apache.md
+        - ISC: resources/licenses/open_source/ios/ISC.md
+        - MIT: resources/licenses/open_source/ios/MIT.md
 
 
 # Extensions
