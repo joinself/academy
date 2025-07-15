@@ -1971,3 +1971,16 @@
 .md-typeset .md-button--primary {
     border: 0px;
 }
+
+
+/* Override default Material for MkDocs navigation padding for better spacing */
+@media screen and (min-width: 76.25em) {
+    [dir=ltr] .md-nav--primary .md-nav__list {
+        padding-left: 1rem !important;
+    }
+    
+    [dir=rtl] .md-nav--primary .md-nav__list {
+        padding-right: 1rem !important;
+    }
+}
+

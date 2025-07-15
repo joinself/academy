@@ -22,7 +22,8 @@ theme:
     - navigation.instant
     # - navigation.instant.prefetch
     # - navigation.instant.progress
-    # - navigation.prune
+    - navigation.path
+    - navigation.prune
     - navigation.sections
     - navigation.tabs
     - navigation.tabs.sticky
@@ -52,7 +53,11 @@ extra_javascript:
 nav:
   - Solutions:
     - Overview: solutions/overview.md
-    - Authentication: solutions/authentication.md
+    - Authentication:
+      - Overview: solutions/authentication.md
+      - Server Implementation: solutions/authentication/server-implementation.md
+      - Mobile Implementation: solutions/authentication/mobile-implementation.md
+      - Conclusions & Best Practices: solutions/authentication/conclusions.md
     - Identity Verification: solutions/identity-verification.md
     - Digital Signatures: solutions/digital-signatures.md
   - Concepts:

@@ -12,7 +12,7 @@ With Self, you can replace traditional logins with 100% biometric authentication
 
 This approach enhances security and simplifies compliance with privacy regulations.
 
-[Build Passwordless Authentication →](./authentication.md)
+[Build Authentication →](./authentication.md)
 
 ---
 
