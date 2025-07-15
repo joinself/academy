@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
 :root {
     --md-primary-fg-color: #0E1C42; /* Indigo for text */
     --md-accent-fg-color: #FB2191; /* Ruby for accents */
@@ -227,17 +229,18 @@
 
 @media screen and (max-width: 48em) {
     .custom-homepage .hero-section {
-        padding: 3rem 0;
+        padding: 1.5rem 0 1rem 0;
         min-height: auto;
     }
 
     .custom-homepage .hero-section h1 {
         font-size: 2rem;
+        margin-bottom: 0.75rem;
     }
     
     .custom-homepage .hero-subtitle {
         font-size: 1rem;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
     }
     
     .custom-homepage .hero-cta {
@@ -254,12 +257,12 @@
     }
     
     .custom-homepage .hero-solutions {
-        margin: 1.5rem 0;
+        margin: 1rem 0;
     }
     
     .custom-homepage .hero-solutions h3 {
         font-size: 1.1rem;
-        margin-bottom: 1.25rem;
+        margin-bottom: 1rem;
     }
     
     .custom-homepage .solution-cards {
@@ -1782,18 +1785,18 @@
 /* Additional mobile-specific optimizations */
 @media screen and (max-width: 30em) {
     .custom-homepage .hero-section {
-        padding: 2rem 0 1.5rem 0;
+        padding: 1rem 0 0.75rem 0;
     }
     
     .custom-homepage .hero-section h1 {
         font-size: 1.75rem;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
     }
     
     .custom-homepage .hero-subtitle {
         font-size: 1rem;
         padding: 0 1.5rem;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
     }
     
     /* Removed - hero links now handle all sizing */

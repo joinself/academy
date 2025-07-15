@@ -5,8 +5,6 @@ hide:
 title: " "
 ---
 
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
 <div class="custom-homepage">
 
 <div class="hero-section">
