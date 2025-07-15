@@ -2260,3 +2260,9 @@
     justify-content: flex-start;
 }
 
+
+.material-icons {
+    vertical-align: middle;
+    margin-right: 0.5rem;
+    color: #FFC048;
+}

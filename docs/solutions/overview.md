@@ -4,7 +4,7 @@ Welcome to the Self solutions hub. Here, you'll find practical guides to impleme
 
 ---
 
-### Authentication
+### <span class="material-icons">vpn_key</span> Authentication
 
 Learn how to build secure, passwordless authentication flows. 
 
@@ -16,7 +16,7 @@ This approach enhances security and simplifies compliance with privacy regulatio
 
 ---
 
-### Identity Verification
+### <span class="material-icons">verified</span> Identity Verification
 
 Discover how to verify user identities with cryptographic certainty. 
 
@@ -28,7 +28,7 @@ By empowering users to control their own data, you can establish trust, streamli
 
 ---
 
-### Digital Signatures
+### <span class="material-icons">edit</span> Digital Signatures
 
 Implement legally binding, biometrically-backed digital signatures. 
 
@@ -38,4 +38,5 @@ You can embed verifiable credentials within the signature request, streamlining 
 
 Our signatures comply with eIDAS and ESIGN standards, making them legally admissible. 
 
-[Implement Digital Signatures →](./digital-signatures.md) 
+[Implement Digital Signatures →](./digital-signatures.md)
+
