@@ -5,6 +5,8 @@ hide:
 title: " "
 ---
 
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <div class="custom-homepage">
 
 <div class="hero-section">
@@ -16,15 +18,15 @@ title: " "
             <h3>Build Your Identity Solution:</h3>
             <div class="solution-cards">
                 <a href="solutions/authentication/" class="solution-card">
-                    <span class="solution-icon">🔑</span>
+                    <span class="solution-icon material-icons">vpn_key</span>
                     <span class="solution-name">Authentication</span>
                 </a>
                 <a href="solutions/identity-verification/" class="solution-card">
-                    <span class="solution-icon">✅</span>
+                    <span class="solution-icon material-icons">verified</span>
                     <span class="solution-name">Identity Verification</span>
                 </a>
                 <a href="solutions/digital-signatures/" class="solution-card">
-                    <span class="solution-icon">✍️</span>
+                    <span class="solution-icon material-icons">edit</span>
                     <span class="solution-name">Digital Signatures</span>
                 </a>
             </div>
@@ -46,16 +48,16 @@ title: " "
     <div class="products-grid">
         <div class="product-card featured">
             <div class="product-header">
-                <div class="product-icon">🔑</div>
+                <div class="product-icon material-icons">vpn_key</div>
                 <div class="product-badge">Most Popular</div>
             </div>
             <h4><a href="solutions/authentication/">Authentication</a></h4>
             <p class="description">Replace passwords with cryptographic identity verification using <strong>biometrics</strong> and device-based authentication</p>
             
             <div class="product-stats">
-                <span class="stat">⚡ &nbsp; 30 min setup</span>
-                <span class="stat">📱 &nbsp; iOS + Android</span>
-                <span class="stat">🔒 &nbsp; Zero passwords</span>
+                <span class="stat"><span class="material-icons">flash_on</span> &nbsp; 30 min setup</span>
+                <span class="stat"><span class="material-icons">smartphone</span> &nbsp; iOS + Android</span>
+                <span class="stat"><span class="material-icons">lock</span> &nbsp; Zero passwords</span>
             </div>
             
             <a href="solutions/authentication/" class="product-cta">Build Authentication →</a>
@@ -63,15 +65,15 @@ title: " "
         
         <div class="product-card">
             <div class="product-header">
-                <div class="product-icon">✅</div>
+                <div class="product-icon material-icons">verified</div>
             </div>
             <h4><a href="solutions/identity-verification/">Identity Verification</a></h4>
             <p class="description">Issue, verify and manage digital credentials like certificates, licenses, and identity documents</p>
             
             <div class="product-stats">
-                <span class="stat">📄 &nbsp; Any credential type</span>
-                <span class="stat">🔍 &nbsp; Instant verification</span>
-                <span class="stat">🌍 &nbsp; Global standards</span>
+                <span class="stat"><span class="material-icons">description</span> &nbsp; Any credential type</span>
+                <span class="stat"><span class="material-icons">search</span> &nbsp; Instant verification</span>
+                <span class="stat"><span class="material-icons">public</span> &nbsp; Global standards</span>
             </div>
             
             <a href="solutions/identity-verification/" class="product-cta">Build Verification →</a>
@@ -79,15 +81,15 @@ title: " "
         
         <div class="product-card">
             <div class="product-header">
-                <div class="product-icon">✍️</div>
+                <div class="product-icon material-icons">edit</div>
             </div>
             <h4><a href="solutions/digital-signatures/">Digital Signatures</a></h4>
             <p class="description">Sign documents and transactions with cryptographic signatures that are legally binding and tamper-proof</p>
             
             <div class="product-stats">
-                <span class="stat">⚖️ &nbsp; Legally binding</span>
-                <span class="stat">🔐 &nbsp; Tamper-proof</span>
-                <span class="stat">📊 &nbsp; Audit trails</span>
+                <span class="stat"><span class="material-icons">gavel</span> &nbsp; Legally binding</span>
+                <span class="stat"><span class="material-icons">security</span> &nbsp; Tamper-proof</span>
+                <span class="stat"><span class="material-icons">assessment</span> &nbsp; Audit trails</span>
             </div>
             
             <a href="solutions/digital-signatures/" class="product-cta">Build Signatures →</a>
@@ -100,19 +102,19 @@ title: " "
     <h2>Choose Your Learning Path</h2>
     <div class="path-selector">
         <div class="learning-card beginner">
-            <h4>👋 &nbsp; New to Identity Tech?</h4>
+            <h4><span class="material-icons">waving_hand</span> &nbsp; New to Identity Tech?</h4>
             <p>Start with core concepts and theory</p>
             <a href="concepts/overview/">Begin with Concepts →</a>
         </div>
         
         <div class="learning-card developer">
-            <h4>🚀 &nbsp; Ready to Code?</h4>
+            <h4><span class="material-icons">rocket_launch</span> &nbsp; Ready to Code?</h4>
             <p>Jump into hands-on tutorials and examples</p>
             <a href="examples/overview/">Start with Examples →</a>
         </div>
         
         <div class="learning-card integration">
-            <h4>🔧 &nbsp; Integrating your App?</h4>
+            <h4><span class="material-icons">build</span> &nbsp; Integrating your App?</h4>
             <p>Find specific implementation solutions</p>
             <a href="solutions/overview/">View Solutions →</a>
         </div>
@@ -121,32 +123,32 @@ title: " "
 
 
 <div class="try-section">
-    <h2>⚡ Hands-On Tutorials</h2>
+    <h2><span class="material-icons">flash_on</span> Hands-On Tutorials</h2>
     <p class="subtitle">Follow step-by-step guides to build real identity features</p>
     
     <div class="try-buttons">
         <a href="/examples/setup/" class="try-button">
             <h4>Identity Management</h4>
             <p>Learn the fundamentals by generating your first decentralized identity.</p>
-            <span class="tutorial-time">⏱️ 10 min tutorial</span>
+            <span class="tutorial-time"><span class="material-icons">schedule</span> 10 min tutorial</span>
         </a>
         
         <a href="/examples/connections/" class="try-button">
             <h4>Secure Connections</h4>
             <p>Establish secure peer-to-peer connections between applications.</p>
-            <span class="tutorial-time">⏱️ 15 min tutorial</span>
+            <span class="tutorial-time"><span class="material-icons">schedule</span> 15 min tutorial</span>
         </a>
         
         <a href="/examples/credentials/" class="try-button">
             <h4>Manage Verifiable Credentials</h4>
             <p>Create, manage, share and verify digital credentials in your app.</p>
-            <span class="tutorial-time">⏱️ 20 min tutorial</span>
+            <span class="tutorial-time"><span class="material-icons">schedule</span> 20 min tutorial</span>
         </a>
         
         <a href="examples/chat/" class="try-button">
             <h4>Messaging</h4>
             <p>Build end-to-end encrypted messaging with identity verification.</p>
-            <span class="tutorial-time">⏱️ 25 min tutorial</span>
+            <span class="tutorial-time"><span class="material-icons">schedule</span> 25 min tutorial</span>
         </a>
     </div>
     
@@ -161,7 +163,7 @@ title: " "
     
     <div class="path-grid">
         <div class="path-card">
-            <div class="path-icon">📱</div>
+            <div class="path-icon material-icons">smartphone</div>
             <h3>Mobile Apps</h3>
             <p>Build iOS and Android apps with Authentication and secure identity features.</p>
             <div class="path-highlight">Perfect for: Consumer apps, mobile-first products</div>
@@ -169,7 +171,7 @@ title: " "
         </div>
         
         <div class="path-card">
-            <div class="path-icon">🖥️</div>
+            <div class="path-icon material-icons">computer</div>
             <h3>Backend & APIs</h3>
             <p>Add identity verification and credential management to your server applications and APIs.</p>
             <div class="path-highlight">Perfect for: Web apps, enterprise systems, microservices</div>
@@ -180,7 +182,7 @@ title: " "
 
 
 <div class="final-cta">
-    <h3>🎓 Ready to Master Digital Identity?</h3>
+    <h3><span class="material-icons">school</span> Ready to Master Digital Identity?</h3>
     <p>Join thousands of developers learning to build the future of authentication</p>
     <div class="button-group">
         <a href="examples/setup/" class="md-button md-button--primary">Start Your Learning Journey</a>
