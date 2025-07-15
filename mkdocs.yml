@@ -4,6 +4,13 @@ theme:
   name: material
   logo: assets/logo.png  # Add this line
   favicon: assets/favicon.png
+  
+  # Footer customization
+  footer:
+    - Copyright: "© Copyright Self Group Limited 2019-2025 All Rights Reserved"
+  
+  # Custom template overrides
+  custom_dir: docs/overrides
 
   features:
     - announce.dismiss
@@ -77,6 +84,7 @@ nav:
     - Troubleshooting: examples/troubleshooting.md
     - Resources & Community: examples/resources.md
     - Production Deployment: examples/production.md
+
 
 # Extensions
 markdown_extensions:

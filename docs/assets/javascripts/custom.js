@@ -154,4 +154,6 @@ document.addEventListener('DOMContentLoaded', function () {
             scrollArrow.style.opacity = opacity;
         });
     }
-}); 
+    
+
+});
