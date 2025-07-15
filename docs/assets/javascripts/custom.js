@@ -141,8 +141,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const scrollArrow = document.querySelector('.scroll-down-arrow');
 
     if (scrollArrow) {
+        // Fade out the arrow as the user scrolls down
         window.addEventListener('scroll', function() {
-            // Fade out the arrow as the user scrolls down
             const scrollPosition = window.scrollY;
             const fadeOutDistance = 150; // pixels
             let opacity = 1 - (scrollPosition / fadeOutDistance);
