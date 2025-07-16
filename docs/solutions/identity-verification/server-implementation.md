@@ -47,7 +47,7 @@ Once the credential has been issued, it can be presented to your service.
 
 After establishing a secure channel, your server sends a request for a presentation of a credential containing the required claims. For age verification, you request the `dateOfBirth` field:
 
-<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/solutions/age-verifier/internal/auth/service.go#L415-L451"
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/solutions/age-verifier/internal/auth/service.go#L448-L492"
      data-style="github-dark-dimmed"
      data-show-border="true"
      data-show-line-numbers="true"
@@ -59,7 +59,7 @@ After establishing a secure channel, your server sends a request for a presentat
 
 Once the user consents, your server receives the verifiable credential. The verification process involves extracting the `dateOfBirth` claim and calculating the user's age:
 
-<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/solutions/age-verifier/internal/auth/service.go#L485-L530"
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/solutions/age-verifier/internal/auth/service.go#L615-L649"
      data-style="github-dark-dimmed"
      data-show-border="true"
      data-show-line-numbers="true"
@@ -71,7 +71,7 @@ Once the user consents, your server receives the verifiable credential. The veri
 
 The system includes robust age calculation that handles multiple date formats and determines if the user meets the minimum age requirement:
 
-<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/solutions/age-verifier/internal/auth/service.go#L580-L616"
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/solutions/age-verifier/internal/auth/service.go#L524-L553"
      data-style="github-dark-dimmed"
      data-show-border="true"
      data-show-line-numbers="true"
@@ -79,17 +79,6 @@ The system includes robust age calculation that handles multiple date formats an
      data-show-full-path="true"
      data-show-copy="true"></div>
 
-### 4. Session Creation with Age Verification Result
-
-Upon successful age verification, the server creates a session that includes the verification status while maintaining user privacy:
-
-<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/solutions/age-verifier/internal/auth/service.go#L522-L555"
-     data-style="github-dark-dimmed"
-     data-show-border="true"
-     data-show-line-numbers="true"
-     data-show-file-meta="true"
-     data-show-full-path="true"
-     data-show-copy="true"></div>
 
 ## Advanced: Zero-Knowledge Verification
 
