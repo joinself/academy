@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Verification System Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .auth-section {
+            margin: 30px 0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .qr-container {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            display: none;
+        }
+
+        .qr-code {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #ddd;
+            min-height: 300px;
+        }
+
+        .qr-code svg {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+        }
+
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.pending {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .user-info {
+            margin: 30px 0;
+            padding: 0;
+            background: transparent;
+            border-radius: 15px;
+            display: none;
+        }
+
+        .success-header {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            padding: 25px;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+        }
+
+        .success-header h3 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .success-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .user-details {
+            background: white;
+            padding: 25px;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .detail-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .detail-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .detail-card h4 {
+            margin: 0 0 12px 0;
+            color: #2d3748;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-value {
+            color: #4a5568;
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+            word-break: break-all;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: #5a67d8;
+        }
+
+        .claims-display {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .claim-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .claim-item:last-child {
+            border-bottom: none;
+        }
+
+        .claim-key {
+            font-weight: 600;
+            color: #2d3748;
+            text-transform: capitalize;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .claim-value {
+            color: #4a5568;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            word-break: break-all;
+            line-height: 1.4;
+            position: relative;
+        }
+
+        .claim-value.long-value {
+            max-height: 80px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .claim-value.long-value::after {
+            content: '...';
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            background: white;
+            padding-left: 20px;
+            background: linear-gradient(to right, transparent, white 50%);
+        }
+
+        .claim-value.long-value.expanded {
+            max-height: none;
+        }
+
+        .claim-value.long-value.expanded::after {
+            display: none;
+        }
+
+        .expand-btn {
+            background: #e2e8f0;
+            color: #4a5568;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+
+        .expand-btn:hover {
+            background: #cbd5e0;
+        }
+
+        .claim-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .feature-list {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .feature-list li {
+            margin: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .qr-code {
+                padding: 15px;
+                min-height: 250px;
+            }
+            
+            .success-header {
+                padding: 20px;
+            }
+            
+            .success-header h3 {
+                font-size: 20px;
+            }
+            
+            .user-details {
+                padding: 20px;
+            }
+            
+            .detail-card {
+                padding: 15px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn-primary, .btn-secondary {
+                min-width: auto;
+                width: 100%;
+            }
+            
+            .detail-value {
+                font-size: 12px;
+                padding: 10px;
+            }
+            
+            .claim-value {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+            
+            .claim-value.long-value {
+                max-height: 60px;
+            }
+            
+            .claim-actions {
+                flex-wrap: wrap;
+            }
+            
+            .expand-btn {
+                font-size: 11px;
+                padding: 3px 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🔞</div>
+            <h1>Age Verification System</h1>
+            <p class="subtitle">Verify you're 18+ using your mobile app</p>
+        </div>
+
+        <!-- Initial age verification prompt -->
+        <div id="age-prompt" class="auth-section">
+            <h3>Welcome to our service</h3>
+            <p>This service requires age verification. You must be 18 years or older to continue.</p>
+            <p>Click the button below to start the verification process using your Self mobile app.</p>
+            <button id="verify-age-btn" class="btn btn-primary">
+                I'm 18 or older - Verify my age
+            </button>
+        </div>
+
+        <!-- QR Code section (hidden initially) -->
+        <div id="qr-section" class="qr-container" style="display: none;">
+            <h3>📱 Scan QR Code with App</h3>
+            <p>Open your mobile app and scan the QR code below to verify your age.</p>
+            <div id="qr-code" class="qr-code">
+                <div class="loading"></div>
+                <p>Generating QR code...</p>
+            </div>
+            <div class="qr-info">
+                <p><strong>Request ID:</strong> <span id="request-id" class="request-id">Loading...</span>
+                <button id="copy-request-id" class="copy-btn">Copy</button></p>
+                <p><strong>Expires:</strong> <span id="qr-expiration">Loading...</span></p>
+                <p><strong>Status:</strong> <span id="auth-status">Waiting for scan...</span></p>
+            </div>
+            <div class="action-buttons">
+                <button id="refresh-qr" class="btn btn-secondary">🔄 Generate New Code</button>
+                <button id="start-over" class="btn btn-primary">Start Over</button>
+            </div>
+        </div>
+
+        <!-- Success section -->
+        <div id="success-section" style="display: none;" class="auth-section">
+            <div class="success-header">
+                <h3>🎉 Age Verification Successful!</h3>
+                <p>Welcome to our super secret content!</p>
+            </div>
+            <div class="user-details">
+                <div class="detail-card">
+                    <h4>🎂 Age Verification Details</h4>
+                    <div id="user-claims" class="claims-display">
+                        <!-- Claims will be populated here -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="secret-content" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 15px; margin: 20px 0;">
+                <h3>🔒 Super Secret Content</h3>
+                <p>Congratulations! You have successfully verified that you are 18 or older.</p>
+                <p>This is where age-restricted content would be displayed in a real application.</p>
+                <ul class="feature-list" style="color: white;">
+                    <li>Access to premium features</li>
+                    <li>Age-appropriate content</li>
+                    <li>Enhanced user experience</li>
+                    <li>Compliance with regulations</li>
+                </ul>
+            </div>
+
+            <div class="action-buttons">
+                <button id="verify-again" class="btn btn-primary">Verify Another User</button>
+                <button id="logout" class="btn btn-secondary">Logout</button>
+            </div>
+        </div>
+
+        <!-- Failed section -->
+        <div id="failed-section" style="display: none;" class="auth-section">
+            <div class="failed-header" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                <h3>🚫 Access Not Allowed</h3>
+                <p>Age verification failed or you are under 18.</p>
+            </div>
+            <div class="failed-content" style="text-align: center; padding: 20px;">
+                <p>We're sorry, but you must be 18 years or older to access this service.</p>
+                <p>If you believe this is an error, please try the verification process again.</p>
+            </div>
+            <div class="action-buttons">
+                <button id="try-again" class="btn btn-primary">Try Again</button>
+                <button id="go-back" class="btn btn-secondary">Go Back</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>No personal data is stored or transmitted beyond verification</p>
+        </div>
+    </div>
+
+    <script>
+        let currentRequestId = null;
+        let pollInterval = null;
+
+        // Show/hide sections
+        function showSection(sectionId) {
+            const sections = ['age-prompt', 'qr-section', 'success-section', 'failed-section'];
+            sections.forEach(id => {
+                document.getElementById(id).style.display = id === sectionId ? 'block' : 'none';
+            });
+        }
+
+        // Start age verification process
+        document.getElementById('verify-age-btn').addEventListener('click', function() {
+            showSection('qr-section');
+            startAgeVerification();
+        });
+
+        // Generate new QR code
+        document.getElementById('refresh-qr').addEventListener('click', function() {
+            startAgeVerification();
+        });
+
+        // Start over
+        document.getElementById('start-over').addEventListener('click', function() {
+            stopPolling();
+            showSection('age-prompt');
+        });
+
+        // Try again after failure
+        document.getElementById('try-again').addEventListener('click', function() {
+            showSection('age-prompt');
+        });
+
+        // Go back after failure
+        document.getElementById('go-back').addEventListener('click', function() {
+            showSection('age-prompt');
+        });
+
+        // Verify again
+        document.getElementById('verify-again').addEventListener('click', function() {
+            stopPolling();
+            showSection('age-prompt');
+        });
+
+        // Logout
+        document.getElementById('logout').addEventListener('click', function() {
+            stopPolling();
+            showSection('age-prompt');
+        });
+
+        async function startAgeVerification() {
+            try {
+                updateStatus('Generating age verification request...');
+                
+                const response = await fetch('/api/auth/start', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        requiredClaims: ['dateOfBirth']
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (data.success && data.qr_code && data.request_id) {
+                    displayQRCode(data.qr_code);
+                    currentRequestId = data.request_id;
+                    document.getElementById('request-id').textContent = data.request_id;
+                    document.getElementById('qr-expiration').textContent = new Date(Date.now() + 30 * 60 * 1000).toLocaleTimeString();
+                    updateStatus('Scan QR code with Self app');
+                    startPolling();
+                } else {
+                    throw new Error(data.error || 'Failed to generate QR code');
+                }
+            } catch (error) {
+                console.error('Age verification error:', error);
+                updateStatus('Failed to generate age verification request');
+                setTimeout(() => {
+                    showSection('age-prompt');
+                }, 3000);
+            }
+        }
+
+        function displayQRCode(qrCode) {
+            const qrContainer = document.getElementById('qr-code');
+            qrContainer.innerHTML = `<pre style="font-family: monospace; line-height: 1; font-size: 8px; white-space: pre;">${qrCode}</pre>`;
+        }
+
+        function updateStatus(status) {
+            document.getElementById('auth-status').textContent = status;
+        }
+
+        function startPolling() {
+            if (pollInterval) clearInterval(pollInterval);
+            
+            pollInterval = setInterval(async () => {
+                if (!currentRequestId) return;
+
+                try {
+                    const response = await fetch(`/api/auth/status/${currentRequestId}`);
+                    const data = await response.json();
+
+                    if (data.status === 'completed' && data.session) {
+                        stopPolling();
+                        handleVerificationSuccess(data.session);
+                    } else if (data.status === 'failed' || data.status === 'expired') {
+                        stopPolling();
+                        handleVerificationFailure(data.error || 'Age verification failed');
+                    } else if (data.status === 'connected') {
+                        updateStatus('Connected! Requesting age verification...');
+                    } else if (data.status === 'credential_requested') {
+                        updateStatus('Age verification requested from your device...');
+                    }
+                } catch (error) {
+                    console.error('Polling error:', error);
+                }
+            }, 2000);
+        }
+
+        function stopPolling() {
+            if (pollInterval) {
+                clearInterval(pollInterval);
+                pollInterval = null;
+            }
+        }
+
+        function handleVerificationSuccess(session) {
+            showSection('success-section');
+            
+            const claimsContainer = document.getElementById('user-claims');
+            claimsContainer.innerHTML = '';
+
+            // Display age verification status
+            if (session.claims && Object.keys(session.claims).length > 0) {
+                Object.entries(session.claims).forEach(([key, value]) => {
+                    const claimDiv = document.createElement('div');
+                    claimDiv.className = 'claim-item';
+                    
+                    // Special handling for age verification
+                    let displayKey = key;
+                    let displayValue = value;
+                    
+                    if (key === 'ageVerified') {
+                        displayKey = 'Age Verification Status';
+                        displayValue = value ? '✅ Verified 18+' : '❌ Under 18';
+                    } else if (key === 'dateOfBirth') {
+                        displayKey = 'Date of Birth';
+                        // Only show if age verification passed
+                        if (session.claims.ageVerified) {
+                            displayValue = value;
+                        } else {
+                            displayValue = '[Hidden for privacy]';
+                        }
+                    }
+                    
+                    claimDiv.innerHTML = `
+                        <span class="claim-key">${displayKey}:</span>
+                        <div class="claim-value">${displayValue}</div>
+                    `;
+                    claimsContainer.appendChild(claimDiv);
+                });
+            } else {
+                claimsContainer.innerHTML = '<p>✅ Age verification completed successfully</p>';
+            }
+        }
+
+        function handleVerificationFailure(error) {
+            console.error('Age verification failed:', error);
+            showSection('failed-section');
+        }
+
+        // Copy request ID to clipboard
+        document.getElementById('copy-request-id').addEventListener('click', function() {
+            const requestId = document.getElementById('request-id').textContent;
+            navigator.clipboard.writeText(requestId).then(() => {
+                this.textContent = 'Copied!';
+                setTimeout(() => {
+                    this.textContent = 'Copy';
+                }, 2000);
+            });
+        });
+
+        // Initialize the app
+        showSection('age-prompt');
+    </script>
+</body>
+</html> 

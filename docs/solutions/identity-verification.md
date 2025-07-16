@@ -1,67 +1,123 @@
 # Identity Verification
 
-> **🎯 What you'll learn:** How to issue and verify credentials to confirm a user's identity with cryptographic certainty, streamlining onboarding and enhancing trust.
+> **🎯 What you'll learn:** How to build a production-ready Know Your Customer (KYC) workflow for age verification using Self's verifiable credentials and mobile document capture.
 
-Identity verification is the process of confirming that a person is who they claim to be. With Self, this is achieved by issuing and verifying credentials that contain verified information about a user, such as their name, age, or email address. This process is more secure and privacy-preserving than traditional methods.
+Self's identity verification solution allows you to confirm user attributes like age by requesting and verifying credentials derived from official documents. 
 
-## How It Works
+The process leverages Self's backend services to verify documents and issue credentials directly to a user's mobile device, enhancing trust and compliance without requiring you to store sensitive personal data.
 
-A typical identity verification flow looks like this:
+This guide uses an **age verification** scenario as a practical example of a KYC process.
 
-1.  **Identity Proofing**: An authoritative source (like your application or a trusted third party) verifies the user's identity through some offline or online process (e.g., checking a government ID, verifying an email address).
-2.  **Credential Issuance**: The authority issues a verifiable credential to the user containing the verified information (e.g., an `EmailCredential` or a `KYCCredential`).
-3.  **Presentation Request**: When the user needs to prove their identity to another service (a "verifier"), that service requests a presentation of the relevant credential.
-4.  **Verification**: The verifier receives the credential and cryptographically verifies its authenticity and integrity, confirming the user's identity.
+## Architecture Overview
+
+The identity verification solution involves three key components working together in a secure, distributed model:
+
+**1. Your Backend Application**
+
+- Initiates the verification process by requesting a credential with a specific claim (e.g., "date of birth").
+- Generates a QR code to establish a secure connection with the user's mobile app.
+- Receives and cryptographically verifies the credential presented by the user's app.
+- Never handles raw identity documents, only the verifiable credential.
+
+**2. Your Mobile Application (with Self SDK)**
+
+- Scans the QR code to connect with your backend.
+- If the user doesn't have the required credential, the SDK manages the issuance process.
+- Guides the user to capture their identity document (e.g., passport, driver's license).
+- Securely stores the issued verifiable credentials on the device.
+- Handles user consent and presents the credential to your backend.
+
+**3. Self's Verification Service**
+
+- Receives the encrypted document from the user's mobile app.
+- Performs all verification and authenticity checks while the document resides only in-memory.
+- Extracts the required data (claims) from the document.
+- Issues a signed, verifiable credential back to the user's mobile app.
+- Wipes the document from memory immediately after the credential is sent.
+
+This model ensures that you can trust the claims presented by the user without ever handling or storing the underlying sensitive documents yourself.
+
+## Complete Verification Flow
+
+The age verification process begins when your service requests information from a user. If the user does not yet have the required credential, the Self SDK initiates an on-demand issuance flow.
+
+<details>
+<summary><strong>📊 View Complete Flow Diagram</strong></summary>
+
+```mermaid
+sequenceDiagram
+    participant Server as Your Backend
+    participant Mobile as Your Mobile App
+    participant SelfService as Self's Verification Service
+
+    Note over Server, Mobile: Connection & Request
+    Server->>Server: Generate unique verification request
+    Server->>Mobile: Display QR code for connection
+    Mobile->>Mobile: Scans QR code
+    Mobile->>Server: Establishes secure connection
+    Server->>Mobile: Request presentation of 'date_of_birth'
+
+    Note over Mobile, SelfService: On-Demand Credential Issuance
+    alt User does not have credential
+        Mobile->>Mobile: Prompt user to scan ID document
+        Mobile->>SelfService: Send document for verification
+        SelfService->>SelfService: Verify document and extract claims
+        SelfService->>Mobile: Issue Verifiable Credential (VC)
+        Mobile->>Mobile: Store VC securely
+    end
+
+    Note over Mobile, Server: Credential Presentation
+    Mobile->>Mobile: User consents to sharing 'date_of_birth'
+    Mobile->>Server: Present 'date_of_birth' credential
+    Server->>Server: Verify credential and check if age is valid
+
+    alt Verification Successful
+        Server->>Mobile: Verification complete
+    else Verification Failed
+        Server->>Mobile: Verification failed
+    end
+```
+</details>
+
+## Implementation Guides
+
+### Server Implementation
+
+A complete backend implementation guide covering:
+
+- Detailed verification flow breakdown.
+- Request-response correlation system.
+- Code examples for requesting and verifying credentials.
+
+[Check the implementation details](./identity-verification/server-implementation.md)
+
+### Mobile Implementation
+
+A mobile SDK integration guide covering:
+
+- Platform-specific examples (iOS/Android) for document capture.
+- Handling user consent and data extraction.
+- Presenting credentials to the backend.
+
+[Check the implementation details](./identity-verification/mobile-implementation.md)
 
 ## Core Concepts
 
-The foundation of identity verification is the issuance and exchange of verifiable credentials. These concepts are essential to understanding the process:
+Self's identity verification builds on fundamental cryptographic and identity principles:
 
-- **[Verifiable Credentials](../concepts/verifiable-credentials.md)**: The core data structure for holding and exchanging identity information.
-- **[Cryptographic Foundations](../concepts/cryptographic-foundations.md)**: Learn about the public-key cryptography that secures the entire process.
-
-## Server-Side Examples
-
-These examples walk you through the process of issuing and verifying credentials for identity verification purposes.
-
-### 1. Issuing a Credential
-
-The first step is to issue a credential to a user after verifying some piece of information about them.
-
-- **[Basic Credential Issuance](https://github.com/joinself/academy/tree/main/examples/server/02_credentials/01_issuing_credentials/01_basic/)**: Learn the fundamentals of creating and issuing a simple credential.
-- **[Issuing with Evidence](https://github.com/joinself/academy/tree/main/examples/server/02_credentials/01_issuing_credentials/03_with_evidence/)**: For higher-stakes verification, you can attach evidence (like a scanned document) to a credential.
-
-<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/02_exchanging_credentials/email_verification/go/main.go#L179-L218"
-     data-style="github-dark-dimmed"
-     data-show-border="true"
-     data-show-line-numbers="true"
-     data-show-file-meta="true"
-     data-show-full-path="true"
-     data-show-copy="true"></div>
-
-### 2. Exchanging and Verifying Credentials
-
-Once a user has a credential, they can present it to other services to prove their identity.
-
-- **[Email Verification Exchange](https://github.com/joinself/academy/tree/main/examples/server/02_credentials/02_exchanging_credentials/email_verification/)**: This comprehensive example demonstrates the full lifecycle: issuing an email credential and then using it for verification.
-- **[Presentation Request](https://github.com/joinself/academy/tree/main/examples/server/02_credentials/02_exchanging_credentials/presentation_request/)**: This example focuses on the verifier's side, showing how to request and handle a presentation of credentials.
-
-<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/02_exchanging_credentials/email_verification/go/main.go#L221-L258"
-     data-style="github-dark-dimmed"
-     data-show-border="true"
-     data-show-line-numbers="true"
-     data-show-file-meta="true"
-     data-show-full-path="true"
-     data-show-copy="true"></div>
-
-## Mobile Implementation
-
-The user's mobile device is where they manage their digital identity. The Self mobile SDKs provide the necessary UI and functionality for a user to receive and present credentials.
-
-- **[Receiving and Storing Credentials](https://github.com/joinself/academy/tree/main/examples/mobile/android/02_credentials/)**: This example shows how a user's mobile application can be notified of a new credential, and how it is securely stored in their digital wallet.
-- **[Presenting Credentials for Verification](https://github.com/joinself/academy/tree/main/examples/mobile/android/02_credentials/)**: This example demonstrates the user flow for when they are asked to present a credential. The UI components handle the user's approval and the secure sharing of the credential with the verifier.
+- **[Verifiable Credentials](../concepts/verifiable-credentials.md)**: The standard for presenting identity claims.
+- **[Secure Connections](../concepts/secure-connections.md)**: How cryptographic communication channels are established.  
+- **[Decentralized Identity](../concepts/decentralized-identity.md)**: The foundation of Self's identity system.
 
 ## Next Steps
 
-- **[Digital Signatures](./digital-signatures.md)**: Apply credential issuance to create legally binding digital signatures.
-- **[Advanced Credential Examples](https://github.com/joinself/academy/tree/main/examples/credentials.md)**: Explore more complex credential structures and workflows. 
+Ready to implement identity verification? Follow our implementation guides:
+
+- **[Server Implementation](./identity-verification/server-implementation.md)**: Build your verification backend.
+- **[Mobile Implementation](./identity-verification/mobile-implementation.md)**: Integrate document capture into your mobile app.
+- **[Conclusions & Best Practices](./identity-verification/conclusions.md)**: Production deployment guide and best practices.
+
+**Extend your verification system:**
+
+- **[Authentication](./authentication.md)**: Combine identity verification with passwordless login.
+- **[Digital Signatures](./digital-signatures.md)**: Enable users to sign documents after verifying their identity. 

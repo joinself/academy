@@ -65,7 +65,11 @@ nav:
       - Server Implementation: solutions/authentication/server-implementation.md
       - Mobile Implementation: solutions/authentication/mobile-implementation.md
       - Conclusions & Best Practices: solutions/authentication/conclusions.md
-    - Identity Verification: solutions/identity-verification.md
+    - Identity Verification:
+      - Overview: solutions/identity-verification.md
+      - Server Implementation: solutions/identity-verification/server-implementation.md
+      - Mobile Implementation: solutions/identity-verification/mobile-implementation.md
+      - Conclusions & Best Practices: solutions/identity-verification/conclusions.md
     - Digital Signatures: solutions/digital-signatures.md
   - Concepts:
     - Overview: concepts/overview.md
