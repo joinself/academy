@@ -4,7 +4,7 @@
 
 Self's authentication solution replaces traditional username/password systems with cryptographic identity verification and biometric security.
 
-Users authenticate by scanning a QR code with your mobile application and providing biometric confirmation - no passwords, no personal data storage, no security vulnerabilities from credential breaches.
+In this section we will see how users can authenticate by scanning a QR code with your mobile application and providing biometric confirmation - no passwords, no personal data storage, no security vulnerabilities from credential breaches.
 
 ## Architecture Overview
 
