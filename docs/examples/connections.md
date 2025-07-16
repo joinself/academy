@@ -46,6 +46,7 @@ Follow this **progressive learning path** to master Self connection patterns:
 **[Direct Connection Server](../../examples/server/01_connection/01_direct/)**
 
 **What it demonstrates:**
+
 - Creating shareable inbox addresses for receiving connections
 - Automatic acceptance of incoming connection requests
 - Server-side connection establishment workflow
@@ -72,6 +73,7 @@ OnKeyPackage: handleKeyPackageCallback
 **[Client Connection Example](../../examples/server/01_connection/03_client/)**
 
 **What it demonstrates:**
+
 - Connecting TO known inbox addresses from client side
 - Handling connection responses from servers
 - Client-side connection establishment workflow
@@ -98,6 +100,7 @@ OnWelcome: handleConnectionResponse
 **[QR Code Connections](../../examples/server/01_connection/02_qr/)**
 
 **What it demonstrates:**
+
 - Generating scannable QR codes for mobile discovery
 - Mobile app connection workflows
 - Visual connection establishment patterns
@@ -293,24 +296,28 @@ The production guide includes connection-specific security patterns, performance
 Confirm you've mastered secure connections:
 
 **✅ Connection Establishment**
+
 - [ ] Can create inbox addresses for receiving connections
 - [ ] Understand key package generation and exchange
 - [ ] Can implement all three connection patterns
 - [ ] Know how to handle connection callbacks
 
 **✅ Security Understanding**  
+
 - [ ] Know why connections are required before communication
 - [ ] Understand cryptographic handshake process
 - [ ] Can explain forward secrecy benefits
 - [ ] Recognize different security models
 
 **✅ Pattern Selection**
+
 - [ ] Can choose appropriate connection pattern for use case
 - [ ] Know when to use direct vs QR vs client-initiated patterns
 - [ ] Understand scalability and usability tradeoffs
 - [ ] Can implement production security best practices
 
 **✅ Technical Implementation**
+
 - [ ] Master connection callback patterns (OnKeyPackage, OnWelcome)
 - [ ] Understand connection lifecycle and error handling
 - [ ] Can build complete client-server applications
