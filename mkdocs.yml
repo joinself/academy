@@ -73,7 +73,13 @@ nav:
     - Digital Signatures: solutions/digital-signatures.md
   - Concepts:
     - Overview: concepts/overview.md
-    - Identity Foundations: concepts/decentralized-identity.md
+    - Decentralized Identity:
+      - Overview: concepts/decentralized-identity.md
+      - DIDs Explained: concepts/decentralized-identity/dids-explained.md
+      - Cryptographic Keys: concepts/decentralized-identity/cryptographic-keys.md
+      - Self-Sovereign Identity Principles: concepts/decentralized-identity/self-sovereign-identity-principles.md
+      - How it Works: concepts/decentralized-identity/how-it-works.md
+      - Resources: concepts/decentralized-identity/resources.md
     - Secure Connections: concepts/secure-connections.md
     - Verifiable Credentials: 
       - concepts/verifiable-credentials.md

@@ -42,284 +42,45 @@ User creates account → Company controls identity → User loses access = Ident
 
 ---
 
-## How Decentralized Identity Solves This
+## The Solution: A New Paradigm
 
-### Cryptographic Ownership
-Instead of usernames/passwords, users get **cryptographic key pairs**:
-```
-Private Key (Secret) + Public Key (Shareable) = Cryptographic Identity
-```
+Decentralized identity addresses these challenges by introducing two core concepts:
 
-**What this means for developers:**
+### **Cryptographic Ownership**
+Instead of usernames and passwords, users have cryptographic key pairs. This means:
+- **No passwords to store or steal.**
+- **Users prove identity with a signature, not a secret.**
+- **No central authority can revoke a user's identity.**
 
-- No password storage or security risks
-- Users prove identity with cryptographic signatures
-- No central authority can revoke user identities
-
-### Universal Identity
-Users create **one identity** that works across all Self-enabled applications:
-```
-User Identity → Your App, Their Banking App, Social Media, etc.
-```
-
-**Benefits for your users:**
-
-- Single identity across all apps
-- No more forgotten passwords
-- Complete control over their data
+### **Universal, User-Controlled Identity**
+Users create a single, portable identity that works across all enabled applications. This provides:
+- **A single identity for all apps.**
+- **Complete user control over their data.**
+- **No platform lock-in.**
 
 ---
 
-## Decentralized Identifiers (DIDs) Explained
+## Dive Deeper
 
-### What is a DID?
+Explore the core components of decentralized identity:
 
-A **DID** (Decentralized Identifier) is like a permanent, globally unique username that no one can take away from you.
-
-```
-Traditional: @john_doe_123 (controlled by Twitter/X)
-DID: did:self:1:ABC123XYZ... (controlled by John)
-```
-
-### DID Structure Breakdown
-
-```
-did:self:1:ABC123XYZ789DEF456GHI...
-│   │    │  │
-│   │    │  └─ Unique identifier (derived from public key)
-│   │    └─ Version number
-│   └─ Self network identifier
-└─ DID scheme
-```
-
-### Key Properties
-
-#### **Cryptographically Secure**
-- Generated from cryptographic key pairs
-- Impossible to forge or duplicate
-- Mathematically verifiable
-
-#### **Globally Unique**
-- No central registry needed
-- No naming conflicts possible
-- Works across all applications
-
-#### **User-Controlled**
-- Only the user has the private key
-- No authority can revoke or change it
-- Portable between applications
+- **[DIDs Explained](decentralized-identity/dids-explained.md)** - How DIDs work
+- **[Cryptographic Keys](decentralized-identity/cryptographic-keys.md)** - The math behind the magic
+- **[Self-Sovereign Identity Principles](decentralized-identity/self-sovereign-identity-principles.md)** - The philosophy behind the technology
+- **[How it Works](decentralized-identity/how-it-works.md)** - How to use it in your apps
+- **[Resources](decentralized-identity/resources.md)** - Further reading and external resources
 
 ---
 
-## Cryptographic Keys: Your Digital DNA
+## Ready to build?
 
-### The Key Pair Concept
+Put your knowledge into practice with these hands-on examples:
 
-Every Self identity consists of two mathematically linked keys:
-
-```
-🔒 Private Key (Secret)          🔓 Public Key (Shareable)
-├─ Never shared with anyone      ├─ Shared with everyone
-├─ Used to sign messages         ├─ Used to verify signatures  
-├─ Proves you own the identity   ├─ Part of your DID
-└─ Like your digital DNA         └─ Like your digital fingerprint
-```
-
-### How This Works in Practice
-
-#### 1. **Identity Creation**
-```go
-// When you run: go run main.go
-account := createNewAccount()
-// ✅ Generates cryptographic key pair automatically
-// ✅ Creates unique DID from public key
-// ✅ Stores private key securely on device
-```
-
-#### 2. **Message Signing**
-```go
-// When you send a message
-account.SendMessage("Hello!", recipientDID)
-// ✅ Automatically signs with your private key
-// ✅ Recipients verify with your public key
-// ✅ Proves the message came from you
-```
-
-#### 3. **Identity Verification**
-```go
-// When someone receives your message
-if (verifySignature(message, senderPublicKey)) {
-// ✅ Message is authentic
-// ✅ Sender identity is verified
-// ✅ Message hasn't been tampered with
-}
-```
+- **[Account Setup Examples](../examples/setup.md)** - Create your first DID
+- **[Connection Examples](../examples/connections.md)** - Connect identities securely
+- **[Credential Examples](../examples/credentials.md)** - Exchange verifiable data
 
 ---
-
-## Self-Sovereign Identity Principles
-
-### **User Control**
-- **You own your identity** - No company can take it away
-- **You control your data** - Share only what you choose
-- **You decide permissions** - Grant and revoke access as needed
-
-### **Privacy by Design**
-- **Minimal disclosure** - Share only necessary information
-- **Selective sharing** - Different data for different contexts
-- **Anonymous when needed** - Identity doesn't require personal info
-
-### **Interoperability**
-- **Works everywhere** - Same identity across all Self-enabled apps
-- **Standards-based** - Built on W3C standards
-- **Future-proof** - Designed to evolve with technology
-
----
-
-## How This Works in Your Applications
-
-### Traditional Authentication Flow
-```
-1. User enters username/password
-2. Server checks database
-3. Server creates session token
-4. User is "logged in" to that specific app
-```
-
-**Problems:** Password security, account recovery, platform lock-in
-
-### Self SDK Authentication Flow
-```
-1. User creates Self identity (one time setup)
-2. App requests connection to user's DID
-3. User approves connection cryptographically
-4. Secure encrypted channel established
-```
-
-**Benefits:** No passwords, cryptographic security, works across apps
-
-### Real-World Example: Healthcare App
-
-#### Traditional Approach:
-```
-User → Creates account with username/password
-     → Uploads medical records to your servers
-     → Trusts you with sensitive health data
-     → Loses access if account is compromised
-```
-
-#### Self SDK Approach:
-```
-User → Uses existing Self identity
-     → Shares specific health credentials when needed
-     → Maintains control over their data
-     → Can revoke access at any time
-```
-
----
-
-## What Just Happened?
-
-You've learned the foundational concepts that make Self SDK revolutionary:
-
-### **Core Understanding**
-- **Decentralized identity** puts users in control of their digital identity
-- **DIDs** provide permanent, cryptographically secure identifiers
-- **Key pairs** enable secure, passwordless authentication
-- **Self-sovereign principles** prioritize user control and privacy
-
-### **Practical Knowledge**
-- Traditional identity systems have fundamental flaws
-- Cryptographic identity solves security and UX problems
-- Self SDK handles the complex crypto automatically
-- Your apps get better security with better user experience
-
-### **Developer Benefits**
-- No password storage or security risks
-- Better user experience with universal identity
-- Built-in encryption and verification
-- Future-proof, standards-based technology
-
----
-
-## Further Reading & External Resources
-
-### **Official Standards & Specifications**
-- **[W3C Decentralized Identifiers (DIDs) v1.0](https://www.w3.org/TR/did-core/)** - The official W3C standard for DIDs
-- **[W3C Verifiable Credentials Data Model](https://www.w3.org/TR/vc-data-model/)** - Standard for verifiable digital credentials
-- **[DID Method Registry](https://w3c.github.io/did-spec-registries/#did-methods)** - Complete list of DID method specifications
-
-### **Foundational Papers & Articles**
-- **[The Path to Self-Sovereign Identity](https://www.lifewithalacrity.com/2016/04/the-path-to-self-soverereign-identity.html)** - Christopher Allen's seminal article defining SSI principles
-- **[A Comprehensive Guide to Self-Sovereign Identity](https://www.manning.com/books/self-sovereign-identity)** - Manning Publications book by Alex Preukschat & Drummond Reed
-- **[The Self-Sovereign Identity Stack](https://medium.com/decentralized-identity/the-self-sovereign-identity-stack-8a2cc95f2d45)** - Technical architecture overview
-
-### **🔬 Research & Academic Resources**
-- **[Decentralized Identity Foundation (DIF)](https://identity.foundation/)** - Industry consortium developing DID standards
-- **[Hyperledger Aries](https://www.hyperledger.org/use/aries)** - Open source decentralized identity framework
-- **[European Self-Sovereign Identity Framework (eSSIF)](https://essif-lab.eu/)** - EU research initiative on SSI
-
-### **Technical Deep Dives**
-- **[DID Resolution](https://w3c-ccg.github.io/did-resolution/)** - How DIDs are resolved to DID Documents
-- **[DID Authentication](https://github.com/WebOfTrustInfo/rwot6-santabarbara/blob/master/final-documents/did-auth.md)** - Cryptographic authentication using DIDs
-- **[Key Management in Decentralized Identity](https://github.com/WebOfTrustInfo/rwot7/blob/master/final-documents/mental-models.md)** - Security considerations and best practices
-
-### **🌍 Industry Implementations**
-- **[Microsoft ION](https://techcommunity.microsoft.com/t5/identity-standards-blog/ion-we-have-liftoff/ba-p/1441555)** - Bitcoin-anchored DID network by Microsoft
-- **[Sovrin Network](https://sovrin.org/)** - Public permissioned DID network
-- **[Cheqd Network](https://www.cheqd.io/)** - Cosmos-based DID network with payment rails
-
-### **🎥 Video Resources**
-- **[Decentralized Identity Explained](https://www.youtube.com/watch?v=Jcfy9wd5bj4)** - Microsoft's introduction to DID concepts
-- **[Self-Sovereign Identity: The Future of Digital Identity](https://www.youtube.com/watch?v=RllH91rcFdE)** - Comprehensive SSI overview
-- **[Building with DIDs](https://www.youtube.com/watch?v=0VWkQiDVJjs)** - Technical implementation guidance
-
-### **News & Industry Updates**
-- **[Self-Sovereign Identity News](https://ssimeetup.org/blog/)** - Regular updates from the SSI community
-- **[Decentralized Identity Foundation Blog](https://blog.identity.foundation/)** - Technical updates and standards progress
-- **[The SSI Orbit](https://northernblock.io/the-ssi-orbit/)** - Weekly newsletter covering SSI developments
-
-### **Related Concepts to Explore**
-
-- **Zero-Knowledge Proofs** - Privacy-preserving credential verification
-- **Blockchain and Distributed Ledgers** - Infrastructure for decentralized systems
-- **Web3 and Decentralized Web** - Broader context of decentralized technologies
-- **Privacy-Preserving Technologies** - Techniques for protecting user privacy
-
----
-
-## Next Steps
-
-### **Start Building** 
-Ready to create your first Self identity? Try these hands-on examples:
-
-1. **[Account Setup Examples](../examples/setup.md)** - Create your first DID
-2. **[Connection Examples](../examples/connections.md)** - Connect identities securely
-3. **[Credential Examples](../examples/credentials.md)** - Exchange verifiable data
-
-### **Dive Deeper**
-Want to understand the technical details?
-
-- **[Secure Connections](secure-connections.md)** - How identities connect securely
-- **[Cryptographic Foundations](cryptographic-foundations.md)** - The math behind the magic
-
-### **Real-World Applications**
-
-Consider how decentralized identity could improve:
-
-- **User onboarding** - No more registration forms
-- **Data sharing** - Users control what they share
-- **Account recovery** - No "forgot password" needed
-- **Cross-platform** - One identity, multiple apps
-
----
-
-
-## Related Examples
-
-- [Creating New Accounts](https://github.com/joinself/academy/blob/main/examples/server/00_setup/01_new_account/)
-- [Loading Existing Accounts](https://github.com/joinself/academy/blob/main/examples/server/00_setup/02_existing_account/)
-- [Account Management](https://github.com/joinself/academy/blob/main/examples/server/00_setup/03_inbox_access/)
 
 ## Next Concepts
 
