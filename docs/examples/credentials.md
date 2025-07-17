@@ -410,11 +410,11 @@ content, err := message.NewCredentialPresentationRequest().
 // You get: {"dateOfBirth": "1990-05-15", "issuer": "...", "verified": true}
 ```
 
-#### **Pattern 2:** Zero-Knowledge/Filtered Requests  
-**When to use:** You want proof of something without seeing the raw data
+#### **Pattern 2:** Conditional Credential Disclosure  
+**When to use:** You want credential data only if user meets certain conditions
 
 ```go
-// Request age verification without seeing birth date
+// Request age credential only if user is 18 or older
 eighteenYearsAgo := time.Now().AddDate(-18, 0, 0).Format("2006-01-02")
 
 content, err := message.NewCredentialPresentationRequest().
@@ -431,16 +431,17 @@ content, err := message.NewCredentialPresentationRequest().
     ).
     Finish()
 
-// User's device evaluates locally and returns boolean result
-// You get: {"result": true} (without seeing the actual birth date)
+// Conditional response behavior:
+// ✅ If 18+: Full credential {"dateOfBirth": "1990-05-15", "issuer": "...", "verified": true}
+// ❌ If under 18: No response sent at all
 ```
 
 #### **Pattern Comparison**
 
 | Pattern | Use Case | Privacy Level | Data Received |
 |---------|----------|---------------|---------------|
-| `Details(type, nil)` | Identity verification, account setup | **Standard** - you see the data | Full credential content |
-| `Details(type, [params])` | Age verification, eligibility checks | **High** - zero-knowledge proof | Boolean/filtered results only |
+| `Details(type, nil)` | Identity verification, account setup | **Standard** - always get data | Full credential content |
+| `Details(type, [params])` | Age-gated access, conditional sharing | **Enhanced** - only if eligible | Full credential (only if condition met) |
 
 #### **Real-World Examples**
 
@@ -481,13 +482,13 @@ content, err := message.NewCredentialPresentationRequest().
 - Building user profiles (need actual data for display)
 - Integrating with existing systems (need structured data)
 
-**Use Zero-Knowledge (parameters) when:**
-- Age verification for restricted content
-- Eligibility checks without data retention
-- Privacy-first verification scenarios
-- Compliance with data minimization principles
+**Use Conditional Disclosure (parameters) when:**
+- Age-gated credential sharing (only if eligible)
+- Conditional document access
+- Privacy-preserving eligibility checks  
+- Scenarios where ineligible users shouldn't share data
 
-**Key Concept**: Choose your pattern based on whether you need the actual data or just proof of a condition. Zero-knowledge patterns provide maximum privacy, while simple retrieval gives you the data needed for application integration.
+**Key Concept**: Choose your pattern based on whether you need guaranteed data access or conditional sharing. Conditional disclosure protects ineligible users' privacy, while simple retrieval ensures you always get the data needed for application integration.
 
 **Time**: 5 minutes to understand patterns  
 **Success**: Clear understanding of when to use each credential request approach

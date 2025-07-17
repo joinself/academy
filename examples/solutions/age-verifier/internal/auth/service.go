@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"github.com/joinself/self-go-sdk/account"
+	"github.com/joinself/self-go-sdk/credential"
 	"github.com/joinself/self-go-sdk/event"
 	"github.com/joinself/self-go-sdk/keypair/signing"
 	"github.com/joinself/self-go-sdk/message"
@@ -450,16 +451,20 @@ func (a *AuthService) requestCredentials(userDID *signing.PublicKey, contentID s
 
 	a.logger.Info("Requesting age verification from user", slog.String("user_did", userDID.String()), slog.String("content_id", contentID))
 
-	// Create presentation request for dateOfBirth verification only
+	// Calculate the date 18 years ago for age verification
+	eighteenYearsAgo := time.Now().AddDate(-18, 0, 0).Format("2006-01-02")
+
+	// Create presentation request for age verification (18+ years old)
+	// Uses conditional disclosure: credential shared only if user is 18+, otherwise no response
 	content, err := message.NewCredentialPresentationRequest().
 		Type([]string{"VerifiablePresentation"}).
 		Details(
-			[]string{"DateOfBirthCredential"},
+			credential.CredentialTypePassport,
 			[]*message.CredentialPresentationDetailParameter{
 				message.NewCredentialPresentationDetailParameter(
-					message.OperatorNotEquals,
+					message.OperatorLessThan,
 					"dateOfBirth",
-					"",
+					eighteenYearsAgo,
 				),
 			},
 		).
@@ -521,39 +526,13 @@ func (a *AuthService) handleCredentialResponse(acc *account.Account, msg *event.
 		return
 	}
 
-	// Extract claims from the credential and verify age
+	// With conditional disclosure, receiving any response means user is 18+
+	// The mobile device evaluated the condition locally and only sent credential if age >= 18
 	claims := make(map[string]interface{})
-	var ageVerified bool = false
-	presentations := credentialResponse.Presentations()
+	claims["ageVerified"] = true // Response existence confirms age verification
 
-	if len(presentations) > 0 {
-		for _, presentation := range presentations {
-			for _, cred := range presentation.Credentials() {
-				if credClaims, err := cred.CredentialSubjectClaims(); err == nil {
-					for key, value := range credClaims {
-						claims[key] = value
-
-						// Check for dateOfBirth and calculate age
-						if key == "dateOfBirth" {
-							if dobStr, ok := value.(string); ok {
-								age, err := calculateAge(dobStr)
-								if err == nil {
-									claims["age"] = age
-									ageVerified = age >= 18
-									a.logger.Info("Age calculated", slog.Int("age", age), slog.Bool("verified", ageVerified))
-								} else {
-									a.logger.Error("Failed to calculate age from dateOfBirth", slog.String("error", err.Error()))
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	// Add age verification result to claims
-	claims["ageVerified"] = ageVerified
+	a.logger.Info("Age verification successful - conditional disclosure confirmed user is 18+",
+		slog.String("user_did", userDID.String()))
 
 	// Create session with user details
 	session := &Session{
@@ -571,79 +550,23 @@ func (a *AuthService) handleCredentialResponse(acc *account.Account, msg *event.
 	matchingAuthReq.Status = AuthRequestCompleted
 	a.mutex.Unlock()
 
-	// Verify age and complete authentication
-	if ageVerified {
-		a.logger.Info("Age verification successful - user is 18 or older",
-			slog.String("user_did", userDID.String()),
-			slog.String("session_id", session.ID))
-
-		// Complete authentication successfully
-		result := &AuthResult{
-			Success: true,
-			Session: session,
-			UserDID: userDID,
-			Claims:  claims,
-		}
-
-		// Send result on the auth request completion channel
-		select {
-		case matchingAuthReq.CompleteChan <- result:
-		default:
-			a.logger.Warn("Failed to send auth result - channel may be closed")
-		}
-	} else {
-		a.logger.Info("Age verification failed - user is under 18",
-			slog.String("user_did", userDID.String()))
-
-		// Complete authentication with failure
-		result := &AuthResult{
-			Success: false,
-			Error:   fmt.Errorf("user is under 18 years old"),
-			UserDID: userDID,
-			Claims:  claims,
-		}
-
-		// Send result on the auth request completion channel
-		select {
-		case matchingAuthReq.CompleteChan <- result:
-		default:
-			a.logger.Warn("Failed to send auth result - channel may be closed")
-		}
-	}
-}
-
-// calculateAge calculates age from date of birth string
-func calculateAge(dobStr string) (int, error) {
-	// Try parsing different date formats
-	layouts := []string{
-		"2006-01-02",           // YYYY-MM-DD
-		"02/01/2006",           // DD/MM/YYYY
-		"01/02/2006",           // MM/DD/YYYY
-		"2006-01-02T15:04:05Z", // ISO 8601
-		"2006-01-02 15:04:05",  // YYYY-MM-DD HH:MM:SS
+	// Complete authentication successfully
+	// Conditional disclosure: receiving any response confirms user is 18+
+	result := &AuthResult{
+		Success: true,
+		Session: session,
+		UserDID: userDID,
+		Claims:  claims,
 	}
 
-	var dob time.Time
-	var err error
+	a.logger.Info("Authentication completed successfully",
+		slog.String("user_did", userDID.String()),
+		slog.String("session_id", session.ID))
 
-	for _, layout := range layouts {
-		dob, err = time.Parse(layout, dobStr)
-		if err == nil {
-			break
-		}
+	// Send result on the auth request completion channel
+	select {
+	case matchingAuthReq.CompleteChan <- result:
+	default:
+		a.logger.Warn("Failed to send auth result - channel may be closed")
 	}
-
-	if err != nil {
-		return 0, fmt.Errorf("unable to parse date of birth: %s", dobStr)
-	}
-
-	now := time.Now()
-	age := now.Year() - dob.Year()
-
-	// Adjust if birthday hasn't occurred this year
-	if now.YearDay() < dob.YearDay() {
-		age--
-	}
-
-	return age, nil
 }
