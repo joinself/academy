@@ -79,7 +79,14 @@ nav:
       - concepts/verifiable-credentials.md
       - Credential Presentation Patterns: concepts/credential-presentation-patterns.md
     - Message Security: concepts/message-layer-security.md
-    - Cryptographic Foundations: concepts/cryptographic-foundations.md
+    - Cryptographic Foundations:
+      - Overview: concepts/cryptographic-foundations.md
+      - Core Algorithms: concepts/cryptographic-foundations/core-algorithms.md
+      - Security Properties: concepts/cryptographic-foundations/security-properties.md
+      - Key Management: concepts/cryptographic-foundations/key-management.md
+      - Protocols: concepts/cryptographic-foundations/protocols.md
+      - Performance: concepts/cryptographic-foundations/performance.md
+      - Real-World Examples: concepts/cryptographic-foundations/real-world-examples.md
   - Examples:
     - Overview: examples/overview.md
     - Setup Guide: examples/setup.md
