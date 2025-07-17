@@ -2,7 +2,7 @@
 
 Welcome to the theoretical foundations of the Self ecosystem. These concept guides provide the essential knowledge to understand the "why" and "how" behind the practical examples.
 
-## 🎯 Learning Philosophy
+## Learning Philosophy
 
 Our theoretical documentation follows the same progressive approach as our examples:
 
@@ -14,34 +14,34 @@ Our theoretical documentation follows the same progressive approach as our examp
 ## Concept Categories
 
 ### Identity Foundations
-Understanding decentralized identity, self-sovereign principles, and how traditional identity systems compare to decentralized approaches.
+A multi-part guide to decentralized identity, self-sovereign principles, and how traditional systems compare to decentralized approaches.
 
-**Read:** [Decentralized Identity Concepts](decentralized-identity.md)  
-**Try:** [Setup Examples](../examples/setup.md)
+**Read the guide:** [Decentralized Identity Concepts](decentralized-identity.md)  
+**Try the code:** [Setup Examples](../examples/setup.md)
 
 ### Secure Connections
-Learn how cryptographic connections work, key exchange protocols, and the security guarantees they provide.
+A multi-part guide explaining how cryptographic connections work, key exchange protocols, and the security guarantees they provide.
 
-**Read:** [Secure Connection Concepts](secure-connections.md)  
-**Try:** [Connection Examples](../examples/connections.md)
+**Read the guide:** [Secure Connection Concepts](secure-connections.md)  
+**Try the code:** [Connection Examples](../examples/connections.md)
 
 ### Verifiable Credentials
-Deep dive into the W3C verifiable credentials standard, claim structures, and proof mechanisms.
+A multi-part guide to the W3C verifiable credentials standard, claim structures, and proof mechanisms.
 
-**Read:** [Verifiable Credentials Concepts](verifiable-credentials.md)  
-**Try:** [Credential Examples](../examples/credentials.md)
+**Read the guide:** [Verifiable Credentials Concepts](verifiable-credentials.md)  
+**Try the code:** [Credential Examples](../examples/credentials.md)
 
 ### Message Security
-Understanding end-to-end encryption, Message Layer Security (MLS), and secure group communications.
+A multi-part guide to end-to-end encryption, Message Layer Security (MLS), and secure group communications.
 
-**Read:** [Message Layer Security](message-layer-security.md)  
-**Try:** [Chat Examples](../examples/chat.md)
+**Read the guide:** [Message Layer Security](message-layer-security.md)  
+**Try the code:** [Chat Examples](../examples/chat.md)
 
 ### Cryptographic Foundations
-The mathematical and cryptographic primitives that secure the entire system.
+A multi-part guide to the mathematical and cryptographic primitives that secure the entire system.
 
-**Read:** [Cryptographic Foundations](cryptographic-foundations.md)  
-**Apply:** All examples use these foundations
+**Read the guide:** [Cryptographic Foundations](cryptographic-foundations.md)  
+**Apply the principles:** All examples use these foundations
 
 ## How to Use These Guides
 
@@ -53,7 +53,7 @@ Read the concept that matches your current example, then implement the correspon
 
 ## 🔗 Quick Navigation
 
-| I want to understand... | Read this concept | Then try this example |
+| I want to understand... | Read the guide | Try the code |
 |------------------------|-------------------|----------------------|
 | **What is Self?** | [Decentralized Identity](decentralized-identity.md) | [Account Setup](../examples/setup.md) |
 | **How connections work** | [Secure Connections](secure-connections.md) | [Connection Examples](../examples/connections.md) |

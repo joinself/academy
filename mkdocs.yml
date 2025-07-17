@@ -80,7 +80,13 @@ nav:
       - Self-Sovereign Identity Principles: concepts/decentralized-identity/self-sovereign-identity-principles.md
       - How it Works: concepts/decentralized-identity/how-it-works.md
       - Resources: concepts/decentralized-identity/resources.md
-    - Secure Connections: concepts/secure-connections.md
+    - Secure Connections:
+      - Overview: concepts/secure-connections.md
+      - Cryptographic Handshake: concepts/secure-connections/cryptographic-handshake.md
+      - Cryptographic Deep Dive: concepts/secure-connections/cryptographic-deep-dive.md
+      - Connection Patterns: concepts/secure-connections/connection-patterns.md
+      - Technical Architecture: concepts/secure-connections/technical-architecture.md
+      - FAQ and Resources: concepts/secure-connections/faq-and-resources.md
     - Verifiable Credentials: 
       - concepts/verifiable-credentials.md
       - Credential Presentation Patterns: concepts/credential-presentation-patterns.md
