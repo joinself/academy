@@ -393,6 +393,107 @@ func handleMobileConnection(emailService *account.Account, welcome *event.Welcom
 
 ---
 
+### **Phase 2.5:** Master Presentation Request Patterns
+Learn the two fundamental approaches to requesting credentials:
+
+#### **Pattern 1:** Simple Field Retrieval
+**When to use:** You want the actual credential data without filtering
+
+```go
+// Request full credential data - returns actual field values
+content, err := message.NewCredentialPresentationRequest().
+    Type([]string{"VerifiablePresentation"}).
+    Details([]string{"DateOfBirthCredential"}, nil).  // ← nil = no filtering
+    Finish()
+
+// User receives request and returns actual credential with dateOfBirth field
+// You get: {"dateOfBirth": "1990-05-15", "issuer": "...", "verified": true}
+```
+
+#### **Pattern 2:** Zero-Knowledge/Filtered Requests  
+**When to use:** You want proof of something without seeing the raw data
+
+```go
+// Request age verification without seeing birth date
+eighteenYearsAgo := time.Now().AddDate(-18, 0, 0).Format("2006-01-02")
+
+content, err := message.NewCredentialPresentationRequest().
+    Type([]string{"VerifiablePresentation"}).
+    Details(
+        []string{"DateOfBirthCredential"},
+        []*message.CredentialPresentationDetailParameter{
+            message.NewCredentialPresentationDetailParameter(
+                message.OperatorLowerThan,
+                "dateOfBirth", 
+                eighteenYearsAgo,
+            ),
+        },
+    ).
+    Finish()
+
+// User's device evaluates locally and returns boolean result
+// You get: {"result": true} (without seeing the actual birth date)
+```
+
+#### **Pattern Comparison**
+
+| Pattern | Use Case | Privacy Level | Data Received |
+|---------|----------|---------------|---------------|
+| `Details(type, nil)` | Identity verification, account setup | **Standard** - you see the data | Full credential content |
+| `Details(type, [params])` | Age verification, eligibility checks | **High** - zero-knowledge proof | Boolean/filtered results only |
+
+#### **Real-World Examples**
+
+**E-commerce Age Verification:**
+```go
+// 🔐 High privacy - just verify age without storing birth date
+Details([]string{"DateOfBirthCredential"}, []*message.CredentialPresentationDetailParameter{
+    message.NewCredentialPresentationDetailParameter(
+        message.OperatorLowerThan, 
+        "dateOfBirth", 
+        eighteenYearsAgo,
+    ),
+})
+```
+
+**Account Registration:**
+```go  
+// 🔓 Standard verification - need email for account setup
+Details([]string{"EmailCredential"}, nil)
+```
+
+**Financial KYC (Mixed Approach):**
+```go
+// Multiple credentials with different patterns
+content, err := message.NewCredentialPresentationRequest().
+    Type([]string{"VerifiablePresentation"}).
+    Details(credential.CredentialTypeEmail, nil).                    // Need actual email
+    Details(credential.CredentialTypeLiveness, nil).                 // Need biometric proof  
+    Details([]string{"DateOfBirthCredential"}, ageVerificationParams). // Just verify age
+    Finish()
+```
+
+#### **Best Practices for Pattern Selection**
+
+**Use Simple Retrieval (`nil`) when:**
+- Setting up user accounts (need actual email address)
+- Verifying professional credentials (need specific qualifications)
+- Building user profiles (need actual data for display)
+- Integrating with existing systems (need structured data)
+
+**Use Zero-Knowledge (parameters) when:**
+- Age verification for restricted content
+- Eligibility checks without data retention
+- Privacy-first verification scenarios
+- Compliance with data minimization principles
+
+**Key Concept**: Choose your pattern based on whether you need the actual data or just proof of a condition. Zero-knowledge patterns provide maximum privacy, while simple retrieval gives you the data needed for application integration.
+
+**Time**: 5 minutes to understand patterns  
+**Success**: Clear understanding of when to use each credential request approach
+
+---
+
 ### **Phase 3:** Master Credential Storage
 Learn to organize and manage credential collections:
 

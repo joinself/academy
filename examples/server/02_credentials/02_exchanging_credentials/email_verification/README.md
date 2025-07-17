@@ -92,6 +92,7 @@ func requestCredentialsFromMobile(verifierService *account.Account) {
         Type([]string{"VerifiablePresentation", "MobileCredentialPresentation"}).
         Details(
             credential.CredentialTypeLiveness,
+            // 🔐 Zero-Knowledge Pattern - proves credential exists without exposing data
             []*message.CredentialPresentationDetailParameter{
                 message.NewCredentialPresentationDetailParameter(
                     message.OperatorNotEquals,
@@ -102,6 +103,7 @@ func requestCredentialsFromMobile(verifierService *account.Account) {
         ).
         Details(
             credential.CredentialTypeEmail,
+            // 🔐 Zero-Knowledge Pattern - verifies email exists without revealing address
             []*message.CredentialPresentationDetailParameter{
                 message.NewCredentialPresentationDetailParameter(
                     message.OperatorNotEquals,
