@@ -78,7 +78,14 @@ nav:
     - Verifiable Credentials: 
       - concepts/verifiable-credentials.md
       - Credential Presentation Patterns: concepts/credential-presentation-patterns.md
-    - Message Security: concepts/message-layer-security.md
+    - Message Security:
+      - Overview: concepts/message-layer-security.md
+      - Key Management: concepts/message-layer-security/key-management.md
+      - Group Messaging: concepts/message-layer-security/group-messaging.md
+      - Security Guarantees: concepts/message-layer-security/security-guarantees.md
+      - Protocol Architecture: concepts/message-layer-security/protocol-architecture.md
+      - Real-World Examples: concepts/message-layer-security/real-world-examples.md
+      - Advanced Features: concepts/message-layer-security/advanced-features.md
     - Cryptographic Foundations:
       - Overview: concepts/cryptographic-foundations.md
       - Core Algorithms: concepts/cryptographic-foundations/core-algorithms.md
