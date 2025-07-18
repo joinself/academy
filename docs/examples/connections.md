@@ -11,11 +11,11 @@ Welcome to **cryptographic connection establishment**! These examples transform 
 
 By completing these connection examples, you'll master:
 
-- **🤝 Connection Handshakes**: How two Self identities establish trust cryptographically
-- **🔐 Key Exchange**: How secure communication keys are generated and shared
-- **📡 Connection Patterns**: When to use direct addresses vs QR codes vs client-initiated flows
-- **🛡️ Security Guarantees**: What protections Self connections provide automatically
-- **📱 Real-world Integration**: How to build both server and client applications
+- **Connection Handshakes**: How two Self identities establish trust cryptographically
+- **Key Exchange**: How secure communication keys are generated and shared
+- **Connection Patterns**: When to use direct addresses vs QR codes vs client-initiated flows
+- **Security Guarantees**: What protections Self connections provide automatically
+- **Real-world Integration**: How to build both server and client applications
 
 **Time Investment**: 20 minutes to complete all three patterns  
 **Immediate Result**: Working encrypted connections ready for messaging and credentials
@@ -129,27 +129,27 @@ OnWelcome: handleIncomingConnection
 ### **Connection Revolution Experienced**
 You've just implemented the **connection security revolution**:
 
-- **🚫 No passwords required** - connections use cryptographic proofs instead
-- **🔐 End-to-end encryption** - all communication automatically encrypted
-- **🛡️ Identity verification** - mathematical proof of connection party identity
-- **🔄 Forward secrecy** - past messages stay secure even if keys compromised
+- **No passwords required** - connections use cryptographic proofs instead
+- **End-to-end encryption** - all communication automatically encrypted
+- **Identity verification** - mathematical proof of connection party identity
+- **Forward secrecy** - past messages stay secure even if keys compromised
 
 ### **Traditional vs Self Connections: You Built Both**
 
 | Traditional Connections | Your Self Connections |
 |-------------------------|----------------------|
-| 🔓 "Login with password" | 🔐 **Cryptographic handshake** |
-| 🏢 "Trust the company" | 👤 **Verify cryptographically** |
-| 📧 "Anyone can contact" | 🛡️ **Connection required first** |
-| ❌ "Hope it's secure" | ✅ **Mathematical guarantee** |
+| "Login with password" | **Cryptographic handshake** |
+| "Trust the company" | **Verify cryptographically** |
+| "Anyone can contact" | **Connection required first** |
+| "Hope it's secure" | **Mathematical guarantee** |
 
 ### **Real-World Security Achieved**
 Your connection patterns now provide:
 
-- **🤝 Mutual authentication** - both parties verify each other cryptographically
-- **🔐 Automatic encryption** - all messages encrypted without additional code
-- **🛡️ Tamper detection** - any message modification is immediately detected
-- **🔄 Key rotation** - cryptographic keys refresh automatically for maximum security
+- **Mutual authentication** - both parties verify each other cryptographically
+- **Automatic encryption** - all messages encrypted without additional code
+- **Tamper detection** - any message modification is immediately detected
+- **Key rotation** - cryptographic keys refresh automatically for maximum security
 
 ---
 
@@ -160,11 +160,11 @@ Through these examples, you've built this complete security system:
 
 ```
 Self Connection Security System
-├── 🆔 Identity Layer (DIDs prove ownership)
-├── 📬 Discovery Layer (inbox addresses enable finding)
-├── 🤝 Handshake Layer (key exchange establishes trust)
-├── 🔐 Encryption Layer (MLS provides forward secrecy)
-└── 📡 Transport Layer (secure message delivery)
+├── Identity Layer (DIDs prove ownership)
+├── Discovery Layer (inbox addresses enable finding)
+├── Handshake Layer (key exchange establishes trust)
+├── Encryption Layer (MLS provides forward secrecy)
+└── Transport Layer (secure message delivery)
 ```
 
 ### **Security Model Implemented**
@@ -186,10 +186,10 @@ Self Connection Security System
 ```go
 // Perfect for:
 inboxAddress, err := selfAccount.InboxOpen()
-// ✅ Backend services and APIs
-// ✅ Microservice communication
-// ✅ Automated systems and scripts
-// ✅ Development and testing
+// Backend services and APIs
+// Microservice communication
+// Automated systems and scripts
+// Development and testing
 ```
 
 **Benefits**: No user interaction, scalable, integration-friendly
@@ -199,10 +199,10 @@ inboxAddress, err := selfAccount.InboxOpen()
 ```go
 // Perfect for:
 err = clientAccount.ConnectionNegotiate(senderKey, recipientKey, expiration)
-// ✅ Client applications
-// ✅ Mobile apps connecting to backends
-// ✅ Service discovery patterns
-// ✅ Scheduled connection workflows
+// Client applications
+// Mobile apps connecting to backends
+// Service discovery patterns
+// Scheduled connection workflows
 ```
 
 **Benefits**: Programmatic control, automated initiation, scalable
@@ -212,10 +212,10 @@ err = clientAccount.ConnectionNegotiate(senderKey, recipientKey, expiration)
 ```go
 // Perfect for:
 qrCode, err := anonymousMsg.EncodeToQR(event.QREncodingUnicode)
-// ✅ Mobile app onboarding
-// ✅ User-facing applications
-// ✅ In-person networking
-// ✅ Conference and event scenarios
+// Mobile app onboarding
+// User-facing applications
+// In-person networking
+// Conference and event scenarios
 ```
 
 **Benefits**: User-friendly, mobile-optimized, visual discovery
@@ -260,32 +260,32 @@ cd ../03_client/go && go run main.go <server-address>
 
 With secure connections established, you're ready for advanced communication:
 
-### **Level 1: Encrypted Messaging** 🟡
+### **Level 1: Encrypted Messaging**
 - **[Chat Examples](chat.md)** - Send encrypted messages over secure connections
 - **Message Types** - Text, files, structured data transmission
 
-### **Level 2: Verifiable Credentials** 🟡  
+### **Level 2: Verifiable Credentials**  
 - **[Credential Examples](credentials.md)** - Exchange cryptographic proofs securely
 - **Trust Networks** - Build webs of verifiable claims
 
-### **Level 3: Advanced Features** 🟠
+### **Level 3: Advanced Features**
 - **[Advanced Examples](advanced.md)** - Production patterns and optimization
 - **Group Communication** - Multi-party secure messaging
 
-### **Architecture Deep Dive** 🔴
+### **Architecture Deep Dive**
 - **[Message Layer Security](../concepts/message-layer-security.md)** - Deep dive into MLS protocol
 
 ---
 
-## 🏭 Production Deployment
+## Production Deployment
 
 **Ready for production connections?** Check our comprehensive **[Production Deployment Guide](production.md)** for everything you need to deploy secure connection systems:
 
-- 🚀 **[Moving to Production](production.md#moving-to-production)** - Connection security patterns, key management, and monitoring strategies
-- 🔐 **[Security Hardening](production.md#security-hardening)** - Connection filtering, rate limiting, access control, and audit trails
-- ⚡ **[Performance Optimization](production.md#performance-optimization)** - Connection pooling, load balancing, and resource management
-- 📊 **[Monitoring & Observability](production.md#monitoring--observability)** - Connection monitoring, security event logging, and performance metrics
-- 📈 **[Scalability Patterns](production.md#scalability-patterns)** - Distributed connection handling and high-availability architectures
+- **[Moving to Production](production.md#moving-to-production)** - Connection security patterns, key management, and monitoring strategies
+- **[Security Hardening](production.md#security-hardening)** - Connection filtering, rate limiting, access control, and audit trails
+- **[Performance Optimization](production.md#performance-optimization)** - Connection pooling, load balancing, and resource management
+- **[Monitoring & Observability](production.md#monitoring--observability)** - Connection monitoring, security event logging, and performance metrics
+- **[Scalability Patterns](production.md#scalability-patterns)** - Distributed connection handling and high-availability architectures
 
 The production guide includes connection-specific security patterns, performance optimization techniques, and enterprise deployment strategies.
 
@@ -295,28 +295,28 @@ The production guide includes connection-specific security patterns, performance
 
 Confirm you've mastered secure connections:
 
-**✅ Connection Establishment**
+**Connection Establishment**
 
 - [ ] Can create inbox addresses for receiving connections
 - [ ] Understand key package generation and exchange
 - [ ] Can implement all three connection patterns
 - [ ] Know how to handle connection callbacks
 
-**✅ Security Understanding**  
+**Security Understanding**  
 
 - [ ] Know why connections are required before communication
 - [ ] Understand cryptographic handshake process
 - [ ] Can explain forward secrecy benefits
 - [ ] Recognize different security models
 
-**✅ Pattern Selection**
+**Pattern Selection**
 
 - [ ] Can choose appropriate connection pattern for use case
 - [ ] Know when to use direct vs QR vs client-initiated patterns
 - [ ] Understand scalability and usability tradeoffs
 - [ ] Can implement production security best practices
 
-**✅ Technical Implementation**
+**Technical Implementation**
 
 - [ ] Master connection callback patterns (OnKeyPackage, OnWelcome)
 - [ ] Understand connection lifecycle and error handling
@@ -325,25 +325,25 @@ Confirm you've mastered secure connections:
 
 ---
 
-## 🔧 Need Help?
+## Need Help?
 
 **Having connection issues?** Check our comprehensive **[Troubleshooting Guide](troubleshooting.md)** for solutions to connection problems, including:
 
-- 🤝 **[Connection Issues](troubleshooting.md#connection-issues)** - Connection establishment, handshake failures, and QR code problems
-- 🌐 **[Network Issues](troubleshooting.md#network--connectivity-issues)** - Connectivity and Self network problems
-- 🏗️ **[Setup Issues](troubleshooting.md#setup--account-issues)** - Account initialization and configuration problems
+- **[Connection Issues](troubleshooting.md#connection-issues)** - Connection establishment, handshake failures, and QR code problems
+- **[Network Issues](troubleshooting.md#network--connectivity-issues)** - Connectivity and Self network problems
+- **[Setup Issues](troubleshooting.md#setup--account-issues)** - Account initialization and configuration problems
 
 The troubleshooting guide includes detailed solutions, common causes, and debugging tips for all Self SDK examples.
 
 ---
 
-## 📚 Resources & Next Steps
+## Resources & Next Steps
 
 **Need more connection resources?** Check our comprehensive **[Resources & Community Guide](resources.md)** for everything you need to build secure connections:
 
-- 📖 **[Cryptographic Foundations](resources.md#related-concepts)** - Mathematical basis of connection security and MLS protocol details
-- 🛠️ **[Developer Tools](resources.md#developer-tools)** - Connection testing utilities, debug logging, and network monitoring
-- 👥 **[Community Support](resources.md#community-support)** - Get help with connection implementation and report connection bugs
+- **[Cryptographic Foundations](resources.md#related-concepts)** - Mathematical basis of connection security and MLS protocol details
+- **[Developer Tools](resources.md#developer-tools)** - Connection testing utilities, debug logging, and network monitoring
+- **[Community Support](resources.md#community-support)** - Get help with connection implementation and report connection bugs
 
 The resources guide includes complete documentation for connection patterns, security standards, and community guidelines.
 
@@ -351,4 +351,4 @@ The resources guide includes complete documentation for connection patterns, sec
 
 **Congratulations!** You've mastered cryptographic connection establishment and experienced state-of-the-art security firsthand. Your Self connections now provide military-grade encryption, identity verification, and forward secrecy automatically.
 
-**Ready to send encrypted messages?** Continue with [Chat Examples](chat.md) to build secure messaging over your encrypted connections! 🚀
+**Ready to send encrypted messages?** Continue with [Chat Examples](chat.md) to build secure messaging over your encrypted connections!

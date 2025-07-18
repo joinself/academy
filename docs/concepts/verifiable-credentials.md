@@ -81,7 +81,7 @@ The verifiable credentials ecosystem has three key roles:
     (Creates & Signs)
          │
          ▼
-    HOLDER          🔍 VERIFIER
+    HOLDER          VERIFIER
     (Stores & Presents) → (Requests & Verifies)
 ```
 
@@ -110,9 +110,9 @@ The verifiable credentials ecosystem has three key roles:
 ```go
 // Employer receives resume with degree claim
 degree := "Bachelor of Computer Science, MIT, 2020"
-// ❌ Must call MIT registrar office
-// ❌ Wait days for verification response
-// ❌ No guarantee against sophisticated forgery
+// Must call MIT registrar office
+// Wait days for verification response
+// No guarantee against sophisticated forgery
 ```
 
 #### Self SDK Process (Verifiable)
@@ -131,9 +131,9 @@ degreeCredential := credential.NewCredential().
     Issuer(credential.AddressKey(universityAddress)).
     SignWith(universityAddress, time.Now())
 
-// ✅ Student stores credential securely
-// ✅ Employer verifies instantly with cryptography
-// ✅ No phone calls or waiting required
+// Student stores credential securely
+// Employer verifies instantly with cryptography
+// No phone calls or waiting required
 ```
 
 ### Verification Process
@@ -143,10 +143,10 @@ requestedTypes := []string{"EducationCredential"}
 
 // Student presents matching credential
 if credential.VerifySignature(degreeCredential) {
-    // ✅ Mathematically proven authentic
-    // ✅ Issued by verified university
-    // ✅ Hasn't been tampered with
-    // ✅ Student legitimately holds it
+    // Mathematically proven authentic
+    // Issued by verified university
+    // Hasn't been tampered with
+    // Student legitimately holds it
 }
 ```
 
@@ -238,8 +238,8 @@ func issueEmailCredential(issuer *account.Account, holderAddress *signing.Public
     
     // Issue the credential
     verifiableCredential, err := issuer.CredentialIssue(credential)
-    // ✅ Cryptographically signed credential created
-    // ✅ Ready for holder to store and present
+    // Cryptographically signed credential created
+    // Ready for holder to store and present
 }
 ```
 
@@ -253,8 +253,8 @@ type CredentialStore struct {
 
 func (store *CredentialStore) AddCredential(name string, cred *credential.VerifiableCredential) {
     store.credentials[name] = cred
-    // ✅ Credential stored securely
-    // ✅ Available for future presentations
+    // Credential stored securely
+    // Available for future presentations
 }
 
 // Search credentials by type
@@ -287,8 +287,8 @@ func createPresentation(credentials []*credential.VerifiableCredential) {
         Context:              []string{"https://www.w3.org/2018/credentials/v1"},
         Type:                 []string{"VerifiablePresentation"},
         VerifiableCredential: credentials,
-        // ✅ Multiple credentials packaged together
-        // ✅ Holder maintains control over what's shared
+        // Multiple credentials packaged together
+        // Holder maintains control over what's shared
     }
 }
 
@@ -299,8 +299,8 @@ func verifyPresentation(presentation *credential.VerifiablePresentation) bool {
             return false
         }
     }
-    // ✅ All credentials cryptographically verified
-    // ✅ Trust established without contacting issuers
+    // All credentials cryptographically verified
+    // Trust established without contacting issuers
     return true
 }
 ```
@@ -322,9 +322,9 @@ educationCredential := credential.NewCredential().
         "graduationYear": 2020,
         "gpa":            3.8,
     })
-// ✅ Employers verify instantly
-// ✅ No transcript requests needed
-// ✅ Students control their academic data
+// Employers verify instantly
+// No transcript requests needed
+// Students control their academic data
 ```
 
 ### Employment Verification
@@ -341,9 +341,9 @@ employmentCredential := credential.NewCredential().
         "endDate":     "2023-06-30",
         "verified":    true,
     })
-// ✅ New employers verify instantly
-// ✅ No reference check delays
-// ✅ Employees own their work history
+// New employers verify instantly
+// No reference check delays
+// Employees own their work history
 ```
 
 ### Professional Certifications
@@ -360,9 +360,9 @@ certificationCredential := credential.NewCredential().
         "expiryDate":    "2026-03-15",
         "score":         "850/1000",
     })
-// ✅ Impossible to forge AWS signature
-// ✅ Instant verification by any employer
-// ✅ Professionals own their credentials
+// Impossible to forge AWS signature
+// Instant verification by any employer
+// Professionals own their credentials
 ```
 
 ---
@@ -417,7 +417,7 @@ basicEducationClaims := map[string]interface{}{
     "institution":    "MIT",
     "degree":         "Computer Science", 
     "graduationYear": 2020,
-    // ✅ GPA and grades kept private
+    // GPA and grades kept private
 }
 
 detailedEducationClaims := map[string]interface{}{
@@ -427,7 +427,7 @@ detailedEducationClaims := map[string]interface{}{
     "gpa":              3.8,
     "honors":           true,
     "creditsCompleted": 120,
-    // ✅ Full details when needed
+    // Full details when needed
 }
 ```
 
@@ -523,7 +523,7 @@ Consider how verifiable credentials could improve:
 
 ---
 
-**Ready to experience verifiable credentials firsthand?** [Start with the Credential Examples](../examples/credentials.md) and issue your first cryptographically verifiable credential! 🚀
+**Ready to experience verifiable credentials firsthand?** [Start with the Credential Examples](../examples/credentials.md) and issue your first cryptographically verifiable credential!
 
 ## Key Concepts Preview
 

@@ -10,12 +10,12 @@ Automatically update SDK versions across all examples and test that they build s
 | **Java Updater** | `com.joinself:sdk-jvm` | `build.gradle.kts` in `java/` subdirs | `implementation("com.joinself:sdk-jvm:1.0.0")` |
 
 Both tools provide:
-- 🔍 **Automatic Discovery** - Finds all relevant files
-- 🔄 **Version Updates** - Updates SDK dependencies  
-- 🏗️ **Build Testing** - Tests compilation with new versions
-- 📊 **Detailed Reports** - Success/failure reporting
-- 🧪 **Dry Run Mode** - Preview changes safely
-- 🤖 **CI/CD Ready** - JSON output for automation
+- **Automatic Discovery** - Finds all relevant files
+- **Version Updates** - Updates SDK dependencies  
+- **Build Testing** - Tests compilation with new versions
+- **Detailed Reports** - Success/failure reporting
+- **Dry Run Mode** - Preview changes safely
+- **CI/CD Ready** - JSON output for automation
 
 ## Quick Start
 
@@ -273,6 +273,6 @@ scripts/
 
 ---
 
-**Ready to keep your SDK examples up to date?** 🚀
+**Ready to keep your SDK examples up to date?**
 
 Choose the tool for your language and run it! Both shell scripts and Go programs provide the same functionality - shell scripts are great for interactive use, Go programs are perfect for CI/CD automation.

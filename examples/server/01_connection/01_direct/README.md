@@ -1,27 +1,27 @@
-# 🔗 Direct Connection Example - Address-Based Connections
+# Direct Connection Example - Address-Based Connections
 
-> **📖 Learn the concepts first:** [Secure Connection Concepts](../../../../docs/concepts/secure-connections.md)
-> **🎯 What you'll learn:** How to establish secure connections using inbox addresses for programmatic server-to-server communication
+> **Learn the concepts first:** [Secure Connection Concepts](../../../../docs/concepts/secure-connections.md)
+> **What you'll learn:** How to establish secure connections using inbox addresses for programmatic server-to-server communication
 
 This example demonstrates **DIRECT ADDRESS-BASED CONNECTIONS** with Self SDK. Perfect for server-to-server communication, APIs, and automated systems.
 
-## 🟢 Complexity: Beginner
+## Complexity: Beginner
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Go
 ```bash
 # Terminal 1: Start this server
 cd go
 go run main.go
-# ✅ Copy the displayed inbox address
+# Copy the displayed inbox address
 
 # Terminal 2: Connect from the client example
 cd ../../03_client/go
 go run main.go <paste-inbox-address-here>
-# ✅ Watch the connection establish in both terminals!
+# Watch the connection establish in both terminals!
 ```
 
 ### Java
@@ -29,31 +29,31 @@ go run main.go <paste-inbox-address-here>
 # Terminal 1: Start this server
 cd java
 gradle run
-# ✅ Copy the displayed inbox address
+# Copy the displayed inbox address
 
 # Terminal 2: Connect from the client example
 cd ../../03_client/java
 gradle run <paste-inbox-address-here>
-# ✅ Watch the connection establish in both terminals!
+# Watch the connection establish in both terminals!
 ```
 
-### 🔗 Complete Server-Client Test (Recommended!)
+### Complete Server-Client Test (Recommended!)
 The `../03_client` example is specifically designed to connect TO this server! This creates a full end-to-end connection demonstration.
 
 ---
 
-## 📊 Direct vs QR Approach
+## Direct vs QR Approach
 
 | **Direct Addresses** (This Example) | **QR Codes** ([../02_qr/](../02_qr/)) |
 |-------------------------------------|--------------------------------------|
-| 🔄 **Server-to-server** connections | 📱 **Mobile app** connections |
-| 🤖 **API integrations** | 👤 **User-facing** applications |
-| ⚡ **Automated systems** | 🖼️ **Visual discovery** |
-| 🔗 **Programmatic workflows** | 📷 **Camera-based** interaction |
+| **Server-to-server** connections | **Mobile app** connections |
+| **API integrations** | **User-facing** applications |
+| **Automated systems** | **Visual discovery** |
+| **Programmatic workflows** | **Camera-based** interaction |
 
 ---
 
-## 🔑 How It Works
+## How It Works
 
 ### Step 1: Address Creation
 The server creates a shareable "mailbox" for receiving connection requests:
@@ -93,51 +93,51 @@ Confirm connection is ready for messaging
 
 ---
 
-## 🎬 What You'll See
+## What You'll See
 
 ### Server Side Output
 ```
-🔗 Direct Connection Example - Server Side
+Direct Connection Example - Server Side
 ==========================================
-📧 DIRECT CONNECTION ADDRESS:
+DIRECT CONNECTION ADDRESS:
 Address: did:self:inbox:9876543210fedcba...
 
-📧 Share the address above with other parties for direct connection
-⏳ Waiting for connections... (Press Ctrl+C to exit)
+Share the address above with other parties for direct connection
+Waiting for connections... (Press Ctrl+C to exit)
 ```
 
 ### When Someone Connects
 ```
-🎉 Connection request received from: did:self:connecting_party...
-✅ Successfully established encrypted connection!
-🚀 Connection is now ready for secure messaging!
+Connection request received from: did:self:connecting_party...
+Successfully established encrypted connection!
+Connection is now ready for secure messaging!
 ```
 
 ---
 
-## 🤝 Works with Client Example
+## Works with Client Example
 
 **This server pairs with [../03_client/](../03_client/) for complete testing:**
 
 | This Server Does | Client Example Does |
 |------------------|-------------------|
-| ✅ Creates inbox address | ✅ Takes address as input |
-| ✅ Waits for connection requests | ✅ Sends connection requests |
-| ✅ Accepts incoming connections | ✅ Establishes outgoing connections |
-| ✅ Uses connection acceptance callbacks | ✅ Uses connection welcome callbacks |
+| Creates inbox address | Takes address as input |
+| Waits for connection requests | Sends connection requests |
+| Accepts incoming connections | Establishes outgoing connections |
+| Uses connection acceptance callbacks | Uses connection welcome callbacks |
 
 ---
 
-## 💡 Use Cases
+## Use Cases
 
-### ✅ Perfect for:
+### Perfect for:
 - **API endpoints and backend services**: Allow other services to connect securely
 - **Microservice communication**: Establish secure channels between services
 - **Command-line tools and automation**: Programmatic connection establishment
 - **Email/chat address sharing**: Share addresses through existing channels
 - **Development servers**: Test environments and local development
 
-### 🔧 Technical Benefits:
+### Technical Benefits:
 - **No visual UI required**: Pure programmatic connection
 - **Automated acceptance**: Server can auto-accept connections
 - **Scalable**: Handle multiple concurrent connection requests
@@ -145,7 +145,7 @@ Address: did:self:inbox:9876543210fedcba...
 
 ---
 
-## 🔐 Security Features
+## Security Features
 
 ### Cryptographic Protection
 - **End-to-end encryption**: All communication automatically encrypted
@@ -160,26 +160,26 @@ Address: did:self:inbox:9876543210fedcba...
 
 ---
 
-## 🚀 Next Steps
+## Next Steps
 
-1. **📨 Add Messaging** → [Chat Example](../../03_chat)
-2. **🎫 Issue Credentials** → [Credentials Example](../../02_credentials)  
-3. **🔄 Try QR Approach** → [QR Connection Example](../02_qr/)
-4. **👥 Multi-party Setup** → [Advanced Features](../../04_advanced_features)
+1. **Add Messaging** → [Chat Example](../../03_chat)
+2. **Issue Credentials** → [Credentials Example](../../02_credentials)  
+3. **Try QR Approach** → [QR Connection Example](../02_qr/)
+4. **Multi-party Setup** → [Advanced Features](../../04_advanced_features)
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Address Not Displaying
 ```
-❌ Failed to create inbox address
+Failed to create inbox address
 ```
 **Solution**: Ensure account is properly initialized and connected to network
 
 ### No Connections Received
 ```
-⏳ Waiting for connections... (no activity)
+Waiting for connections... (no activity)
 ```
 **Solution**: 
 - Verify the client is using the correct address
@@ -188,7 +188,7 @@ Address: did:self:inbox:9876543210fedcba...
 
 ### Connection Failed
 ```
-❌ Failed to establish connection
+Failed to establish connection
 ```
 **Solution**: 
 - Verify both parties are on compatible SDK versions
@@ -197,4 +197,4 @@ Address: did:self:inbox:9876543210fedcba...
 
 ---
 
-**Ready to build programmatic Self connections?** This is your starting point! 🚀
+**Ready to build programmatic Self connections?** This is your starting point!

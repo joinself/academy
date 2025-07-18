@@ -2,7 +2,7 @@
 
 Welcome to the Self SDK mobile examples! This directory contains examples for Android and iOS platforms that demonstrate mobile-specific patterns and UI integrations.
 
-## 📱 Mobile Examples Overview
+## Mobile Examples Overview
 
 | Category | Example | Summary | Platform |
 |----------|---------|---------|----------|
@@ -16,30 +16,30 @@ Welcome to the Self SDK mobile examples! This directory contains examples for An
 | **Advanced** | [Core Features](04_advanced_features/01_core_features/) | Mobile SDK integration patterns | Android, iOS |
 | **Advanced** | [Notifications](04_advanced_features/03_notifications/) | Mobile push notifications | Android, iOS |
 
-## ✅ Implementation Status
+## Implementation Status
 
-### 🔧 Setup Examples
+### Setup Examples
 - [ ] **01_new_account** - Create Self identity with mobile UI
 - [ ] **02_existing_account** - Load saved accounts with biometric auth
 
-### 🔗 Connection Examples  
+### Connection Examples  
 - [ ] **02_qr** - Scan QR codes to connect with camera UI
 - [ ] **03_client** - Connect to server addresses with mobile UI
 
-### 💬 Chat Examples
+### Chat Examples
 - [ ] **01_basic** - Secure messaging with mobile chat UI
 
-### 🆔 Credential Examples
+### Credential Examples
 - [ ] **email_verification** - Mobile email verification flow with UI
 - [ ] **presentation_request** - Share credentials via mobile UI
 
-### 🚀 Advanced Examples
+### Advanced Examples
 - [ ] **01_core_features** - Mobile SDK integration patterns
 - [ ] **03_notifications** - Mobile push notifications with UI
 
 **Total Examples: 9** | **Implemented: 0** | **Remaining: 9**
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Android
 ```bash
@@ -51,7 +51,7 @@ cd <category>/<example>/android && ./gradlew run
 cd <category>/<example>/ios && xcodebuild -project SelfSDKExample.xcodeproj
 ```
 
-## 📱 Mobile-Specific Features
+## Mobile-Specific Features
 
 - **UI Components**: Pre-built mobile UI components
 - **Biometric Auth**: Fingerprint/Face ID integration
@@ -59,7 +59,7 @@ cd <category>/<example>/ios && xcodebuild -project SelfSDKExample.xcodeproj
 - **Push Notifications**: Real-time mobile alerts
 - **Touch Interfaces**: Mobile-optimized user experience
 
-## 🎯 Learning Path
+## Learning Path
 
 1. **Start with Setup** → Create and load accounts
 2. **Learn Connections** → QR scanning and client connections
@@ -69,4 +69,4 @@ cd <category>/<example>/ios && xcodebuild -project SelfSDKExample.xcodeproj
 
 ---
 
-**Ready to build mobile apps with Self SDK?** Pick your platform and start! 🚀 
+**Ready to build mobile apps with Self SDK?** Pick your platform and start! 

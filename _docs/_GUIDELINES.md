@@ -6,7 +6,7 @@ The new documentation will be built on these core principles:
 
 *   **"Theory Meets Practice"**: Theoretical documentation that directly supports and enhances the practical examples rather than standalone academic content. Every concept should immediately connect to working code and real-world applications.
 *   **Educational First**: Every page is a lesson, not just a specification. The goal is to teach developers *how* to build, not just show them what's possible.
-*   **Progressive Complexity (🟢🟡🟠🔴)**: Content will be structured to guide developers from a simple "hello world" to production-ready applications, introducing concepts one at a time.
+*   **Progressive Complexity**: Content will be structured to guide developers from a simple "hello world" to production-ready applications, introducing concepts one at a time.
 *   **Immediate Gratification**: The first thing a developer does is build something that works in under 5 minutes. This builds confidence and momentum.
 *   **Facade-Driven**: The developer-friendly Facade is the primary tool for learning. The underlying SDK is treated as an advanced "expert" topic for those who need maximum control.
 *   **The Two-Sided Coin: Server & Client**: We will explicitly teach the client-server model. Every example will clarify the roles of the backend (Go, Java) and the frontend (iOS, Android), showing how they work together.
@@ -16,15 +16,15 @@ The new documentation will be built on these core principles:
 
 To maintain clean, scannable examples while providing rich educational content, we follow a strict separation pattern:
 
-#### 📋 Pattern: Clean Code + Rich README
+#### Pattern: Clean Code + Rich README
 
-##### ✅ **What the Code Should Have:**
+##### **What the Code Should Have:**
 - **Essential output only** - Key status messages and results
 - **Clean function structure** - Short, focused functions
 - **Minimal comments** - Only when absolutely necessary
 - **Self-contained** - Works without external dependencies
 
-##### 📚 **What the README Should Have:**
+##### **What the README Should Have:**
 - **Detailed explanations** - All educational content
 - **Code snippets with explanations** - Breakdown of key concepts
 - **Expected output examples** - What users should see
@@ -33,29 +33,29 @@ To maintain clean, scannable examples while providing rich educational content, 
 
 #### 🔄 Before/After Example
 
-##### ❌ **Before (Verbose Code):**
+##### **Before (Verbose Code):**
 ```go
 // ============================================================================
-// 🔑 KEY CONCEPT 1: Account Creation
+// KEY CONCEPT 1: Account Creation
 // ============================================================================
 //
 // createNewAccount demonstrates how to create a completely new Self account.
 // Key steps: 1. Configure 2. Create 3. Register
 func createNewAccount() *account.Account {
-    fmt.Println("🔧 Setting up account configuration...")
-    fmt.Println("🔧 Creating account with Self SDK...")
+    fmt.Println("Setting up account configuration...")
+    fmt.Println("Creating account with Self SDK...")
     
     selfAccount := common.SetupAccount(config)
     
-    fmt.Println("✅ New account created successfully!")
-    fmt.Println("🔑 New identity and cryptographic keys generated")
-    fmt.Println("📝 Account registered with Self network")
+    fmt.Println("New account created successfully!")
+    fmt.Println("New identity and cryptographic keys generated")
+    fmt.Println("Account registered with Self network")
     
     return selfAccount
 }
 ```
 
-##### ✅ **After (Clean Code):**
+##### **After (Clean Code):**
 ```go
 func createNewAccount() *account.Account {
     return common.SetupAccount(common.AccountConfig{
@@ -68,9 +68,9 @@ func createNewAccount() *account.Account {
 }
 ```
 
-##### 📚 **README Gets the Details:**
+##### **README Gets the Details:**
 ```markdown
-## 🏗️ How Account Creation Works
+## How Account Creation Works
 
 ### Step 1: Configuration
 The `createNewAccount()` function uses the common configuration pattern:
@@ -91,43 +91,43 @@ When you call `common.SetupAccount()`:
 - **Callbacks**: Handlers for network events
 ```
 
-#### 🎯 Quick Reduction Checklist
+#### Quick Reduction Checklist
 
-##### 📝 **Code Cleanup:**
+##### **Code Cleanup:**
 - [ ] Remove educational comment blocks
 - [ ] Reduce console output to essentials only
 - [ ] Combine related functions where possible
 - [ ] Remove "Step X" headers and explanations
 - [ ] Keep only functional error messages
 
-##### 📚 **README Enhancement:**
+##### **README Enhancement:**
 - [ ] Move all explanations to README
 - [ ] Add code snippets with breakdowns
 - [ ] Include expected output examples
 - [ ] Add troubleshooting section
 - [ ] Explain when to use this pattern
 
-##### 🧪 **Testing:**
+##### **Testing:**
 - [ ] Ensure example still works correctly
 - [ ] Verify output is clean but informative
 - [ ] Check README has complete information
 - [ ] Test that beginners can follow along
 
-#### 📊 **Benefits of This Approach**
+#### **Benefits of This Approach**
 
-##### 👨‍💻 **For Developers:**
+##### **For Developers:**
 - **Cleaner code** to read and understand
 - **Faster scanning** of implementation details
 - **Better focus** on actual SDK usage
 - **Easier copying** for their own projects
 
-##### 📖 **For Learners:**
+##### **For Learners:**
 - **Rich documentation** in README
 - **Step-by-step breakdowns** of concepts
 - **Complete context** for understanding
 - **Reference material** they can return to
 
-##### 🔧 **For Maintenance:**
+##### **For Maintenance:**
 - **Easier updates** to code examples
 - **Centralized documentation** in READMEs
 - **Consistent patterns** across examples
@@ -142,25 +142,25 @@ This is the implemented file and directory structure for the `academy/docs` fold
 ```
 academy/
 ├── docs/
-│   ├── index.md                # 🟢 Home: Welcome to the Academy
+│   ├── index.md                # Home: Welcome to the Academy
 │   ├── assets/
 │   │   └── images/
 │   │
-│   ├── concepts/               # 🎓 Theoretical foundations tied to practice
+│   ├── concepts/               # Theoretical foundations tied to practice
 │   │   ├── overview.md         # Learning philosophy and concept navigation
-│   │   ├── decentralized-identity.md    # 🟢 Identity fundamentals + working code
-│   │   ├── secure-connections.md       # 🟡 Cryptographic connections + examples
-│   │   ├── verifiable-credentials.md   # 🟡 W3C credentials + practical usage
-│   │   ├── message-layer-security.md   # 🟠 MLS encryption + chat examples
-│   │   └── cryptographic-foundations.md # 🔴 Mathematical primitives + implementation
+│   │   ├── decentralized-identity.md    # Identity fundamentals + working code
+│   │   ├── secure-connections.md       # Cryptographic connections + examples
+│   │   ├── verifiable-credentials.md   # W3C credentials + practical usage
+│   │   ├── message-layer-security.md   # MLS encryption + chat examples
+│   │   └── cryptographic-foundations.md # Mathematical primitives + implementation
 │   │
-│   ├── examples/               # 🛠️ Practical guides enhanced by theory
+│   ├── examples/               # Practical guides enhanced by theory
 │   │   ├── overview.md         # Complete examples navigation
-│   │   ├── setup.md            # 🟢 Account creation with identity concepts
-│   │   ├── connections.md      # 🟡 Connection patterns with crypto theory
-│   │   ├── credentials.md      # 🟡 Credential workflows with VC concepts
-│   │   ├── chat.md            # 🟠 Messaging with MLS theory
-│   │   └── advanced.md        # 🔴 Production patterns with theory and practice
+│   │   ├── setup.md            # Account creation with identity concepts
+│   │   ├── connections.md      # Connection patterns with crypto theory
+│   │   ├── credentials.md      # Credential workflows with VC concepts
+│   │   ├── chat.md            # Messaging with MLS theory
+│   │   └── advanced.md        # Production patterns with theory and practice
 │   │   ├── overview.md         # Design principles
 │   │   ├── system-overview.md  # Complete architecture
 │   │   ├── security-model.md   # Trust and threat model
@@ -172,7 +172,7 @@ academy/
 #### Key Principles:
 
 1. **Bi-directional Cross-References**: Every concept links to practical examples, every example links back to theory
-2. **Progressive Complexity**: 🟢🟡🟠🔴 indicators show learning progression across both theory and practice
+2. **Progressive Complexity**: Clear indicators show learning progression across both theory and practice
 3. **Working Code in Concepts**: Theoretical pages include code snippets that developers can run immediately
 4. **Conceptual Context in Examples**: Practical guides explain the "why" behind the patterns
 

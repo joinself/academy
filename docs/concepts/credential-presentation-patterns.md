@@ -1,7 +1,7 @@
 # Controlling Credential Disclosure
 
-> **🛠️ Practical Implementation:** [Credential Examples](../examples/credentials.md#phase-25-master-presentation-request-patterns)  
-> **📖 Learn the concepts first:** [Verifiable Credentials Concepts](verifiable-credentials.md)
+> **Practical Implementation:** [Credential Examples](../examples/credentials.md#phase-25-master-presentation-request-patterns)  
+> **Learn the concepts first:** [Verifiable Credentials Concepts](verifiable-credentials.md)
 
 ## What You'll Learn
 
@@ -245,4 +245,4 @@ You've learned the fundamental mechanism for controlling credential disclosure:
 
 ---
 
-> **Congratulations!** You now understand how to precisely control credential disclosure. Choose unconditional retrieval when you always need data, and conditional retrieval when you need to protect the privacy of ineligible users. Both approaches leverage the same powerful, cryptographically secure foundation. 
+**Congratulations!** You now understand how to precisely control credential disclosure. Choose unconditional retrieval when you always need data, and conditional retrieval when you need to protect the privacy of ineligible users. Both approaches leverage the same powerful, cryptographically secure foundation. 

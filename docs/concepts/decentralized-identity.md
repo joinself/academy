@@ -1,6 +1,6 @@
 # Decentralized Identity Concepts
 
-> **🔧 Hands-on Learning:** After reading this, try the [Account Setup Examples](../examples/setup.md)
+> **Hands-on Learning:** After reading this, try the [Account Setup Examples](../examples/setup.md)
 
 ## What You'll Learn
 

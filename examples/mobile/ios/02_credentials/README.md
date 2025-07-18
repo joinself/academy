@@ -1,17 +1,17 @@
-# 🆔 Mobile Credentials
+# Mobile Credentials
 
-> **📖 Learn the concepts first:** [Verifiable Credentials Concepts](../../../../docs/concepts/verifiable-credentials.md)
+> **Learn the concepts first:** [Verifiable Credentials Concepts](../../../../docs/concepts/verifiable-credentials.md)
 
 This directory contains mobile examples for Self SDK credentials with built-in UI components.
 
-## 📱 Examples Overview
+## Examples Overview
 
 | Example | Summary | Platform |
 |---------|---------|----------|
 | **email_verification** | Mobile email verification flow with UI | Android, iOS |
 | **presentation_request** | Share credentials via mobile UI | Android, iOS |
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Android
 ```bash
@@ -25,18 +25,18 @@ cd email_verification/ios && xcodebuild -project SelfSDKExample.xcodeproj
 cd presentation_request/ios && xcodebuild -project SelfSDKExample.xcodeproj
 ```
 
-## 📱 Mobile Features
+## Mobile Features
 
 - **Verification UI**: Pre-built email verification screens
 - **Credential Sharing**: Mobile-optimized credential presentation
 - **Touch Interface**: Mobile-friendly credential management
 - **Biometric Auth**: Secure credential access
 
-## 🎯 Learning Path
+## Learning Path
 
 1. **email_verification** → Mobile email verification workflows
 2. **presentation_request** → Share and verify credentials on mobile
 
 ---
 
-**Ready to work with mobile credentials?** Pick your platform and start! 🚀 
+**Ready to work with mobile credentials?** Pick your platform and start! 

@@ -1,12 +1,13 @@
-# 🎫 Credential Examples
+# Credential Examples
 
-> **📖 Learn the concepts first:** [Verifiable Credentials Concepts](../concepts/verifiable-credentials.md)
+> **Learn the concepts first:** [Verifiable Credentials Concepts](../concepts/verifiable-credentials.md)
 
 ## Overview
 
 *Content coming in Phase 2*
 
 This page will provide comprehensive guidance for credential examples, including:
+
 - Credential issuance patterns
 - Exchange and verification workflows  
 - Storage and management strategies
@@ -15,31 +16,35 @@ This page will provide comprehensive guidance for credential examples, including
 
 ## Example Categories
 
-### 🟢 Basic Credential Issuance
+### Basic Credential Issuance
 Learn fundamental credential creation and signing.
 
 **Examples:**
+
 - [Basic Credential Issuance](../../examples/server/02_credentials/01_issuing_credentials/01_basic/)
 - [Multi-Claim Credentials](../../examples/server/02_credentials/01_issuing_credentials/02_multi_claim/)
 
-### 🟡 Advanced Credential Features
+### Advanced Credential Features
 Master evidence attachment and complex data structures.
 
 **Examples:**
+
 - [Evidence-Based Credentials](../../examples/server/02_credentials/01_issuing_credentials/03_with_evidence/)
 - [Complex Data Credentials](../../examples/server/02_credentials/01_issuing_credentials/04_complex_data/)
 - [Comprehensive Credentials](../../examples/server/02_credentials/01_issuing_credentials/05_comprehensive/)
 
-### 🟡 Credential Exchange
+### Credential Exchange
 Understand presentation requests and verification workflows.
 
 **Examples:**
+
 - [Presentation Requests](../../examples/server/02_credentials/02_exchanging_credentials/presentation_request/)
 - [Email Verification](../../examples/server/02_credentials/02_exchanging_credentials/email_verification/)
 
 ## Key Learning Outcomes
 
 After completing these examples, you'll understand:
+
 - W3C Verifiable Credentials standard implementation
 - Issuer-Holder-Verifier relationship patterns
 - Credential lifecycle management
@@ -49,6 +54,7 @@ After completing these examples, you'll understand:
 ## Credential Lifecycle
 
 ### Issuance Phase
+
 - Identity verification
 - Claim definition and validation
 - Cryptographic signing
@@ -56,12 +62,14 @@ After completing these examples, you'll understand:
 - Credential delivery
 
 ### Storage Phase
+
 - Secure credential storage
 - Organization and categorization
 - Search and retrieval
 - Backup and recovery
 
 ### Exchange Phase
+
 - Presentation requests
 - Selective disclosure
 - Verification workflows
@@ -70,18 +78,21 @@ After completing these examples, you'll understand:
 ## Use Case Patterns
 
 ### Identity Verification
+
 - Email verification credentials
 - Identity document verification
 - Multi-factor authentication
 - Account linking and validation
 
 ### Educational Credentials
+
 - Course completion certificates
 - Degree and diploma verification
 - Skill attestations
 - Professional certifications
 
 ### Professional Credentials
+
 - Employment verification
 - Role and responsibility attestation
 - Performance evaluations
@@ -96,6 +107,7 @@ After completing these examples, you'll understand:
 ## Next Steps
 
 After mastering credentials, continue with:
+
 - [Chat Examples](chat.md) - Credential-aware messaging
 - [Advanced Examples](advanced.md) - Production credential systems 
 
@@ -112,11 +124,11 @@ Welcome to **verifiable credential implementation**! These examples transform th
 
 By completing these credential examples, you'll master:
 
-- **🏭 Credential Issuance**: How to create and cryptographically sign verifiable credentials
-- **🔄 Credential Exchange**: How to request, present, and verify credential proofs
-- **💾 Credential Storage**: How to organize and manage credential collections
-- **🔐 Cryptographic Verification**: How to validate credential authenticity instantly
-- **📱 Real-world Applications**: How to build complete credential workflows
+- **Credential Issuance**: How to create and cryptographically sign verifiable credentials
+- **Credential Exchange**: How to request, present, and verify credential proofs
+- **Credential Storage**: How to organize and manage credential collections
+- **Cryptographic Verification**: How to validate credential authenticity instantly
+- **Real-world Applications**: How to build complete credential workflows
 
 **Time Investment**: 45 minutes to complete all credential patterns  
 **Immediate Result**: Working credential system ready for production use
@@ -519,27 +531,27 @@ Learn to organize and manage credential collections:
 ### **Credential Security Achieved**
 You've just implemented the **credential revolution**:
 
-- **🚫 No more forgery** - credentials contain cryptographic proof impossible to fake
-- **⚡ Instant verification** - no phone calls to institutions or manual checking required
-- **🔐 Tamper detection** - any modification of credential data is immediately detectable
-- **👤 User control** - holders decide what information to share and when
+- **No more forgery** - credentials contain cryptographic proof impossible to fake
+- **Instant verification** - no phone calls to institutions or manual checking required
+- **Tamper detection** - any modification of credential data is immediately detectable
+- **User control** - holders decide what information to share and when
 
 ### **Traditional vs Self Credentials: You Built Both**
 
 | Traditional Credentials | Your Self Credentials |
 |------------------------|----------------------|
-| 📄 "PDF certificate" | 🔐 **Cryptographic proof** |
-| 📞 "Call to verify" | ⚡ **Instant verification** |
-| 📋 "Share everything" | 🎯 **Selective disclosure** |
-| ❌ "Trust the paper" | ✅ **Mathematical guarantee** |
+| "PDF certificate" | **Cryptographic proof** |
+| "Call to verify" | **Instant verification** |
+| "Share everything" | **Selective disclosure** |
+| "Trust the paper" | **Mathematical guarantee** |
 
 ### **Real-World Impact Delivered**
 Your credential system now provides:
 
-- **🏛️ Institutional trust** - universities, employers, and agencies can issue unforgeable credentials
-- **👤 Personal control** - individuals own and control their verified information
-- **🔍 Business efficiency** - employers verify qualifications instantly without delays
-- **🌐 Universal acceptance** - credentials work across all Self-enabled applications
+- **Institutional trust** - universities, employers, and agencies can issue unforgeable credentials
+- **Personal control** - individuals own and control their verified information
+- **Business efficiency** - employers verify qualifications instantly without delays
+- **Universal acceptance** - credentials work across all Self-enabled applications
 
 ---
 
@@ -550,14 +562,15 @@ Through these examples, you've built this complete credential system:
 
 ```
 Self Credential System
-├── 🏭 Issuance Layer (create and sign credentials)
-├── 💾 Storage Layer (organize and search credentials)  
-├── 🔄 Exchange Layer (request and present credentials)
-├── 🔐 Verification Layer (validate cryptographic proofs)
-└── 📱 Integration Layer (mobile and API integration)
+├── Issuance Layer (create and sign credentials)
+├── Storage Layer (organize and search credentials)  
+├── Exchange Layer (request and present credentials)
+├── Verification Layer (validate cryptographic proofs)
+└── Integration Layer (mobile and API integration)
 ```
 
 ### **Credential Lifecycle Implemented**
+
 - **Issuance**: Authorities create signed credentials for individuals
 - **Storage**: Holders organize credentials in searchable collections
 - **Presentation**: Holders share specific credentials in response to requests
@@ -565,6 +578,7 @@ Self Credential System
 - **Management**: Complete lifecycle from creation to expiration
 
 ### **Security Model Mastered**
+
 - **Cryptographic Signatures**: Mathematical proof of issuer authenticity
 - **Tamper Evidence**: Any modification breaks cryptographic integrity
 - **Selective Disclosure**: Share only necessary information for each context
@@ -670,11 +684,11 @@ cd ../05_comprehensive/go && go run main.go
 
 With verifiable credentials mastered, you're ready for advanced applications:
 
-### **Level 1: Secure Messaging** 🟡
+### **Level 1: Secure Messaging**
 - **[Chat Examples](chat.md)** - Send credential-aware messages over secure connections
 - **Credential Context** - Include verified identity information in messages
 
-### **Level 2: Advanced Features** 🟠
+### **Level 2: Advanced Features**
 - **[Advanced Examples](advanced.md)** - Production credential systems and optimization
 - **Multi-device Sync** - Credential portability across devices
 - **Enterprise Integration** - Large-scale credential management
@@ -686,11 +700,11 @@ With verifiable credentials mastered, you're ready for advanced applications:
 
 **Ready for production credentials?** Check our comprehensive **[Production Deployment Guide](production.md)** for everything you need to deploy credential systems at scale:
 
-- 🚀 **[Moving to Production](production.md#moving-to-production)** - Issuer key management, credential revocation workflows, and performance optimization
-- 🔐 **[Security Hardening](production.md#security-hardening)** - Issuer validation, credential filtering, access control, and audit trails
-- ⚡ **[Performance Optimization](production.md#performance-optimization)** - Credential indexing, batch operations, storage optimization, and caching strategies
-- 📊 **[Monitoring & Observability](production.md#monitoring--observability)** - Issuance analytics, verification tracking, and usage monitoring
-- 📈 **[Scalability Patterns](production.md#scalability-patterns)** - Large-scale credential collections, distributed storage, and high-throughput processing
+- **[Moving to Production](production.md#moving-to-production)** - Issuer key management, credential revocation workflows, and performance optimization
+- **[Security Hardening](production.md#security-hardening)** - Issuer validation, credential filtering, access control, and audit trails
+- **[Performance Optimization](production.md#performance-optimization)** - Credential indexing, batch operations, storage optimization, and caching strategies
+- **[Monitoring & Observability](production.md#monitoring--observability)** - Issuance analytics, verification tracking, and usage monitoring
+- **[Scalability Patterns](production.md#scalability-patterns)** - Large-scale credential collections, distributed storage, and high-throughput processing
 
 The production guide includes credential-specific security patterns, enterprise deployment strategies, and scalability optimization techniques.
 
@@ -700,25 +714,25 @@ The production guide includes credential-specific security patterns, enterprise 
 
 Confirm you've mastered verifiable credentials:
 
-**✅ Credential Issuance**
+**Credential Issuance**
 - [ ] Can create credentials with various claim types and complexity levels
 - [ ] Understand cryptographic signing and verification processes
 - [ ] Can attach evidence files and create verifiable presentations
 - [ ] Master the complete credential builder pattern
 
-**✅ Credential Exchange**  
+**Credential Exchange**  
 - [ ] Know how to implement request/response workflows
 - [ ] Understand credential search and matching algorithms
 - [ ] Can create verifiable presentations for selective disclosure
 - [ ] Handle mobile credential delivery scenarios
 
-**✅ Credential Storage**
+**Credential Storage**
 - [ ] Can organize credentials in searchable collections
 - [ ] Understand credential lifecycle management
 - [ ] Know how to optimize storage and retrieval performance
 - [ ] Master credential backup and recovery patterns
 
-**✅ Real-World Applications**
+**Real-World Applications**
 - [ ] Can choose appropriate credential patterns for use cases
 - [ ] Understand privacy implications and selective disclosure
 - [ ] Know how to integrate credentials with existing systems
@@ -726,26 +740,26 @@ Confirm you've mastered verifiable credentials:
 
 ---
 
-## 🔧 Need Help?
+## Need Help?
 
 **Having credential issues?** Check our comprehensive **[Troubleshooting Guide](troubleshooting.md)** for solutions to credential problems, including:
 
-- 🎫 **[Credential Issues](troubleshooting.md#credential-issues)** - Issuance failures, evidence upload problems, verification errors, and presentation creation issues
-- 🏗️ **[Setup Issues](troubleshooting.md#setup--account-issues)** - Account initialization for issuers and holders
-- 🌐 **[Network Issues](troubleshooting.md#network--connectivity-issues)** - Connectivity problems affecting credential operations
+- **[Credential Issues](troubleshooting.md#credential-issues)** - Issuance failures, evidence upload problems, verification errors, and presentation creation issues
+- **[Setup Issues](troubleshooting.md#setup--account-issues)** - Account initialization for issuers and holders
+- **[Network Issues](troubleshooting.md#network--connectivity-issues)** - Connectivity problems affecting credential operations
 
 The troubleshooting guide includes detailed solutions, common causes, and debugging tips for all Self SDK examples.
 
 ---
 
-## 📚 Resources & Next Steps
+## Resources & Next Steps
 
 **Building credential systems?** Check our comprehensive **[Resources & Community Guide](resources.md)** for everything you need to work with verifiable credentials:
 
-- 📋 **[Standards & Specifications](resources.md#standards--specifications)** - W3C Verifiable Credentials, JSON-LD, and DID Core specifications
-- 🛠️ **[Developer Tools](resources.md#developer-tools)** - Credential validation, testing utilities, and mock issuers/holders for development
-- 📖 **[Related Concepts](resources.md#related-concepts)** - Cryptographic foundations and secure connection patterns for credentials
-- 👥 **[Community Support](resources.md#community-support)** - Get help with credential implementation and connect with other developers
+- **[Standards & Specifications](resources.md#standards--specifications)** - W3C Verifiable Credentials, JSON-LD, and DID Core specifications
+- **[Developer Tools](resources.md#developer-tools)** - Credential validation, testing utilities, and mock issuers/holders for development
+- **[Related Concepts](resources.md#related-concepts)** - Cryptographic foundations and secure connection patterns for credentials
+- **[Community Support](resources.md#community-support)** - Get help with credential implementation and connect with other developers
 
 The resources guide includes complete documentation for credential standards, development tools, and community support.
 
@@ -753,4 +767,4 @@ The resources guide includes complete documentation for credential standards, de
 
 **Congratulations!** You've mastered verifiable credentials and built a complete digital trust system. Your credentials now provide cryptographic proof, instant verification, and user privacy - transforming how digital identity works.
 
-**Ready to add secure messaging?** Continue with [Chat Examples](chat.md) to build credential-aware communication over your secure connections! 🚀
+**Ready to add secure messaging?** Continue with [Chat Examples](chat.md) to build credential-aware communication over your secure connections!
