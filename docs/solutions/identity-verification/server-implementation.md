@@ -54,7 +54,7 @@ The age verification process follows these phases:
 
 When a user clicks "I'm 18 or older", the system generates a unique verification request:
 
-<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/solutions/age-verifier/internal/auth/service.go#L200-L250"
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/solutions/age-verifier/internal/auth/service.go#L177-L210"
      data-style="github-dark-dimmed"
      data-show-border="true"
      data-show-line-numbers="true"
@@ -66,7 +66,7 @@ When a user clicks "I'm 18 or older", the system generates a unique verification
 
 The system detects when a user scans the QR code and establishes a secure connection:
 
-<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/solutions/age-verifier/internal/auth/service.go#L420-L450"
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/solutions/age-verifier/internal/auth/service.go#L399-L447"
      data-style="github-dark-dimmed"
      data-show-border="true"
      data-show-line-numbers="true"
@@ -78,7 +78,7 @@ The system detects when a user scans the QR code and establishes a secure connec
 
 After establishing a secure channel, the server sends a credential presentation request. The implementation uses **zero-knowledge proofs** to verify age without exposing the actual birth date:
 
-<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/solutions/age-verifier/internal/auth/service.go#L450-L490"
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/solutions/age-verifier/internal/auth/service.go#L448-L490"
      data-style="github-dark-dimmed"
      data-show-border="true"
      data-show-line-numbers="true"
@@ -95,7 +95,7 @@ After establishing a secure channel, the server sends a credential presentation 
 
 The system processes the credential response and creates authenticated sessions:
 
-<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/solutions/age-verifier/internal/auth/service.go#L520-L570"
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/solutions/age-verifier/internal/auth/service.go#L520-L580"
      data-style="github-dark-dimmed"
      data-show-border="true"
      data-show-line-numbers="true"
