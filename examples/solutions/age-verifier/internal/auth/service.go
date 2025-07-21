@@ -526,47 +526,81 @@ func (a *AuthService) handleCredentialResponse(acc *account.Account, msg *event.
 		return
 	}
 
-	// With conditional disclosure, receiving any response means user is 18+
-	// The mobile device evaluated the condition locally and only sent credential if age >= 18
-	claims := make(map[string]interface{})
-	claims["ageVerified"] = true // Response existence confirms age verification
+	// Log for debugging and validate that we received credentials with the required claim
+	a.logger.Info("Checking for presentation data for debugging...", slog.Int("presentations_count", len(credentialResponse.Presentations())))
+	if len(credentialResponse.Presentations()) > 0 {
+		a.logger.Info("Checking for credentials in presentation for debugging...", slog.Int("credentials_count", len(credentialResponse.Presentations()[0].Credentials())))
+		if len(credentialResponse.Presentations()[0].Credentials()) > 0 {
+			if claims, err := credentialResponse.Presentations()[0].Credentials()[0].CredentialSubjectClaims(); err == nil {
+				a.logger.Info("Extracted claims for debugging", slog.Any("claims", claims))
+				if dob, ok := claims["dateOfBirth"]; ok {
+					// --- SUCCESS CASE ---
+					a.logger.Info("Retrieved date of birth for debugging", slog.Any("dateOfBirth", dob))
+					a.logger.Info("Age verification successful - dateOfBirth claim received", slog.String("user_did", userDID.String()))
 
-	a.logger.Info("Age verification successful - conditional disclosure confirmed user is 18+",
-		slog.String("user_did", userDID.String()))
+					// Create session with user details
+					sessionClaims := make(map[string]interface{})
+					sessionClaims["ageVerified"] = true
+					sessionClaims["dateOfBirth"] = dob
 
-	// Create session with user details
-	session := &Session{
-		ID:           generateID("sess"),
-		UserDID:      userDID,
-		CreatedAt:    time.Now(),
-		ExpiresAt:    time.Now().Add(24 * time.Hour), // 24-hour session
-		Claims:       claims,
-		ConnectionID: matchingAuthReq.ConnectionID,
+					session := &Session{
+						ID:           generateID("sess"),
+						UserDID:      userDID,
+						CreatedAt:    time.Now(),
+						ExpiresAt:    time.Now().Add(24 * time.Hour), // 24-hour session
+						Claims:       sessionClaims,
+						ConnectionID: matchingAuthReq.ConnectionID,
+					}
+
+					// Store the session
+					a.mutex.Lock()
+					a.sessions[session.ID] = session
+					matchingAuthReq.Status = AuthRequestCompleted
+					a.mutex.Unlock()
+
+					// Complete authentication successfully
+					result := &AuthResult{
+						Success: true,
+						Session: session,
+						UserDID: userDID,
+						Claims:  sessionClaims,
+					}
+
+					a.logger.Info("Authentication completed successfully",
+						slog.String("user_did", userDID.String()),
+						slog.String("session_id", session.ID))
+
+					// Send result on the auth request completion channel
+					select {
+					case matchingAuthReq.CompleteChan <- result:
+					default:
+						a.logger.Warn("Failed to send auth result - channel may be closed")
+					}
+					return // End execution for success case
+				}
+			}
+		}
 	}
 
-	// Store the session
+	// --- FAILURE CASE ---
+	// If we reach here, it means the dateOfBirth claim was not found.
+	failureReason := "age verification failed: dateOfBirth claim not found in response"
+	a.logger.Error(failureReason, slog.String("user_did", userDID.String()))
+
 	a.mutex.Lock()
-	a.sessions[session.ID] = session
-	matchingAuthReq.Status = AuthRequestCompleted
+	matchingAuthReq.Status = AuthRequestFailed
 	a.mutex.Unlock()
 
-	// Complete authentication successfully
-	// Conditional disclosure: receiving any response confirms user is 18+
 	result := &AuthResult{
-		Success: true,
-		Session: session,
+		Success: false,
+		Error:   fmt.Errorf(failureReason),
 		UserDID: userDID,
-		Claims:  claims,
 	}
 
-	a.logger.Info("Authentication completed successfully",
-		slog.String("user_did", userDID.String()),
-		slog.String("session_id", session.ID))
-
-	// Send result on the auth request completion channel
+	// Send failure result
 	select {
 	case matchingAuthReq.CompleteChan <- result:
 	default:
-		a.logger.Warn("Failed to send auth result - channel may be closed")
+		a.logger.Warn("Failed to send auth failure result - channel may be closed")
 	}
 }
