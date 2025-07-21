@@ -76,7 +76,7 @@ The system detects when a user scans the QR code and establishes a secure connec
 
 ### 3. Requesting Date of Birth Credentials
 
-After establishing a secure channel, the server sends a credential presentation request. The implementation uses **zero-knowledge proofs** to verify age without exposing the actual birth date:
+After establishing a secure channel, the server sends a credential presentation request. The implementation uses **conditional disclosure** to verify age while minimizing data exposure:
 
 <div data-github-embed="https://github.com/joinself/academy/blob/main/examples/solutions/age-verifier/internal/auth/service.go#L448-L490"
      data-style="github-dark-dimmed"
@@ -87,21 +87,25 @@ After establishing a secure channel, the server sends a credential presentation 
      data-show-copy="true"></div>
 
 **Key Features:**
-- **Zero-Knowledge Verification**: Uses `OperatorLessThan` to verify age without revealing birth date
-- **Conditional Disclosure**: Credential is only shared if user meets age requirement
+
+- **Conditional Disclosure**: Uses `OperatorLessThan` to only share credentials if user meets age requirement
+- **Privacy-Preserving**: Birth date is only revealed if verification passes
 - **Automatic Issuance**: If user doesn't have a credential, Self SDK initiates document verification
 
 ### 4. Processing Credential Response & Age Verification
 
-The system processes the credential response and creates authenticated sessions:
+The system processes the credential response using a simple but powerful principle:
 
-<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/solutions/age-verifier/internal/auth/service.go#L520-L580"
-     data-style="github-dark-dimmed"
-     data-show-border="true"
-     data-show-line-numbers="true"
-     data-show-file-meta="true"
-     data-show-full-path="true"
-     data-show-copy="true"></div>
+**If the user responds with credentials containing the required `dateOfBirth` claim, age verification passes. If no response is received or the claim is missing, verification fails.**
+
+This works because the conditional disclosure request only returns a response if the user meets the age requirement (18+). The Self SDK handles the complex logic of:
+
+- Checking if the user has a valid date of birth credential
+- Verifying the birth date is before the cutoff date (18 years ago)
+- Only returning the credential if the condition is met
+- Automatically initiating document verification if no credential exists
+
+The server simply needs to check if a response was received with the expected claim to determine if age verification succeeded.
 
 ## On-Demand Credential Issuance
 
@@ -114,17 +118,17 @@ Your application doesn't need to manage document verification. The Self SDK hand
 5. **Verifiable credential issued** and stored on device
 6. **Credential presented** to your server for verification
 
-## Zero-Knowledge Verification
+## Conditional Disclosure Verification
 
-The age verification system implements privacy-preserving verification using zero-knowledge proofs:
+The age verification system implements privacy-preserving verification using conditional disclosure:
 
-### Standard Zero-Knowledge Implementation
+### Standard Conditional Disclosure Implementation
 
 ```go
 // Calculate date 18 years ago
 eighteenYearsAgo := time.Now().AddDate(-18, 0, 0).Format("2006-01-02")
 
-// Request age verification without revealing actual birth date
+// Request age verification with conditional disclosure
 content, err := message.NewCredentialPresentationRequest().
     Type([]string{"VerifiablePresentation"}).
     Details(
@@ -162,125 +166,12 @@ content, err := message.NewCredentialPresentationRequest().
 ```
 
 **Privacy Benefits:**
-- Server never sees actual birth date
-- Only boolean verification result is returned
+
+- Birth date is only revealed if verification passes
+- Reduces unnecessary data exposure
 - Meets privacy regulations (GDPR, CCPA)
-- Reduces data exposure and liability
+- Minimizes liability by limiting data access
 
-## Web Interface Integration
-
-The complete system includes a modern web interface with real-time updates:
-
-### Frontend Features
-- **Age Declaration Button**: Clear call-to-action for age verification
-- **QR Code Display**: Automatic generation and display of verification QR codes
-- **Real-time Status**: Live updates on verification progress
-- **Success/Failure Screens**: Clear feedback on verification outcome
-- **Session Management**: 24-hour access sessions after successful verification
-
-### API Endpoints
-
-```go
-// Start age verification
-POST /api/auth/start
-{
-    "requiredClaims": ["dateOfBirth"]
-}
-
-// Check verification status
-GET /api/auth/status/{requestId}
-
-// Response format
-{
-    "status": "completed|failed|pending|connected|credential_requested",
-    "session": {
-        "id": "sess_...",
-        "claims": {
-            "ageVerified": true,
-            "dateOfBirth": "1990-01-01" // Only if not using zero-knowledge
-        }
-    }
-}
-```
-
-## Production Features
-
-### Security & Compliance
-- **Cryptographic Verification**: All credentials are tamper-evident and cryptographically signed
-- **Minimal Data Storage**: Only verification status retained, not personal data
-- **Session Security**: Time-limited sessions with secure random IDs
-- **Encrypted Storage**: Account data encrypted with user-provided keys
-
-### Operational Excellence
-- **Graceful Shutdown**: Proper cleanup of resources and connections
-- **Structured Logging**: Comprehensive logging with correlation IDs
-- **Error Handling**: Robust error handling with user-friendly messages
-- **Rate Limiting**: Protection against abuse and DoS attacks
-
-### Configuration Management
-
-```bash
-# Required: Storage encryption key
-export SELF_AUTH_STORAGE_KEY="$(openssl rand -base64 32)"
-
-# Optional: Custom storage path
-export SELF_AUTH_STORAGE_PATH="./custom_storage"
-
-# Optional: Custom server port
-export SELF_SERVER_PORT="8081"
-```
-
-## Advanced Implementation Patterns
-
-### Session-Based Access Control
-
-```go
-// Middleware to protect age-restricted routes
-func (s *Server) requireAgeVerification(next http.HandlerFunc) http.HandlerFunc {
-    return func(w http.ResponseWriter, r *http.Request) {
-        sessionID := r.Header.Get("X-Session-ID")
-        if sessionID == "" {
-            http.Error(w, "Session required", http.StatusUnauthorized)
-            return
-        }
-        
-        session := s.authService.GetSession(sessionID)
-        if session == nil || session.IsExpired() {
-            http.Error(w, "Invalid or expired session", http.StatusUnauthorized)
-            return
-        }
-        
-        if !session.Claims["ageVerified"].(bool) {
-            http.Error(w, "Age verification required", http.StatusForbidden)
-            return
-        }
-        
-        next(w, r)
-    }
-}
-```
-
-### Multiple Age Thresholds
-
-```go
-// Different age requirements for different content
-func (a *AuthService) VerifyAge(minimumAge int) *message.Content {
-    cutoffDate := time.Now().AddDate(-minimumAge, 0, 0).Format("2006-01-02")
-    
-    return message.NewCredentialPresentationRequest().
-        Details("DateOfBirthCredential", []*message.CredentialPresentationDetailParameter{
-            message.NewCredentialPresentationDetailParameter(
-                message.OperatorLessThan, "dateOfBirth", cutoffDate,
-            ),
-        }).
-        Finish()
-}
-
-// Usage for different age requirements
-ageRequest13 := authService.VerifyAge(13)  // COPPA compliance
-ageRequest18 := authService.VerifyAge(18)  // Adult content
-ageRequest21 := authService.VerifyAge(21)  // Alcohol/gambling
-```
 
 ## Next Steps
 

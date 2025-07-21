@@ -41,7 +41,7 @@ A plug-and-play, production-grade example of age verification using the Self SDK
 - You scan the QR code with your Self mobile app.
 - The app requests your date of birth credential (or prompts you to create one via document verification).
 - The server verifies your age and grants or denies access based on whether you're 18 or older.
-- No personal data is stored permanently, and the verification can be done with zero-knowledge proofs.
+- No personal data is stored permanently, and the verification uses conditional disclosure to minimize data exposure.
 - If verified, you gain access to the "super secret content"!
 
 ---
@@ -58,7 +58,7 @@ A plug-and-play, production-grade example of age verification using the Self SDK
 ## 🔞 Age Verification Features
 
 - **Privacy-preserving**: Only age verification result is shared, not actual date of birth
-- **Zero-knowledge proofs**: Optional implementation where servers never see your birth date
+- **Conditional disclosure**: Implementation where birth date is only revealed if verification passes
 - **Cryptographic security**: Document verification and tamper-evident credentials
 - **No data storage**: Age verification without storing personal information
 - **Instant verification**: Real-time age checks via mobile credentials
@@ -78,7 +78,7 @@ Age Calculation → Access Decision → Content Display
 - **Date of Birth Credentials**: Verified through government document scanning
 - **Age Calculation**: Server-side calculation from provided birth date
 - **Access Control**: Binary decision based on 18+ verification
-- **Zero-Knowledge Option**: Age verification without revealing actual birth date
+- **Conditional Disclosure**: Age verification that only reveals birth date when verification passes
 
 ---
 
@@ -131,22 +131,22 @@ Age Calculation → Access Decision → Content Display
 
 ## 🚀 Advanced Features
 
-### Zero-Knowledge Age Verification
-The system supports zero-knowledge proofs where the actual date of birth never leaves the user's device:
+### Conditional Disclosure Age Verification
+The system uses conditional disclosure where the birth date is only revealed if the user meets the age requirement:
 
 ```go
-// Server requests age verification without seeing the birth date
+// Server requests age verification with conditional disclosure
 ageRequest := message.NewCredentialPresentationRequest().
     Details("DateOfBirthCredential", []*message.CredentialPresentationDetailParameter{
         message.NewCredentialPresentationDetailParameter(
-            message.OperatorLowerThan,
+            message.OperatorLessThan,
             "dateOfBirth",
             eighteenYearsAgo,
         ),
     })
 ```
 
-This returns only `true` or `false` for the age check, preserving maximum privacy.
+This only returns the birth date credential if the user is 18+, minimizing unnecessary data exposure.
 
 ---
 
