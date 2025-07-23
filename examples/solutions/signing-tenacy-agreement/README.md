@@ -46,10 +46,12 @@ A complete, production-ready example of digital document signing using the Self 
 ### Signing Workflow
 1. **Agreement Creation**: User fills out tenancy agreement form
 2. **PDF Generation**: Server creates PDF agreement with user details
-3. **Signing Request**: Server sends credential issuance request to user's device
-4. **User Review**: User reviews agreement details on mobile app
-5. **Digital Signature**: User approves with biometric authentication
-6. **Verification**: Server receives signed credential as proof of signature
+3. **Credential Issuance**: Server creates and issues a signing credential with agreement metadata
+4. **Verification Request**: Server sends credential verification request with PDF evidence
+5. **User Review**: User reviews agreement details on mobile app
+6. **Digital Signature**: User approves with biometric authentication
+7. **Response Processing**: Server decodes credential verification response and extracts real claims
+8. **Signature Verification**: Server validates the signed credential as proof of signature
 
 ---
 
@@ -65,9 +67,12 @@ A complete, production-ready example of digital document signing using the Self 
 ### Signing Phase
 - You filled out the tenancy agreement form with property details
 - Server created a PDF agreement and uploaded it to secure storage
-- Server sent a "DigitalSignatureCredential" request to your mobile app
+- Server issued a signing credential containing agreement metadata (type, ID, hash, etc.)
+- Server sent a credential verification request with the PDF as evidence
 - You reviewed the agreement terms and approved with biometric authentication
-- The credential was issued and stored as a permanent, verifiable digital signature
+- Server received and decoded the credential verification response
+- Server extracted real claims from the signed credential (agreement type, signing date, document hash)
+- The credential was validated and stored as a permanent, verifiable digital signature
 
 ---
 
@@ -80,6 +85,12 @@ A complete, production-ready example of digital document signing using the Self 
 - Credential verification and session management
 - PDF agreement creation and storage
 - Digital signature request handling
+
+**Signing Service (`internal/auth/sign.go`)**
+- Credential issuance for digital signatures
+- Credential verification request creation with evidence
+- Real credential verification response processing
+- Claims extraction from signed credentials
 
 **HTTP Server (`internal/server/server.go`)**
 - REST API endpoints for authentication and signing
@@ -99,9 +110,10 @@ A complete, production-ready example of digital document signing using the Self 
 - No passwords or traditional credentials
 
 **📄 Digital Signatures**
-- Legally binding digital signatures
-- PDF agreement generation and storage
-- Cryptographic proof of signature
+- Legally binding digital signatures with real credential verification
+- PDF agreement generation and storage with evidence attachment
+- Cryptographic proof of signature with extracted claims validation
+- Robust response processing for different credential structures
 
 **🔄 Real-time Updates**
 - Live status checking for authentication
@@ -154,27 +166,32 @@ curl -X POST http://localhost:8081/api/v1/sign/request \
 ### Digital Signature Fundamentals
 
 **What is a Digital Signature?**
-A cryptographically secure credential that represents a legally binding agreement, issued by a trusted authority.
+A cryptographically secure credential that represents a legally binding agreement, issued by a trusted authority and verified through real credential processing.
 
 **Core Components:**
 - **Agreement**: The document being signed (PDF, contract, etc.)
+- **Evidence**: The PDF document attached as evidence to the credential
 - **Signer**: The person providing the signature
-- **Claims**: Metadata about the signature (timestamp, document hash, etc.)
-- **Credential**: The cryptographically signed proof of agreement
+- **Claims**: Real metadata extracted from the signed credential (timestamp, document hash, agreement type, etc.)
+- **Credential**: The cryptographically signed proof of agreement with verifiable claims
 
 ### Self SDK Architecture
 
 **Credential-Based Signatures:**
-- Digital signatures are implemented as verifiable credentials
+- Digital signatures are implemented as verifiable credentials with real verification
 - Each signature is a credential with claims representing the agreement
 - Cryptographic signatures ensure integrity and authenticity
 - Evidence attachments link signatures to original documents
+- Real credential verification responses are decoded and processed
+- Claims are extracted from actual signed credentials, not hardcoded values
 
 **Workflow Integration:**
 - Authentication and signing workflows are seamlessly integrated
 - Same mobile app handles both authentication and signing
 - Consistent user experience across all interactions
 - Unified session management and security model
+- Real-time credential verification response processing
+- Robust error handling for different response structures
 
 ---
 
@@ -205,12 +222,40 @@ A cryptographically secure credential that represents a legally binding agreemen
 }
 ```
 
+### Custom Credential Claims
+
+**Extended Signing Credential:**
+```go
+claims := map[string]interface{}{
+    "agreementType":    "Tenancy Agreement",
+    "agreementId":      fmt.Sprintf("%x", agreementPDF.Id()),
+    "documentHash":     fmt.Sprintf("%x", agreementPDF.Hash()),
+    "signingDate":      time.Now().Format("2006-01-02"),
+    "signingTimestamp": time.Now().Unix(),
+    "documentType":     "application/pdf",
+    "evidenceId":       fmt.Sprintf("%x", agreementPDF.Id()),
+    "tenantName":       tenantName,
+    "propertyAddress":  propertyAddress,
+    "rentAmount":       rentAmount,
+    "securityDeposit":  securityDeposit,
+}
+```
+
 ### Custom Storage Paths
 
 **Storage Considerations:**
 - Use secure, backed-up locations for production
 - Separate storage per environment (dev/staging/prod)
 - Ensure proper access permissions for PDF storage
+
+### Credential Verification Response Handling
+
+**Real Implementation Features:**
+- Decodes actual credential verification responses using `DecodeCredentialVerificationResponse()`
+- Extracts real claims from signed credentials, not hardcoded values
+- Handles different response structures with robust fallback mechanisms
+- Provides comprehensive logging for debugging and monitoring
+- Gracefully handles cases where credential data isn't available
 
 ---
 
@@ -264,24 +309,29 @@ SELF_SERVER_PORT="8081"
 - **Multi-Party Signing**: Extend for multiple signers on single documents
 - **Integration**: Connect with existing document management systems
 - **Compliance**: Add specific compliance features for your industry
+- **Real Credential Processing**: Implement actual credential verification response handling
+- **Claims Extraction**: Build robust systems for extracting real claims from signed credentials
 
 **Learn More:**
 - **[Verifiable Credentials](../concepts/verifiable-credentials.md)** - Understand credential fundamentals
 - **[Digital Signatures](../solutions/digital-signatures.md)** - Learn about digital signature patterns
 - **[Authentication System](../solutions/auth-system/)** - See the base authentication system
 - **[Age Verification](../solutions/age-verifier/)** - Explore another credential verification example
+- **[Credential Presentation Patterns](../concepts/credential-presentation-patterns.md)** - Learn about credential request patterns
+- **[Credential Exchange Examples](../examples/credentials.md)** - See real credential exchange implementations
 
 ---
 
 ## 🤝 Contributing
 
-This example demonstrates production-ready patterns for digital signing with Self SDK. Feel free to:
+This example demonstrates production-ready patterns for digital signing with Self SDK, including real credential verification response processing. Feel free to:
 
 - **Extend the functionality** with additional agreement types
 - **Improve the UI** with better styling and user experience
 - **Add more features** like multi-party signing or document templates
+- **Implement real credential processing** in your own applications
 - **Share your use cases** and how you've adapted this example
 
 ---
 
-**Built with Self SDK • Production-ready digital signing system** 
+**Built with Self SDK • Production-ready digital signing system with real credential verification** 

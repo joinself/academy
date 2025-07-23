@@ -389,6 +389,8 @@ func (a *AuthService) onMessage(acc *account.Account, msg *event.Message) {
 		a.handleDiscoveryResponse(acc, msg)
 	case message.ContentTypeCredentialPresentationResponse:
 		a.handleCredentialResponse(acc, msg)
+	case message.ContentTypeCredentialVerificationResponse:
+		a.handleCredentialVerificationResponse(acc, msg)
 
 	default:
 		a.logger.Info("Received message",
@@ -743,108 +745,6 @@ func (a *AuthService) WaitForSign(ctx context.Context, requestID string) (*SignR
 	}
 }
 
-// sendSigningRequest sends a credential issuance request to sign the agreement
-func (a *AuthService) sendSigningRequest(userDID *signing.PublicKey, agreementPDF *object.Object, requestID string) {
-	time.Sleep(2 * time.Second) // Wait for request to be stored
-
-	a.logger.Info("Sending signing request to user", slog.String("user_did", userDID.String()), slog.String("request_id", requestID))
-
-	// Create claims for the signing credential
-	claims := map[string]interface{}{
-		"agreementType":    "Tenancy Agreement",
-		"agreementId":      fmt.Sprintf("%x", agreementPDF.Id()),
-		"documentHash":     fmt.Sprintf("%x", agreementPDF.Hash()),
-		"signingDate":      time.Now().Format("2006-01-02"),
-		"signingTimestamp": time.Now().Unix(),
-		"documentType":     "application/pdf",
-		"evidenceId":       fmt.Sprintf("%x", agreementPDF.Id()),
-	}
-
-	// Get service address for issuing
-	serviceAddress, err := a.account.InboxOpen()
-	if err != nil {
-		a.logger.Error("Failed to get service address", slog.String("error", err.Error()))
-		a.completeSignRequest(requestID, &SignResult{Success: false, Error: err})
-		return
-	}
-
-	// Create credential for signing
-	credentialBuilder := credential.NewCredential().
-		CredentialType([]string{"VerifiableCredential", "AgreementCredential"}).
-		CredentialSubject(credential.AddressKey(userDID)).
-		CredentialSubjectClaims(claims).
-		Issuer(credential.AddressKey(serviceAddress)).
-		ValidFrom(time.Now()).
-		SignWith(serviceAddress, time.Now())
-
-	unsignedCredential, err := credentialBuilder.Finish()
-	if err != nil {
-		a.logger.Error("Failed to build signing credential", slog.String("error", err.Error()))
-		a.completeSignRequest(requestID, &SignResult{Success: false, Error: err})
-		return
-	}
-
-	// Issue the credential
-	signedAgreementCredential, err := a.account.CredentialIssue(unsignedCredential)
-	if err != nil {
-		a.logger.Error("Failed to issue signing credential", slog.String("error", err.Error()))
-		a.completeSignRequest(requestID, &SignResult{Success: false, Error: err})
-		return
-	}
-
-	// Create presentation with the signed credential
-	unsignedAgreementPresentation, err := credential.NewPresentation().
-		PresentationType([]string{"VerifiablePresentation", "AgreementPresentation"}).
-		Holder(credential.AddressKey(serviceAddress)).
-		CredentialAdd(signedAgreementCredential).
-		Finish()
-
-	if err != nil {
-		a.logger.Error("Failed to create presentation", slog.String("error", err.Error()))
-		a.completeSignRequest(requestID, &SignResult{Success: false, Error: err})
-		return
-	}
-
-	// Sign the presentation
-	signedAgreementPresentation, err := a.account.PresentationIssue(unsignedAgreementPresentation)
-	if err != nil {
-		a.logger.Error("Failed to issue presentation", slog.String("error", err.Error()))
-		a.completeSignRequest(requestID, &SignResult{Success: false, Error: err})
-		return
-	}
-
-	// Create credential verification request with the agreement evidence
-	content, err := message.NewCredentialVerificationRequest().
-		Type([]string{"VerifiableCredential", "AgreementCredential"}).
-		Evidence("agreement", agreementPDF).
-		Proof(signedAgreementPresentation).
-		Expires(time.Now().Add(time.Hour * 24)).
-		Finish()
-
-	if err != nil {
-		a.logger.Error("Failed to build verification request", slog.String("error", err.Error()))
-		a.completeSignRequest(requestID, &SignResult{Success: false, Error: err})
-		return
-	}
-
-	// Send the signing request to the user
-	err = a.account.MessageSend(userDID, content)
-	if err != nil {
-		a.logger.Error("Failed to send signing request", slog.String("error", err.Error()), slog.String("user_did", userDID.String()))
-		a.completeSignRequest(requestID, &SignResult{Success: false, Error: err})
-		return
-	}
-
-	// Update request status
-	a.mutex.Lock()
-	if signReq, exists := a.signRequests[requestID]; exists {
-		signReq.Status = SignRequestSent
-	}
-	a.mutex.Unlock()
-
-	a.logger.Info("Signing request sent successfully", slog.String("request_id", requestID), slog.String("user_did", userDID.String()))
-}
-
 // completeSignRequest completes a signing request with the given result
 func (a *AuthService) completeSignRequest(requestID string, result *SignResult) {
 	a.mutex.Lock()
@@ -894,50 +794,4 @@ func (a *AuthService) cleanupExpiredSignRequest(requestID string) {
 		a.logger.Info("Cleaned up expired signing request", slog.String("request_id", requestID))
 	}
 	a.mutex.Unlock()
-}
-
-// handleCredentialIssuanceResponse processes responses from credential issuance (signing requests)
-func (a *AuthService) handleCredentialIssuanceResponse(acc *account.Account, msg *event.Message) {
-	userDID := msg.FromAddress()
-	a.logger.Info("Received credential issuance response from", slog.String("user_did", userDID.String()))
-
-	// Find the signing request for this user
-	a.mutex.Lock()
-	var matchingSignReq *SignRequest
-	var requestID string
-	for reqID, signReq := range a.signRequests {
-		if signReq.UserDID.String() == userDID.String() && signReq.Status == SignRequestSent {
-			matchingSignReq = signReq
-			requestID = reqID
-			break
-		}
-	}
-	a.mutex.Unlock()
-
-	if matchingSignReq == nil {
-		a.logger.Warn("No matching signing request found for user", slog.String("user_did", userDID.String()))
-		return
-	}
-
-	// Extract claims from the credential response
-	claims := make(map[string]interface{})
-
-	// For credential issuance responses, we need to decode the credential
-	// This is a simplified implementation - in a real scenario, you'd decode the actual credential
-	claims["agreementType"] = "Tenancy Agreement"
-	claims["signingDate"] = time.Now().Format("2006-01-02")
-	claims["signingTimestamp"] = time.Now().Unix()
-	claims["documentType"] = "application/pdf"
-	claims["evidenceId"] = fmt.Sprintf("%x", matchingSignReq.AgreementPDF.Id())
-
-	// Complete the signing request successfully
-	a.completeSignRequest(requestID, &SignResult{
-		Success: true,
-		UserDID: userDID,
-		Claims:  claims,
-	})
-
-	a.logger.Info("Signing request completed successfully",
-		slog.String("request_id", requestID),
-		slog.String("user_did", userDID.String()))
 }

@@ -912,13 +912,12 @@
                 
                 if (data.status === 'completed') {
                     isAuthenticated = true;
-                    showUserInfo(data);
                     hideQRContainer();
                     showStatus('Authentication successful!', 'success');
-                    // Automatically show signing section after a short delay
+                    // Go directly to signing section with user DID
                     setTimeout(() => {
-                        showSigningSection();
-                    }, 2000);
+                        showSigningSection(data.user_did);
+                    }, 1000);
                 } else if (data.status === 'failed') {
                     showStatus(`Authentication failed: ${data.error}`, 'error');
                 } else if (data.status === 'expired') {
@@ -1060,7 +1059,10 @@
         let currentSignRequestId = null;
         let isSigning = false;
 
-        function showSigningSection() {
+        function showSigningSection(userDID) {
+            // Store the user DID for the signing request
+            window.currentUserDID = userDID;
+            
             document.getElementById('signingSection').style.display = 'block';
             document.getElementById('userInfo').style.display = 'none';
         }
@@ -1070,7 +1072,7 @@
             const propertyAddress = document.getElementById('propertyAddress').textContent;
             const rentAmount = document.getElementById('rentAmount').textContent.replace('$', '').replace(',', '');
             const leaseTerm = document.getElementById('leaseTerm').textContent;
-            const userDID = document.getElementById('userDid').textContent;
+            const userDID = window.currentUserDID || document.getElementById('userDid')?.textContent;
 
             if (!userDID) {
                 showStatus('User DID not found. Please authenticate first.', 'error');
