@@ -17,8 +17,8 @@ By completing these setup examples, you'll master:
 - **Network Integration**: Connect your identity to the Self network for communication
 - **Account Lifecycle**: Complete workflow from creation to production use
 
-**⏱️ Time Investment**: 15 minutes to complete all three examples  
-**💡 Immediate Result**: Working Self identity ready for messaging and credentials
+**Time Investment**: 15 minutes to complete all three examples  
+**Immediate Result**: Working Self identity ready for messaging and credentials
 
 ---
 
@@ -45,7 +45,7 @@ Follow this **progressive learning path** to master Self account management:
 ### **Step 1:** Create Your First Identity
 **[New Account Creation](https://github.com/joinself/academy/examples/server/00_setup/01_new_account/README.md)**
 
-🎯 **What it demonstrates:**
+**What it demonstrates:**
 - Fresh DID generation from cryptographic keys
 - Automatic secure storage initialization  
 - Network registration and identity verification
@@ -60,17 +60,17 @@ account := common.SetupAccount(config)
 // - Ready for secure communication
 ```
 
-**🔑 Key Concept**: Unlike username/password systems, this identity is **mathematically yours** - no company can take it away.
+**Key Concept**: Unlike username/password systems, this identity is **mathematically yours** - no company can take it away.
 
-**⏱️ Time**: 2 minutes to complete  
-**✅ Success**: You'll see your unique DID and confirm network connection
+**Time**: 2 minutes to complete  
+**Success**: You'll see your unique DID and confirm network connection
 
 ---
 
 ### **Step 2:** Master Account Persistence
 **[Existing Account Loading](https://github.com/joinself/academy/examples/server/00_setup/02_existing_account/README.md)**
 
-🎯 **What it demonstrates:**
+**What it demonstrates:**
 - How Self accounts persist across application restarts
 - Identity preservation and verification
 - Network reconnection with existing credentials
@@ -82,13 +82,13 @@ selfAccount := loadExistingAccount()
 // - Restores your exact same DID
 // - Reloads cryptographic keys securely
 // - Reconnects to Self network
-// ✅ Maintains all connections and data
+// - Maintains all connections and data
 ```
 
-**🔑 Key Concept**: Your identity is **permanently yours** - it persists across devices, applications, and time.
+**Key Concept**: Your identity is **permanently yours** - it persists across devices, applications, and time.
 
-**⏱️ Time**: 2 minutes to complete  
-**✅ Success**: Same DID loads perfectly, proving identity ownership
+**Time**: 2 minutes to complete  
+**Success**: Same DID loads perfectly, proving identity ownership
 
 ---
 
@@ -96,7 +96,7 @@ selfAccount := loadExistingAccount()
 **[Inbox Access & Addressing](https://github.com/joinself/academy/examples/server/00_setup/03_inbox_access/README.md)**
 
 
-🎯 **What it demonstrates:**
+**What it demonstrates:**
 - How to get your shareable inbox address
 - The difference between DIDs and inbox addresses
 - Network communication setup
@@ -111,10 +111,10 @@ fmt.Printf("📬 Share this address: %s\n", inboxAddress.String())
 // - Connected to decentralized network
 ```
 
-**🔑 Key Concept**: Your inbox address is like your **email for the decentralized web** - others need it to reach you.
+**Key Concept**: Your inbox address is like your **email for the decentralized web** - others need it to reach you.
 
-**⏱️ Time**: 1 minute to complete  
-**✅ Success**: Working inbox address ready for communication
+**Time**: 1 minute to complete  
+**Success**: Working inbox address ready for communication
 
 ---
 

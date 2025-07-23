@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self Authentication System Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .auth-section {
+            margin: 30px 0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .qr-container {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            display: none;
+        }
+
+        .qr-code {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #ddd;
+            min-height: 300px;
+        }
+
+        .qr-code svg {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+        }
+
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.pending {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .user-info {
+            margin: 30px 0;
+            padding: 0;
+            background: transparent;
+            border-radius: 15px;
+            display: none;
+        }
+
+        .success-header {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            padding: 25px;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+        }
+
+        .success-header h3 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .success-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .user-details {
+            background: white;
+            padding: 25px;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .detail-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .detail-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .detail-card h4 {
+            margin: 0 0 12px 0;
+            color: #2d3748;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-value {
+            color: #4a5568;
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+            word-break: break-all;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: #5a67d8;
+        }
+
+        .claims-display {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .claim-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .claim-item:last-child {
+            border-bottom: none;
+        }
+
+        .claim-key {
+            font-weight: 600;
+            color: #2d3748;
+            text-transform: capitalize;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .claim-value {
+            color: #4a5568;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            word-break: break-all;
+            line-height: 1.4;
+            position: relative;
+        }
+
+        .claim-value.long-value {
+            max-height: 80px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .claim-value.long-value::after {
+            content: '...';
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            background: white;
+            padding-left: 20px;
+            background: linear-gradient(to right, transparent, white 50%);
+        }
+
+        .claim-value.long-value.expanded {
+            max-height: none;
+        }
+
+        .claim-value.long-value.expanded::after {
+            display: none;
+        }
+
+        .expand-btn {
+            background: #e2e8f0;
+            color: #4a5568;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+
+        .expand-btn:hover {
+            background: #cbd5e0;
+        }
+
+        .claim-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .feature-list {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .feature-list li {
+            margin: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .qr-code {
+                padding: 15px;
+                min-height: 250px;
+            }
+            
+            .success-header {
+                padding: 20px;
+            }
+            
+            .success-header h3 {
+                font-size: 20px;
+            }
+            
+            .user-details {
+                padding: 20px;
+            }
+            
+            .detail-card {
+                padding: 15px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn-primary, .btn-secondary {
+                min-width: auto;
+                width: 100%;
+            }
+            
+            .detail-value {
+                font-size: 12px;
+                padding: 10px;
+            }
+            
+            .claim-value {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+            
+            .claim-value.long-value {
+                max-height: 60px;
+            }
+            
+            .claim-actions {
+                flex-wrap: wrap;
+            }
+            
+                    .expand-btn {
+                font-size: 11px;
+                padding: 3px 6px;
+            }
+
+            .workflow-steps {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .step {
+                padding: 20px;
+            }
+
+            .step-icon {
+                font-size: 2.5em;
+            }
+
+            .signing-progress {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .signing-progress::before {
+                display: none;
+            }
+
+            .progress-step {
+                flex-direction: row;
+                gap: 15px;
+            }
+
+            .step-number {
+                width: 35px;
+                height: 35px;
+                font-size: 14px;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .agreement-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .agreement-actions .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Signing Section Styles */
+        .signing-section {
+            margin: 30px 0;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+
+        .agreement-details {
+            margin-top: 20px;
+        }
+
+        .agreement-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 25px;
+        }
+
+        .agreement-card h4 {
+            color: #2d3748;
+            margin: 0 0 20px 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 14px;
+        }
+
+        .detail-value {
+            color: #2d3748;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .agreement-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .agreement-actions .btn {
+            min-width: 160px;
+        }
+
+        .signing-status {
+            margin: 30px 0;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+            text-align: center;
+        }
+
+        .signing-progress {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .signing-progress::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e2e8f0;
+            z-index: 1;
+        }
+
+        .progress-step {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .progress-step.active .step-number {
+            background: #667eea;
+            color: white;
+        }
+
+        .progress-step.completed .step-number {
+            background: #48bb78;
+            color: white;
+        }
+
+        .step-text {
+            font-size: 14px;
+            color: #4a5568;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .progress-step.active .step-text {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .progress-step.completed .step-text {
+            color: #48bb78;
+            font-weight: 600;
+        }
+
+        .signing-complete {
+            margin: 30px 0;
+        }
+
+        /* Workflow Steps */
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .step {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e2e8f0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .step-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .step h4 {
+            color: #2d3748;
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .step p {
+            color: #4a5568;
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(72, 187, 120, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">📄</div>
+            <h1>Digital Document Signing</h1>
+            <p class="subtitle">Sign tenancy agreements securely with biometric authentication</p>
+        </div>
+
+        <div class="auth-section" id="authSection">
+            <h3>🎯 How It Works</h3>
+            <div class="workflow-steps">
+                <div class="step">
+                    <div class="step-icon">🔐</div>
+                    <h4>1. Authenticate</h4>
+                    <p>Scan QR code with your Self mobile app to verify your identity</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">📄</div>
+                    <h4>2. Fill Agreement</h4>
+                    <p>Complete the tenancy agreement form with property details</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">✍️</div>
+                    <h4>3. Sign Digitally</h4>
+                    <p>Review and sign the agreement with biometric authentication</p>
+                </div>
+            </div>
+
+            <button class="btn" onclick="startAuthentication()">
+                🔐 Start Authentication
+            </button>
+        </div>
+
+        <div class="qr-container" id="qrContainer">
+            <h3>📱 Scan with Self Mobile App</h3>
+            <p>Open your Self app and scan this QR code to authenticate:</p>
+            <div class="qr-code" id="qrCode"></div>
+            <p><small>QR code expires in 10 minutes</small></p>
+            <button class="btn" onclick="checkStatus()">
+                <span class="loading" id="statusLoading" style="display: none;"></span>
+                Check Status
+            </button>
+        </div>
+
+        <div class="status" id="statusMessage"></div>
+
+        <div class="user-info" id="userInfo">
+            <div class="success-header">
+                <h3>✅ Authentication Complete!</h3>
+                <p>Your identity has been verified. Now you can sign your tenancy agreement.</p>
+            </div>
+            
+            <div class="user-details">
+                <div class="detail-card">
+                    <h4>🆔 Verified Identity</h4>
+                    <div class="detail-value" id="userDid"></div>
+                    <button class="copy-btn" onclick="copyToClipboard('userDid')">📋 Copy DID</button>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="showSigningSection()">
+                        📄 Continue to Sign Agreement
+                    </button>
+                    <button class="btn btn-secondary" onclick="window.location.reload()">
+                        🔄 Start Over
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="signing-section" id="signingSection" style="display: none;">
+            <h3>📄 Tenancy Agreement</h3>
+            <p>Review the agreement details below and sign with your Self mobile app.</p>
+            
+            <div class="agreement-details">
+                <div class="agreement-card">
+                    <h4>📋 Agreement Summary</h4>
+                    <div class="detail-row">
+                        <span class="detail-label">Tenant:</span>
+                        <span class="detail-value" id="tenantName">John Doe</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Property:</span>
+                        <span class="detail-value" id="propertyAddress">123 Main Street, City, State 12345</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Monthly Rent:</span>
+                        <span class="detail-value" id="rentAmount">$1,500</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Lease Term:</span>
+                        <span class="detail-value" id="leaseTerm">February 1, 2024 - January 31, 2025</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Security Deposit:</span>
+                        <span class="detail-value" id="securityDeposit">$1,500</span>
+                    </div>
+                </div>
+                
+                <div class="agreement-actions">
+                    <button class="btn btn-secondary" onclick="downloadAgreement()">
+                        📥 Download PDF
+                    </button>
+                    <button class="btn btn-primary" onclick="startSigning()">
+                        ✍️ Sign Agreement
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="signing-status" id="signingStatus" style="display: none;">
+            <h3>📱 Check Your Mobile App</h3>
+            <p>You should receive a signing request on your Self mobile app. Review the agreement details and approve with your biometric authentication.</p>
+            <div class="signing-progress">
+                <div class="progress-step active">
+                    <span class="step-number">1</span>
+                    <span class="step-text">Request Sent</span>
+                </div>
+                <div class="progress-step" id="step2">
+                    <span class="step-number">2</span>
+                    <span class="step-text">User Reviewing</span>
+                </div>
+                <div class="progress-step" id="step3">
+                    <span class="step-number">3</span>
+                    <span class="step-text">Agreement Signed</span>
+                </div>
+            </div>
+            <button class="btn" onclick="checkSigningStatus()">
+                <span class="loading" id="signingStatusLoading" style="display: none;"></span>
+                Check Signing Status
+            </button>
+        </div>
+
+        <div class="signing-complete" id="signingComplete" style="display: none;">
+            <div class="success-header">
+                <h3>🎉 Agreement Successfully Signed!</h3>
+                <p>Your tenancy agreement has been digitally signed with biometric authentication and is now legally binding.</p>
+            </div>
+            
+            <div class="user-details">
+                <div class="detail-card">
+                    <h4>📄 Agreement Details</h4>
+                    <div class="detail-value" id="agreementDetails"></div>
+                </div>
+                
+                <div class="detail-card">
+                    <h4>✍️ Signature Information</h4>
+                    <div class="claims-display" id="signatureClaims">
+                        <div class="claim-item">
+                            <span class="claim-key">Loading signature details...</span>
+                            <span class="claim-value">Please wait</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="window.location.reload()">
+                        🔄 Start New Agreement
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🔗 <a href="/api/v1" style="color: #667eea;">API Documentation</a> | 
+               💾 <a href="https://github.com/joinself/academy" style="color: #667eea;">Source Code</a> |
+               📚 <a href="/health" style="color: #667eea;">Health Check</a></p>
+            <p style="margin-top: 10px;"><small>Built with Self SDK • Production-ready digital signing system</small></p>
+        </div>
+    </div>
+
+    <script>
+        let currentRequestId = null;
+        let isAuthenticated = false;
+
+        async function startAuthentication() {
+            showStatus('Generating QR code...', 'pending');
+            
+            try {
+                const response = await fetch('/api/v1/auth/request', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({})
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                currentRequestId = data.request_id;
+                
+                // Display QR code (SVG format)
+                document.getElementById('qrCode').innerHTML = data.qr_code;
+                document.getElementById('authSection').style.display = 'none';
+                document.getElementById('qrContainer').style.display = 'block';
+                
+                showStatus('QR code generated! Scan with your Self mobile app.', 'pending');
+                
+                // Start auto-checking status
+                setTimeout(autoCheckStatus, 3000);
+                
+            } catch (error) {
+                showStatus(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function checkStatus() {
+            if (!currentRequestId) {
+                showStatus('No active authentication request', 'error');
+                return;
+            }
+
+            const loading = document.getElementById('statusLoading');
+            loading.style.display = 'inline-block';
+            
+            try {
+                const response = await fetch(`/api/v1/auth/status/${currentRequestId}`);
+                const data = await response.json();
+                
+                loading.style.display = 'none';
+                
+                if (data.status === 'completed') {
+                    isAuthenticated = true;
+                    hideQRContainer();
+                    showStatus('Authentication successful!', 'success');
+                    // Go directly to signing section with user DID
+                    setTimeout(() => {
+                        showSigningSection(data.user_did);
+                    }, 1000);
+                } else if (data.status === 'failed') {
+                    showStatus(`Authentication failed: ${data.error}`, 'error');
+                } else if (data.status === 'expired') {
+                    showStatus('Authentication request expired. Please try again.', 'error');
+                    hideQRContainer();
+                } else {
+                    showStatus('Waiting for authentication...', 'pending');
+                    // Continue checking
+                    setTimeout(autoCheckStatus, 2000);
+                }
+                
+            } catch (error) {
+                loading.style.display = 'none';
+                showStatus(`Error checking status: ${error.message}`, 'error');
+            }
+        }
+
+        async function autoCheckStatus() {
+            if (!isAuthenticated && currentRequestId) {
+                await checkStatus();
+            }
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+            statusDiv.style.display = 'block';
+        }
+
+        function hideStatus() {
+            document.getElementById('statusMessage').style.display = 'none';
+        }
+
+        function showUserInfo(data) {
+            document.getElementById('userDid').textContent = data.user_did;
+            document.getElementById('userInfo').style.display = 'block';
+        }
+
+        function toggleClaimValue(claimValueId) {
+            const claimValue = document.getElementById(claimValueId);
+            const button = event.target;
+            
+            if (claimValue.classList.contains('expanded')) {
+                claimValue.classList.remove('expanded');
+                button.textContent = '📖 Show More';
+            } else {
+                claimValue.classList.add('expanded');
+                button.textContent = '📖 Show Less';
+            }
+        }
+
+        function copyClaimValue(claimValueId) {
+            const claimValue = document.getElementById(claimValueId);
+            const text = claimValue.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✅ Copied!';
+                button.style.background = '#48bb78';
+                button.style.color = 'white';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#e2e8f0';
+                    button.style.color = '#4a5568';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✅ Copied!';
+                button.style.background = '#48bb78';
+                button.style.color = 'white';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#e2e8f0';
+                    button.style.color = '#4a5568';
+                }, 2000);
+            });
+        }
+
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                // Show a temporary feedback
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✅ Copied!';
+                button.style.background = '#48bb78';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#667eea';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = '✅ Copied!';
+                button.style.background = '#48bb78';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#667eea';
+                }, 2000);
+            });
+        }
+
+        function hideUserInfo() {
+            document.getElementById('userInfo').style.display = 'none';
+        }
+
+        function hideQRContainer() {
+            document.getElementById('qrContainer').style.display = 'none';
+        }
+
+        // Signing functionality
+        let currentSignRequestId = null;
+        let isSigning = false;
+
+        function showSigningSection(userDID) {
+            // Store the user DID for the signing request
+            window.currentUserDID = userDID;
+            
+            document.getElementById('signingSection').style.display = 'block';
+            document.getElementById('userInfo').style.display = 'none';
+        }
+
+        async function startSigning() {
+            const tenantName = document.getElementById('tenantName').textContent;
+            const propertyAddress = document.getElementById('propertyAddress').textContent;
+            const rentAmount = document.getElementById('rentAmount').textContent.replace('$', '').replace(',', '');
+            const leaseTerm = document.getElementById('leaseTerm').textContent;
+            const userDID = window.currentUserDID || document.getElementById('userDid')?.textContent;
+
+            if (!userDID) {
+                showStatus('User DID not found. Please authenticate first.', 'error');
+                return;
+            }
+
+            // Parse lease term to get start and end dates
+            const [startDate, endDate] = parseLeaseTerm(leaseTerm);
+
+            showStatus('Creating signing request...', 'pending');
+            
+            try {
+                const response = await fetch('/api/v1/sign/request', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        tenant_name: tenantName,
+                        property_address: propertyAddress,
+                        rent_amount: rentAmount,
+                        start_date: startDate,
+                        end_date: endDate,
+                        user_did: userDID
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                currentSignRequestId = data.request_id;
+                isSigning = true;
+                
+                // Show signing status
+                document.getElementById('signingSection').style.display = 'none';
+                document.getElementById('signingStatus').style.display = 'block';
+                
+                showStatus('Signing request sent! Check your mobile app.', 'pending');
+                
+                // Start auto-checking signing status
+                setTimeout(autoCheckSigningStatus, 3000);
+                
+            } catch (error) {
+                showStatus(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function checkSigningStatus() {
+            if (!currentSignRequestId) {
+                showStatus('No active signing request', 'error');
+                return;
+            }
+
+            const loading = document.getElementById('signingStatusLoading');
+            loading.style.display = 'inline-block';
+            
+            try {
+                const response = await fetch(`/api/v1/sign/status/${currentSignRequestId}`);
+                const data = await response.json();
+                
+                loading.style.display = 'none';
+                
+                if (data.status === 'completed') {
+                    isSigning = false;
+                    showSigningComplete(data);
+                    hideSigningStatus();
+                    showStatus('Agreement signed successfully!', 'success');
+                } else if (data.status === 'failed') {
+                    showStatus(`Signing failed: ${data.error}`, 'error');
+                } else if (data.status === 'expired') {
+                    showStatus('Signing request expired. Please try again.', 'error');
+                    hideSigningStatus();
+                } else {
+                    showStatus('Waiting for signature...', 'pending');
+                    // Continue checking
+                    setTimeout(autoCheckSigningStatus, 2000);
+                }
+                
+            } catch (error) {
+                loading.style.display = 'none';
+                showStatus(`Error checking signing status: ${error.message}`, 'error');
+            }
+        }
+
+        async function autoCheckSigningStatus() {
+            if (isSigning && currentSignRequestId) {
+                await checkSigningStatus();
+            }
+        }
+
+        function showSigningComplete(data) {
+            // Update progress steps
+            document.getElementById('step2').classList.add('completed');
+            document.getElementById('step3').classList.add('completed');
+            
+            // Show agreement details
+            const agreementDetails = document.getElementById('agreementDetails');
+            agreementDetails.textContent = `Agreement ID: ${data.claims?.agreementId || 'N/A'}`;
+            
+            // Show signature claims
+            const signatureClaims = document.getElementById('signatureClaims');
+            if (data.claims && Object.keys(data.claims).length > 0) {
+                signatureClaims.innerHTML = '';
+                Object.entries(data.claims).forEach(([key, value], index) => {
+                    const claimItem = document.createElement('div');
+                    claimItem.className = 'claim-item';
+                    
+                    const formattedKey = key.replace(/([A-Z])/g, ' $1').trim();
+                    const valueStr = String(value);
+                    const isLongValue = valueStr.length > 50;
+                    const claimValueId = `signature-claim-value-${index}`;
+                    
+                    claimItem.innerHTML = `
+                        <span class="claim-key">${formattedKey}</span>
+                        <div class="claim-value ${isLongValue ? 'long-value' : ''}" id="${claimValueId}">${valueStr}</div>
+                        <div class="claim-actions">
+                            ${isLongValue ? `<button class="expand-btn" onclick="toggleClaimValue('${claimValueId}')">📖 Show More</button>` : ''}
+                            <button class="expand-btn" onclick="copyClaimValue('${claimValueId}')">📋 Copy</button>
+                        </div>
+                    `;
+                    signatureClaims.appendChild(claimItem);
+                });
+            } else {
+                signatureClaims.innerHTML = `
+                    <div class="claim-item">
+                        <span class="claim-key">No signature details</span>
+                        <div class="claim-value">Signature completed</div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('signingComplete').style.display = 'block';
+        }
+
+        function hideSigningStatus() {
+            document.getElementById('signingStatus').style.display = 'none';
+        }
+
+        function parseLeaseTerm(leaseTerm) {
+            // Parse "February 1, 2024 - January 31, 2025" format
+            const parts = leaseTerm.split(' - ');
+            if (parts.length === 2) {
+                const startDate = new Date(parts[0]);
+                const endDate = new Date(parts[1]);
+                return [
+                    startDate.toISOString().split('T')[0],
+                    endDate.toISOString().split('T')[0]
+                ];
+            }
+            // Fallback to default dates
+            return ['2024-02-01', '2025-01-31'];
+        }
+
+        function downloadAgreement() {
+            // In a real implementation, this would download the actual PDF
+            showStatus('PDF download would be implemented in production', 'pending');
+            setTimeout(() => {
+                showStatus('', '');
+            }, 3000);
+        }
+    </script>
+</body>
+</html> 

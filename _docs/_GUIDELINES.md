@@ -248,6 +248,40 @@ account := common.SetupAccount(config)
 - [ ] Progressive complexity with clear indicators
 - [ ] Immediate gratification (5-minute success)
 
-## Icons
+## Emojis
 
-Important! Please try to only use icons when necessary.
+**Emoji Usage Policy**: Please avoid using emojis or icons across all documentation pages (including concept, example, and solution guides), with the only exception being the complexity indicators (🟢🟡🟠🔴). This ensures a consistent and professional tone.
+
+## Code embedding
+
+**Code Embedding in Example Guides**: When documenting code examples, you must embed representative code snippets directly into the documentation page using `data-github-embed`. Avoid linking to external source files on GitHub only do it for the current repository. This practice keeps the user within the learning environment and ensures the documentation is self-contained and easy to follow.
+
+Embedding example
+```
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/04_advanced_features/01_core_features/go/main.go#L242-L250"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+```
+
+**Code links**
+
+**Linking to Repository Files**
+
+When linking to files within this repository but outside of the `/docs` directory (e.g., code examples), you must use the full GitHub URL. This ensures that links remain accessible, as only the `/docs` directory is rendered by `mkdocs`.
+
+All links to repository files must be prefixed with `https://github.com/joinself/academy/blob/main/`.
+
+**Correct Example**:
+```markdown
+[View the Go example on GitHub](https://github.com/joinself/academy/blob/main/examples/server/01_connection/02_qr/go/main.go)
+```
+
+**Incorrect Example** (this will result in a broken link):
+```markdown
+[View the Go example on GitHub](../../examples/server/01_connection/02_qr/go/main.go)
+``` 
+

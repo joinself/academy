@@ -70,7 +70,11 @@ nav:
       - Server Implementation: solutions/identity-verification/server-implementation.md
       - Mobile Implementation: solutions/identity-verification/mobile-implementation.md
       - Conclusions & Best Practices: solutions/identity-verification/conclusions.md
-    - Digital Signatures: solutions/digital-signatures.md
+    - Digital Signatures:
+      - Overview: solutions/digital-signatures.md
+      - Server Implementation: solutions/digital-signatures/server-implementation.md
+      - Mobile Implementation: solutions/digital-signatures/mobile-implementation.md
+      - Conclusions & Best Practices: solutions/digital-signatures/conclusions.md
   - Concepts:
     - Overview: concepts/overview.md
     - Decentralized Identity:

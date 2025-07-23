@@ -21,9 +21,9 @@
 When you request a credential, you don't just ask for it by type; you can also specify **conditions** under which the user's device should share it. The user's device evaluates these conditions locally. This gives you two powerful modes of operation for every request:
 
 1.  **Unconditional Retrieval**: "Please share this credential."
-2.  **Conditional Retrieval**: "Please share this credential *only if* it meets these criteria."
+2.  **Conditional Retrieval**: "Please share this credential *only if* it meets the specified criteria."
 
-In both cases, a successful response contains the **full credential data**. The difference is the logic that determines whether a response is sent at all.
+In both cases, a successful response contains the **full credential data**. The difference is the logic that determines whether a response is sent or not.
 
 ---
 
