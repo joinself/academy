@@ -10,14 +10,14 @@ In this section you will see how to build an authentication workflow where users
 
 Self authentication operates as a **distributed security model** across two applications:
 
-**Server-Side Application** _(Your Backend)_
+**Server-Side Application**
 
 - Generates unique QR codes for each authentication request
 - Manages request-response correlation using cryptographic content IDs
 - Verifies credentials without handling sensitive data
 - Creates authenticated sessions after successful verification
 
-**Mobile Application** _(Your Mobile App)_  
+**Mobile Application**
 
 - Integrates Self SDK for QR code scanning and connection establishment
 - Handles all biometric operations locally and privately using device capabilities
@@ -26,9 +26,9 @@ Self authentication operates as a **distributed security model** across two appl
 
 This approach eliminates traditional attack vectors while providing enterprise-grade security with a seamless user experience.
 
-## Complete Authentication Flow
+## Authentication Flow
 
-The Self authentication process involves four main phases that establish a secure connection, verify user identity through biometrics, and create an authenticated session. 
+The Self authentication process involves four main phases that establish a secure connection, verify users identity through biometrics, and create an authenticated session. 
 
 Each phase uses cryptographic content IDs to ensure perfect correlation between requests and responses.
 
@@ -70,7 +70,7 @@ sequenceDiagram
 
 ## Implementation Guides
 
-### Server Implementation
+### Server
 
 Complete backend implementation guide covering:
 
@@ -81,7 +81,7 @@ Complete backend implementation guide covering:
 
 [Check the implementation details](./authentication/server-implementation.md)
 
-### Mobile Implementation
+### Mobile
 
 Mobile SDK integration guide covering:
 
@@ -102,7 +102,8 @@ Self authentication builds on fundamental cryptographic and identity principles:
 
 ## Next Steps
 
-Ready to implement Self authentication? Follow our implementation guides:
+Ready to implement Self authentication? 
+Follow our implementation guides:
 
 - **[Server Implementation](./authentication/server-implementation.md)**: Build your authentication backend
 - **[Mobile Implementation](./authentication/mobile-implementation.md)**: Integrate authentication into your mobile app  
