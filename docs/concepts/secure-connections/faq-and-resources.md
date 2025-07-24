@@ -31,11 +31,11 @@
 ## Additional Security Resources
 
 ### **Cryptographic Concepts**
-- **[Cryptographic Foundations](cryptographic-foundations.md)** - Mathematical primitives explained
-- **[Message Layer Security](message-layer-security.md)** - Deep dive into MLS protocol
+- **[Cryptographic Foundations](../cryptographic-foundations.md)** - Mathematical primitives explained
+- **[Message Layer Security](../message-layer-security.md)** - Deep dive into MLS protocol
 
 ### **Implementation Guides**  
-- **[Connection Examples](../examples/connections.md)** - Hands-on connection patterns
+- **[Connection Examples](../../examples/connections.md)** - Hands-on connection patterns
 
 ### **Standards & Specifications**
 - **[IETF MLS Working Group](https://datatracker.ietf.org/wg/mls/)** - Message Layer Security standard

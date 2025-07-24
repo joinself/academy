@@ -509,7 +509,7 @@ Ready to create your first verifiable credentials? Try these hands-on examples:
 ### **Dive Deeper**
 Want to understand the technical details?
 
-- **[Credential Presentation Patterns](credential-presentation-patterns.md)** - Simple retrieval vs zero-knowledge verification patterns
+- **[Credential Presentation Patterns](./credential-presentation-patterns.md)** - Simple retrieval vs zero-knowledge verification patterns
 - **[Cryptographic Foundations](cryptographic-foundations.md)** - Mathematical basis of credential security
 - **[Secure Connections](secure-connections.md)** - How credentials travel securely
 

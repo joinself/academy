@@ -313,11 +313,11 @@ SELF_SERVER_PORT="8081"
 - **Claims Extraction**: Build robust systems for extracting real claims from signed credentials
 
 **Learn More:**
-- **[Verifiable Credentials](../concepts/verifiable-credentials.md)** - Understand credential fundamentals
-- **[Digital Signatures](../solutions/digital-signatures.md)** - Learn about digital signature patterns
-- **[Authentication System](../solutions/auth-system/)** - See the base authentication system
-- **[Age Verification](../solutions/age-verifier/)** - Explore another credential verification example
-- **[Credential Presentation Patterns](../concepts/credential-presentation-patterns.md)** - Learn about credential request patterns
+- **[Verifiable Credentials](../../docs/concepts/verifiable-credentials.md)** - Understand credential fundamentals
+- **[Digital Signatures](../../docs/solutions/digital-signatures.md)** - Learn about digital signature patterns
+- **[Authentication System](../auth-system/)** - See the base authentication system
+- **[Age Verification](../age-verifier/)** - Explore another credential verification example
+- **[Credential Presentation Patterns](../../docs/concepts/credential-presentation-patterns.md)** - Learn about credential request patterns
 - **[Credential Exchange Examples](../examples/credentials.md)** - See real credential exchange implementations
 
 ---

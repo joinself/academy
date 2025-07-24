@@ -1,7 +1,7 @@
 # Controlling Credential Disclosure
 
 > **Practical Implementation:** [Credential Examples](../examples/credentials.md#phase-25-master-presentation-request-patterns)  
-> **Learn the concepts first:** [Verifiable Credentials Concepts](verifiable-credentials.md)
+> **Learn the concepts first:** [Verifiable Credentials Concepts](./verifiable-credentials.md)
 
 ## What You'll Learn
 
