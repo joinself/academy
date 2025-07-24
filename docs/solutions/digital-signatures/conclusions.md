@@ -75,39 +75,17 @@ The digital signature system follows enterprise patterns:
 ### Extend Digital Signatures with Additional Capabilities
 
 **[Authentication](../authentication.md)**
+
 - Authenticate users before allowing document signing
 - Implement user verification workflows
 - Create secure signing environments
 
 **[Identity Verification](../identity-verification.md)**
+
 - Verify user identity before document signing
 - Implement multi-factor verification workflows
 - Create trust relationships for signing
 
-### Build Complete Applications
-
-**[Advanced Features](../../examples/advanced.md)**
-- Implement multi-party signing scenarios
-- Create complex document workflows
-- Build advanced audit and compliance features
-
-**[Production Examples](../../examples/production.md)**
-- Enterprise deployment patterns
-- Scalable architecture examples
-- Compliance and regulatory considerations
-
-### Enterprise Integration
-
-**Production Examples:**
-- **[Complete Signing System](../../examples/server/signing-tenacy-agreement/)**: Full-featured digital signature server
-- **[Production Deployment](../../examples/production.md)**: Enterprise deployment patterns
-- **[Troubleshooting Guide](../../examples/troubleshooting.md)**: Common issues and solutions
-
-### Community and Support
-
-- **[Developer Resources](../../examples/resources.md)**: Additional tools and community support
-- **[Self Developer App](https://www.joinself.com/developers/developers)**: Mobile testing tool
-- **[SDK Documentation](https://github.com/joinself)**: Complete technical references
 
 ## Final Recommendations
 
