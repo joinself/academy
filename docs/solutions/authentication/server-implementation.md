@@ -1,6 +1,6 @@
 # Server Implementation
 
-> **🎯 What you'll learn:** Complete backend implementation of Self authentication with detailed flow breakdown, correlation system, and code examples.
+> ****What you will learn:** What you'll learn:** Complete backend implementation of Self authentication with detailed flow breakdown, correlation system, and code examples.
 
 This guide covers the technical implementation of Self authentication on the server side, including the complete authentication flow, request-response correlation, and session management.
 
@@ -21,7 +21,7 @@ SELF_AUTH_STORAGE_KEY="$(openssl rand -base64 32)" go run cmd/solutions/main.go
 # Open http://localhost:8081 and scan the QR code with the Self Demo App!
 ```
 
-> **🔧 Testing:** While mobile SDK examples are in development, you can test the authentication flow using the **[Self Demo App](https://play.google.com/store/apps/details?id=com.joinself.app.demo)** - a ready-to-use mobile app for testing Self authentication backends.
+> ****Troubleshooting:** Testing:** While mobile SDK examples are in development, you can test the authentication flow using the **[Self Demo App](https://play.google.com/store/apps/details?id=com.joinself.app.demo)** - a ready-to-use mobile app for testing Self authentication backends.
 
 
 ## Implementation Phases
@@ -74,7 +74,7 @@ SELF_AUTH_STORAGE_KEY="$(openssl rand -base64 32)" go run cmd/solutions/main.go
      data-show-full-path="true"
      data-show-copy="true"></div>
 
-> **📖 Full Implementation:** See the complete backend implementation with HTTP server, UI, and production-ready architecture at **[examples/solutions/auth-system/](https://github.com/joinself/academy/blob/main/examples/solutions/auth-system/)**
+> ****Documentation:** Full Implementation:** See the complete backend implementation with HTTP server, UI, and production-ready architecture at **[examples/solutions/auth-system/](https://github.com/joinself/academy/blob/main/examples/solutions/auth-system/)**
 
 ### Request-Response Correlation System
 

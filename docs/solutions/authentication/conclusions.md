@@ -1,6 +1,6 @@
 # Conclusions & Best Practices
 
-> **🎯 What you've learned:** You now have a complete understanding of Self's passwordless authentication system and how to implement it in production.
+> ****What you will learn:** What you've learned:** You now have a complete understanding of Self's passwordless authentication system and how to implement it in production.
 
 This section consolidates key recommendations, best practices, and next steps for deploying Self authentication in production environments.
 

@@ -1,6 +1,6 @@
 # Conclusions & Best Practices
 
-> **🎯 What you've learned:** You now have a complete understanding of Self's production-ready identity verification system and how to deploy it for real-world KYC workflows like age verification.
+> ****What you will learn:** What you've learned:** You now have a complete understanding of Self's production-ready identity verification system and how to deploy it for real-world KYC workflows like age verification.
 
 This section provides comprehensive recommendations for deploying a Self-powered identity verification system in production environments, based on the battle-tested age verifier implementation.
 

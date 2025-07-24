@@ -1,6 +1,6 @@
 # Mobile Implementation
 
-> **🎯 What you'll learn:** How to integrate Self authentication into your mobile applications using Self SDKs for iOS and Android.
+> ****What you will learn:** What you'll learn:** How to integrate Self authentication into your mobile applications using Self SDKs for iOS and Android.
 
 This guide covers mobile app integration with Self authentication, including SDK setup, QR code scanning, biometric verification, and production deployment considerations.
 

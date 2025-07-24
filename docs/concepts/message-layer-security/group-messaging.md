@@ -1,4 +1,4 @@
-# 👥 Group Messaging Security
+# **Community:** Group Messaging Security
 
 MLS shines in group scenarios where traditional encryption becomes complex and inefficient.
 
@@ -27,10 +27,10 @@ Group of 4 people = 1 secure group
 └── Automatic member management
 
 Benefits:
-✅ Message sent once (efficient)
-✅ One key derivation for all (simple)
-✅ Adding member requires one operation
-✅ Forward secrecy for entire group
+**Success:** Message sent once (efficient)
+**Success:** One key derivation for all (simple)
+**Success:** Adding member requires one operation
+**Success:** Forward secrecy for entire group
 ```
 
 ### Group Operations in Self SDK

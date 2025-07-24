@@ -1,6 +1,6 @@
 # Digital Signatures: Mobile Implementation
 
-> **🎯 What you'll learn:** How to integrate digital signature capabilities into your mobile app with agreement review, biometric approval, and credential verification response handling.
+> ****What you will learn:** What you'll learn:** How to integrate digital signature capabilities into your mobile app with agreement review, biometric approval, and credential verification response handling.
 
 This guide covers mobile app integration with Self digital signatures, including SDK setup, agreement review interfaces, biometric verification, and production deployment considerations.
 

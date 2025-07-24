@@ -1,21 +1,21 @@
-# 🚀 Advanced Features Examples
+# **Quick Start:** Advanced Features Examples
 
 ## What You'll Learn
 
 Welcome to the final set of examples, where we transition from foundational concepts to **production-ready patterns**. These advanced examples demonstrate how to build robust, scalable, and feature-rich applications using the Self SDK.
 
-**🎯 Learning Goals:**
+****What you will learn:** Learning Goals:**
 - Master production patterns for account and storage management
 - Implement multi-device synchronization with account pairing
 - Build real-time user engagement with push notifications
 - Understand graceful shutdown, resource management, and monitoring
 - Connect all foundational concepts into production applications
 
-## 🏗️ Progressive Learning Path
+## **Architecture:** Progressive Learning Path
 
 These examples build upon everything you've learned, applying foundational knowledge to advanced use cases.
 
-| 🎯 Example | 🎓 Complexity | 📚 Focus |  
+| **What you will learn:** Example | **Learning:** Complexity | **Resources:** Focus |  
 |------------|---------------|----------|
 | **🔴 [Core Production Features](#core-production-features)** | Advanced (7/10) | Encrypted storage, production patterns, core SDK control |
 | **🟡 [Device Pairing](#device-pairing--synchronization)** | Intermediate (5/10) | Multi-device account synchronization |
@@ -67,7 +67,7 @@ func (d *AdvancedDemo) setupAdvancedAccount() {
 }
 ```
 
-**🔑 Key Concepts:**
+****Key Concepts:** Key Concepts:**
 - **Secure Key Generation**: `generateStorageKey` uses `crypto/rand` for secure key material.
 - **Environment Configuration**: Easily switch between `sandbox` and `production` environments.
 - **Logging Control**: Set log levels to reduce noise in production.
@@ -96,7 +96,7 @@ func (d *AdvancedDemo) demonstrateAdvancedStorage() {
 }
 ```
 
-**🔑 Key Concepts:**
+****Key Concepts:** Key Concepts:**
 - **Structured Data**: Store complex objects, not just strings.
 - **JSON Serialization**: A standard, flexible format for data exchange.
 - **Encrypted at Rest**: The SDK automatically encrypts all data before writing to storage.
@@ -125,7 +125,7 @@ func (d *AdvancedDemo) waitForInteractions() {
 }
 ```
 
-**🔑 Key Concepts:**
+****Key Concepts:** Key Concepts:**
 - **Signal Handling**: Intercept `Ctrl+C` (`SIGINT`) and `SIGTERM`.
 - **Clean Cleanup**: Ensures `defer d.account.Close()` is called.
 - **Final Reporting**: `displaySummary()` provides metrics on exit.
@@ -163,17 +163,17 @@ Learn how to build real-time user engagement systems with push notifications for
 
 **How it works:** This example uses the core SDK messaging capabilities to send specially formatted messages that a mobile or client application can interpret as push notifications. It demonstrates patterns for managing different notification types, tracking their delivery, and storing notification history, all over the secure, end-to-end encrypted channels you've learned about.
 
-## 🎓 What Just Happened? Production-Readiness Achieved
+## **Learning:** What Just Happened? Production-Readiness Achieved
 
-### ✅ **Advanced Pattern Mastery**
+### **Success:** **Advanced Pattern Mastery**
 
 You now understand the patterns required to move from prototypes to production:
 
-- **🏗️ Robust Services**: Building applications that handle real-world conditions like graceful shutdowns.
-- **🔐 Secure Data Management**: Using the SDK's encrypted storage for complex application data.
+- ****Architecture:** Robust Services**: Building applications that handle real-world conditions like graceful shutdowns.
+- ****Security:** Secure Data Management**: Using the SDK's encrypted storage for complex application data.
 - **📱 Modern User Features**: Implementing multi-device support and push notifications.
 
-### ✅ **Connecting Foundations to Production**
+### **Success:** **Connecting Foundations to Production**
 
 These examples show how foundational concepts become production features:
 
@@ -184,15 +184,15 @@ These examples show how foundational concepts become production features:
 | Cryptographic Identity (DID) | Multi-Device Sync | Pairing |
 | Secure Messaging (MLS) | Push Notifications | Notifications |
 
-## 📚 Next Steps
+## **Resources:** Next Steps
 
 You have now completed the entire **Examples** section of the Academy!
 
-1.  **✅ [Setup](setup.md)**
-2.  **✅ [Connections](connections.md)**
-3.  **✅ [Credentials](credentials.md)**
-4.  **✅ [Chat](chat.md)**
-5.  **✅ [Advanced Features](advanced.md)**
+1.  ****Success:** [Setup](setup.md)**
+2.  ****Success:** [Connections](connections.md)**
+3.  ****Success:** [Credentials](credentials.md)**
+4.  ****Success:** [Chat](chat.md)**
+5.  ****Success:** [Advanced Features](advanced.md)**
 
 With this comprehensive knowledge, you are fully equipped to:
 - **Build Your Own Applications**: Use these patterns as a starting point.
@@ -205,4 +205,4 @@ With this comprehensive knowledge, you are fully equipped to:
 - **User Experience Matters**: Multi-device support and notifications are key to modern applications.
 - **You Are Ready to Build**: You have progressed from "Hello World" to production-ready patterns.
 
-Congratulations on completing the Joinself Academy examples! You now have the knowledge and practical experience to build the next generation of secure, decentralized applications. 🚀
+Congratulations on completing the Joinself Academy examples! You now have the knowledge and practical experience to build the next generation of secure, decentralized applications. **Quick Start:**

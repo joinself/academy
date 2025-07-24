@@ -49,10 +49,10 @@ Message 1 CANNOT be decrypted (Key A was deleted)
 ### Metadata Protection
 
 **What MLS Protects:**
-- ✅ **Message Content**: Encrypted end-to-end
-- ✅ **Message Authentication**: Sender verification
-- ✅ **Message Integrity**: Tamper detection
-- ✅ **Key History**: No access to past keys
+- **Success:** **Message Content**: Encrypted end-to-end
+- **Success:** **Message Authentication**: Sender verification
+- **Success:** **Message Integrity**: Tamper detection
+- **Success:** **Key History**: No access to past keys
 
 **What MLS Doesn't Protect:**
 - ❌ **Traffic Analysis**: Message timing and size

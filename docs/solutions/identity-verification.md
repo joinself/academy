@@ -1,6 +1,6 @@
 # Identity Verification
 
-> **🎯 What you'll learn:** How to build a production-ready Know Your Customer (KYC) workflow for age verification using Self's verifiable credentials and mobile document capture.
+> ****What you will learn:** What you'll learn:** How to build a production-ready Know Your Customer (KYC) workflow for age verification using Self's verifiable credentials and mobile document capture.
 
 Self's identity verification solution allows you to confirm user attributes like age by requesting and verifying credentials derived from official documents. 
 
@@ -42,7 +42,7 @@ This model ensures that you can trust the claims presented by the user without e
 The age verification process begins when your service requests information from a user. If the user does not yet have the required credential, the Self SDK initiates an on-demand issuance flow.
 
 <details>
-<summary><strong>📊 View Complete Flow Diagram</strong></summary>
+<summary><strong>**Overview:** View Complete Flow Diagram</strong></summary>
 
 ```mermaid
 sequenceDiagram

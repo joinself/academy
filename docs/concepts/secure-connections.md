@@ -1,7 +1,7 @@
 # Secure Connections Concepts
 
-> **🛠️ Hands-on Learning:** After reading this, try the [Connection Examples](../examples/connections.md)  
-> **🎯 What you'll learn:** How cryptographic handshakes establish secure communication channels between Self identities
+> ****Tools:** Hands-on Learning:** After reading this, try the [Connection Examples](../examples/connections.md)  
+> ****What you will learn:** What you'll learn:** How cryptographic handshakes establish secure communication channels between Self identities
 
 Welcome to the **heart of Self SDK security**. Before any communication can happen, identities must establish a cryptographically secure channel. This section explains how that works.
 
@@ -25,10 +25,10 @@ Self SDK solves these problems by building security from the ground up. Every co
 
 ```mermaid
 graph LR
-    A[🔐 CONFIDENTIALITY<br/>Only you can read<br/>your messages]
-    B[🔍 AUTHENTICITY<br/>Senders are real<br/>and verified]
+    A[**Security:** CONFIDENTIALITY<br/>Only you can read<br/>your messages]
+    B[**Search:** AUTHENTICITY<br/>Senders are real<br/>and verified]
     C[🛡️ INTEGRITY<br/>Messages can't<br/>be tampered]
-    D[🔄 FORWARD SECRECY<br/>Past messages stay<br/>secure forever]
+    D[**Process:** FORWARD SECRECY<br/>Past messages stay<br/>secure forever]
     
     A --> B --> C --> D
     

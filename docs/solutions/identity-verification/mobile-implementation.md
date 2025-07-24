@@ -1,6 +1,6 @@
 # Mobile Implementation
 
-> **🎯 What you'll learn:** How the Self mobile app handles age verification through document capture, credential issuance, and privacy-preserving presentation.
+> ****What you will learn:** What you'll learn:** How the Self mobile app handles age verification through document capture, credential issuance, and privacy-preserving presentation.
 
 This guide covers the mobile application's role in the identity verification process, focusing on how the Self SDK simplifies document verification while maintaining user privacy and security.
 
@@ -171,7 +171,7 @@ response := createSignedResponse(result, proof)
 ### Verification Status UI
 ```
 ┌─────────────────────────────────┐
-│       🔄 Processing...          │
+│       **Process:** Processing...          │
 │  ─────────────────────────────  │
 │                                 │
 │  Extracting information from    │
@@ -179,7 +179,7 @@ response := createSignedResponse(result, proof)
 │                                 │
 │  ✓ Document detected            │
 │  ✓ Image quality verified       │
-│  🔄 Reading text...             │
+│  **Process:** Reading text...             │
 │  ⏳ Validating data...          │
 │                                 │
 │  This may take a few moments    │

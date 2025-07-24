@@ -1,6 +1,6 @@
 # Digital Signatures
 
-> **🎯 What you'll learn:** How to build production-ready, biometrically-backed digital signatures using Self's verifiable credentials and real credential verification response processing.
+> ****What you will learn:** What you'll learn:** How to build production-ready, biometrically-backed digital signatures using Self's verifiable credentials and real credential verification response processing.
 
 Self's digital signature solution creates legally binding signatures through verifiable credentials that represent agreements. Users sign documents by accepting credentials on their mobile device with biometric authentication, providing cryptographic proof of agreement without traditional electronic signature vulnerabilities.
 
@@ -34,7 +34,7 @@ The Self digital signature process involves five main phases that establish a se
 Each phase uses cryptographic content IDs to ensure perfect correlation between requests and responses.
 
 <details>
-<summary><strong>📊 View Complete Flow Diagram</strong></summary>
+<summary><strong>**Overview:** View Complete Flow Diagram</strong></summary>
 
 ```mermaid  
 sequenceDiagram

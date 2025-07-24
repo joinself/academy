@@ -1,6 +1,6 @@
 # Digital Signatures: Conclusions & Best Practices
 
-> **🎯 What you've learned:** You now have a complete understanding of Self's digital signature system and how to implement it in production.
+> ****What you will learn:** What you've learned:** You now have a complete understanding of Self's digital signature system and how to implement it in production.
 
 This section consolidates key recommendations, best practices, and next steps for deploying Self digital signatures in production environments.
 

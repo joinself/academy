@@ -1,23 +1,23 @@
-# 💬 Chat & Messaging Examples
+# **Chat:** Chat & Messaging Examples
 
-> **📖 Learn the concepts first:** [Message Layer Security](../concepts/message-layer-security.md) | [Cryptographic Foundations](../concepts/cryptographic-foundations.md)
+> ****Documentation:** Learn the concepts first:** [Message Layer Security](../concepts/message-layer-security.md) | [Cryptographic Foundations](../concepts/cryptographic-foundations.md)
 
 ## What You'll Learn
 
 Self SDK makes secure messaging surprisingly simple. Behind the scenes, every chat message benefits from [Ed25519 signatures](../concepts/cryptographic-foundations.md#digital-signatures), [MLS end-to-end encryption](../concepts/message-layer-security.md#encryption-properties), and [forward secrecy](../concepts/message-layer-security.md#forward-secrecy) - but you just focus on building great chat experiences.
 
-**🎯 Learning Goals:**
+****What you will learn:** Learning Goals:**
 - Master event-driven message handling patterns
 - Build intelligent chat bots with response systems  
 - Understand message types and content routing
 - Implement real-time secure communication
 - Connect cryptographic theory to practical messaging
 
-## 🏗️ Progressive Learning Path
+## **Architecture:** Progressive Learning Path
 
 The chat examples follow our **Theory Meets Practice** approach, building from basic concepts to production-ready systems:
 
-| 🎯 Example | 🎓 Complexity | 📚 Focus |  
+| **What you will learn:** Example | **Learning:** Complexity | **Resources:** Focus |  
 |------------|---------------|----------|
 | **🟢 [Basic Chat](#basic-chat-messaging)** | Beginner | Core messaging patterns, response generation |
 | **🟡 Group Chat** | Intermediate | Multi-participant MLS groups *(Coming Soon)* |
@@ -46,17 +46,17 @@ go run main.go
 ### Expected Output
 
 ```bash
-💬 Simple Chat Demo
+**Chat:** Simple Chat Demo
 ===================
 
-🔧 Setting up Self account...
-✅ Connected to Self network
+**Troubleshooting:** Setting up Self account...
+**Success:** Connected to Self network
 
-📬 Connection Information:
+**Inbox:** Connection Information:
    🆔 Inbox Address: did:self:abc123...
-   🔐 All messages automatically encrypted
+   **Security:** All messages automatically encrypted
 
-✅ Chat demo ready! Press Ctrl+C to exit.
+**Success:** Chat demo ready! Press Ctrl+C to exit.
 
 # After someone sends "Hello!"
 📨 [15:04:07] did:self:peer456: "Hello!"
@@ -85,7 +85,7 @@ func handleMessage(acc *account.Account, msg *event.Message) {
 }
 ```
 
-**🔑 Key Concepts:**
+****Key Concepts:** Key Concepts:**
 - **Message Routing**: `event.ContentTypeOf()` determines message type (chat, credentials, etc.)
 - **Type Safety**: Each content type has specific decoding methods
 - **Event Loop**: Your application responds to messages as they arrive
@@ -112,7 +112,7 @@ func handleChatMessage(acc *account.Account, msg *event.Message, timestamp strin
 }
 ```
 
-**🔑 Key Concepts:**
+****Key Concepts:** Key Concepts:**
 - **Content Decoding**: `message.DecodeChat()` extracts text from encrypted message
 - **Sender Identification**: `msg.FromAddress()` provides cryptographic identity
 - **Error Handling**: Always check for decoding failures
@@ -138,12 +138,12 @@ func generateResponse(messageText, timestamp string) string {
 	case strings.Contains(message, "time"):
 		return fmt.Sprintf("🕐 Current time is %s", timestamp)
 	default:
-		return fmt.Sprintf("🔄 Echo: %s", messageText)
+		return fmt.Sprintf("**Process:** Echo: %s", messageText)
 	}
 }
 ```
 
-**🔑 Key Concepts:**
+****Key Concepts:** Key Concepts:**
 - **Pattern Matching**: Use string analysis for message understanding
 - **Context Awareness**: Include timestamps and dynamic data
 - **Fallback Responses**: Always have a default response
@@ -174,13 +174,13 @@ func sendResponse(acc *account.Account, toAddress *signing.PublicKey, responseTe
 }
 ```
 
-**🔑 Key Concepts:**
+****Key Concepts:** Key Concepts:**
 - **Message Builders**: `message.NewChat()` creates properly formatted content
 - **Fluent API**: Chain methods for clean message construction
 - **Automatic Encryption**: `MessageSend()` handles all cryptographic operations
 - **Error Handling**: Always check for build and send failures
 
-### 🔐 Security Features in Action
+### **Security:** Security Features in Action
 
 When you run this example, several security features work automatically:
 
@@ -202,7 +202,7 @@ Message Source: did:self:abc123...
 └── Verifiable (anyone can validate the signature)
 ```
 
-### 🎓 What Just Happened?
+### **Learning:** What Just Happened?
 
 Let's trace what happens when someone sends you "Hello!":
 
@@ -218,7 +218,7 @@ Let's trace what happens when someone sends you "Hello!":
 
 **The magic:** You wrote simple string processing code, but every message benefits from advanced cryptography, forward secrecy, and verifiable identity.
 
-## 🎯 Real-World Applications
+## **What you will learn:** Real-World Applications
 
 ### Customer Support Bot
 
@@ -248,7 +248,7 @@ Build an intelligent alert system for team communications:
 **Notification Patterns:**
 ```go  
 case strings.Contains(message, "deploy"):
-    return "🚀 Deployment initiated! I'll notify the team of progress."
+    return "**Quick Start:** Deployment initiated! I'll notify the team of progress."
 case strings.Contains(message, "alert"):
     severity := extractSeverity(message)
     return fmt.Sprintf("🚨 %s alert logged. Escalating to on-call team.", severity)
@@ -280,7 +280,7 @@ case strings.HasPrefix(message, "/status"):
 - **Access Control**: Only authorized users can send commands
 - **Message Authentication**: Verify commands come from legitimate sources
 
-## 🔧 Customization Patterns
+## **Troubleshooting:** Customization Patterns
 
 ### Adding Message Types
 
@@ -345,7 +345,7 @@ func processCommand(message string) string {
 }
 ```
 
-## 🚀 Advanced Chat Features (Coming Soon)
+## **Quick Start:** Advanced Chat Features (Coming Soon)
 
 The next examples in the progression will demonstrate:
 
@@ -383,17 +383,17 @@ Chat builds on and connects with other Academy examples:
 - **[Advanced Features](advanced.md)**: Production-ready chat systems
 - **[Notification Examples](advanced.md#notifications)**: Real-time chat alerts
 
-## 🔧 Need Help?
+## **Troubleshooting:** Need Help?
 
 **Having chat issues?** Check our comprehensive **[Troubleshooting Guide](troubleshooting.md)** for solutions to messaging problems, including:
 
-- 💬 **[Chat & Messaging Issues](troubleshooting.md#chat--messaging-issues)** - Message send failures, decode errors, and no messages received
-- 🤝 **[Connection Issues](troubleshooting.md#connection-issues)** - Connection problems that affect messaging
-- 🌐 **[Network Issues](troubleshooting.md#network--connectivity-issues)** - Connectivity problems affecting chat operations
+- **Chat:** **[Chat & Messaging Issues](troubleshooting.md#chat--messaging-issues)** - Message send failures, decode errors, and no messages received
+- **Connections:** **[Connection Issues](troubleshooting.md#connection-issues)** - Connection problems that affect messaging
+- **Network:** **[Network Issues](troubleshooting.md#network--connectivity-issues)** - Connectivity problems affecting chat operations
 
 The troubleshooting guide includes detailed solutions, common causes, and debugging tips for all Self SDK examples.
 
-## 📚 Next Steps
+## **Resources:** Next Steps
 
 After mastering chat examples:
 
@@ -412,4 +412,4 @@ After mastering chat examples:
 
 The chat examples show how Self SDK makes advanced cryptography accessible - you focus on building great messaging experiences while the SDK handles Ed25519 signatures, MLS encryption, and forward secrecy automatically.
 
-Ready to build the future of secure communication? 💬
+Ready to build the future of secure communication? **Chat:**

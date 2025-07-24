@@ -1,6 +1,6 @@
 # Server Implementation
 
-> **🎯 What you'll learn:** How to implement a production-ready age verification system by requesting and verifying verifiable credentials from a user's device.
+> ****What you will learn:** What you'll learn:** How to implement a production-ready age verification system by requesting and verifying verifiable credentials from a user's device.
 
 This guide covers the technical implementation of an identity verification service from the backend's perspective. The process builds upon the principles of the **[authentication server implementation](../authentication/server-implementation.md)** but focuses on requesting and verifying specific claims from a user.
 

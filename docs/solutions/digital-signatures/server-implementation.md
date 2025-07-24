@@ -1,8 +1,8 @@
 # Digital Signatures: Server Implementation
 
-> **🎯 What you'll learn:** How to implement a complete digital signature backend with real credential verification response processing, PDF agreement creation, and robust claims extraction.
+> ****What you will learn:** What you'll learn:** How to implement a complete digital signature backend with real credential verification response processing, PDF agreement creation, and robust claims extraction.
 
-> **📖 Complete Example**: See the full implementation in the [Tenancy Agreement Signing System Demo](https://github.com/joinself/academy/blob/main/examples/solutions/signing-tenacy-agreement/README.md) for a complete, production-ready digital signature example.
+> ****Documentation:** Complete Example**: See the full implementation in the [Tenancy Agreement Signing System Demo](https://github.com/joinself/academy/blob/main/examples/solutions/signing-tenacy-agreement/README.md) for a complete, production-ready digital signature example.
 
 
 This guide shows you how to build a production-ready digital signature server that creates PDF agreements, issues signing credentials, sends verification requests, and processes real credential verification responses.

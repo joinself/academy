@@ -79,26 +79,26 @@ examples/server/
 └── common/                  # Shared utilities
 ```
 
-## 🔧 Need Help?
+## **Troubleshooting:** Need Help?
 
 **Having issues?** Check our comprehensive **[Troubleshooting Guide](troubleshooting.md)** for solutions to common problems across all examples, including setup, connections, credentials, messaging, and more.
 
-## 📚 Resources & Community
+## **Resources:** Resources & Community
 
 **Need documentation, tools, or support?** Visit our **[Resources & Community Guide](resources.md)** for:
 
-- 📖 Complete SDK documentation and concept guides  
-- 🛠️ Developer tools, testing utilities, and debugging resources
-- 👥 Community forums, Discord, and GitHub support channels
+- **Documentation:** Complete SDK documentation and concept guides  
+- **Tools:** Developer tools, testing utilities, and debugging resources
+- **Community:** Community forums, Discord, and GitHub support channels
 
-## 🏭 Production Deployment
+## **Production:** Production Deployment
 
 **Ready for production?** Check our comprehensive **[Production Deployment Guide](production.md)** for everything you need to deploy Self SDK applications in production environments:
 
-- 🚀 Environment migration and configuration management strategies
-- 🔐 Security hardening and key management best practices
-- ⚡ Performance optimization and scalability patterns
-- 📊 Monitoring, observability, and operational procedures
+- **Quick Start:** Environment migration and configuration management strategies
+- **Security:** Security hardening and key management best practices
+- **Performance:** Performance optimization and scalability patterns
+- **Overview:** Monitoring, observability, and operational procedures
 
 ## Ready to Start?
 

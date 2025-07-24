@@ -1,20 +1,20 @@
-# 🔧 Troubleshooting Guide
+# **Troubleshooting:** Troubleshooting Guide
 
 This guide covers common issues and solutions across all Self SDK examples. Each section includes symptoms, common causes, and step-by-step solutions.
 
 ## Quick Navigation
 
-- [🏗️ Setup & Account Issues](#setup--account-issues)
-- [🌐 Network & Connectivity Issues](#network--connectivity-issues)
-- [🤝 Connection Issues](#connection-issues)
-- [🎫 Credential Issues](#credential-issues)
-- [💬 Chat & Messaging Issues](#chat--messaging-issues)
-- [📁 Storage & Permission Issues](#storage--permission-issues)
-- [🔧 General Debugging Tips](#general-debugging-tips)
+- [**Architecture:** Setup & Account Issues](#setup--account-issues)
+- [**Network:** Network & Connectivity Issues](#network--connectivity-issues)
+- [**Connections:** Connection Issues](#connection-issues)
+- [**Credentials:** Credential Issues](#credential-issues)
+- [**Chat:** Chat & Messaging Issues](#chat--messaging-issues)
+- [**Storage:** Storage & Permission Issues](#storage--permission-issues)
+- [**Troubleshooting:** General Debugging Tips](#general-debugging-tips)
 
 ---
 
-## 🏗️ Setup & Account Issues
+## **Architecture:** Setup & Account Issues
 
 ### Account Already Exists in Storage Directory
 
@@ -66,7 +66,7 @@ This guide covers common issues and solutions across all Self SDK examples. Each
 
 ---
 
-## 🌐 Network & Connectivity Issues
+## **Network:** Network & Connectivity Issues
 
 ### Failed to Connect to Self Network
 
@@ -105,7 +105,7 @@ This guide covers common issues and solutions across all Self SDK examples. Each
 
 ---
 
-## 🤝 Connection Issues
+## **Connections:** Connection Issues
 
 ### Connection Failed to Establish
 
@@ -163,7 +163,7 @@ This guide covers common issues and solutions across all Self SDK examples. Each
 
 ---
 
-## 🎫 Credential Issues
+## **Credentials:** Credential Issues
 
 ### Credential Issuance Failed
 
@@ -239,12 +239,12 @@ This guide covers common issues and solutions across all Self SDK examples. Each
 
 ---
 
-## 💬 Chat & Messaging Issues
+## **Chat:** Chat & Messaging Issues
 
 ### No Messages Received
 
 ```bash
-✅ Chat demo ready! Press Ctrl+C to exit.
+**Success:** Chat demo ready! Press Ctrl+C to exit.
 # ... no activity ...
 ```
 
@@ -298,7 +298,7 @@ This guide covers common issues and solutions across all Self SDK examples. Each
 
 ---
 
-## 📁 Storage & Permission Issues
+## **Storage:** Storage & Permission Issues
 
 ### Failed to Create Storage Directory
 
@@ -356,7 +356,7 @@ This guide covers common issues and solutions across all Self SDK examples. Each
 
 ---
 
-## 🔧 General Debugging Tips
+## **Troubleshooting:** General Debugging Tips
 
 ### Enable Debug Logging
 
@@ -429,7 +429,7 @@ ps aux | grep self
 
 ---
 
-## 📞 Getting Additional Help
+## **Support:** Getting Additional Help
 
 If you continue experiencing issues after trying these solutions:
 

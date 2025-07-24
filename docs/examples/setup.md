@@ -29,7 +29,7 @@ In [Decentralized Identity Concepts](../concepts/decentralized-identity.md), you
 ### Theory → Practice Connection
 
 ```
-📚 THEORY                          🛠️ PRACTICE
+**Resources:** THEORY                          **Tools:** PRACTICE
 Traditional identity fails    →    Create password-free account
 DIDs provide ownership        →    Generate your unique DID
 Cryptographic keys secure     →    Keys stored safely on device
@@ -105,7 +105,7 @@ selfAccount := loadExistingAccount()
 ```go
 // Get your public address for communication
 inboxAddress, err := selfAccount.InboxOpen()
-fmt.Printf("📬 Share this address: %s\n", inboxAddress.String())
+fmt.Printf("**Inbox:** Share this address: %s\n", inboxAddress.String())
 // - Others can now send you messages
 // - Ready for credential exchange
 // - Connected to decentralized network
@@ -193,16 +193,16 @@ With your Self identity established, you're ready for advanced patterns:
 
 ---
 
-## 🏭 Production Deployment
+## **Production:** Production Deployment
 
 **Ready for production?** Check our comprehensive **[Production Deployment Guide](production.md)** for everything you need to deploy Self SDK applications in production:
 
-- 🚀 **[Moving to Production](production.md#moving-to-production)** - Environment migration, configuration management, and data migration strategies
-- 🔐 **[Security Hardening](production.md#security-hardening)** - Key management, network security, and application security best practices  
-- ⚡ **[Performance Optimization](production.md#performance-optimization)** - Connection pooling, caching strategies, and resource optimization
-- 📊 **[Monitoring & Observability](production.md#monitoring--observability)** - Logging, health checks, and alerting systems
+- **Quick Start:** **[Moving to Production](production.md#moving-to-production)** - Environment migration, configuration management, and data migration strategies
+- **Security:** **[Security Hardening](production.md#security-hardening)** - Key management, network security, and application security best practices  
+- **Performance:** **[Performance Optimization](production.md#performance-optimization)** - Connection pooling, caching strategies, and resource optimization
+- **Overview:** **[Monitoring & Observability](production.md#monitoring--observability)** - Logging, health checks, and alerting systems
 - 📈 **[Scalability Patterns](production.md#scalability-patterns)** - Load balancing, data partitioning, and distributed architectures
-- 🔄 **[Deployment & Operations](production.md#deployment--operations)** - Blue-green deployments, configuration management, and maintenance
+- **Process:** **[Deployment & Operations](production.md#deployment--operations)** - Blue-green deployments, configuration management, and maintenance
 
 The production guide includes code examples, checklists, and templates for enterprise-grade Self SDK deployments.
 
@@ -238,25 +238,25 @@ Confirm you've mastered the setup fundamentals:
 
 ---
 
-## 🔧 Need Help?
+## **Troubleshooting:** Need Help?
 
 **Having issues?** Check our comprehensive **[Troubleshooting Guide](troubleshooting.md)** for solutions to common setup and account problems, including:
 
-- 🏗️ **[Setup & Account Issues](troubleshooting.md#setup--account-issues)** - Storage conflicts, account creation, and loading problems
-- 🌐 **[Network Issues](troubleshooting.md#network--connectivity-issues)** - Connectivity and Self network problems  
-- 📁 **[Storage & Permission Issues](troubleshooting.md#storage--permission-issues)** - Directory permissions and storage corruption
+- **Architecture:** **[Setup & Account Issues](troubleshooting.md#setup--account-issues)** - Storage conflicts, account creation, and loading problems
+- **Network:** **[Network Issues](troubleshooting.md#network--connectivity-issues)** - Connectivity and Self network problems  
+- **Storage:** **[Storage & Permission Issues](troubleshooting.md#storage--permission-issues)** - Directory permissions and storage corruption
 
 The troubleshooting guide includes detailed solutions, common causes, and debugging tips for all Self SDK examples.
 
 ---
 
-## 📚 Resources & Next Steps
+## **Resources:** Resources & Next Steps
 
 **Ready to dive deeper?** Check our comprehensive **[Resources & Community Guide](resources.md)** for everything you need to build with Self SDK:
 
-- 📖 **[Related Concepts](resources.md#related-concepts)** - Deep dives into cryptographic foundations and system architecture
-- 🛠️ **[Developer Tools](resources.md#developer-tools)** - SDK documentation, testing utilities, and debugging tools
-- 👥 **[Community Support](resources.md#community-support)** - Forums, Discord, and GitHub for getting help and contributing
+- **Documentation:** **[Related Concepts](resources.md#related-concepts)** - Deep dives into cryptographic foundations and system architecture
+- **Tools:** **[Developer Tools](resources.md#developer-tools)** - SDK documentation, testing utilities, and debugging tools
+- **Community:** **[Community Support](resources.md#community-support)** - Forums, Discord, and GitHub for getting help and contributing
 
 The resources guide includes complete SDK documentation, standards references, community guidelines, and integration resources for all platforms.
 

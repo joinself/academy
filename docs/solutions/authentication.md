@@ -1,6 +1,6 @@
 # Authentication
 
-> **🎯 What you'll learn:** How to build production-ready, passwordless authentication using Self's decentralized identity and biometric verification.
+> **What you will learn:** How to build production-ready, passwordless authentication using Self's decentralized identity and biometric verification.
 
 Self's authentication solution replaces traditional username/password systems with cryptographic identity verification and biometric security.
 
@@ -33,7 +33,7 @@ The Self authentication process involves four main phases that establish a secur
 Each phase uses cryptographic content IDs to ensure perfect correlation between requests and responses.
 
 <details>
-<summary><strong>📊 View Complete Flow Diagram</strong></summary>
+<summary><strong>**Overview:** View Complete Flow Diagram</strong></summary>
 
 ```mermaid  
 sequenceDiagram

@@ -1,4 +1,4 @@
-# 🌐 Protocol Architecture
+# **Network:** Protocol Architecture
 
 ### MLS Protocol Stack
 
@@ -22,17 +22,17 @@
 
 | Feature | MLS | Signal Protocol |
 |---------|-----|-----------------|
-| Group Efficiency | ✅ Efficient tree-based | ❌ Pairwise only |
-| Forward Secrecy | ✅ Group forward secrecy | ✅ Pairwise forward secrecy |
-| Post-Compromise Security | ✅ Automatic healing | ⚠️ Manual detection required |
-| Standardization | ✅ IETF RFC 9420 | ❌ Proprietary specification |
-| Scalability | ✅ Large groups | ❌ Small groups only |
+| Group Efficiency | **Success:** Efficient tree-based | ❌ Pairwise only |
+| Forward Secrecy | **Success:** Group forward secrecy | **Success:** Pairwise forward secrecy |
+| Post-Compromise Security | **Success:** Automatic healing | ⚠️ Manual detection required |
+| Standardization | **Success:** IETF RFC 9420 | ❌ Proprietary specification |
+| Scalability | **Success:** Large groups | ❌ Small groups only |
 
 **MLS vs. Traditional TLS:**
 
 | Feature | MLS | TLS |
 |---------|-----|-----|
-| End-to-End | ✅ Client-to-client | ❌ Client-to-server |
-| Forward Secrecy | ✅ Automatic rotation | ⚠️ Depends on configuration |
-| Group Messaging | ✅ Native support | ❌ Not supported |
-| Server Access | ✅ Zero server access | ❌ Server can decrypt | 
+| End-to-End | **Success:** Client-to-client | ❌ Client-to-server |
+| Forward Secrecy | **Success:** Automatic rotation | ⚠️ Depends on configuration |
+| Group Messaging | **Success:** Native support | ❌ Not supported |
+| Server Access | **Success:** Zero server access | ❌ Server can decrypt | 

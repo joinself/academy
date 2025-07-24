@@ -31,7 +31,7 @@ inboxAddress, err := selfAccount.InboxOpen()
 // Address can be shared via QR code or direct sharing
 ```
 
-**🔑 Key Concept**: Inbox addresses are **temporary** and **secure** - they expire automatically and can't be guessed or brute-forced.
+****Key Concepts:** Key Concept**: Inbox addresses are **temporary** and **secure** - they expire automatically and can't be guessed or brute-forced.
 
 ### **Act 2: Negotiation** 
 **How cryptographic material is exchanged**
