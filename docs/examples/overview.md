@@ -2,6 +2,8 @@
 
 Welcome to the hands-on learning section! These examples provide practical, working code that teaches Self SDK concepts through implementation.
 
+> **💡 New to Self?** Start with [About Self](../about-self.md) to understand what Self is, then explore [Getting Started](../getting-started.md) to choose your learning path before diving into these examples.
+
 ## Learning Philosophy
 
 Our examples follow a progressive learning approach:

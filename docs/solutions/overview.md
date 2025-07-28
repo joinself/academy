@@ -2,6 +2,8 @@
 
 Welcome to the Self solutions hub. Here, you'll find practical guides to implementing our core services. Each section explains a real-world business need, connects it to the underlying technical concepts, and provides direct links to runnable code examples.
 
+> **💡 New to Self?** Start with [About Self](../about-self.md) to understand what Self is and why it matters, then explore [Getting Started](../getting-started.md) to choose your learning path.
+
 ---
 
 ### Authentication

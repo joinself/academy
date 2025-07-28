@@ -2,6 +2,8 @@
 
 Welcome to the theoretical foundations of the Self ecosystem. These concept guides provide the essential knowledge to understand the "why" and "how" behind the practical examples.
 
+> **💡 New to Self?** Start with [About Self](../about-self.md) to understand what Self is and why it matters, then return here to dive into the technical concepts.
+
 ## Learning Philosophy
 
 Our theoretical documentation follows the same progressive approach as our examples:
@@ -55,7 +57,8 @@ Read the concept that matches your current example, then implement the correspon
 
 | I want to understand... | Read the guide | Try the code |
 |------------------------|-------------------|----------------------|
-| **What is Self?** | [Decentralized Identity](decentralized-identity.md) | [Account Setup](../examples/setup.md) |
+| **What is Self?** | [About Self](../about-self.md) | [Getting Started](../getting-started.md) |
+| **Identity fundamentals** | [Decentralized Identity](decentralized-identity.md) | [Account Setup](../examples/setup.md) |
 | **How connections work** | [Secure Connections](secure-connections.md) | [Connection Examples](../examples/connections.md) |
 | **Digital credentials** | [Verifiable Credentials](verifiable-credentials.md) | [Credential Examples](../examples/credentials.md) |
 | **Encrypted messaging** | [Message Security](message-layer-security.md) | [Chat Examples](../examples/chat.md) |

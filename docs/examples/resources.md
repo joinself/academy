@@ -2,6 +2,8 @@
 
 This page consolidates all developer resources, documentation links, and community support information for Self SDK examples. Whether you're just getting started or building production applications, you'll find the tools and support you need here.
 
+> **💡 New to Self?** Start with [About Self](../about-self.md) to understand what Self is, then explore [Getting Started](../getting-started.md) to choose your learning path before accessing these resources.
+
 ## Quick Navigation
 
 - [**Documentation:** Related Concepts](#related-concepts)
