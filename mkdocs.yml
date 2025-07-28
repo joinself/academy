@@ -58,6 +58,11 @@ extra_javascript:
   - https://emgithub.com/embed-v2.js
 
 nav:
+  - Getting Started:
+    - Overview: getting-started.md
+    - Quick Start: getting-started/quick-start.md
+    - Use Cases: getting-started/use-cases.md
+    - Learning Paths: getting-started/learning-paths.md
   - Solutions:
     - Overview: solutions/overview.md
     - Authentication:

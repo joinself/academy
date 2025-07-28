@@ -1,55 +1,38 @@
 # Self SDK Mobile Examples
 
-Welcome to the Self SDK mobile examples! This directory contains examples for Android and iOS platforms that demonstrate mobile-specific patterns and UI integrations.
+Welcome to the Self SDK mobile examples! The mobile examples have been moved to dedicated repositories for better organization and maintenance.
 
-## Mobile Examples Overview
+## Mobile Examples Repositories
 
-| Category | Example | Summary | Platform |
-|----------|---------|---------|----------|
-| **Setup** | [New Account](00_setup/01_new_account/) | Create Self identity with mobile UI | Android, iOS |
-| **Setup** | [Existing Account](00_setup/02_existing_account/) | Load saved accounts with biometric auth | Android, iOS |
-| **Connection** | [QR Scanner](01_connection/02_qr/) | Scan QR codes to connect | Android, iOS |
-| **Connection** | [Client](01_connection/03_client/) | Connect to server addresses | Android, iOS |
-| **Chat** | [Basic Chat](03_chat/01_basic/) | Secure messaging with mobile UI | Android, iOS |
-| **Credentials** | [Email Verification](02_credentials/email_verification/) | Mobile email verification flow | Android, iOS |
-| **Credentials** | [Presentation](02_credentials/presentation_request/) | Share credentials via mobile UI | Android, iOS |
-| **Advanced** | [Core Features](04_advanced_features/01_core_features/) | Mobile SDK integration patterns | Android, iOS |
-| **Advanced** | [Notifications](04_advanced_features/03_notifications/) | Mobile push notifications | Android, iOS |
+### Android Examples
+- **[demo-android](https://github.com/joinself/demo-android)**: Complete Android SDK implementations with UI flows
+  - **Features**: Biometric authentication, NFC support, document capture, credential management
 
-## Implementation Status
-
-### Setup Examples
-- [ ] **01_new_account** - Create Self identity with mobile UI
-- [ ] **02_existing_account** - Load saved accounts with biometric auth
-
-### Connection Examples  
-- [ ] **02_qr** - Scan QR codes to connect with camera UI
-- [ ] **03_client** - Connect to server addresses with mobile UI
-
-### Chat Examples
-- [ ] **01_basic** - Secure messaging with mobile chat UI
-
-### Credential Examples
-- [ ] **email_verification** - Mobile email verification flow with UI
-- [ ] **presentation_request** - Share credentials via mobile UI
-
-### Advanced Examples
-- [ ] **01_core_features** - Mobile SDK integration patterns
-- [ ] **03_notifications** - Mobile push notifications with UI
-
-**Total Examples: 9** | **Implemented: 0** | **Remaining: 9**
+### iOS Examples  
+- **[demo-ios](https://github.com/joinself/demo-ios)**: Native iOS implementations with SwiftUI
+  - **Features**: Biometric authentication, secure storage, UI components
 
 ## Quick Start
 
 ### Android
-```bash
-cd <category>/<example>/android && ./gradlew run
-```
+1. Clone the Android repository:
+   ```bash
+   git clone https://github.com/joinself/demo-android.git
+   cd demo-android
+   ```
+2. Open the project in Android Studio
+3. Configure your Self SDK credentials
+4. Run the app on a device or emulator
 
 ### iOS
-```bash
-cd <category>/<example>/ios && xcodebuild -project SelfSDKExample.xcodeproj
-```
+1. Clone the iOS repository:
+   ```bash
+   git clone https://github.com/joinself/demo-ios.git
+   cd demo-ios
+   ```
+2. Open the project in Xcode
+3. Configure your Self SDK credentials
+4. Run the app on a device or simulator
 
 ## Mobile-Specific Features
 
@@ -58,6 +41,8 @@ cd <category>/<example>/ios && xcodebuild -project SelfSDKExample.xcodeproj
 - **QR Scanning**: Camera-based connection discovery
 - **Push Notifications**: Real-time mobile alerts
 - **Touch Interfaces**: Mobile-optimized user experience
+- **NFC Support**: Enhanced passport verification (Android)
+- **Document Capture**: Camera-based identity document scanning
 
 ## Learning Path
 
@@ -67,6 +52,15 @@ cd <category>/<example>/ios && xcodebuild -project SelfSDKExample.xcodeproj
 4. **Explore Credentials** → Mobile verification flows
 5. **Advanced Features** → Production patterns
 
+## Documentation
+
+- **[Android SDK Documentation](https://docs.joinself.com/android/)**: Complete Android SDK reference
+- **[iOS SDK Documentation](https://docs.joinself.com/ios/)**: Complete iOS SDK reference
+- **[Getting Started Guide](../getting-started/quick-start.md)**: Quick start with mobile examples
+
 ---
 
-**Ready to build mobile apps with Self SDK?** Pick your platform and start! 
+**Ready to build mobile apps with Self SDK?** Choose your platform and start building!
+
+- **[Android Examples](https://github.com/joinself/demo-android)**
+- **[iOS Examples](https://github.com/joinself/demo-ios)** 

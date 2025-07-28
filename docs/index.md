@@ -31,6 +31,8 @@ title: " "
         </div>
         
         <div class="hero-cta">
+            <a href="getting-started/" class="hero-link">Get Started</a>
+            <span class="hero-link-separator">•</span>
             <a href="examples/overview/" class="hero-link">Start Learning</a>
             <span class="hero-link-separator">•</span>
             <a href="concepts/overview/" class="hero-link">Understand the Concepts</a>
@@ -183,7 +185,7 @@ title: " "
     <h3><span class="material-icons">school</span> Ready to Master Digital Identity?</h3>
     <p>Join thousands of developers learning to build the future of authentication</p>
     <div class="button-group">
-        <a href="examples/setup/" class="md-button md-button--primary">Start Your Learning Journey</a>
+        <a href="getting-started/quick-start/" class="md-button md-button--primary">Start Your Learning Journey</a>
         <a href="examples/resources/" class="md-button">Join Developer Community</a>
     </div>
 </div>
