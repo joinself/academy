@@ -43,58 +43,66 @@ Self-sovereign control        →    You own your identity completely
 Follow this **progressive learning path** to master Self account management:
 
 ### **Step 1:** Create Your First Identity
-**[New Account Creation](https://github.com/joinself/academy/examples/server/00_setup/01_new_account/README.md)**
 
 **What it demonstrates:**
+
 - Fresh DID generation from cryptographic keys
 - Automatic secure storage initialization  
 - Network registration and identity verification
 - Foundation for all other Self SDK operations
 
-```go
-// This simple code creates a permanent digital identity
-account := common.SetupAccount(config)
-// - Generates unique DID: did:self:ABC123...
-// - Creates cryptographic key pair
-// - Registers with Self network
-// - Ready for secure communication
-```
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/common/account.go#L33-L41"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
 
 **Key Concept**: Unlike username/password systems, this identity is **mathematically yours** - no company can take it away.
 
 **Time**: 2 minutes to complete  
 **Success**: You'll see your unique DID and confirm network connection
 
+**View complete implementation:** [New Account Creation](https://github.com/joinself/academy/blob/main/examples/server/00_setup/01_new_account/)
+
 ---
 
 ### **Step 2:** Master Account Persistence
-**[Existing Account Loading](https://github.com/joinself/academy/examples/server/00_setup/02_existing_account/README.md)**
 
 **What it demonstrates:**
+
 - How Self accounts persist across application restarts
 - Identity preservation and verification
 - Network reconnection with existing credentials
 - Real-world application startup patterns
 
-```go
-// Load your previously created identity
-selfAccount := loadExistingAccount()
-// - Restores your exact same DID
-// - Reloads cryptographic keys securely
-// - Reconnects to Self network
-// - Maintains all connections and data
-```
+**Key Insight**: The code to recover an existing account is **exactly the same** as creating a new one - as long as you use the same storage path and storage key, the Self SDK automatically detects and loads your existing identity.
 
-**Key Concept**: Your identity is **permanently yours** - it persists across devices, applications, and time.
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/common/account.go#L33-L41"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
+**How it works:**
+- **Same function call**: `common.SetupAccount()` works for both creation and recovery
+- **Automatic detection**: SDK checks if storage exists and loads existing account
+- **Storage key matters**: Same key = same account, different key = different account
+- **Storage path matters**: Same path = same account, different path = different account
+
+**Key Concept**: Your identity is **permanently yours** - it persists across devices, applications, and time, and the same simple code recovers it.
 
 **Time**: 2 minutes to complete  
 **Success**: Same DID loads perfectly, proving identity ownership
 
+**View complete implementation:** [Existing Account Loading](https://github.com/joinself/academy/blob/main/examples/server/00_setup/02_existing_account/)
+
 ---
 
 ### **Step 3:** Access Your Identity Network
-**[Inbox Access & Addressing](https://github.com/joinself/academy/examples/server/00_setup/03_inbox_access/README.md)**
-
 
 **What it demonstrates:**
 - How to get your shareable inbox address
@@ -102,19 +110,20 @@ selfAccount := loadExistingAccount()
 - Network communication setup
 - Foundation for receiving messages and credentials
 
-```go
-// Get your public address for communication
-inboxAddress, err := selfAccount.InboxOpen()
-fmt.Printf("**Inbox:** Share this address: %s\n", inboxAddress.String())
-// - Others can now send you messages
-// - Ready for credential exchange
-// - Connected to decentralized network
-```
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/00_setup/03_inbox_access/go/main.go#L18-28"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
 
 **Key Concept**: Your inbox address is like your **email for the decentralized web** - others need it to reach you.
 
 **Time**: 1 minute to complete  
 **Success**: Working inbox address ready for communication
+
+**View complete implementation:** [Inbox Access & Addressing](https://github.com/joinself/academy/blob/main/examples/server/00_setup/03_inbox_access/)
 
 ---
 
