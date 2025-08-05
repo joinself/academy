@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "SelfAcademy"
 include(":00_setup:01_new_account")
+include(":01_connection:01_address")
