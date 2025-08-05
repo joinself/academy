@@ -26,7 +26,7 @@ Create a new Self identity with mobile UI components.
 - Biometric authentication setup
 - Secure mobile storage
 - Mobile UI integration
-- Connecting to a server
+- Connecting to a server by an inbox address
 
 ---
 

@@ -8,7 +8,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,7 +16,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,6 +34,7 @@ import com.joinself.sdk.models.Account
 import com.joinself.sdk.models.Message
 import com.joinself.sdk.models.PublicKey
 import com.joinself.sdk.ui.integrateUIFlows
+import com.joinself.sdk.ui.openQRCodeFlow
 import com.joinself.sdk.ui.openRegistrationFlow
 import com.joinself.ui.theme.SelfModifier
 import kotlinx.coroutines.Dispatchers
@@ -91,16 +90,14 @@ class MainActivity : ComponentActivity() {
                     val selfModifier = SelfModifier.sdk()
 
                     var isRegistered by remember { mutableStateOf(account.registered()) }
-                    var serverInboxAddress by remember { mutableStateOf<PublicKey?>(null) }
                     var statusText by remember { mutableStateOf("") }
 
                     // connect with server by an inbox address, a group address is returned.
-                    fun connect() {
+                    fun connect(qrCode: ByteArray) {
                         statusText = ""
                         coroutineScope.launch(Dispatchers.IO) {
                             try {
-                                // the group address is used to send messages
-                                val groupAddress = account.connectWith(serverInboxAddress!!, info = mapOf())
+                                val groupAddress = account.connectWith(qrCode)
                                 statusText = if (groupAddress != null) "Connected!!" else "Failed to connect!!"
                             } catch (ex: Exception) {
                                 Log.e("Self", ex.message, ex)
@@ -131,26 +128,20 @@ class MainActivity : ComponentActivity() {
                                     Text(text = "Create Account")
                                 }
 
-
-                                // connect to server
-                                Row(modifier = Modifier.padding(top = 20.dp),
-                                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                                    verticalAlignment = Alignment.CenterVertically
+                                Button(
+                                    onClick = {
+                                        coroutineScope.launch {
+                                            account.openQRCodeFlow(
+                                                onFinish = { qrCode, discoverData ->
+                                                    connect(qrCode)
+                                                },
+                                                onExit = {}
+                                            )
+                                        }
+                                    },
+                                    enabled = isRegistered,
                                 ) {
-                                    TextField(modifier = Modifier.weight(1f), enabled = isRegistered,
-                                        value = serverInboxAddress?.hex ?: "",
-                                        onValueChange = { serverInboxAddress = PublicKey(it) },
-                                        placeholder = { Text("enter server inbox address") }
-                                    )
-                                    Button(
-                                        modifier = Modifier.width(80.dp), contentPadding = PaddingValues(0.dp),
-                                        onClick = {
-                                            connect()
-                                        },
-                                        enabled = isRegistered && serverInboxAddress?.hex?.isNotEmpty() == true,
-                                    ) {
-                                        Text(text = "Connect")
-                                    }
+                                    Text(text = "Scan QRCode")
                                 }
                                 Text(text = statusText)
                             }

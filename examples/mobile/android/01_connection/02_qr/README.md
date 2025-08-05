@@ -1,33 +1,33 @@
-# 📱 Mobile QR Scanner
+# 🆕 Mobile New Account
 
-Scan QR codes to connect with built-in camera UI.
+Create a new Self identity with mobile UI components.
 
 ## 📱 Features
 
-- **QR Scanner UI**: Pre-built camera interface
-- **Camera Integration**: Direct camera access
-- **Touch Interface**: Mobile-optimized scanning
-- **Connection Management**: Built-in connection UI
+- **Account Creation UI**: Pre-built account setup screens
+- **Biometric Setup**: Configure fingerprint/Face ID
+- **Secure Storage**: Platform-specific keychain/keystore
+- **Mobile UX**: Touch-friendly interface
 
 ## 🚀 Quick Start
 
-### Android
-```bash
-cd android && ./gradlew run
-```
+### Android 
 
-### iOS
+1. Install the app to your phone
+2. Open Self Academy app in your phone
+
 ```bash
-cd ios && xcodebuild -project SelfSDKExample.xcodeproj
+./gradlew :01_connection:02_qr:installDebug
 ```
 
 ## 📱 What You'll Learn
 
-- Mobile QR code scanning
-- Camera integration patterns
-- Mobile connection establishment
-- Touch-based mobile UX
+- Mobile account creation patterns
+- Biometric authentication setup
+- Secure mobile storage
+- Mobile UI integration
+- Connecting to a server by a QRCode
 
 ---
 
-**Ready to scan QR codes?** 🚀 
+**Ready to create your first mobile account?** 🚀 
