@@ -2,11 +2,11 @@ package com.joinself.app.academy
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +15,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,15 +25,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.joinself.common.Environment
 import com.joinself.sdk.SelfSDK
 import com.joinself.sdk.models.Account
+import com.joinself.sdk.models.ChatMessage
+import com.joinself.sdk.models.CredentialMessage
 import com.joinself.sdk.models.Message
+import com.joinself.sdk.models.PublicKey
+import com.joinself.sdk.ui.DisplayRequestUI
 import com.joinself.sdk.ui.integrateUIFlows
-import com.joinself.sdk.ui.openDocumentVerificationFlow
 import com.joinself.sdk.ui.openQRCodeFlow
 import com.joinself.sdk.ui.openRegistrationFlow
 import com.joinself.ui.theme.SelfModifier
@@ -54,29 +60,7 @@ class MainActivity : ComponentActivity() {
         val storagePath = File(applicationContext.filesDir.absolutePath + "/get_credentials")
         if (!storagePath.exists()) storagePath.mkdirs()
 
-        val account = Account.Builder()
-            .setContext(applicationContext)
-            .setEnvironment(Environment.production)
-            .setSandbox(true)
-            .setStoragePath(storagePath.absolutePath)
-            .setCallbacks(object : Account.Callbacks {
-                override fun onMessage(message: Message) {
-                    Log.d(LOGTAG, "onMessage: ${message.id()}")
-                }
-                override fun onConnect() {
-                    Log.d(LOGTAG, "onConnect")
-                }
-                override fun onDisconnect(errorMessage: String?) {
-                    Log.d(LOGTAG, "onDisconnect: $errorMessage")
-                }
-                override fun onAcknowledgement(id: String) {
-                    Log.d(LOGTAG, "onAcknowledgement: $id")
-                }
-                override fun onError(id: String, errorMessage: String?) {
-                    Log.d(LOGTAG, "onError: $errorMessage")
-                }
-            })
-            .build()
+        var account: Account? = null
 
         setContent {
             MaterialTheme {
@@ -88,21 +72,62 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     val selfModifier = SelfModifier.sdk()
 
-                    var isRegistered by remember { mutableStateOf(account.registered()) }
+                    var isRegistered by remember { mutableStateOf(false) }
+                    var groupAddress by remember { mutableStateOf<PublicKey?>(null) }
                     var statusText by remember { mutableStateOf("") }
+
+                    var requestMessage by remember { mutableStateOf<CredentialMessage?>(null) }
 
                     // connect with server by an inbox address, a group address is returned.
                     fun connect(qrCode: ByteArray) {
                         statusText = ""
                         coroutineScope.launch(Dispatchers.IO) {
                             try {
-                                val groupAddress = account.connectWith(qrCode)
+                                groupAddress = account?.connectWith(qrCode)
                                 statusText = if (groupAddress != null) "Connected!!" else "Failed to connect!!"
                             } catch (ex: Exception) {
                                 Log.e("Self", ex.message, ex)
                                 statusText = "Failed to connect!!\n${ex.message}"
                             }
                         }
+                    }
+
+                    fun notifyServerForRequest(message: String) = coroutineScope.launch(Dispatchers.IO) {
+                        requireNotNull(groupAddress)
+
+                        val chat = ChatMessage.Builder()
+                            .setMessage(message)
+                            .build()
+                        account?.send(toAddress = groupAddress!!, chat)
+                    }
+
+                    LaunchedEffect(true) {
+                        account = Account.Builder()
+                            .setContext(applicationContext)
+                            .setEnvironment(Environment.production)
+                            .setSandbox(true)
+                            .setStoragePath(storagePath.absolutePath)
+                            .setCallbacks(object : Account.Callbacks {
+                                override fun onMessage(message: Message) {
+                                    Log.d(LOGTAG, "onMessage: ${message.id()}")
+                                    if (message is CredentialMessage) requestMessage = message
+                                }
+                                override fun onConnect() {
+                                    Log.d(LOGTAG, "onConnect")
+                                }
+                                override fun onDisconnect(errorMessage: String?) {
+                                    Log.d(LOGTAG, "onDisconnect: $errorMessage")
+                                }
+                                override fun onAcknowledgement(id: String) {
+                                    Log.d(LOGTAG, "onAcknowledgement: $id")
+                                }
+                                override fun onError(id: String, errorMessage: String?) {
+                                    Log.d(LOGTAG, "onError: $errorMessage")
+                                }
+                            })
+                            .build()
+
+                        isRegistered = account.registered()
                     }
 
                     NavHost(navController = navController, startDestination = "main", modifier = Modifier.padding(innerPadding)) {
@@ -119,7 +144,7 @@ class MainActivity : ComponentActivity() {
                                     onClick = {
                                         coroutineScope.launch {
                                             // open registration flow to create an account
-                                            account.openRegistrationFlow { isSuccess, error ->
+                                            account?.openRegistrationFlow { isSuccess, error ->
                                                 isRegistered = isSuccess
                                             }
                                         }
@@ -132,7 +157,7 @@ class MainActivity : ComponentActivity() {
                                 Button(
                                     onClick = {
                                         coroutineScope.launch {
-                                            account.openQRCodeFlow(
+                                            account?.openQRCodeFlow(
                                                 onFinish = { qrCode, discoverData ->
                                                     connect(qrCode)
                                                 },
@@ -147,7 +172,7 @@ class MainActivity : ComponentActivity() {
 
                                 Button(
                                     onClick = {
-
+                                        notifyServerForRequest("REQUEST_GET_CUSTOM_CREDENTIAL")
                                     },
                                     enabled = isRegistered
                                 ) {
@@ -155,6 +180,22 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 Text(text = statusText)
+
+                                if (requestMessage != null) {
+                                    Dialog(
+                                        onDismissRequest = { },
+                                        properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false, usePlatformDefaultWidth = false),
+                                    ) {
+                                        Box(
+                                            modifier = Modifier.fillMaxSize().padding(top = 100.dp),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            account?.DisplayRequestUI(selfModifier, requestMessage!!, onFinish = { isSent, status ->
+                                                requestMessage = null
+                                            })
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
