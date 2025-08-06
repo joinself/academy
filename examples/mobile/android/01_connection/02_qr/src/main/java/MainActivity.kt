@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
         )
 
         // the sdk will store data in this directory, make sure it exists.
-        val storagePath = File(applicationContext.filesDir.absolutePath + "/self_academy")
+        val storagePath = File(applicationContext.filesDir.absolutePath + "/connection_qr")
         if (!storagePath.exists()) storagePath.mkdirs()
 
         val account = Account.Builder()
@@ -118,9 +118,11 @@ class MainActivity : ComponentActivity() {
                                 Text(modifier = Modifier.padding(top = 40.dp), text = "Registered: $isRegistered")
                                 Button(
                                     onClick = {
-                                        // open registration flow to create an account
-                                        account.openRegistrationFlow { isSuccess, error ->
-                                            isRegistered = isSuccess
+                                        coroutineScope.launch {
+                                            // open registration flow to create an account
+                                            account.openRegistrationFlow { isSuccess, error ->
+                                                isRegistered = isSuccess
+                                            }
                                         }
                                     },
                                     enabled = !isRegistered

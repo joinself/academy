@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
         )
 
         // the sdk will store data in this directory, make sure it exists.
-        val storagePath = File(applicationContext.filesDir.absolutePath + "/self_academy")
+        val storagePath = File(applicationContext.filesDir.absolutePath + "/verify_email")
         if (!storagePath.exists()) storagePath.mkdirs()
 
         val account = Account.Builder()
@@ -102,9 +102,11 @@ class MainActivity : ComponentActivity() {
                                 Text(modifier = Modifier.padding(top = 40.dp), text = "Registered: $isRegistered")
                                 Button(
                                     onClick = {
-                                        // open registration flow to create an account
-                                        account.openRegistrationFlow { isSuccess, error ->
-                                            isRegistered = isSuccess
+                                        coroutineScope.launch {
+                                            // open registration flow to create an account
+                                            account.openRegistrationFlow { isSuccess, error ->
+                                                isRegistered = isSuccess
+                                            }
                                         }
                                     },
                                     enabled = !isRegistered
@@ -115,11 +117,13 @@ class MainActivity : ComponentActivity() {
                                 // integrate email verification flow
                                 Button(
                                     onClick = {
-                                        account.openEmailVerificationFlow { isSuccess, error ->
-                                            if (isSuccess) {
-                                                coroutineScope.launch(Dispatchers.Main) {
-                                                    statusText = "Email is verified!!"
-                                                    Toast.makeText(applicationContext, "Email verification successfully", Toast.LENGTH_LONG).show()
+                                        coroutineScope.launch {
+                                            account.openEmailVerificationFlow { isSuccess, error ->
+                                                if (isSuccess) {
+                                                    coroutineScope.launch(Dispatchers.Main) {
+                                                        statusText = "Email is verified!!"
+                                                        Toast.makeText(applicationContext, "Email verification successfully", Toast.LENGTH_LONG).show()
+                                                    }
                                                 }
                                             }
                                         }

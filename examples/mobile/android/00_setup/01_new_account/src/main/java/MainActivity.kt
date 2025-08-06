@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +33,7 @@ import com.joinself.sdk.models.Message
 import com.joinself.sdk.ui.integrateUIFlows
 import com.joinself.sdk.ui.openRegistrationFlow
 import com.joinself.ui.theme.SelfModifier
+import kotlinx.coroutines.launch
 import java.io.File
 
 class MainActivity : ComponentActivity() {
@@ -45,7 +47,7 @@ class MainActivity : ComponentActivity() {
         )
 
         // the sdk will store data in this directory, make sure it exists.
-        val storagePath = File(applicationContext.filesDir.absolutePath + "/self_academy")
+        val storagePath = File(applicationContext.filesDir.absolutePath + "/new_account")
         if (!storagePath.exists()) storagePath.mkdirs()
 
         val account = Account.Builder()
@@ -78,6 +80,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     containerColor = Color.White
                 ) { innerPadding ->
+                    val coroutineScope = rememberCoroutineScope()
                     val navController = rememberNavController()
                     val selfModifier = SelfModifier.sdk()
 
@@ -95,9 +98,11 @@ class MainActivity : ComponentActivity() {
                                 Text(modifier = Modifier.padding(top = 40.dp), text = "Registered: $isRegistered")
                                 Button(modifier = Modifier.padding(top = 20.dp),
                                     onClick = {
-                                        // open registration flow to create an account
-                                        account.openRegistrationFlow { isSuccess, error ->
-                                            isRegistered = isSuccess
+                                        coroutineScope.launch {
+                                            // open registration flow to create an account
+                                            account.openRegistrationFlow { isSuccess, error ->
+                                                isRegistered = isSuccess
+                                            }
                                         }
                                     },
                                     enabled = !isRegistered
