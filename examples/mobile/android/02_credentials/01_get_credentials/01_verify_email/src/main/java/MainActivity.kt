@@ -2,6 +2,7 @@ package com.joinself.app.academy
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -17,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,8 +32,11 @@ import com.joinself.sdk.SelfSDK
 import com.joinself.sdk.models.Account
 import com.joinself.sdk.models.Message
 import com.joinself.sdk.ui.integrateUIFlows
+import com.joinself.sdk.ui.openEmailVerificationFlow
 import com.joinself.sdk.ui.openRegistrationFlow
 import com.joinself.ui.theme.SelfModifier
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 
 class MainActivity : ComponentActivity() {
@@ -78,22 +83,24 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     containerColor = Color.White
                 ) { innerPadding ->
+                    val coroutineScope = rememberCoroutineScope()
                     val navController = rememberNavController()
                     val selfModifier = SelfModifier.sdk()
 
                     var isRegistered by remember { mutableStateOf(account.registered()) }
+                    var statusText by remember { mutableStateOf("") }
 
                     NavHost(navController = navController, startDestination = "main", modifier = Modifier.padding(innerPadding)) {
                         SelfSDK.integrateUIFlows(this, navController, selfModifier)
 
                         composable("main") {
                             Column(
-                                verticalArrangement = Arrangement.spacedBy(10.dp),
+                                verticalArrangement = Arrangement.spacedBy(20.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 modifier = Modifier.padding(start = 8.dp, end = 8.dp).fillMaxWidth()
                             ) {
                                 Text(modifier = Modifier.padding(top = 40.dp), text = "Registered: $isRegistered")
-                                Button(modifier = Modifier.padding(top = 20.dp),
+                                Button(
                                     onClick = {
                                         // open registration flow to create an account
                                         account.openRegistrationFlow { isSuccess, error ->
@@ -104,6 +111,25 @@ class MainActivity : ComponentActivity() {
                                 ) {
                                     Text(text = "Create Account")
                                 }
+
+                                // integrate email verification flow
+                                Button(
+                                    onClick = {
+                                        account.openEmailVerificationFlow { isSuccess, error ->
+                                            if (isSuccess) {
+                                                coroutineScope.launch(Dispatchers.Main) {
+                                                    statusText = "Email is verified!!"
+                                                    Toast.makeText(applicationContext, "Email verification successfully", Toast.LENGTH_LONG).show()
+                                                }
+                                            }
+                                        }
+                                    },
+                                    enabled = isRegistered
+                                ) {
+                                    Text(text = "Email Verification")
+                                }
+
+                                Text(text = statusText)
                             }
                         }
                     }

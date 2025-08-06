@@ -17,7 +17,7 @@ Create a new Self identity with mobile UI components.
 2. Open Self Academy app in your phone
 
 ```bash
-./gradlew :00_setup:01_new_account:installDebug
+./gradlew :02_credentials:01_get_credentials:01_verify_email:installDebug
 ```
 
 ## 📱 What You'll Learn

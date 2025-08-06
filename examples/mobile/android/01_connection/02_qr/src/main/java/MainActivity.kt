@@ -111,7 +111,7 @@ class MainActivity : ComponentActivity() {
 
                         composable("main") {
                             Column(
-                                verticalArrangement = Arrangement.spacedBy(10.dp),
+                                verticalArrangement = Arrangement.spacedBy(20.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 modifier = Modifier.padding(start = 8.dp, end = 8.dp).fillMaxWidth()
                             ) {
