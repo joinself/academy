@@ -32,7 +32,7 @@ import com.joinself.sdk.SelfSDK
 import com.joinself.sdk.models.Account
 import com.joinself.sdk.models.Message
 import com.joinself.sdk.ui.integrateUIFlows
-import com.joinself.sdk.ui.openEmailVerificationFlow
+import com.joinself.sdk.ui.openDocumentVerificationFlow
 import com.joinself.sdk.ui.openRegistrationFlow
 import com.joinself.ui.theme.SelfModifier
 import kotlinx.coroutines.Dispatchers
@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
         )
 
         // the sdk will store data in this directory, make sure it exists.
-        val storagePath = File(applicationContext.filesDir.absolutePath + "/verify_email")
+        val storagePath = File(applicationContext.filesDir.absolutePath + "/verify_document")
         if (!storagePath.exists()) storagePath.mkdirs()
 
         val account = Account.Builder()
@@ -114,23 +114,26 @@ class MainActivity : ComponentActivity() {
                                     Text(text = "Create Account")
                                 }
 
-                                // integrate email verification flow
+                                // integrate document verification flow
                                 Button(
                                     onClick = {
                                         coroutineScope.launch {
-                                            account.openEmailVerificationFlow { isSuccess, error ->
-                                                if (isSuccess) {
-                                                    coroutineScope.launch(Dispatchers.Main) {
-                                                        statusText = "Email is verified!!"
-                                                        Toast.makeText(applicationContext, "Email verification successfully", Toast.LENGTH_LONG).show()
+                                            account.openDocumentVerificationFlow(
+                                                isDevMode = true,
+                                                onFinish = { isSuccess, error ->
+                                                    if (isSuccess) {
+                                                        statusText = "Your document is verified!!"
+                                                        coroutineScope.launch(Dispatchers.Main) {
+                                                            Toast.makeText(applicationContext, "Document verification successfully", Toast.LENGTH_LONG).show()
+                                                        }
                                                     }
                                                 }
-                                            }
+                                            )
                                         }
                                     },
                                     enabled = isRegistered
                                 ) {
-                                    Text(text = "Verify Email")
+                                    Text(text = "Verify Identity Document")
                                 }
 
                                 Text(text = statusText)
