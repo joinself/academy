@@ -181,19 +181,15 @@ class MainActivity : ComponentActivity() {
 
                                 Text(text = statusText)
 
+                                // display credential message with buttons to confirm or reject storing credentials
                                 if (requestMessage != null) {
                                     Dialog(
                                         onDismissRequest = { },
                                         properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false, usePlatformDefaultWidth = false),
                                     ) {
-                                        Box(
-                                            modifier = Modifier.fillMaxSize().padding(top = 100.dp),
-                                            contentAlignment = Alignment.Center
-                                        ) {
-                                            account?.DisplayRequestUI(selfModifier, requestMessage!!, onFinish = { isSent, status ->
-                                                requestMessage = null
-                                            })
-                                        }
+                                        account?.DisplayRequestUI(selfModifier, requestMessage ?: return@Dialog, onFinish = { isSent, status ->
+                                            requestMessage = null
+                                        })
                                     }
                                 }
                             }
