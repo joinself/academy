@@ -3,7 +3,6 @@ package com.joinself.app.academy
 import Common
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -34,12 +33,12 @@ import androidx.navigation.compose.rememberNavController
 import com.joinself.common.Environment
 import com.joinself.sdk.SelfSDK
 import com.joinself.sdk.models.Account
+import com.joinself.sdk.models.CredentialMessage
 import com.joinself.sdk.models.CredentialRequest
 import com.joinself.sdk.models.Message
 import com.joinself.sdk.models.PublicKey
 import com.joinself.sdk.ui.DisplayRequestUI
 import com.joinself.sdk.ui.integrateUIFlows
-import com.joinself.sdk.ui.openDocumentVerificationFlow
 import com.joinself.sdk.ui.openQRCodeFlow
 import com.joinself.sdk.ui.openRegistrationFlow
 import com.joinself.ui.theme.SelfModifier
@@ -58,7 +57,7 @@ class MainActivity : ComponentActivity() {
         )
 
         // the sdk will store data in this directory, make sure it exists.
-        val storagePath = File(applicationContext.filesDir.absolutePath + "/share_custom_credential")
+        val storagePath = File(applicationContext.filesDir.absolutePath + "/share_document")
         if (!storagePath.exists()) storagePath.mkdirs()
 
         var account: Account? = null
@@ -76,7 +75,8 @@ class MainActivity : ComponentActivity() {
                     var isRegistered by remember { mutableStateOf(false) }
                     var groupAddress by remember { mutableStateOf<PublicKey?>(null) }
                     var statusText by remember { mutableStateOf("") }
-                    var isDocumentVerified by remember { mutableStateOf(false) }
+                    var isCredentialVerified by remember { mutableStateOf(false) }
+                    var credentialMessage by remember { mutableStateOf<CredentialMessage?>(null) }
                     var requestMessage by remember { mutableStateOf<CredentialRequest?>(null) }
 
 
@@ -92,6 +92,8 @@ class MainActivity : ComponentActivity() {
                                     // check if it is a liveness request
                                     if (message is CredentialRequest) {
                                         requestMessage = message
+                                    } else if (message is CredentialMessage) {
+                                        credentialMessage = message
                                     }
                                 }
                                 override fun onConnect() {
@@ -157,33 +159,37 @@ class MainActivity : ComponentActivity() {
 
                                 Button(
                                     onClick = {
-                                        coroutineScope.launch {
-                                            account?.openDocumentVerificationFlow(
-                                                isDevMode = true,
-                                                onFinish = { isSuccess, error ->
-                                                    if (isSuccess) {
-                                                        isDocumentVerified = true
-                                                        statusText = "Your document is verified!!"
-                                                    }
-                                                }
-                                            )
-                                        }
+                                        Common.notifyServerForRequest( account ?:return@Button, groupAddress ?:return@Button,"REQUEST_GET_CUSTOM_CREDENTIAL")
                                     },
-                                    enabled = isRegistered && groupAddress != null && !isDocumentVerified
+                                    enabled = isRegistered && !isCredentialVerified && groupAddress != null
                                 ) {
-                                    Text(text = "Verify Identity Document")
+                                    Text(text = "Get Credentials")
                                 }
 
                                 Button(
                                     onClick = {
-                                        Common.notifyServerForRequest( account ?: return@Button, groupAddress ?: return@Button, message = "PROVIDE_CREDENTIAL_DOCUMENT")
+                                        Common.notifyServerForRequest( account ?: return@Button, groupAddress ?: return@Button, message = "PROVIDE_CREDENTIAL_CUSTOM")
                                     },
-                                    enabled = isRegistered && isDocumentVerified && groupAddress != null
+                                    enabled = isRegistered && isCredentialVerified && groupAddress != null
                                 ) {
-                                    Text(text = "Start Sharing Document Credential")
+                                    Text(text = "Start Sharing Custom Credential")
                                 }
 
                                 Text(text = statusText)
+
+                                // display credential message
+                                if (credentialMessage != null) {
+                                    Dialog(
+                                        onDismissRequest = { },
+                                        properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false, usePlatformDefaultWidth = false),
+                                    ) {
+                                        account?.DisplayRequestUI(selfModifier, credentialMessage ?: return@Dialog, onFinish = { isSent, status ->
+                                            credentialMessage = null
+                                            isCredentialVerified = true
+                                            statusText = "Custom credentials are stored!!"
+                                        })
+                                    }
+                                }
 
                                 // display credential request with buttons to confirm or reject.
                                 if (requestMessage != null) {
