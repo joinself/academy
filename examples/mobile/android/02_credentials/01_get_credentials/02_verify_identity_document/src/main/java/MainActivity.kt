@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         SelfSDK.initialize(applicationContext,
-            log = { Log.d("Self", it) }
+            log = { Log.d(LOGTAG, it) }
         )
 
         // the sdk will store data in this directory, make sure it exists.

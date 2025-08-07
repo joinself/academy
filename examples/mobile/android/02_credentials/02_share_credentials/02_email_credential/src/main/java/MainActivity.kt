@@ -3,6 +3,7 @@ package com.joinself.app.academy
 import Common
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -39,6 +40,7 @@ import com.joinself.sdk.models.Message
 import com.joinself.sdk.models.PublicKey
 import com.joinself.sdk.ui.DisplayRequestUI
 import com.joinself.sdk.ui.integrateUIFlows
+import com.joinself.sdk.ui.openEmailVerificationFlow
 import com.joinself.sdk.ui.openQRCodeFlow
 import com.joinself.sdk.ui.openRegistrationFlow
 import com.joinself.ui.theme.SelfModifier
@@ -57,7 +59,7 @@ class MainActivity : ComponentActivity() {
         )
 
         // the sdk will store data in this directory, make sure it exists.
-        val storagePath = File(applicationContext.filesDir.absolutePath + "/authentication")
+        val storagePath = File(applicationContext.filesDir.absolutePath + "/share_email")
         if (!storagePath.exists()) storagePath.mkdirs()
 
         var account: Account? = null
@@ -75,7 +77,7 @@ class MainActivity : ComponentActivity() {
                     var isRegistered by remember { mutableStateOf(false) }
                     var groupAddress by remember { mutableStateOf<PublicKey?>(null) }
                     var statusText by remember { mutableStateOf("") }
-
+                    var isEmailVerified by remember { mutableStateOf(false) }
                     var requestMessage by remember { mutableStateOf<CredentialRequest?>(null) }
 
 
@@ -149,18 +151,38 @@ class MainActivity : ComponentActivity() {
                                             )
                                         }
                                     },
-                                    enabled = isRegistered,
+                                    enabled = isRegistered && groupAddress == null,
                                 ) {
                                     Text(text = "Scan QRCode")
                                 }
 
+                                // integrate email verification flow
                                 Button(
                                     onClick = {
-                                        Common.notifyServerForRequest( account ?: return@Button, groupAddress ?: return@Button, message = "REQUEST_CREDENTIAL_AUTH")
+                                        coroutineScope.launch {
+                                            account?.openEmailVerificationFlow { isSuccess, error ->
+                                                if (isSuccess) {
+                                                    isEmailVerified = true
+                                                    coroutineScope.launch(Dispatchers.Main) {
+                                                        statusText = "Email is verified!!"
+                                                        Toast.makeText(applicationContext, "Email verification successfully", Toast.LENGTH_LONG).show()
+                                                    }
+                                                }
+                                            }
+                                        }
                                     },
                                     enabled = isRegistered && groupAddress != null
                                 ) {
-                                    Text(text = "Start Authentication")
+                                    Text(text = "Verify Email")
+                                }
+
+                                Button(
+                                    onClick = {
+                                        Common.notifyServerForRequest( account ?: return@Button, groupAddress ?: return@Button, message = "PROVIDE_CREDENTIAL_EMAIL")
+                                    },
+                                    enabled = isRegistered && isEmailVerified && groupAddress != null
+                                ) {
+                                    Text(text = "Start Sharing Email Credential")
                                 }
 
                                 Text(text = statusText)
