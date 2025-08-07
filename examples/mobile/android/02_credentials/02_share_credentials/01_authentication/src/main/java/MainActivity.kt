@@ -30,10 +30,11 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.joinself.common.CredentialType
 import com.joinself.common.Environment
 import com.joinself.sdk.SelfSDK
 import com.joinself.sdk.models.Account
-import com.joinself.sdk.models.CredentialMessage
+import com.joinself.sdk.models.CredentialRequest
 import com.joinself.sdk.models.Message
 import com.joinself.sdk.models.PublicKey
 import com.joinself.sdk.ui.DisplayRequestUI
@@ -56,7 +57,7 @@ class MainActivity : ComponentActivity() {
         )
 
         // the sdk will store data in this directory, make sure it exists.
-        val storagePath = File(applicationContext.filesDir.absolutePath + "/get_credentials")
+        val storagePath = File(applicationContext.filesDir.absolutePath + "/authentication")
         if (!storagePath.exists()) storagePath.mkdirs()
 
         var account: Account? = null
@@ -75,7 +76,8 @@ class MainActivity : ComponentActivity() {
                     var groupAddress by remember { mutableStateOf<PublicKey?>(null) }
                     var statusText by remember { mutableStateOf("") }
 
-                    var requestMessage by remember { mutableStateOf<CredentialMessage?>(null) }
+                    var requestMessage by remember { mutableStateOf<CredentialRequest?>(null) }
+
 
                     LaunchedEffect(true) {
                         account = Account.Builder()
@@ -86,7 +88,10 @@ class MainActivity : ComponentActivity() {
                             .setCallbacks(object : Account.Callbacks {
                                 override fun onMessage(message: Message) {
                                     Log.d(LOGTAG, "onMessage: ${message.id()}")
-                                    if (message is CredentialMessage) requestMessage = message
+                                    // check if it is a liveness request
+                                    if (message is CredentialRequest) {
+                                        requestMessage = message
+                                    }
                                 }
                                 override fun onConnect() {
                                     Log.d(LOGTAG, "onConnect")
@@ -151,11 +156,11 @@ class MainActivity : ComponentActivity() {
 
                                 Button(
                                     onClick = {
-                                        Common.notifyServerForRequest( account ?:return@Button, groupAddress ?:return@Button,"REQUEST_GET_CUSTOM_CREDENTIAL")
+                                        Common.notifyServerForRequest( account ?: return@Button, groupAddress ?: return@Button, message = "REQUEST_CREDENTIAL_AUTH")
                                     },
-                                    enabled = isRegistered
+                                    enabled = isRegistered && groupAddress != null
                                 ) {
-                                    Text(text = "Get Credentials")
+                                    Text(text = "Start Authentication")
                                 }
 
                                 Text(text = statusText)
