@@ -21,6 +21,8 @@ android {
             abiFilters.add("arm64-v8a")
         }
         setProperty("archivesBaseName", "self-academy")
+
+
     }
 
     compileOptions {
