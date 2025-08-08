@@ -1,33 +1,32 @@
-# 💬 Mobile Basic Chat
+# 🆕 Mobile New Account
 
-Secure messaging with mobile chat UI.
+Create a new Self identity with mobile UI components.
 
 ## 📱 Features
 
-- **Chat UI**: Pre-built messaging interface
-- **Real-time Messages**: Live message updates
-- **Touch Interface**: Mobile-optimized chat experience
-- **Push Notifications**: Message alerts
+- **Account Creation UI**: Pre-built account setup screens
+- **Biometric Setup**: Configure fingerprint/Face ID
+- **Secure Storage**: Platform-specific keychain/keystore
+- **Mobile UX**: Touch-friendly interface
 
 ## 🚀 Quick Start
 
-### Android
-```bash
-cd android && ./gradlew run
-```
+### Android 
 
-### iOS
+1. Install the app to your phone
+2. Open Self Academy app in your phone
+
 ```bash
-cd ios && xcodebuild -project SelfSDKExample.xcodeproj
+./gradlew :02_credentials:01_get_credentials:01_verify_email:installDebug
 ```
 
 ## 📱 What You'll Learn
 
-- Mobile messaging patterns
-- Real-time message handling
-- Mobile chat UI integration
-- Push notification setup
+- Mobile account creation patterns
+- Biometric authentication setup
+- Secure mobile storage
+- Mobile UI integration
 
 ---
 
-**Ready to build mobile chat?** 🚀 
+**Ready to create your first mobile account?** 🚀 
