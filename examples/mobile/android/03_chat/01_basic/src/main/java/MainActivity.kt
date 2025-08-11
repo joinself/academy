@@ -44,8 +44,10 @@ import com.joinself.sdk.models.Account
 import com.joinself.sdk.models.ChatMessage
 import com.joinself.sdk.models.CredentialMessage
 import com.joinself.sdk.models.CredentialRequest
+import com.joinself.sdk.models.DataObject
 import com.joinself.sdk.models.Message
 import com.joinself.sdk.models.PublicKey
+import com.joinself.sdk.models.Receipt
 import com.joinself.sdk.ui.DisplayRequestUI
 import com.joinself.sdk.ui.integrateUIFlows
 import com.joinself.sdk.ui.openQRCodeFlow
@@ -88,14 +90,22 @@ class MainActivity : ComponentActivity() {
                     var inputMessage by remember { mutableStateOf("") }
 
                     fun sendChat() {
-                        // build a chat message
+                        // build a attachment if there is one
+                        val attachment = DataObject.Builder()
+                            .setData("hello".encodeToByteArray())
+                            .setMimeType("text/plain")
+                            .build()
+
+                        // build a chat message to send
                         val chat = ChatMessage.Builder()
                             .setMessage(inputMessage)
+                            .setAttachments(listOf(attachment))
                             .build()
 
                         // send chat to server
                         coroutineScope.launch(Dispatchers.IO) {
-                            val messageId = account?.send(toAddress = groupAddress!!, message = chat)
+                            account?.send(toAddress = groupAddress!!, message = chat)
+
                             messages.add(inputMessage)
                             inputMessage = ""
                         }
@@ -187,7 +197,7 @@ class MainActivity : ComponentActivity() {
                                             inputMessage = it
                                         },
                                         enabled = groupAddress != null,
-                                        placeholder = { Text("enter chat message") }
+                                        placeholder = { Text("input a message") }
                                     )
                                     Button(modifier = Modifier.width(80.dp), contentPadding = PaddingValues(0.dp),
                                         onClick = {
