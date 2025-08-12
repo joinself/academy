@@ -145,6 +145,7 @@ class MainActivity : ComponentActivity() {
                                         coroutineScope.launch(Dispatchers.Main) {
                                             account?.openRestoreFlow(onFinish = { isSuccess, error ->
                                                 if (isSuccess) {
+                                                    isRegistered = true
                                                     coroutineScope.launch(Dispatchers.Main) {
                                                         Toast.makeText(applicationContext, "Restore successfully", Toast.LENGTH_LONG).show()
                                                     }
