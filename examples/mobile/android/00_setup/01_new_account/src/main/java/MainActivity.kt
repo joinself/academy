@@ -42,14 +42,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        println("🆕 New Account Creation Example")
+        println("===============================")
+
+        // Step 1: SDK initialization
         SelfSDK.initialize(applicationContext,
             log = { Log.d(LOGTAG, it) }
         )
 
-        // the sdk will store data in this directory, make sure it exists.
+        // Step 2: Account Storage Check
+        Log.d(LOGTAG, "🔍 Checking for account storage path...")
         val storagePath = File(applicationContext.filesDir.absolutePath + "/new_account")
         if (!storagePath.exists()) storagePath.mkdirs()
 
+        // Step 3: Account Initialization
+        Log.d(LOGTAG,"🔧 Initialize Self account...")
         val account = Account.Builder()
             .setContext(applicationContext)
             .setEnvironment(Environment.production)
@@ -60,7 +67,7 @@ class MainActivity : ComponentActivity() {
                     Log.d(LOGTAG, "onMessage: ${message.id()}")
                 }
                 override fun onConnect() {
-                    Log.d(LOGTAG, "onConnect")
+                    Log.d(LOGTAG, "✅ Connected to Self network")
                 }
                 override fun onDisconnect(errorMessage: String?) {
                     Log.d(LOGTAG, "onDisconnect: $errorMessage")
@@ -84,9 +91,14 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     val selfModifier = SelfModifier.sdk()
 
+                    // Step 4: Account Registration Status
+                    Log.d(LOGTAG,"🔧 Get registration status...")
                     var isRegistered by remember { mutableStateOf(account.registered()) }
 
                     NavHost(navController = navController, startDestination = "main", modifier = Modifier.padding(innerPadding)) {
+
+                        // Step 3: UI Flow Integration
+                        Log.d(LOGTAG,"🔧 Integrate Self-UI flows")
                         SelfSDK.integrateUIFlows(this, navController, selfModifier)
 
                         composable("main") {
@@ -98,10 +110,15 @@ class MainActivity : ComponentActivity() {
                                 Text(modifier = Modifier.padding(top = 40.dp), text = "Registered: $isRegistered")
                                 Button(modifier = Modifier.padding(top = 20.dp),
                                     onClick = {
+                                        Log.d(LOGTAG,"🔧 Open registration flow...")
                                         coroutineScope.launch {
-                                            // open registration flow to create an account
+
+                                            // Step 5: Account Registration Flow
                                             account.openRegistrationFlow { isSuccess, error ->
+                                                // Step 6: Account Registered
                                                 isRegistered = isSuccess
+                                                Log.d(LOGTAG, "✅ Registration flow finished")
+                                                Log.d(LOGTAG, "✅ New Self account ready!")
                                             }
                                         }
                                     },
