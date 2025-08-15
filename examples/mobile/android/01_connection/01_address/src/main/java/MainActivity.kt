@@ -48,6 +48,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        // Step 1: SDK initialization
+        Log.d(LOGTAG, "🔧 Initialize Self SDK...")
         SelfSDK.initialize(applicationContext,
             log = { Log.d(LOGTAG, it) }
         )
@@ -56,6 +58,7 @@ class MainActivity : ComponentActivity() {
         val storagePath = File(applicationContext.filesDir.absolutePath + "/connection_address")
         if (!storagePath.exists()) storagePath.mkdirs()
 
+        // Step 2: Account Initialization and UI Flow Integration
         val account = Account.Builder()
             .setContext(applicationContext)
             .setEnvironment(Environment.production)
@@ -94,14 +97,22 @@ class MainActivity : ComponentActivity() {
                     var serverInboxAddress by remember { mutableStateOf<PublicKey?>(null) }
                     var statusText by remember { mutableStateOf("") }
 
-                    // connect with server by an inbox address, a group address is returned.
+                    
                     fun connect() {
                         statusText = ""
                         coroutineScope.launch(Dispatchers.IO) {
-                            try {
-                                // the group address is used to send messages
+                            try {                            
+                                // Step 4: Connect to another Self Account
+                                Log.d(LOGTAG, "🔧 Start connecting...")
                                 val groupAddress = account.connectWith(serverInboxAddress!!, info = mapOf())
-                                statusText = if (groupAddress != null) "Connected!!" else "Failed to connect!!"
+                                statusText = if (groupAddress != null) {
+                                    Log.d(LOGTAG, "✅ Connection established successfully!")
+                                    "Connected!!"
+                                } else {
+                                    Log.d(LOGTAG,"❌ Failed to connect!!")
+                                    "Failed to connect!!"
+                                }
+                                
                             } catch (ex: Exception) {
                                 Log.e("Self", ex.message, ex)
                                 statusText = "Failed to connect!!\n${ex.message}"
@@ -110,6 +121,8 @@ class MainActivity : ComponentActivity() {
                     }
 
                     NavHost(navController = navController, startDestination = "main", modifier = Modifier.padding(innerPadding)) {
+
+                        // Step 2: Account Initialization and UI Flow Integration
                         SelfSDK.integrateUIFlows(this, navController, selfModifier)
 
                         composable("main") {
@@ -118,13 +131,18 @@ class MainActivity : ComponentActivity() {
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 modifier = Modifier.padding(start = 8.dp, end = 8.dp).fillMaxWidth()
                             ) {
+
+                                // UI for registration
                                 Text(modifier = Modifier.padding(top = 40.dp), text = "Registered: $isRegistered")
                                 Button(
                                     onClick = {
                                         coroutineScope.launch {
-                                            // open registration flow to create an account
+                                            
+                                            // Step 3: Account Registration
+                                            Log.d(LOGTAG, "🔧 Open registration flow...")
                                             account.openRegistrationFlow { isSuccess, error ->
                                                 isRegistered = isSuccess
+                                                Log.d(LOGTAG, "✅ Registration successfully!")
                                             }
                                         }
                                     },
@@ -134,7 +152,7 @@ class MainActivity : ComponentActivity() {
                                 }
 
 
-                                // connect to server
+                                // UI for connection
                                 Row(modifier = Modifier.padding(top = 20.dp),
                                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                                     verticalAlignment = Alignment.CenterVertically
