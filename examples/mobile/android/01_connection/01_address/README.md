@@ -13,7 +13,7 @@ This example demonstrates **DIRECT ADDRESS-BASED CONNECTIONS** with Self SDK. Pe
 ```bash
 ./gradlew :01_connection:01_address:installDebug
 ```
-2. Open Self Academy app in your phone
+2. Open `Self Academy` app and register a new account
 3. Need a server to connect, run this command on a terminal
 ```
 docker run --pull=always --rm -it ghcr.io/joinself/self-sdk-demo:java
@@ -64,8 +64,8 @@ Integrate the built-in Self-UI Flows into the main app’s navigation.
 ### Step 3: Account Registration
 Once initialized, need to register an account before connecting to server
 ```
-If the user is not registered, display a button that allows them to register the app. 
-If the user is registered, disable the registration function.
+Users must pass the liveness check to be considered real people.
+The server returns verified liveness credentials.
 ```
 
 ### Step 4: Connect to another Self Account
