@@ -118,6 +118,8 @@ class MainActivity : ComponentActivity() {
                                 Button(
                                     onClick = {
                                         coroutineScope.launch {
+
+                                            // open email verification flow
                                             account.openEmailVerificationFlow { isSuccess, error ->
                                                 if (isSuccess) {
                                                     coroutineScope.launch(Dispatchers.Main) {

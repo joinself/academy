@@ -118,6 +118,8 @@ class MainActivity : ComponentActivity() {
                                 Button(
                                     onClick = {
                                         coroutineScope.launch {
+                                            // Step 4: Verify Identity Document
+                                            Log.d(LOGTAG, "🔧 Open document verification flow...")
                                             account.openDocumentVerificationFlow(
                                                 isDevMode = true,
                                                 onFinish = { isSuccess, error ->
@@ -126,6 +128,7 @@ class MainActivity : ComponentActivity() {
                                                         coroutineScope.launch(Dispatchers.Main) {
                                                             Toast.makeText(applicationContext, "Document verification successfully", Toast.LENGTH_LONG).show()
                                                         }
+                                                        Log.d(LOGTAG, "✅ Identity document is verified successfully!")
                                                     }
                                                 }
                                             )
