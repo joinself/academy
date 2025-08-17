@@ -85,8 +85,6 @@ If the user accepts, the credentials are stored in the local database. Otherwise
 
 ## 🚀 Next Steps
 
-After creating your account:
-
 1. **Share credentials**: Try `../02_credentials/02_share_credentials` to share verified credentials
 2. **Send messages**: Explore `../../03_chat` for messaging capabilities
 

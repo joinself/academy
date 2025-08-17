@@ -84,8 +84,6 @@ Receive credentials requests, document sign,...
 
 ## 🚀 Next Steps
 
-After creating your account:
-
 1. **Verify credentials**: Try `../02_credentials` to verify identity documents
 2. **Send messages**: Explore `../../03_chat` for messaging capabilities
 

@@ -173,6 +173,7 @@ class MainActivity : ComponentActivity() {
                                     ) {
                                         account?.DisplayRequestUI(selfModifier, requestMessage ?: return@Dialog, onFinish = { isSent, status ->
                                             requestMessage = null
+                                            Log.d(LOGTAG, "✅ Authentication successfully!")
                                         })
                                     }
                                 }
