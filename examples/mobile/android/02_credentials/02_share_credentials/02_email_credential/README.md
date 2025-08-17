@@ -1,32 +1,117 @@
-# 🆕 Mobile New Account
+# 🔗 Custom Credential Demo
 
-Create a new Self identity with mobile UI components.
+> **📖 Learn the concepts first:** [Verifiable Credentials Concepts](../../../../../../docs/concepts/verifiable-credentials.md)
+> **🎯 What you'll learn:** How to share verified email credentials that stored in SDK.
 
-## 📱 Features
+This example demonstrates **Share Credentials** with Self SDK.
 
-- **Account Creation UI**: Pre-built account setup screens
-- **Biometric Setup**: Configure fingerprint/Face ID
-- **Secure Storage**: Platform-specific keychain/keystore
-- **Mobile UX**: Touch-friendly interface
+## 🟢 Complexity: Beginner
 
 ## 🚀 Quick Start
 
-### Android 
-
 1. Install the app to your phone
-2. Open Self Academy app in your phone
-
 ```bash
-./gradlew :02_credentials:01_get_credentials:01_verify_email:installDebug
+./gradlew :02_credentials:02_share_credentials:02_email_credential:installDebug
+```
+2. Open `Self Academy` app and register a new account
+3. Need a server to connect, run this command on a terminal
+```
+docker run --pull=always --rm -it ghcr.io/joinself/self-sdk-demo:java
+```
+4. Scan the QRCode to connect to server
+5. `Verify Email` before sharing credentials
+6. Click on `Start Sharing Email Credential`
+
+### Expected Output
+
+A screen with a `Create Account` button.
+Once an account is registered, need to scan the QRCode to connect to server.
+After that, need to verify the email before sharing credentials.
+Finally, `Start Sharing Email Credential` button become available.
+
+```
+🔧 Initialize Self SDK...
+🔍 Checking for account storage path...
+🔧 Creating new Self account...
+
+✅ Connected to Self network
+
+🔧 Open registration flow...
+✅ Registration successfully!
+
+🔧 Start connecting...
+✅ Connection established successfully!
+
+🔧 Start sharing credentials...
+✅ Sharing email credential successfully!
 ```
 
-## 📱 What You'll Learn
 
-- Mobile account creation patterns
-- Biometric authentication setup
-- Secure mobile storage
-- Mobile UI integration
+## 🏗️ How It Works
 
----
+### Step 1: SDK initialization
+First, the Self SDK needs to be initialized.
+```
+Set up the pushToken to receive push notifications
+Append the SDK logs to your logger
+```
 
-**Ready to create your first mobile account?** 🚀 
+### Step 2: Account Initialization and UI Flows Integration
+Before using the account and UI flows, initialize them.
+```
+Initialize new account with default configuration
+Register with Self network
+Integrate the built-in Self-UI Flows into the main app’s navigation.
+```
+
+### Step 3: Account Registration
+Once initialized, need to register an account before connecting to server
+```
+Users must pass the liveness check to be considered real people. 
+The server verifies their liveness credentials and uses them in subsequent operations.
+```
+
+### Step 4: Scan a QRCode to connect to Server
+```
+A QRCode flow is initiated, and the SDK scans and parses the provided QRCode data. 
+Using the parsed data, the SDK negotiates the connection. 
+```
+
+### Step 5: Verify Email
+Before sharing, the credentials must be present in the SDK. Users must first verify their email addresses.
+```
+The SDK initiates an email flow, guiding users to input their email addresses and the code. 
+The server verifies the email credentials and returns them to the SDK, which stores them for sharing.
+```
+
+Open the flow in Jetpack Navigation
+```kotlin
+account?.openEmailVerificationFlow { isSuccess, error ->
+    if (isSuccess) {
+        coroutineScope.launch(Dispatchers.Main) {
+            statusText = "Email is verified!!"
+        }
+    }
+}
+```
+
+### Step 6: Share Email Credential
+The SDK will handle the request, display the UI, and then return the response to the requester.
+```
+The server sends a Credential Request message to the mobile app, which includes an email query. 
+The SDK then displays a UI to prompt the user to confirm or reject the request. 
+If the user accepts, the stored email credentials are shared with the server.
+```
+
+Utilize this Jetpack Compose component to display the request message, and the SDK will handle the rest.
+```kotlin
+account?.DisplayRequestUI(selfModifier, requestMessage, 
+    onFinish = { isSent, status -> }
+)
+```
+
+## 🚀 Next Steps
+
+1. **Digital Signature**: Try `../03_digital_signatures` to learn how to sign a signature.
+2. **Send messages**: Explore `../../03_chat` for messaging capabilities
+
