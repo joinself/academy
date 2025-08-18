@@ -125,9 +125,11 @@ class MainActivity : ComponentActivity() {
                                     modifier = Modifier,
                                     onClick = {
                                         coroutineScope.launch(Dispatchers.Main) {
+                                            Log.d(LOGTAG, "🔧 Start backup flow...")
                                             account?.openBackupFlow(onFinish = { isSuccess, error ->
                                                 if (isSuccess) {
                                                     coroutineScope.launch(Dispatchers.Main) {
+                                                        Log.d(LOGTAG, "✅ Backup successfully")
                                                         Toast.makeText(applicationContext, "Backup successfully", Toast.LENGTH_LONG).show()
                                                     }
                                                 }
@@ -143,10 +145,12 @@ class MainActivity : ComponentActivity() {
                                     modifier = Modifier,
                                     onClick = {
                                         coroutineScope.launch(Dispatchers.Main) {
+                                            Log.d(LOGTAG, "🔧 Start restore flow...")
                                             account?.openRestoreFlow(onFinish = { isSuccess, error ->
                                                 if (isSuccess) {
                                                     isRegistered = true
                                                     coroutineScope.launch(Dispatchers.Main) {
+                                                        Log.d(LOGTAG, "✅ Restore successfully")
                                                         Toast.makeText(applicationContext, "Restore successfully", Toast.LENGTH_LONG).show()
                                                     }
                                                 }
