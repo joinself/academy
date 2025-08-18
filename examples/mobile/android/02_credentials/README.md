@@ -6,37 +6,19 @@ This directory contains mobile examples for Self SDK credentials with built-in U
 
 ## Examples Overview
 
-| Example | Summary | Platform |
-|---------|---------|----------|
-| **email_verification** | Mobile email verification flow with UI | Android, iOS |
-| **presentation_request** | Share credentials via mobile UI | Android, iOS |
-
-## Quick Start
-
-### Android
-```bash
-cd email_verification/android && ./gradlew run
-cd presentation_request/android && ./gradlew run
-```
-
-### iOS
-```bash
-cd email_verification/ios && xcodebuild -project SelfSDKExample.xcodeproj
-cd presentation_request/ios && xcodebuild -project SelfSDKExample.xcodeproj
-```
+| Example                        | Summary |
+|--------------------------------|---------|
+| **01_get_credentials/01_verify_email** | Email verification flow with UI |
+| **01_get_credentials/02_verify_identity_document** | Identity document verification flow with UI |
+| **01_get_credentials/03_get_custom_credential** | Custom credential flow |
+| **02_share_credentials/01_authentication** |  |
+| **02_share_credentials/02_email_credential** | Share email credentials |
+| **02_share_credentials/02_document_credential** | Share idenitty document credentials |
+| **03_digital_signatures** | Sign a document with digital signatures |
 
 ## Mobile Features
 
-- **Verification UI**: Pre-built email verification screens
+- **Verification UI**: Pre-built email, document verification screens
 - **Credential Sharing**: Mobile-optimized credential presentation
 - **Touch Interface**: Mobile-friendly credential management
 - **Biometric Auth**: Secure credential access
-
-## Learning Path
-
-1. **email_verification** → Mobile email verification workflows
-2. **presentation_request** → Share and verify credentials on mobile
-
----
-
-**Ready to work with mobile credentials?** Pick your platform and start! 
