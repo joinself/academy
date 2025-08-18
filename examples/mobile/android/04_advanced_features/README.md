@@ -4,24 +4,10 @@ This directory contains mobile examples for advanced Self SDK features with buil
 
 ## 📱 Examples Overview
 
-| Example | Summary | Platform |
-|---------|---------|----------|
-| **01_core_features** | Mobile SDK integration patterns | Android, iOS |
-| **03_notifications** | Mobile push notifications with UI | Android, iOS |
-
-## 🚀 Quick Start
-
-### Android
-```bash
-cd 01_core_features/android && ./gradlew run
-cd 03_notifications/android && ./gradlew run
-```
-
-### iOS
-```bash
-cd 01_core_features/ios && xcodebuild -project SelfSDKExample.xcodeproj
-cd 03_notifications/ios && xcodebuild -project SelfSDKExample.xcodeproj
-```
+| Example               | Summary |
+|-----------------------|---------|
+| **01_backup_restore** | Mobile SDK backup and restore |
+| **02_notifications**  | Mobile push notifications with UI |
 
 ## 📱 Mobile Features
 
@@ -32,9 +18,5 @@ cd 03_notifications/ios && xcodebuild -project SelfSDKExample.xcodeproj
 
 ## 🎯 Learning Path
 
-1. **01_core_features** → Essential mobile production patterns
-2. **03_notifications** → Mobile push notifications for engagement
-
----
-
-**Ready for advanced mobile features?** Pick your platform and start! 🚀 
+1. **01_backup_restore** → Backup and restore Mobile SDK data
+2. **02_notifications** → Mobile push notifications for engagement

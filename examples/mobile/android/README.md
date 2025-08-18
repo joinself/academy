@@ -2,28 +2,28 @@
 
 > **📖 Learn the concepts first:** [Decentralized Identity Concepts](../../../../docs/concepts/decentralized-identity.md)
 
-This directory contains mobile examples for Self SDK account setup with built-in UI components.
+This directory contains mobile examples for Self SDK with built-in UI components.
 
 ## 📱 Examples Overview
 
-| Example | Summary | Platform |
-|---------|---------|----------|
-| **01_new_account** | Create new Self identity with mobile UI | Android, iOS |
-| **02_existing_account** | Load saved accounts with biometric auth | Android, iOS |
+| Example                  | Summary                                               |
+| ------------------------ | ----------------------------------------------------- |
+| **00_setup**             | Create new Self identity with mobile UI               |
+| **01_connection**        | Connect with other Self accounts                      |
+| **02_credentials**       | Get and share credentials with built-in UI components |
+| **03_chat**              | Send and receive messages                             |
+| **04_advanced_features** | Back up and restore the SDK data                      |
 
 ## 🚀 Quick Start
 
-### Android
-```bash
-cd 01_new_account/android && ./gradlew run
-cd 02_existing_account/android && ./gradlew run
-```
+### Requirement
+    - Java 17 SDK and above
+    - Kotlin 2.0.21
+    - Gradle 8.11.1 and above
+    - Android API 28 and above
 
-### iOS
-```bash
-cd 01_new_account/ios && xcodebuild -project SelfSDKExample.xcodeproj
-cd 02_existing_account/ios && xcodebuild -project SelfSDKExample.xcodeproj
-```
+Open `academy/examples/mobile/android` in Android Studio, and choose the example app to run.   
+Alternatively, you can use the command line provided in each example README to build and install the app.
 
 ## 📱 Mobile Features
 
@@ -32,11 +32,3 @@ cd 02_existing_account/ios && xcodebuild -project SelfSDKExample.xcodeproj
 - **Secure Storage**: Platform-specific keychain/keystore
 - **Touch Interface**: Mobile-optimized user experience
 
-## 🎯 Learning Path
-
-1. **01_new_account** → Create your first mobile Self identity
-2. **02_existing_account** → Load saved accounts with biometric auth
-
----
-
-**Ready to create mobile accounts?** Pick your platform and start! 🚀 
