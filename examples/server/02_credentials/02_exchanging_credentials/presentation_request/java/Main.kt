@@ -1,11 +1,11 @@
-import com.joinself.selfsdk.kmp.account.Account
-import com.joinself.selfsdk.kmp.credential.Address
-import com.joinself.selfsdk.kmp.credential.CredentialBuilder
-import com.joinself.selfsdk.kmp.credential.PresentationBuilder
-import com.joinself.selfsdk.kmp.credential.VerifiableCredential
-import com.joinself.selfsdk.kmp.credential.VerifiablePresentation
-import com.joinself.selfsdk.kmp.keypair.signing.PublicKey
-import com.joinself.selfsdk.kmp.time.Timestamp
+import com.joinself.selfsdk.account.Account
+import com.joinself.selfsdk.credential.Address
+import com.joinself.selfsdk.credential.CredentialBuilder
+import com.joinself.selfsdk.credential.PresentationBuilder
+import com.joinself.selfsdk.credential.VerifiableCredential
+import com.joinself.selfsdk.credential.VerifiablePresentation
+import com.joinself.selfsdk.keypair.signing.PublicKey
+import com.joinself.selfsdk.time.Timestamp
 
 /**
  * Represents a party in the credential exchange, holding an account and a

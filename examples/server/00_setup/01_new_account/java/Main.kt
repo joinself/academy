@@ -1,6 +1,6 @@
-import com.joinself.selfsdk.kmp.account.Account
-import com.joinself.selfsdk.kmp.account.LogLevel
-import com.joinself.selfsdk.kmp.account.Target
+import com.joinself.selfsdk.account.Account
+import com.joinself.selfsdk.account.LogLevel
+import com.joinself.selfsdk.account.Target
 import java.io.File
 import java.util.concurrent.Semaphore
 
@@ -75,7 +75,7 @@ fun createAccount(): Account {
 
 fun getAccountAddress(account: Account): String {
     var address = ""
-    account.inboxOpen { status, addr -> 
+    account.inboxOpen(expires = 0L) { status, addr ->
         if (status.success()) address = addr.encodeHex()
         signal.release()
     }

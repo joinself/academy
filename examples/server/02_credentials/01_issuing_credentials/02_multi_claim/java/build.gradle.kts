@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.joinself:sdk-jvm:1.0.1")
+    implementation("com.joinself:sdk-jvm:1.0.2")
 }
 
 kotlin {

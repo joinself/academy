@@ -1,11 +1,11 @@
-import com.joinself.selfsdk.kmp.account.Account
-import com.joinself.selfsdk.kmp.account.LogLevel
-import com.joinself.selfsdk.kmp.account.Target
-import com.joinself.selfsdk.kmp.event.Message
-import com.joinself.selfsdk.kmp.keypair.signing.PublicKey
-import com.joinself.selfsdk.kmp.message.Chat
-import com.joinself.selfsdk.kmp.message.ChatBuilder
-import com.joinself.selfsdk.kmp.message.ContentType
+import com.joinself.selfsdk.account.Account
+import com.joinself.selfsdk.account.LogLevel
+import com.joinself.selfsdk.account.Target
+import com.joinself.selfsdk.event.Message
+import com.joinself.selfsdk.keypair.signing.PublicKey
+import com.joinself.selfsdk.message.Chat
+import com.joinself.selfsdk.message.ChatBuilder
+import com.joinself.selfsdk.message.ContentType
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
