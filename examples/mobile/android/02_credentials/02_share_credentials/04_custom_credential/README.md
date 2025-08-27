@@ -31,18 +31,23 @@ Finally, `Start Sharing Custom Credential` button become available.
 
 ```
 🔧 Initialize Self SDK...
-🔍 Checking for account storage path...
-🔧 Creating new Self account...
-
 ✅ Connected to Self network
 
 🔧 Open registration flow...
 ✅ Registration successfully!
 
-🔧 Start connecting...
-✅ Connection established successfully!
+🔧 Open QRCode flow...
+✅ Server connected!!
+
+🔧 Start getting credentials...
+✅ Received credential message
+✅ Display credential message
+✅ Store custom credential successfully!
 
 🔧 Start sharing credentials...
+✅ Received request message
+
+✅ Display request message
 ✅ Sharing custom credential successfully!
 ```
 

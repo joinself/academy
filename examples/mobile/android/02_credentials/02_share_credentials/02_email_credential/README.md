@@ -31,18 +31,21 @@ Finally, `Start Sharing Email Credential` button become available.
 
 ```
 🔧 Initialize Self SDK...
-🔍 Checking for account storage path...
-🔧 Creating new Self account...
-
 ✅ Connected to Self network
 
 🔧 Open registration flow...
 ✅ Registration successfully!
 
-🔧 Start connecting...
-✅ Connection established successfully!
+🔧 Open QRCode flow...
+✅ Server connected!!
+
+🔧 Open Email verification flow...
+✅ Email is verified!!
 
 🔧 Start sharing credentials...
+✅ Received request message
+
+✅ Display request message
 ✅ Sharing email credential successfully!
 ```
 
