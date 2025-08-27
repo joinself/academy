@@ -1,4 +1,4 @@
-import com.joinself.selfsdk.kmp.account.Account
+import com.joinself.selfsdk.account.Account
 import java.util.concurrent.Semaphore
 
 fun main() {
@@ -31,7 +31,7 @@ fun main() {
 fun getInboxAddress(account: Account): String {
     val signal = Semaphore(0)
     var address = ""
-    account.inboxOpen { status, addr -> 
+    account.inboxOpen(expires = 0L) { status, addr ->
         if (status.success()) {
             address = addr.encodeHex()
         } else {

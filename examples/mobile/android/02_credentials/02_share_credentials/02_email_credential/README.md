@@ -1,11 +1,11 @@
-# 🔗 Custom Credential Demo
+# 🔗 Share Email Credential Demo
 
 > **📖 Learn the concepts first:** [Verifiable Credentials Concepts](../../../../../../docs/concepts/verifiable-credentials.md)
 > **🎯 What you'll learn:** How to share verified email credentials that stored in SDK.
 
 This example demonstrates **Share Credentials** with Self SDK.
 
-## 🟢 Complexity: Beginner
+## 🟢 Complexity: Intermediate
 
 ## 🚀 Quick Start
 
@@ -31,18 +31,21 @@ Finally, `Start Sharing Email Credential` button become available.
 
 ```
 🔧 Initialize Self SDK...
-🔍 Checking for account storage path...
-🔧 Creating new Self account...
-
 ✅ Connected to Self network
 
 🔧 Open registration flow...
 ✅ Registration successfully!
 
-🔧 Start connecting...
-✅ Connection established successfully!
+🔧 Open QRCode flow...
+✅ Server connected!!
+
+🔧 Open Email verification flow...
+✅ Email is verified!!
 
 🔧 Start sharing credentials...
+✅ Received request message
+
+✅ Display request message
 ✅ Sharing email credential successfully!
 ```
 

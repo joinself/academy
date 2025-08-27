@@ -1,4 +1,4 @@
-# 🔗 Custom Credential Demo
+# 🔗 Backup & Restore Demo
 
 > **🎯 What you'll learn:** How to back up and restore data that stored in the SDK.
 
@@ -23,11 +23,9 @@ To sign in, Google Drive requires setting up the `Android OAuth Client ID` in th
 A screen with a `Create Account` button.
 Once an account is registered, `Backup` button become available.
 
+logs in logcat:
 ```
 🔧 Initialize Self SDK...
-🔍 Checking for account storage path...
-🔧 Creating new Self account...
-
 ✅ Connected to Self network
 
 🔧 Open registration flow...

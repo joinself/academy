@@ -53,6 +53,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        // Step 1: SDK initialization
+        Log.d(LOGTAG, "🔧 Initialize Self SDK...")
         SelfSDK.initialize(applicationContext,
             log = { Log.d(LOGTAG, it) }
         )
@@ -81,6 +83,7 @@ class MainActivity : ComponentActivity() {
 
 
                     LaunchedEffect(true) {
+                        // Step 2: Account Initialization and UI Flow Integration
                         account = Account.Builder()
                             .setContext(applicationContext)
                             .setEnvironment(Environment.production)
@@ -91,11 +94,12 @@ class MainActivity : ComponentActivity() {
                                     Log.d(LOGTAG, "onMessage: ${message.id()}")
                                     // check if it is a liveness request
                                     if (message is CredentialRequest) {
+                                        Log.d(LOGTAG, "✅ Received request message")
                                         requestMessage = message
                                     }
                                 }
                                 override fun onConnect() {
-                                    Log.d(LOGTAG, "onConnect")
+                                    Log.d(LOGTAG, "✅ Connected to Self network")
                                 }
                                 override fun onDisconnect(errorMessage: String?) {
                                     Log.d(LOGTAG, "onDisconnect: $errorMessage")
@@ -113,6 +117,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     NavHost(navController = navController, startDestination = "main", modifier = Modifier.padding(innerPadding)) {
+                        // Step 2: Account Initialization and UI Flow Integration
                         SelfSDK.integrateUIFlows(this, navController, selfModifier)
 
                         composable("main") {
@@ -125,9 +130,11 @@ class MainActivity : ComponentActivity() {
                                 Button(
                                     onClick = {
                                         coroutineScope.launch {
-                                            // open registration flow to create an account
+                                            // Step 3: Account Registration
+                                            Log.d(LOGTAG, "🔧 Open registration flow...")
                                             account?.openRegistrationFlow { isSuccess, error ->
                                                 isRegistered = isSuccess
+                                                Log.d(LOGTAG, "✅ Registration successfully!")
                                             }
                                         }
                                     },
@@ -139,11 +146,14 @@ class MainActivity : ComponentActivity() {
                                 Button(
                                     onClick = {
                                         coroutineScope.launch {
+                                            // Step 4: Scan QRCode
+                                            Log.d(LOGTAG, "🔧 Open QRCode flow...")
                                             account?.openQRCodeFlow(
                                                 onFinish = { qrCode, discoverData ->
                                                     coroutineScope.launch(Dispatchers.IO) {
                                                         groupAddress = Common.connect(account, qrCode)
                                                         statusText = if (groupAddress != null) "Server Connected!!" else "Failed to connect to Server!!"
+                                                        Log.d(LOGTAG, "✅ Server connected!!")
                                                     }
                                                 },
                                                 onExit = {}
@@ -158,12 +168,15 @@ class MainActivity : ComponentActivity() {
                                 Button(
                                     onClick = {
                                         coroutineScope.launch {
+                                            // Step 5: Verify Identity Document
+                                            Log.d(LOGTAG, "🔧 Open Identity document verification flow...")
                                             account?.openDocumentVerificationFlow(
                                                 isDevMode = true,
                                                 onFinish = { isSuccess, error ->
                                                     if (isSuccess) {
                                                         isDocumentVerified = true
                                                         statusText = "Your document is verified!!"
+                                                        Log.d(LOGTAG, "✅ Identity Document is verified!!")
                                                     }
                                                 }
                                             )
@@ -176,6 +189,7 @@ class MainActivity : ComponentActivity() {
 
                                 Button(
                                     onClick = {
+                                        Log.d(LOGTAG, "🔧 Start sharing credentials...")
                                         Common.notifyServerForRequest( account ?: return@Button, groupAddress ?: return@Button, message = "PROVIDE_CREDENTIAL_DOCUMENT")
                                     },
                                     enabled = isRegistered && isDocumentVerified && groupAddress != null
@@ -191,8 +205,11 @@ class MainActivity : ComponentActivity() {
                                         onDismissRequest = { },
                                         properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false, usePlatformDefaultWidth = false),
                                     ) {
+                                        // Step 6: Share Identity Credential
+                                        Log.d(LOGTAG, "✅ Display request message")
                                         account?.DisplayRequestUI(selfModifier, requestMessage ?: return@Dialog, onFinish = { isSent, status ->
                                             requestMessage = null
+                                            Log.d(LOGTAG, "✅ Sharing identity credential successfully!")
                                         })
                                     }
                                 }

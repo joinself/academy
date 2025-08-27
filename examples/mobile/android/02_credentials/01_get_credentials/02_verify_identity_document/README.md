@@ -25,9 +25,6 @@ Once an account is registered, a `Verify Identity Document` button become availa
 
 ```
 🔧 Initialize Self SDK...
-🔍 Checking for account storage path...
-🔧 Creating new Self account...
-
 ✅ Connected to Self network
 
 🔧 Open registration flow...
@@ -69,6 +66,18 @@ An identity document verification flow is initiated by the SDK.
 The SDK guides users to capture the images of their documents and scan the NFC chip. 
 Subsequently, the SDK sends captured documents to the server to verify.  
 Finally, the identity credentials are verified and returned from the server.
+```
+
+Start the flow in Jetpack Navigation
+```kotlin
+account?.openDocumentVerificationFlow(
+    isDevMode = false,
+    onFinish = { isSuccess, error ->
+        if (isSuccess) {
+            statusText = "Your document is verified!!"
+        }
+    }
+)
 ```
 
 ## 🚀 Next Steps

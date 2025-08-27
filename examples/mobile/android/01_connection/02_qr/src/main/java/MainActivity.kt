@@ -47,6 +47,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        // Step 1: SDK initialization
+        Log.d(LOGTAG, "🔧 Initialize Self SDK...")
         SelfSDK.initialize(applicationContext,
             log = { Log.d(LOGTAG, it) }
         )
@@ -55,6 +57,7 @@ class MainActivity : ComponentActivity() {
         val storagePath = File(applicationContext.filesDir.absolutePath + "/connection_qr")
         if (!storagePath.exists()) storagePath.mkdirs()
 
+        // Step 2: Account Initialization and UI Flow Integration
         val account = Account.Builder()
             .setContext(applicationContext)
             .setEnvironment(Environment.production)
@@ -65,7 +68,7 @@ class MainActivity : ComponentActivity() {
                     Log.d(LOGTAG, "onMessage: ${message.id()}")
                 }
                 override fun onConnect() {
-                    Log.d(LOGTAG, "onConnect")
+                    Log.d(LOGTAG, "✅ Connected to Self network")
                 }
                 override fun onDisconnect(errorMessage: String?) {
                     Log.d(LOGTAG, "onDisconnect: $errorMessage")
@@ -92,13 +95,21 @@ class MainActivity : ComponentActivity() {
                     var isRegistered by remember { mutableStateOf(account.registered()) }
                     var statusText by remember { mutableStateOf("") }
 
-                    // connect with server by an inbox address, a group address is returned.
                     fun connect(qrCode: ByteArray) {
                         statusText = ""
                         coroutineScope.launch(Dispatchers.IO) {
                             try {
+                                // Step 5: Connect to another Self Account using QRCode data
+                                Log.d(LOGTAG, "🔧 Start connecting...")
                                 val groupAddress = account.connectWith(qrCode)
-                                statusText = if (groupAddress != null) "Connected!!" else "Failed to connect!!"
+
+                                statusText = if (groupAddress != null) {
+                                    Log.d(LOGTAG, "✅ Connection established successfully!")
+                                    "Connected!!"
+                                } else {
+                                    Log.d(LOGTAG,"❌ Failed to connect!!")
+                                    "Failed to connect!!"
+                                }
                             } catch (ex: Exception) {
                                 Log.e("Self", ex.message, ex)
                                 statusText = "Failed to connect!!\n${ex.message}"
@@ -107,6 +118,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     NavHost(navController = navController, startDestination = "main", modifier = Modifier.padding(innerPadding)) {
+                        // Step 2: Account Initialization and UI Flow Integration
                         SelfSDK.integrateUIFlows(this, navController, selfModifier)
 
                         composable("main") {
@@ -119,9 +131,11 @@ class MainActivity : ComponentActivity() {
                                 Button(
                                     onClick = {
                                         coroutineScope.launch {
-                                            // open registration flow to create an account
+                                            // Step 3: Account Registration
+                                            Log.d(LOGTAG, "🔧 Open registration flow...")
                                             account.openRegistrationFlow { isSuccess, error ->
                                                 isRegistered = isSuccess
+                                                Log.d(LOGTAG, "✅ Registration successfully!")
                                             }
                                         }
                                     },
@@ -133,6 +147,8 @@ class MainActivity : ComponentActivity() {
                                 Button(
                                     onClick = {
                                         coroutineScope.launch {
+                                            // Step 4: Scan a QRCode
+                                            Log.d(LOGTAG, "🔧 Open QRCode flow...")
                                             account.openQRCodeFlow(
                                                 onFinish = { qrCode, discoverData ->
                                                     connect(qrCode)

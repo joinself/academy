@@ -1,5 +1,5 @@
-import com.joinself.selfsdk.kmp.account.Account
-import com.joinself.selfsdk.kmp.event.Message
+import com.joinself.selfsdk.account.Account
+import com.joinself.selfsdk.event.Message
 import java.io.File
 
 fun main() {

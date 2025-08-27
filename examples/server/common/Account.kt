@@ -1,11 +1,11 @@
-import com.joinself.selfsdk.kmp.account.Account
-import com.joinself.selfsdk.kmp.account.LogLevel
-import com.joinself.selfsdk.kmp.account.Target
-import com.joinself.selfsdk.kmp.error.SelfStatus
-import com.joinself.selfsdk.kmp.event.KeyPackage
-import com.joinself.selfsdk.kmp.event.Message
-import com.joinself.selfsdk.kmp.event.Welcome
-import com.joinself.selfsdk.kmp.keypair.signing.PublicKey
+import com.joinself.selfsdk.account.Account
+import com.joinself.selfsdk.account.LogLevel
+import com.joinself.selfsdk.account.Target
+import com.joinself.selfsdk.error.SelfStatus
+import com.joinself.selfsdk.event.KeyPackage
+import com.joinself.selfsdk.event.Message
+import com.joinself.selfsdk.event.Welcome
+import com.joinself.selfsdk.keypair.signing.PublicKey
 import java.util.concurrent.Semaphore
 
 class Common {
@@ -66,7 +66,7 @@ class Common {
         fun openInbox(account: Account): PublicKey? {
             val signal = Semaphore(0)
             var inboxAddress: PublicKey? = null
-            account.inboxOpen { status, addr ->
+            account.inboxOpen(expires = 0L) { status, addr ->
                 if (status.success()) inboxAddress = addr
                 signal.release()
             }
@@ -77,7 +77,7 @@ class Common {
         fun getAccountAddress(account: Account): String {
             val signal = Semaphore(0)
             var address = ""
-            account.inboxOpen { status, addr ->
+            account.inboxOpen(expires = 0L) { status, addr ->
                 if (status.success()) address = addr.encodeHex()
                 signal.release()
             }

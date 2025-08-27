@@ -1,7 +1,7 @@
-import com.joinself.selfsdk.kmp.account.Account
-import com.joinself.selfsdk.kmp.credential.Address
-import com.joinself.selfsdk.kmp.credential.CredentialBuilder
-import com.joinself.selfsdk.kmp.time.Timestamp
+import com.joinself.selfsdk.account.Account
+import com.joinself.selfsdk.credential.Address
+import com.joinself.selfsdk.credential.CredentialBuilder
+import com.joinself.selfsdk.time.Timestamp
 import java.util.concurrent.Semaphore
 
 fun main() {

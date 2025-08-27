@@ -22,12 +22,9 @@ A screen with a `Create Account` button.
 
 Once an account is registered, a `Verify Email` button become available.
 
-
+logs in logcat:
 ```
 🔧 Initialize Self SDK...
-🔍 Checking for account storage path...
-🔧 Creating new Self account...
-
 ✅ Connected to Self network
 
 🔧 Open registration flow...
@@ -69,6 +66,17 @@ An email flow is initiated by the SDK, guiding users to enter their email addres
 Subsequently, the SDK sends a verification email to the provided address. 
 Users are then required to enter the code found in the verification email. 
 Finally, the email credentials are verified and returned from the server.
+```
+
+Open the flow in Jetpack Navigation
+```kotlin
+account?.openEmailVerificationFlow { isSuccess, error ->
+    if (isSuccess) {
+        coroutineScope.launch(Dispatchers.Main) {
+            statusText = "Email is verified!!"
+        }
+    }
+}
 ```
 
 ## 🚀 Next Steps

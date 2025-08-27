@@ -1,11 +1,11 @@
-# 🔗 Custom Credential Demo
+# 🔗 Authentication Demo
 
 > **📖 Learn the concepts first:** [Verifiable Credentials Concepts](../../../../../../docs/concepts/verifiable-credentials.md)
 > **🎯 What you'll learn:** How to share verified credentials that stored in SDK.
 
 This example demonstrates **Share Credentials** with Self SDK.
 
-## 🟢 Complexity: Beginner
+## 🟢 Complexity: Intermediate
 
 ## 🚀 Quick Start
 
@@ -27,20 +27,20 @@ A screen with a `Create Account` button.
 Once an account is registered, need to scan the QRCode to connect to server.
 Then a `Start Authentication` button become available.
 
+logs in logcat:
 ```
 🔧 Initialize Self SDK...
-🔍 Checking for account storage path...
-🔧 Creating new Self account...
-
 ✅ Connected to Self network
 
 🔧 Open registration flow...
 ✅ Registration successfully!
 
-🔧 Start connecting...
-✅ Connection established successfully!
+🔧 Open QRCode flow...
+✅ Server connected!!
 
 🔧 Start sharing credentials...
+✅ Received request message
+✅ Display request message
 ✅ Authentication successfully!
 ```
 
@@ -82,6 +82,24 @@ The server sends a Credential Request message to the mobile app, which includes 
 The SDK then displays a UI to prompt the user to confirm or reject the liveness check. 
 If the user accepts, the Liveness check flow begins, verifying the user’s identity. 
 The verified credentials are then returned to the requester.
+```
+
+Listen to the request from the server.
+```kotlin
+override fun onMessage(message: Message) {
+    if (message is CredentialRequest) {
+        Log.d(LOGTAG, "✅ Received request message")
+    }
+}
+```
+
+Display the request message with buttons to confirm or reject to authenticate the request.
+```kotlin
+account?.DisplayRequestUI(selfModifier, requestMessage, 
+    onFinish = { isSent, status ->
+        Log.d(LOGTAG, "✅ Authentication successfully!")
+    }
+)
 ```
 
 ## 🚀 Next Steps

@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.joinself:sdk-jvm:1.0.1")
+    implementation("com.joinself:sdk-jvm:1.0.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 }
 

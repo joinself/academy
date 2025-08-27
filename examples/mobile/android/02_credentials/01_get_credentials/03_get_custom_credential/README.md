@@ -5,7 +5,7 @@
 
 This example demonstrates **Get Credentials** with Self SDK with a server.
 
-## 🟢 Complexity: Beginner
+## 🟢 Complexity: Intermediate
 
 ## 🚀 Quick Start
 
@@ -27,20 +27,19 @@ A screen with a `Create Account` button.
 Once an account is registered, need to scan the QRCode to connect to server.
 Then a `Get Credentials` button become available.
 
+logs in logcat:
 ```
 🔧 Initialize Self SDK...
-🔍 Checking for account storage path...
-🔧 Creating new Self account...
-
 ✅ Connected to Self network
 
 🔧 Open registration flow...
 ✅ Registration successfully!
 
-🔧 Start connecting...
-✅ Connection established successfully!
+🔧 Open QRCode flow...
+✅ Server connected!!
 
 🔧 Start getting credentials...
+✅ Received credential message
 ✅ Get Credentials successfully!
 ```
 
@@ -81,6 +80,25 @@ Using the parsed data, the SDK negotiates the connection.
 The server sends a Credential Message to the mobile app, which includes custom credentials. 
 The SDK then displays a UI to prompt the user to confirm or reject storing these credentials. 
 If the user accepts, the credentials are stored in the local database. Otherwise, they are discarded.
+```
+
+Listen to the message from the server.
+```kotlin
+override fun onMessage(message: Message) {
+    // check if it is custom credential message.
+    if (message is CredentialMessage) {
+        credentialMessage = message
+    }
+}
+```
+
+Users confirm storing the credentials in the SDK.
+```kotlin
+account?.DisplayRequestUI(selfModifier, credentialMessage, 
+    onFinish = { isSent, status ->
+        Log.d(LOGTAG, "Custom credentials are stored!!")
+    }
+)
 ```
 
 ## 🚀 Next Steps

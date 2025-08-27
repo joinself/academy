@@ -23,16 +23,12 @@ docker run --pull=always --rm -it ghcr.io/joinself/self-sdk-demo:java
 
 ### Expected Output
 
-A screen with a `Create Account` button. 
-
+A screen with a `Create Account` button.  
 Once an account is registered, an input field for `address` and a `Connect` button become available.
 
-
+logs in logcat:
 ```
 🔧 Initialize Self SDK...
-🔍 Checking for account storage path...
-🔧 Creating new Self account...
-
 ✅ Connected to Self network
 
 🔧 Open registration flow...
@@ -73,6 +69,10 @@ The server returns verified liveness credentials.
 Enter an address string manually. 
 The SDK internally negotiates the connection using the provided address. 
 Once the negotiation is successful, the SDK returns a group address.
+```
+
+```kotlin
+val groupAddress = account.connectWith(serverInboxAddress, info = mapOf())
 ```
 
 ### Step 5: Connection Connected

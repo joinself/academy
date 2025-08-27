@@ -1,11 +1,11 @@
-# 🔗 Custom Credential Demo
+# 🔗 Share Identity Credential Demo
 
 > **📖 Learn the concepts first:** [Verifiable Credentials Concepts](../../../../../../docs/concepts/verifiable-credentials.md)
 > **🎯 What you'll learn:** How to share verified identity credentials that stored in SDK.
 
 This example demonstrates **Share Credentials** with Self SDK.
 
-## 🟢 Complexity: Beginner
+## 🟢 Complexity: Intermediate
 
 ## 🚀 Quick Start
 
@@ -29,20 +29,24 @@ Once an account is registered, need to scan the QRCode to connect to server.
 After that, a button to verify the document is available.
 Finally, `Start Sharing Document Credential` button become available.
 
+logs in logcat:
 ```
 🔧 Initialize Self SDK...
-🔍 Checking for account storage path...
-🔧 Creating new Self account...
-
 ✅ Connected to Self network
 
 🔧 Open registration flow...
 ✅ Registration successfully!
 
-🔧 Start connecting...
-✅ Connection established successfully!
+🔧 Open QRCode flow...
+✅ Server connected!!
+
+🔧 Open Identity document verification flow...
+✅ Identity Document is verified!!
 
 🔧 Start sharing credentials...
+✅ Received request message
+
+✅ Display request message
 ✅ Sharing idenity credential successfully!
 ```
 

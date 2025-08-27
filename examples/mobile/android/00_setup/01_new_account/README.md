@@ -21,6 +21,7 @@ This example demonstrates the **first-time setup** process for a Self SDK accoun
 
 The liveness screen opens and guides you through completing the liveness check.
 
+Logs in logcat:
 ```
 🔍 Checking for account storage path...
 🔧 Creating new Self account...
@@ -34,12 +35,24 @@ The liveness screen opens and guides you through completing the liveness check.
 
 
 ## 🏗️ How It Works
+### Step 0: Add Self Android SDK dependency
+Please check the latest version in here Maven Central: `https://central.sonatype.com/artifact/com.joinself/sdk-android`
+
+```kotlin
+implementation("com.joinself:sdk-android:<version>")
+```
 
 ### Step 1: SDK initialization
 First, the Self SDK needs to be initialized.
 ```
 Set up the pushToken to receive push notifications
 Append the SDK logs to your logger
+```
+
+```kotlin
+SelfSDK.initialize(applicationContext,
+    log = { Log.d(LOGTAG, it) }
+)
 ```
 
 ### Step 2: Account Storage Check
@@ -59,6 +72,11 @@ Register with Self network
 Integrate the built-in Self-UI Flows into the main app’s navigation.
 ```
 
+```kotlin
+Log.d(LOGTAG,"🔧 Integrate Self-UI flows")
+SelfSDK.integrateUIFlows(this, navController, selfModifier)
+```
+
 ### Step 4: Account Registration Status
 Once initialized, check registration status
 ```
@@ -67,12 +85,23 @@ If the user is not registered, display a button that allows them to register the
 If the user is registered, disable the registration function.
 ```
 
+```kotlin
+account.registered()
+```
+
 ### Step 5: Account Registration Flow
 The liveness will be open, and guide user finish the flow
 ```
 To ensure that users are real people, a live check is conducted. 
 An image is captured and submitted to the server for secure verification. 
 This image will be used to verify the user’s identity for subsequent operations.
+```
+
+```kotlin
+account.openRegistrationFlow { isSuccess, error ->
+    Log.d(LOGTAG, "✅ Registration flow finished")
+    Log.d(LOGTAG, "✅ New Self account ready!")
+}
 ```
 
 ### Step 6: Account Registered

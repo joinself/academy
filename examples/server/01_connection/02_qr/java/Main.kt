@@ -1,9 +1,9 @@
-import com.joinself.selfsdk.kmp.account.Account
-import com.joinself.selfsdk.kmp.error.SelfStatus
-import com.joinself.selfsdk.kmp.event.*
-import com.joinself.selfsdk.kmp.keypair.signing.PublicKey
-import com.joinself.selfsdk.kmp.message.DiscoveryRequestBuilder
-import com.joinself.selfsdk.kmp.time.Timestamp
+import com.joinself.selfsdk.account.Account
+import com.joinself.selfsdk.error.SelfStatus
+import com.joinself.selfsdk.event.*
+import com.joinself.selfsdk.keypair.signing.PublicKey
+import com.joinself.selfsdk.message.DiscoveryRequestBuilder
+import com.joinself.selfsdk.time.Timestamp
 import java.util.concurrent.Semaphore
 
 fun main() {
