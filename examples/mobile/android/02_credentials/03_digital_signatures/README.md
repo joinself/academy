@@ -5,7 +5,7 @@
 
 This example demonstrates **Digital Signature Credential** with Self SDK.
 
-## 🟢 Complexity: Beginner
+## 🟢 Complexity: Intermediate
 
 ## 🚀 Quick Start
 

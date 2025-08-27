@@ -5,7 +5,7 @@
 
 This example demonstrates **Get Credentials** with Self SDK with a server.
 
-## 🟢 Complexity: Beginner
+## 🟢 Complexity: Intermediate
 
 ## 🚀 Quick Start
 

@@ -5,7 +5,7 @@
 
 This example demonstrates **Share Credentials** with Self SDK.
 
-## 🟢 Complexity: Beginner
+## 🟢 Complexity: Intermediate
 
 ## 🚀 Quick Start
 
