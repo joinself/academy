@@ -21,6 +21,7 @@ This example demonstrates the **first-time setup** process for a Self SDK accoun
 
 The liveness screen opens and guides you through completing the liveness check.
 
+Logs in logcat:
 ```
 🔍 Checking for account storage path...
 🔧 Creating new Self account...

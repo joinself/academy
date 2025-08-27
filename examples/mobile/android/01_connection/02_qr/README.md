@@ -22,21 +22,18 @@ docker run --pull=always --rm -it ghcr.io/joinself/self-sdk-demo:java
 
 ### Expected Output
 
-A screen with a `Create Account` button. 
-
+A screen with a `Create Account` button.  
 Once an account is registered, a `Scan QRCode` button become available.
 
-
+logs in logcat:
 ```
 🔧 Initialize Self SDK...
-🔍 Checking for account storage path...
-🔧 Creating new Self account...
-
 ✅ Connected to Self network
 
 🔧 Open registration flow...
 ✅ Registration successfully!
 
+🔧 Open QRCode flow...
 🔧 Start connecting...
 ✅ Connection established successfully!
 ```
@@ -71,14 +68,12 @@ The server returns verified liveness credentials.
 ```
 A QRCode flow is initiated. 
 The SDK scans and parses the provided QRCode data. 
-The SDK internally negotiates the connection using the parsed data. 
-Once the negotiation is successful, the SDK returns a group address.
 ```
 
-### Step 5: Connection Connected
+### Step 5: Connect to another Self Account using QRCode data
 ```
-Start sending chat message
-Receive credentials requests, document sign,...
+The SDK internally negotiates the connection using the parsed data. 
+Once the negotiation is successful, the SDK returns a group address.
 ```
 
 

@@ -69,7 +69,7 @@ class MainActivity : ComponentActivity() {
                     Log.d(LOGTAG, "onMessage: ${message.id()}")
                 }
                 override fun onConnect() {
-                    Log.d(LOGTAG, "onConnect")
+                    Log.d(LOGTAG, "✅ Connected to Self network")
                 }
                 override fun onDisconnect(errorMessage: String?) {
                     Log.d(LOGTAG, "onDisconnect: $errorMessage")
