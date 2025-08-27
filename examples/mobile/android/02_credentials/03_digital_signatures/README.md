@@ -1,4 +1,4 @@
-# 🔗 Custom Credential Demo
+# 🔗 Digital Signature Demo
 
 > **📖 Learn the concepts first:** [Verifiable Credentials Concepts](../../../../../../docs/concepts/verifiable-credentials.md)
 > **🎯 What you'll learn:** How to use digital signatures with Self SDK.

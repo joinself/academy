@@ -47,6 +47,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        // Step 1: SDK initialization
+        Log.d(LOGTAG, "🔧 Initialize Self SDK...")
         SelfSDK.initialize(applicationContext,
             log = { Log.d(LOGTAG, it) }
         )
@@ -55,7 +57,30 @@ class MainActivity : ComponentActivity() {
         val storagePath = File(applicationContext.filesDir.absolutePath + "/backup_restore")
         if (!storagePath.exists()) storagePath.mkdirs()
 
-        var account: Account? = null
+        // Step 2: Account Initialization and UI Flow Integration
+        val account = Account.Builder()
+                .setContext(applicationContext)
+                .setEnvironment(Environment.production)
+                .setSandbox(true)
+                .setStoragePath(storagePath.absolutePath)
+                .setCallbacks(object : Account.Callbacks {
+                    override fun onMessage(message: Message) {
+                        Log.d(LOGTAG, "onMessage: ${message.id()}")
+                    }
+                    override fun onConnect() {
+                        Log.d(LOGTAG, "✅ Connected to Self network")
+                    }
+                    override fun onDisconnect(errorMessage: String?) {
+                        Log.d(LOGTAG, "onDisconnect: $errorMessage")
+                    }
+                    override fun onAcknowledgement(id: String) {
+                        Log.d(LOGTAG, "onAcknowledgement: $id")
+                    }
+                    override fun onError(id: String, errorMessage: String?) {
+                        Log.d(LOGTAG, "onError: $errorMessage")
+                    }
+                })
+                .build()
 
         setContent {
             MaterialTheme {
@@ -67,37 +92,10 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     val selfModifier = SelfModifier.sdk()
 
-                    var isRegistered by remember { mutableStateOf(false) }
-
-                    LaunchedEffect(true) {
-                        account = Account.Builder()
-                            .setContext(applicationContext)
-                            .setEnvironment(Environment.production)
-                            .setSandbox(true)
-                            .setStoragePath(storagePath.absolutePath)
-                            .setCallbacks(object : Account.Callbacks {
-                                override fun onMessage(message: Message) {
-                                    Log.d(LOGTAG, "onMessage: ${message.id()}")
-                                }
-                                override fun onConnect() {
-                                    Log.d(LOGTAG, "onConnect")
-                                }
-                                override fun onDisconnect(errorMessage: String?) {
-                                    Log.d(LOGTAG, "onDisconnect: $errorMessage")
-                                }
-                                override fun onAcknowledgement(id: String) {
-                                    Log.d(LOGTAG, "onAcknowledgement: $id")
-                                }
-                                override fun onError(id: String, errorMessage: String?) {
-                                    Log.d(LOGTAG, "onError: $errorMessage")
-                                }
-                            })
-                            .build()
-
-                        isRegistered = account.registered()
-                    }
+                    var isRegistered by remember { mutableStateOf(account.registered()) }
 
                     NavHost(navController = navController, startDestination = "main", modifier = Modifier.padding(innerPadding)) {
+                        // Step 2: Account Initialization and UI Flow Integration
                         SelfSDK.integrateUIFlows(this, navController, selfModifier)
 
                         composable("main") {
@@ -110,9 +108,11 @@ class MainActivity : ComponentActivity() {
                                 Button(
                                     onClick = {
                                         coroutineScope.launch {
-                                            // open registration flow to create an account
-                                            account?.openRegistrationFlow { isSuccess, error ->
+                                            // Step 3: Account Registration
+                                            Log.d(LOGTAG, "🔧 Open registration flow...")
+                                            account.openRegistrationFlow { isSuccess, error ->
                                                 isRegistered = isSuccess
+                                                Log.d(LOGTAG, "✅ Registration successfully!")
                                             }
                                         }
                                     },
@@ -125,8 +125,9 @@ class MainActivity : ComponentActivity() {
                                     modifier = Modifier,
                                     onClick = {
                                         coroutineScope.launch(Dispatchers.Main) {
+                                            // Step 4: Back up
                                             Log.d(LOGTAG, "🔧 Start backup flow...")
-                                            account?.openBackupFlow(onFinish = { isSuccess, error ->
+                                            account.openBackupFlow(onFinish = { isSuccess, error ->
                                                 if (isSuccess) {
                                                     coroutineScope.launch(Dispatchers.Main) {
                                                         Log.d(LOGTAG, "✅ Backup successfully")
@@ -146,7 +147,7 @@ class MainActivity : ComponentActivity() {
                                     onClick = {
                                         coroutineScope.launch(Dispatchers.Main) {
                                             Log.d(LOGTAG, "🔧 Start restore flow...")
-                                            account?.openRestoreFlow(onFinish = { isSuccess, error ->
+                                            account.openRestoreFlow(onFinish = { isSuccess, error ->
                                                 if (isSuccess) {
                                                     isRegistered = true
                                                     coroutineScope.launch(Dispatchers.Main) {

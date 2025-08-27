@@ -1,4 +1,4 @@
-# 🔗 Custom Credential Demo
+# 🔗 Authentication Demo
 
 > **📖 Learn the concepts first:** [Verifiable Credentials Concepts](../../../../../../docs/concepts/verifiable-credentials.md)
 > **🎯 What you'll learn:** How to share verified credentials that stored in SDK.
