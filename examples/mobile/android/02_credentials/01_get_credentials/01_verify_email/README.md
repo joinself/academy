@@ -22,12 +22,9 @@ A screen with a `Create Account` button.
 
 Once an account is registered, a `Verify Email` button become available.
 
-
+logs in logcat:
 ```
 🔧 Initialize Self SDK...
-🔍 Checking for account storage path...
-🔧 Creating new Self account...
-
 ✅ Connected to Self network
 
 🔧 Open registration flow...
