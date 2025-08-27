@@ -29,18 +29,17 @@ Then a `Start Document Sign` button become available.
 
 ```
 🔧 Initialize Self SDK...
-🔍 Checking for account storage path...
-🔧 Creating new Self account...
-
 ✅ Connected to Self network
 
 🔧 Open registration flow...
 ✅ Registration successfully!
 
-🔧 Start connecting...
-✅ Connection established successfully!
+🔧 Open QRCode flow...
+✅ Server connected!!
 
-🔧 Start sharing credentials...
+🔧 Start signing...
+✅ Received request message
+✅ Display signing request
 ✅ Digital signature successfully!
 ```
 
@@ -83,7 +82,7 @@ If the user accepts, the Liveness check flow begins, verifying the user’s iden
 Then verified credentials are returned to the requester.
 ```
 
-Listen to the message from the server.
+Listen to the request message from the server.
 ```kotlin
 override fun onMessage(message: Message) {
     // check if it is verification request message.

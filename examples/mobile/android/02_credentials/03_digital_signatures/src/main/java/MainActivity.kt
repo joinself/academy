@@ -51,6 +51,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        // Step 1: SDK initialization
+        Log.d(LOGTAG, "🔧 Initialize Self SDK...")
         SelfSDK.initialize(applicationContext,
             log = { Log.d(LOGTAG, it) }
         )
@@ -79,6 +81,7 @@ class MainActivity : ComponentActivity() {
 
 
                     LaunchedEffect(true) {
+                        // Step 2: Account Initialization and UI Flow Integration
                         account = Account.Builder()
                             .setContext(applicationContext)
                             .setEnvironment(Environment.production)
@@ -87,10 +90,13 @@ class MainActivity : ComponentActivity() {
                             .setCallbacks(object : Account.Callbacks {
                                 override fun onMessage(message: Message) {
                                     Log.d(LOGTAG, "onMessage: ${message.id()}")
-                                    if (message is VerificationRequest) requestMessage = message
+                                    if (message is VerificationRequest) {
+                                        Log.d(LOGTAG, "✅ Received request message")
+                                        requestMessage = message
+                                    }
                                 }
                                 override fun onConnect() {
-                                    Log.d(LOGTAG, "onConnect")
+                                    Log.d(LOGTAG, "✅ Connected to Self network")
                                 }
                                 override fun onDisconnect(errorMessage: String?) {
                                     Log.d(LOGTAG, "onDisconnect: $errorMessage")
@@ -108,6 +114,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     NavHost(navController = navController, startDestination = "main", modifier = Modifier.padding(innerPadding)) {
+                        // Step 2: Account Initialization and UI Flow Integration
                         SelfSDK.integrateUIFlows(this, navController, selfModifier)
 
                         composable("main") {
@@ -120,9 +127,11 @@ class MainActivity : ComponentActivity() {
                                 Button(
                                     onClick = {
                                         coroutineScope.launch {
-                                            // open registration flow to create an account
+                                            // Step 3: Account Registration
+                                            Log.d(LOGTAG, "🔧 Open registration flow...")
                                             account?.openRegistrationFlow { isSuccess, error ->
                                                 isRegistered = isSuccess
+                                                Log.d(LOGTAG, "✅ Registration successfully!")
                                             }
                                         }
                                     },
@@ -134,11 +143,14 @@ class MainActivity : ComponentActivity() {
                                 Button(
                                     onClick = {
                                         coroutineScope.launch {
+                                            // Step 4: Scan QRCode
+                                            Log.d(LOGTAG, "🔧 Open QRCode flow...")
                                             account?.openQRCodeFlow(
                                                 onFinish = { qrCode, discoverData ->
                                                     coroutineScope.launch(Dispatchers.IO) {
                                                         groupAddress = Common.connect(account, qrCode)
                                                         statusText = if (groupAddress != null) "Server Connected!!" else "Failed to connect to Server!!"
+                                                        Log.d(LOGTAG, "✅ Server connected!!")
                                                     }
                                                 },
                                                 onExit = {}
@@ -152,6 +164,7 @@ class MainActivity : ComponentActivity() {
 
                                 Button(
                                     onClick = {
+                                        Log.d(LOGTAG, "🔧 Start signing...")
                                         Common.notifyServerForRequest( account ?: return@Button, groupAddress ?: return@Button, message = "REQUEST_DOCUMENT_SIGNING")
                                     },
                                     enabled = isRegistered && groupAddress != null
@@ -167,6 +180,8 @@ class MainActivity : ComponentActivity() {
                                         onDismissRequest = { },
                                         properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false, usePlatformDefaultWidth = false),
                                     ) {
+                                        // Step 5: Sign Document
+                                        Log.d(LOGTAG, "✅ Display signing request")
                                         account?.DisplayRequestUI(selfModifier, requestMessage ?: return@Dialog, onFinish = { isSent, status ->
                                             requestMessage = null
                                             Log.d(LOGTAG, "✅ Digital signature successfully!")
