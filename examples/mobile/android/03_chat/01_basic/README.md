@@ -27,18 +27,19 @@ A screen with a `Create Account` button.
 Once an account is registered, need to scan the QRCode to connect to server.
 Then a `Send` button become available.
 
+logs in logcat:
 ```
 🔧 Initialize Self SDK...
-🔍 Checking for account storage path...
-🔧 Creating new Self account...
-
 ✅ Connected to Self network
 
 🔧 Open registration flow...
 ✅ Registration successfully!
 
-🔧 Start connecting...
-✅ Connection established successfully!
+🔧 Open QRCode flow...
+✅ Server connected!!
+
+🔧 Send chat message...
+✅ Received chat message
 ```
 
 
@@ -107,6 +108,17 @@ fun sendChat() {
     // send chat to server
     coroutineScope.launch(Dispatchers.IO) {
         account?.send(toAddress = groupAddress!!, message = chat)
+    }
+}
+```
+
+### Step 6: Receive chat messages
+Check if the received message is a chat message or a receipt message.
+
+```kotlin
+override fun onMessage(message: Message) {
+    if (message is ChatMessage) {
+        Log.d(LOGTAG, "Received chat message")
     }
 }
 ```
