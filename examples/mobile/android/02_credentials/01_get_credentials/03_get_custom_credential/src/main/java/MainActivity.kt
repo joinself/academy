@@ -89,10 +89,13 @@ class MainActivity : ComponentActivity() {
                             .setCallbacks(object : Account.Callbacks {
                                 override fun onMessage(message: Message) {
                                     Log.d(LOGTAG, "onMessage: ${message.id()}")
-                                    if (message is CredentialMessage) requestMessage = message
+                                    if (message is CredentialMessage) {
+                                        Log.d(LOGTAG, "✅ Received credential message")
+                                        requestMessage = message
+                                    }
                                 }
                                 override fun onConnect() {
-                                    Log.d(LOGTAG, "onConnect")
+                                    Log.d(LOGTAG, "✅ Connected to Self network")
                                 }
                                 override fun onDisconnect(errorMessage: String?) {
                                     Log.d(LOGTAG, "onDisconnect: $errorMessage")
@@ -178,6 +181,7 @@ class MainActivity : ComponentActivity() {
                                         properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false, usePlatformDefaultWidth = false),
                                     ) {
                                         // Step 5: Get Custom Credentials
+                                        Log.d(LOGTAG, "✅ Display credential message")
                                         account?.DisplayRequestUI(selfModifier, requestMessage ?: return@Dialog, onFinish = { isSent, status ->
                                             requestMessage = null
                                             Log.d(LOGTAG,  "✅ Get Credentials successfully!")

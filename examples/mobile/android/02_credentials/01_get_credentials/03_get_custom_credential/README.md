@@ -39,6 +39,7 @@ logs in logcat:
 ✅ Server connected!!
 
 🔧 Start getting credentials...
+✅ Received credential message
 ✅ Get Credentials successfully!
 ```
 

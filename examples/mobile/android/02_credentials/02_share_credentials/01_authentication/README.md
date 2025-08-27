@@ -27,20 +27,20 @@ A screen with a `Create Account` button.
 Once an account is registered, need to scan the QRCode to connect to server.
 Then a `Start Authentication` button become available.
 
+logs in logcat:
 ```
 🔧 Initialize Self SDK...
-🔍 Checking for account storage path...
-🔧 Creating new Self account...
-
 ✅ Connected to Self network
 
 🔧 Open registration flow...
 ✅ Registration successfully!
 
-🔧 Start connecting...
-✅ Connection established successfully!
+🔧 Open QRCode flow...
+✅ Server connected!!
 
 🔧 Start sharing credentials...
+✅ Received request message
+✅ Display request message
 ✅ Authentication successfully!
 ```
 
