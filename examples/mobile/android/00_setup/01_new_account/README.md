@@ -35,6 +35,12 @@ Logs in logcat:
 
 
 ## 🏗️ How It Works
+### Step 0: Add Self Android SDK dependency
+Please check the latest version in here Maven Central: `https://central.sonatype.com/artifact/com.joinself/sdk-android`
+
+```kotlin
+implementation("com.joinself:sdk-android:<version>")
+```
 
 ### Step 1: SDK initialization
 First, the Self SDK needs to be initialized.

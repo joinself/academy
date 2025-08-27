@@ -4,10 +4,10 @@ This directory contains mobile examples for advanced Self SDK features with buil
 
 ## 📱 Examples Overview
 
-| Example               | Summary |
-|-----------------------|---------|
-| **01_backup_restore** | Mobile SDK backup and restore |
-| **02_notifications**  | Mobile push notifications with UI |
+| Example               | Summary                               |
+|-----------------------|---------------------------------------|
+| **01_backup_restore** | Mobile SDK backup and restore with UI |
+| **02_notifications**  | Mobile push notifications             |
 
 ## 📱 Mobile Features
 

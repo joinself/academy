@@ -8,7 +8,7 @@ This directory contains mobile examples for Self SDK connections with built-in U
 
 | Example | Summary | Platform |
 |---------|---------|----------|
-| **01_address** | Connect to server addresses with mobile UI 
+| **01_address** | Connect to server addresses 
 | **02_qr** | Scan QR codes to connect with camera UI
 
 
