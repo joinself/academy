@@ -70,12 +70,23 @@ A QRCode flow is initiated.
 The SDK scans and parses the provided QRCode data. 
 ```
 
+```kotlin
+account.openQRCodeFlow(
+    onFinish = { qrCode, discoverData ->
+        connect(qrCode)
+    },
+    onExit = {}
+)
+```
 ### Step 5: Connect to another Self Account using QRCode data
 ```
 The SDK internally negotiates the connection using the parsed data. 
 Once the negotiation is successful, the SDK returns a group address.
 ```
 
+```kotlin
+val groupAddress = account.connectWith(qrCode)
+```
 
 ## 🚀 Next Steps
 

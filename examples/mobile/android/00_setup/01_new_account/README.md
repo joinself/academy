@@ -43,6 +43,12 @@ Set up the pushToken to receive push notifications
 Append the SDK logs to your logger
 ```
 
+```kotlin
+SelfSDK.initialize(applicationContext,
+    log = { Log.d(LOGTAG, it) }
+)
+```
+
 ### Step 2: Account Storage Check
 Next, check and create a directory for account storage
 ```
@@ -60,6 +66,11 @@ Register with Self network
 Integrate the built-in Self-UI Flows into the main app’s navigation.
 ```
 
+```kotlin
+Log.d(LOGTAG,"🔧 Integrate Self-UI flows")
+SelfSDK.integrateUIFlows(this, navController, selfModifier)
+```
+
 ### Step 4: Account Registration Status
 Once initialized, check registration status
 ```
@@ -68,12 +79,23 @@ If the user is not registered, display a button that allows them to register the
 If the user is registered, disable the registration function.
 ```
 
+```kotlin
+account.registered()
+```
+
 ### Step 5: Account Registration Flow
 The liveness will be open, and guide user finish the flow
 ```
 To ensure that users are real people, a live check is conducted. 
 An image is captured and submitted to the server for secure verification. 
 This image will be used to verify the user’s identity for subsequent operations.
+```
+
+```kotlin
+account.openRegistrationFlow { isSuccess, error ->
+    Log.d(LOGTAG, "✅ Registration flow finished")
+    Log.d(LOGTAG, "✅ New Self account ready!")
+}
 ```
 
 ### Step 6: Account Registered

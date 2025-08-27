@@ -71,6 +71,10 @@ The SDK internally negotiates the connection using the provided address.
 Once the negotiation is successful, the SDK returns a group address.
 ```
 
+```kotlin
+val groupAddress = account.connectWith(serverInboxAddress, info = mapOf())
+```
+
 ### Step 5: Connection Connected
 ```
 Start sending chat message

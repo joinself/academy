@@ -68,6 +68,17 @@ Users are then required to enter the code found in the verification email.
 Finally, the email credentials are verified and returned from the server.
 ```
 
+Open the flow in Jetpack Navigation
+```kotlin
+account?.openEmailVerificationFlow { isSuccess, error ->
+    if (isSuccess) {
+        coroutineScope.launch(Dispatchers.Main) {
+            statusText = "Email is verified!!"
+        }
+    }
+}
+```
+
 ## 🚀 Next Steps
 
 1. **Share credentials**: Try `../02_credentials/02_share_credentials` to share verified credentials

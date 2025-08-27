@@ -68,6 +68,18 @@ Subsequently, the SDK sends captured documents to the server to verify.
 Finally, the identity credentials are verified and returned from the server.
 ```
 
+Start the flow in Jetpack Navigation
+```kotlin
+account?.openDocumentVerificationFlow(
+    isDevMode = false,
+    onFinish = { isSuccess, error ->
+        if (isSuccess) {
+            statusText = "Your document is verified!!"
+        }
+    }
+)
+```
+
 ## 🚀 Next Steps
 
 1. **Share credentials**: Try `../02_credentials/02_share_credentials` to share verified credentials

@@ -84,6 +84,24 @@ If the user accepts, the Liveness check flow begins, verifying the user’s iden
 The verified credentials are then returned to the requester.
 ```
 
+Listen to the request from the server.
+```kotlin
+override fun onMessage(message: Message) {
+    if (message is CredentialRequest) {
+        Log.d(LOGTAG, "✅ Received request message")
+    }
+}
+```
+
+Display the request message with buttons to confirm or reject to authenticate the request.
+```kotlin
+account?.DisplayRequestUI(selfModifier, requestMessage, 
+    onFinish = { isSent, status ->
+        Log.d(LOGTAG, "✅ Authentication successfully!")
+    }
+)
+```
+
 ## 🚀 Next Steps
 
 1. **Digital Signature**: Try `../03_digital_signatures` to learn how to sign a signature.

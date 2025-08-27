@@ -82,6 +82,25 @@ The SDK then displays a UI to prompt the user to confirm or reject storing these
 If the user accepts, the credentials are stored in the local database. Otherwise, they are discarded.
 ```
 
+Listen to the message from the server.
+```kotlin
+override fun onMessage(message: Message) {
+    // check if it is custom credential message.
+    if (message is CredentialMessage) {
+        credentialMessage = message
+    }
+}
+```
+
+Users confirm storing the credentials in the SDK.
+```kotlin
+account?.DisplayRequestUI(selfModifier, credentialMessage, 
+    onFinish = { isSent, status ->
+        Log.d(LOGTAG, "Custom credentials are stored!!")
+    }
+)
+```
+
 ## 🚀 Next Steps
 
 1. **Share credentials**: Try `../02_credentials/02_share_credentials` to share verified credentials
