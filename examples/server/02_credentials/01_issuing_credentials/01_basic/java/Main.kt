@@ -1,6 +1,7 @@
 import com.joinself.selfsdk.account.Account
 import com.joinself.selfsdk.credential.Address
 import com.joinself.selfsdk.credential.CredentialBuilder
+import com.joinself.selfsdk.credential.CredentialType
 import com.joinself.selfsdk.time.Timestamp
 import java.util.concurrent.Semaphore
 
@@ -44,7 +45,7 @@ fun createEmailCredential(issuer: Account, holder: Account) {
         "domain" to "example.com"
     )
     val unsignedCredential = CredentialBuilder()
-        .credentialType(arrayOf("EmailCredential"))
+        .credentialType(CredentialType.EMAIL)
         .credentialSubject(Address.key(holderAddress))
         .credentialSubjectClaims(claims)
         .issuer(Address.key(issuerAddress))

@@ -152,7 +152,7 @@ fun createCredentialWithEvidence(issuer: Account, holder: Account, evidence: Bin
 
     return runCatching {
         val unsignedCredential = CredentialBuilder()
-            .credentialType(arrayOf("VerifiableCredential", "CertificationCredential"))
+            .credentialType("CertificationCredential")
             .credentialSubject(Address.key(holderAddress))
             .credentialSubjectClaims(claims)
             .issuer(Address.key(issuerAddress))
@@ -182,7 +182,7 @@ fun createPresentation(issuer: Account, cred: VerifiableCredential) {
 
     runCatching {
         val unsignedPresentation = PresentationBuilder()
-            .presentationType(arrayOf("VerifiablePresentation", "CertificationPresentation"))
+            .presentationType("CertificationPresentation")
             .holder(Address.key(issuerAddress))
             .credentialAdd(cred)
             .finish()

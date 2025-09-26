@@ -1,6 +1,7 @@
 import com.joinself.selfsdk.account.Account
 import com.joinself.selfsdk.credential.Address
 import com.joinself.selfsdk.credential.CredentialBuilder
+import com.joinself.selfsdk.credential.CredentialType
 import com.joinself.selfsdk.credential.PresentationBuilder
 import com.joinself.selfsdk.credential.VerifiableCredential
 import com.joinself.selfsdk.credential.VerifiablePresentation
@@ -154,7 +155,7 @@ fun createCredentialPresentation(holder: ExchangeParty, credentials: List<Verifi
 
     return runCatching {
         val builder = PresentationBuilder()
-            .presentationType(arrayOf("VerifiablePresentation", "ProofOfEducation"))
+            .presentationType("ProofOfEducation")
             .holder(Address.key(holderAddress))
 
         // Add all matching credentials to the presentation
@@ -181,7 +182,7 @@ fun createEmailCredential(issuerAccount: Account, issuerAddress: PublicKey, hold
         )
 
         val unsignedCredential = CredentialBuilder()
-            .credentialType(arrayOf("VerifiableCredential", "EmailCredential"))
+            .credentialType(CredentialType.EMAIL)
             .credentialSubject(Address.key(holderAddress))
             .credentialSubjectClaims(claims)
             .issuer(Address.key(issuerAddress))
@@ -207,7 +208,7 @@ fun createStudentCredential(issuerAccount: Account, issuerAddress: PublicKey, ho
         )
 
         val unsignedCredential = CredentialBuilder()
-            .credentialType(arrayOf("VerifiableCredential", "StudentCredential"))
+            .credentialType("StudentCredential")
             .credentialSubject(Address.key(holderAddress))
             .credentialSubjectClaims(claims)
             .issuer(Address.key(issuerAddress))
@@ -234,7 +235,7 @@ fun createDegreeCredential(issuerAccount: Account, issuerAddress: PublicKey, hol
         )
 
         val unsignedCredential = CredentialBuilder()
-            .credentialType(arrayOf("VerifiableCredential", "DegreeCredential"))
+            .credentialType("DegreeCredential")
             .credentialSubject(Address.key(holderAddress))
             .credentialSubjectClaims(claims)
             .issuer(Address.key(issuerAddress))

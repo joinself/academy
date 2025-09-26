@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.0.21"
+    kotlin("jvm") version "2.2.20"
     application
 }
 
@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.joinself:sdk-jvm:1.0.2")
+    implementation("com.joinself:sdk-jvm:1.0.3")
 }
 
 kotlin {

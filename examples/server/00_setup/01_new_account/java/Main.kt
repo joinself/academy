@@ -53,7 +53,7 @@ fun createAccount(): Account {
         objectEndpoint = Target.PRODUCTION_SANDBOX.objectEndpoint(),
         messageEndpoint = Target.PRODUCTION_SANDBOX.messageEndpoint(),
         logLevel = LogLevel.WARN,
-        onConnect = { 
+        onConnect = {
             println("✅ Connected to Self network")
             println("✅ New account created successfully!")
             signal.release()
@@ -66,6 +66,7 @@ fun createAccount(): Account {
         onWelcome = { _ -> },
         onProposal = { _ -> },
         onMessage = { _ -> },
+        onDropped = {_ ->},
         onIntegrity = null
     )
 

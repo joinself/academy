@@ -154,7 +154,7 @@ fun createOrganizationCredential(issuer: Account, holder: Account) {
     // Build and issue the credential using the Self SDK
     runCatching {
         val unsignedCredential = CredentialBuilder()
-            .credentialType(arrayOf("VerifiableCredential", "OrganizationCredential"))
+            .credentialType("OrganizationCredential")
             .credentialSubject(Address.key(holderAddress))
             .credentialSubjectClaims(claims)
             .issuer(Address.key(issuerAddress))
