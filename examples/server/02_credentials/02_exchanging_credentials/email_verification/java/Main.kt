@@ -1,6 +1,7 @@
 import com.joinself.selfsdk.account.Account
 import com.joinself.selfsdk.credential.Address
 import com.joinself.selfsdk.credential.CredentialBuilder
+import com.joinself.selfsdk.credential.CredentialType
 import com.joinself.selfsdk.credential.VerifiableCredential
 import com.joinself.selfsdk.error.SelfStatus
 import com.joinself.selfsdk.event.*
@@ -198,7 +199,7 @@ fun createEmailVerificationCredential(issuerAccount: Account, holderAddress: Pub
 
         // Use the CredentialBuilder to construct the credential.
         val unsignedCredential = CredentialBuilder()
-            .credentialType(arrayOf("VerifiableCredential", "EmailCredential"))
+            .credentialType(CredentialType.EMAIL)
             .credentialSubject(Address.key(holderAddress))
             .credentialSubjectClaims(claims)
             .issuer(Address.key(issuerAddress))

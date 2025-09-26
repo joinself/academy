@@ -56,6 +56,7 @@ class Common {
                 onWelcome = { welcome -> callbacks?.onWelcome(account, welcome)},
                 onProposal = { _ -> },
                 onMessage = { msg -> callbacks?.onMessage(account, msg) },
+                onDropped = {_ ->},
                 onIntegrity = null
             )
 

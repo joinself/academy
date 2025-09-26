@@ -19,6 +19,7 @@ import com.joinself.selfsdk.account.Account
 import com.joinself.selfsdk.asset.BinaryObject
 import com.joinself.selfsdk.credential.Address
 import com.joinself.selfsdk.credential.CredentialBuilder
+import com.joinself.selfsdk.credential.CredentialType
 import com.joinself.selfsdk.credential.PresentationBuilder
 import com.joinself.selfsdk.credential.VerifiableCredential
 import com.joinself.selfsdk.credential.VerifiablePresentation
@@ -74,7 +75,7 @@ fun demonstrateBasicCredential(issuer: Account, holder: Account) {
 
     runCatching {
         val unsignedCredential = CredentialBuilder()
-            .credentialType(arrayOf("EmailCredential"))
+            .credentialType(CredentialType.EMAIL)
             .credentialSubject(Address.key(holderAddress))
             .credentialSubjectClaims(claims)
             .issuer(Address.key(issuerAddress))
@@ -112,7 +113,7 @@ fun demonstrateProfileCredential(issuer: Account, holder: Account) {
 
     runCatching {
         val unsignedCredential = CredentialBuilder()
-            .credentialType(arrayOf("ProfileNameCredential"))
+            .credentialType("ProfileNameCredential")
             .credentialSubject(Address.key(holderAddress))
             .credentialSubjectClaims(claims)
             .issuer(Address.key(issuerAddress))
@@ -175,7 +176,7 @@ fun demonstrateCustomCredentialWithEvidence(issuer: Account, holder: Account) {
 
     val customCredential = runCatching {
         val unsignedCredential = CredentialBuilder()
-            .credentialType(arrayOf("VerifiableCredential", "CertificationCredential"))
+            .credentialType("CertificationCredential")
             .credentialSubject(Address.key(holderAddress))
             .credentialSubjectClaims(claims)
             .issuer(Address.key(issuerAddress))
@@ -271,7 +272,7 @@ fun demonstrateOrganizationCredential(issuer: Account, holder: Account) {
 
     runCatching {
         val unsignedCredential = CredentialBuilder()
-            .credentialType(arrayOf("VerifiableCredential", "EmploymentCredential"))
+            .credentialType("EmploymentCredential")
             .credentialSubject(Address.key(holderAddress))
             .credentialSubjectClaims(claims)
             .issuer(Address.key(issuerAddress))
@@ -300,7 +301,7 @@ fun createPresentation(account: Account, cred: VerifiableCredential): Verifiable
 
     return runCatching {
         val unsignedPresentation = PresentationBuilder()
-            .presentationType(arrayOf("VerifiablePresentation"))
+            .presentationType("VerifiablePresentation")
             .holder(Address.key(holderAddress))
             .credentialAdd(cred)
             .finish()

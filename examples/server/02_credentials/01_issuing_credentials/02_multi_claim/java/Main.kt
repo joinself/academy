@@ -55,7 +55,7 @@ fun createProfileCredential(issuer: Account, holder: Account) {
     )
 
     val unsignedCredential = CredentialBuilder()
-        .credentialType(arrayOf("ProfileNameCredential"))
+        .credentialType("ProfileNameCredential")
         .credentialSubject(Address.key(holderAddress))
         .credentialSubjectClaims(claims)
         .issuer(Address.key(issuerAddress))
@@ -102,7 +102,7 @@ fun createEducationCredential(issuer: Account, holder: Account) {
     )
 
     val unsignedCredential = CredentialBuilder()
-        .credentialType(arrayOf("VerifiableCredential", "EducationCredential"))
+        .credentialType("EducationCredential")
         .credentialSubject(Address.key(holderAddress))
         .credentialSubjectClaims(claims)
         .issuer(Address.key(issuerAddress))
