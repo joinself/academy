@@ -1,0 +1,1607 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../credentials/">
+      
+      
+        <link rel="next" href="../advanced/">
+      
+      
+      <link rel="icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>Chat & Messaging - Joinself Academy</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sauce+One,+sans-serif:300,300i,400,400i,700,700i%7COpen+Sauce+One,+sans-serif:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Open Sauce One, sans-serif";--md-code-font:"Open Sauce One, sans-serif"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chat-chat-messaging-examples" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Joinself Academy" class="md-header__button md-logo" aria-label="Joinself Academy" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Joinself Academy
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chat & Messaging
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../solutions/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Solutions
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../concepts/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../resources/agreements/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Resources
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Joinself Academy" class="md-nav__button md-logo" aria-label="Joinself Academy" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    Joinself Academy
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../getting-started/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../solutions/overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Solutions
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../concepts/overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Concepts
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Examples
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Setup Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../connections/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Connections
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../credentials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Credentials
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Chat & Messaging
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chat & Messaging
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You'll Learn
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-progressive-learning-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture: Progressive Learning Path
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-chat-messaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      🟢 Basic Chat Messaging
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🟢 Basic Chat Messaging">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Start
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      Expected Output
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Advanced Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Resources & Community
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../production/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Production Deployment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../resources/agreements/overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Resources
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You'll Learn
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-progressive-learning-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture: Progressive Learning Path
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-chat-messaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      🟢 Basic Chat Messaging
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🟢 Basic Chat Messaging">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Start
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      Expected Output
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="chat-chat-messaging-examples"><strong>Chat:</strong> Chat &amp; Messaging Examples<a class="headerlink" href="#chat-chat-messaging-examples" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>****Documentation:** Learn the concepts first:** <a href="../../concepts/message-layer-security/">Message Layer Security</a> | <a href="../../concepts/cryptographic-foundations/">Cryptographic Foundations</a></p>
+</blockquote>
+<h2 id="what-youll-learn">What You'll Learn<a class="headerlink" href="#what-youll-learn" title="Permanent link">&para;</a></h2>
+<p>Self SDK makes secure messaging surprisingly simple. Behind the scenes, every chat message benefits from <a href="../../concepts/cryptographic-foundations/#digital-signatures">Ed25519 signatures</a>, <a href="../../concepts/message-layer-security/#encryption-properties">MLS end-to-end encryption</a>, and <a href="../../concepts/message-layer-security/#forward-secrecy">forward secrecy</a> - but you just focus on building great chat experiences.</p>
+<p>****What you will learn:** Learning Goals:**
+- Master event-driven message handling patterns
+- Build intelligent chat bots with response systems<br />
+- Understand message types and content routing
+- Implement real-time secure communication
+- Connect cryptographic theory to practical messaging</p>
+<h2 id="architecture-progressive-learning-path"><strong>Architecture:</strong> Progressive Learning Path<a class="headerlink" href="#architecture-progressive-learning-path" title="Permanent link">&para;</a></h2>
+<p>The chat examples follow our <strong>Theory Meets Practice</strong> approach, building from basic concepts to production-ready systems:</p>
+<table>
+<thead>
+<tr>
+<th><strong>What you will learn:</strong> Example</th>
+<th><strong>Learning:</strong> Complexity</th>
+<th><strong>Resources:</strong> Focus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>🟢 <a href="#basic-chat-messaging">Basic Chat</a></strong></td>
+<td>Beginner</td>
+<td>Core messaging patterns, response generation</td>
+</tr>
+<tr>
+<td><strong>🟡 Group Chat</strong></td>
+<td>Intermediate</td>
+<td>Multi-participant MLS groups <em>(Coming Soon)</em></td>
+</tr>
+<tr>
+<td><strong>🟠 Rich Media</strong></td>
+<td>Advanced</td>
+<td>File attachments, media sharing <em>(Coming Soon)</em></td>
+</tr>
+<tr>
+<td><strong>🔴 Production Features</strong></td>
+<td>Expert</td>
+<td>Typing indicators, read receipts <em>(Coming Soon)</em></td>
+</tr>
+</tbody>
+</table>
+<h2 id="basic-chat-messaging">🟢 Basic Chat Messaging<a class="headerlink" href="#basic-chat-messaging" title="Permanent link">&para;</a></h2>
+<p><strong>Path:</strong> <a href="../../examples/server/03_chat/01_basic/"><code>examples/server/03_chat/01_basic/</code></a></p>
+<p>Your first step into secure messaging. This example demonstrates core chat functionality with intelligent auto-responses, showing how the SDK handles encryption automatically while you focus on message logic.</p>
+<h3 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h3>
+<p><code>bash
+cd examples/server/03_chat/01_basic/go
+go run main.go</code></p>
+<p><strong>What happens:</strong>
+1. Creates a Self account with message callbacks
+2. Displays your inbox address for connections
+3. Listens for incoming chat messages
+4. Responds intelligently based on message content</p>
+<h3 id="expected-output">Expected Output<a class="headerlink" href="#expected-output" title="Permanent link">&para;</a></h3>
+<p>```bash
+<strong>Chat:</strong> Simple Chat Demo
+===================</p>
+<p><strong>Troubleshooting:</strong> Setting up Self account...
+<strong>Success:</strong> Connected to Self network</p>
+<p><strong>Inbox:</strong> Connection Information:
+   🆔 Inbox Address: did:self:abc123...
+   <strong>Security:</strong> All messages automatically encrypted</p>
+<p><strong>Success:</strong> Chat demo ready! Press Ctrl+C to exit.</p>
+<h1 id="after-someone-sends-hello">After someone sends "Hello!"<a class="headerlink" href="#after-someone-sends-hello" title="Permanent link">&para;</a></h1>
+<p>📨 [15:04:07] did:self:peer456: "Hello!"
+📤 [15:04:07] Sent: "👋 Hello! Message received at 15:04:07"
+```</p>
+<h3 id="how-it-works">How It Works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h3>
+<h4 id="1-event-driven-message-handling">1. Event-Driven Message Handling<a class="headerlink" href="#1-event-driven-message-handling" title="Permanent link">&para;</a></h4>
+<p>The foundation of all chat applications is responding to incoming messages. The SDK uses callbacks to notify your application:</p>
+<p>```bash
+67:82:examples/server/03_chat/01_basic/go/main.go
+// handleMessage processes all incoming messages
+func handleMessage(acc *account.Account, msg *event.Message) {
+    timestamp := time.Now().Format("15:04:05")</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>switch event.ContentTypeOf(msg) {
+case message.ContentTypeChat:
+    handleChatMessage(acc, msg, timestamp)
+default:
+    fmt.Printf(&quot;📨 [%s] Received message from %s\n&quot;,
+        timestamp, msg.FromAddress().String())
+}
+</code></pre></div>
+
+<p>}
+```</p>
+<p>****Key Concepts:** Key Concepts:**
+- <strong>Message Routing</strong>: <code>event.ContentTypeOf()</code> determines message type (chat, credentials, etc.)
+- <strong>Type Safety</strong>: Each content type has specific decoding methods
+- <strong>Event Loop</strong>: Your application responds to messages as they arrive
+- <strong>Automatic Decryption</strong>: The SDK handles all cryptographic operations</p>
+<h4 id="2-chat-message-processing">2. Chat Message Processing<a class="headerlink" href="#2-chat-message-processing" title="Permanent link">&para;</a></h4>
+<p>Once you know a message is a chat type, extract and process the content:</p>
+<p>```bash
+84:98:examples/server/03_chat/01_basic/go/main.go
+// handleChatMessage processes incoming chat messages and sends responses
+func handleChatMessage(acc *account.Account, msg *event.Message, timestamp string) {
+    chat, err := message.DecodeChat(msg.Content())
+    if err != nil {
+        fmt.Printf("❌ [%s] Failed to decode chat message: %v\n", timestamp, err)
+        return
+    }</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>fmt.Printf(&quot;📨 [%s] %s: \&quot;%s\&quot;\n&quot;, timestamp, msg.FromAddress().String(), chat.Message())
+
+response := generateResponse(chat.Message(), timestamp)
+sendResponse(acc, msg.FromAddress(), response, timestamp)
+</code></pre></div>
+
+<p>}
+```</p>
+<p>****Key Concepts:** Key Concepts:**
+- <strong>Content Decoding</strong>: <code>message.DecodeChat()</code> extracts text from encrypted message
+- <strong>Sender Identification</strong>: <code>msg.FromAddress()</code> provides cryptographic identity
+- <strong>Error Handling</strong>: Always check for decoding failures
+- <strong>Response Pipeline</strong>: Process → Generate → Send pattern</p>
+<h4 id="3-intelligent-response-generation">3. Intelligent Response Generation<a class="headerlink" href="#3-intelligent-response-generation" title="Permanent link">&para;</a></h4>
+<p>Build smart bots that understand context and respond appropriately:</p>
+<p>```bash
+100:117:examples/server/03_chat/01_basic/go/main.go
+// generateResponse creates appropriate responses based on the message content
+func generateResponse(messageText, timestamp string) string {
+    message := strings.ToLower(strings.TrimSpace(messageText))</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>switch {
+case strings.Contains(message, &quot;hello&quot;) || strings.Contains(message, &quot;hi&quot;):
+    return fmt.Sprintf(&quot;👋 Hello! Message received at %s&quot;, timestamp)
+case strings.Contains(message, &quot;how are you&quot;):
+    return &quot;🤖 I&#39;m doing great! I&#39;m a Self SDK chat demo.&quot;
+case strings.Contains(message, &quot;help&quot;):
+    return &quot;💡 I&#39;m a simple chat bot. Try saying &#39;hello&#39;, &#39;how are you&#39;, or send any message for an echo!&quot;
+case strings.Contains(message, &quot;time&quot;):
+    return fmt.Sprintf(&quot;🕐 Current time is %s&quot;, timestamp)
+default:
+    return fmt.Sprintf(&quot;**Process:** Echo: %s&quot;, messageText)
+}
+</code></pre></div>
+
+<p>}
+```</p>
+<p>****Key Concepts:** Key Concepts:**
+- <strong>Pattern Matching</strong>: Use string analysis for message understanding
+- <strong>Context Awareness</strong>: Include timestamps and dynamic data
+- <strong>Fallback Responses</strong>: Always have a default response
+- <strong>Extensible Design</strong>: Easy to add new response patterns</p>
+<h4 id="4-secure-message-sending">4. Secure Message Sending<a class="headerlink" href="#4-secure-message-sending" title="Permanent link">&para;</a></h4>
+<p>Create and send responses using the SDK's message builders:</p>
+<p>```bash
+119:136:examples/server/03_chat/01_basic/go/main.go
+// sendResponse sends a chat response to the peer
+func sendResponse(acc *account.Account, toAddress *signing.PublicKey, responseText, timestamp string) {
+    chatContent, err := message.NewChat().
+        Message(responseText).
+        Finish()
+    if err != nil {
+        fmt.Printf("❌ [%s] Failed to build response: %v\n", timestamp, err)
+        return
+    }</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>err = acc.MessageSend(toAddress, chatContent)
+if err != nil {
+    fmt.Printf(&quot;❌ [%s] Failed to send response: %v\n&quot;, timestamp, err)
+} else {
+    fmt.Printf(&quot;📤 [%s] Sent: \&quot;%s\&quot;\n&quot;, timestamp, responseText)
+}
+</code></pre></div>
+
+<p>}
+```</p>
+<p>****Key Concepts:** Key Concepts:**
+- <strong>Message Builders</strong>: <code>message.NewChat()</code> creates properly formatted content
+- <strong>Fluent API</strong>: Chain methods for clean message construction
+- <strong>Automatic Encryption</strong>: <code>MessageSend()</code> handles all cryptographic operations
+- <strong>Error Handling</strong>: Always check for build and send failures</p>
+<h3 id="security-security-features-in-action"><strong>Security:</strong> Security Features in Action<a class="headerlink" href="#security-security-features-in-action" title="Permanent link">&para;</a></h3>
+<p>When you run this example, several security features work automatically:</p>
+<h4 id="end-to-end-encryption">End-to-End Encryption<a class="headerlink" href="#end-to-end-encryption" title="Permanent link">&para;</a></h4>
+<p><code>Your Message → Ed25519 Signature → MLS Encryption → Network → MLS Decryption → Peer</code></p>
+<ul>
+<li><strong>Signing</strong>: Every message signed with your Ed25519 private key</li>
+<li><strong>Encryption</strong>: MLS protocol encrypts content with rotating keys  </li>
+<li><strong>Authentication</strong>: Receiver cryptographically verifies your identity</li>
+<li><strong>Forward Secrecy</strong>: Past messages remain secure even if current keys are compromised</li>
+</ul>
+<h4 id="identity-verification">Identity Verification<a class="headerlink" href="#identity-verification" title="Permanent link">&para;</a></h4>
+<p><code>Message Source: did:self:abc123...
+├── Cryptographic Identity (not just username)
+├── Unforgeable (backed by Ed25519 signatures)  
+└── Verifiable (anyone can validate the signature)</code></p>
+<h3 id="learning-what-just-happened"><strong>Learning:</strong> What Just Happened?<a class="headerlink" href="#learning-what-just-happened" title="Permanent link">&para;</a></h3>
+<p>Let's trace what happens when someone sends you "Hello!":</p>
+<ol>
+<li><strong>Message Arrival</strong>: Their Self SDK encrypts and signs the message</li>
+<li><strong>Network Transport</strong>: Message travels over Self's decentralized infrastructure  </li>
+<li><strong>Automatic Decryption</strong>: Your SDK decrypts using your private keys</li>
+<li><strong>Callback Trigger</strong>: <code>OnMessage</code> callback fires with decrypted content</li>
+<li><strong>Type Detection</strong>: <code>ContentTypeOf()</code> identifies this as a chat message</li>
+<li><strong>Content Extraction</strong>: <code>DecodeChat()</code> gets the text "Hello!"</li>
+<li><strong>Response Generation</strong>: Pattern matching produces a greeting response</li>
+<li><strong>Response Encryption</strong>: Your response gets signed and encrypted</li>
+<li><strong>Delivery</strong>: Response reaches the sender's device automatically</li>
+</ol>
+<p><strong>The magic:</strong> You wrote simple string processing code, but every message benefits from advanced cryptography, forward secrecy, and verifiable identity.</p>
+<h2 id="what-you-will-learn-real-world-applications"><strong>What you will learn:</strong> Real-World Applications<a class="headerlink" href="#what-you-will-learn-real-world-applications" title="Permanent link">&para;</a></h2>
+<h3 id="customer-support-bot">Customer Support Bot<a class="headerlink" href="#customer-support-bot" title="Permanent link">&para;</a></h3>
+<p>Transform the basic pattern into an intelligent customer service system:</p>
+<p><strong>Enhanced Response Patterns:</strong>
+<code>go
+case strings.Contains(message, "refund"):
+    return "💰 I can help with refunds! Please provide your order number."
+case strings.Contains(message, "order") &amp;&amp; containsOrderNumber(message):
+    orderNum := extractOrderNumber(message)
+    return fmt.Sprintf("📦 Looking up order %s...", orderNum)
+case strings.Contains(message, "hours"):
+    return "🕐 We're open Monday-Friday 9AM-5PM EST"</code></p>
+<p><strong>Why Self SDK for Support:</strong>
+- <strong>Verified Identity</strong>: Know exactly who you're talking to
+- <strong>Message Integrity</strong>: Guarantee messages aren't tampered with
+- <strong>Audit Trail</strong>: Cryptographic proof of all conversations
+- <strong>Privacy</strong>: End-to-end encryption protects sensitive data</p>
+<h3 id="team-notification-bot">Team Notification Bot<a class="headerlink" href="#team-notification-bot" title="Permanent link">&para;</a></h3>
+<p>Build an intelligent alert system for team communications:</p>
+<p><strong>Notification Patterns:</strong>
+<code>go  
+case strings.Contains(message, "deploy"):
+    return "**Quick Start:** Deployment initiated! I'll notify the team of progress."
+case strings.Contains(message, "alert"):
+    severity := extractSeverity(message)
+    return fmt.Sprintf("🚨 %s alert logged. Escalating to on-call team.", severity)</code></p>
+<p><strong>Why Self SDK for Teams:</strong>
+- <strong>Group Security</strong>: MLS provides efficient group encryption
+- <strong>No Central Server</strong>: Messages route through decentralized infrastructure<br />
+- <strong>Cross-Platform</strong>: Works on mobile, web, server, IoT devices
+- <strong>Developer Friendly</strong>: Simple APIs for complex security</p>
+<h3 id="iot-command-interface">IoT Command Interface<a class="headerlink" href="#iot-command-interface" title="Permanent link">&para;</a></h3>
+<p>Create secure device control with chat commands:</p>
+<p><strong>Device Control Patterns:</strong>
+<code>go
+case strings.HasPrefix(message, "/lights"):
+    return handleLightingCommand(extractCommand(message))
+case strings.HasPrefix(message, "/temp"):
+    return handleTemperatureCommand(extractCommand(message))  
+case strings.HasPrefix(message, "/status"):
+    return getDeviceStatus()</code></p>
+<p><strong>Why Self SDK for IoT:</strong>
+- <strong>Device Identity</strong>: Each device has cryptographic identity
+- <strong>Secure Commands</strong>: No plaintext commands over networks
+- <strong>Access Control</strong>: Only authorized users can send commands
+- <strong>Message Authentication</strong>: Verify commands come from legitimate sources</p>
+<h2 id="troubleshooting-customization-patterns"><strong>Troubleshooting:</strong> Customization Patterns<a class="headerlink" href="#troubleshooting-customization-patterns" title="Permanent link">&para;</a></h2>
+<h3 id="adding-message-types">Adding Message Types<a class="headerlink" href="#adding-message-types" title="Permanent link">&para;</a></h3>
+<p>Extend the routing system to handle different content types:</p>
+<p><code>go
+switch event.ContentTypeOf(msg) {
+case message.ContentTypeChat:
+    handleChatMessage(acc, msg, timestamp)
+case message.ContentTypeCredentialRequest:
+    handleCredentialRequest(acc, msg, timestamp)  
+case message.ContentTypeCredentialShare:
+    handleCredentialShare(acc, msg, timestamp)
+default:
+    handleUnknownMessage(acc, msg, timestamp)
+}</code></p>
+<h3 id="message-persistence">Message Persistence<a class="headerlink" href="#message-persistence" title="Permanent link">&para;</a></h3>
+<p>Store conversations for history and analytics:</p>
+<p>```go
+func storeMessage(sender, content, timestamp string) {
+    messageRecord := map[string]interface{}{
+        "sender":    sender,
+        "content":   content, 
+        "timestamp": timestamp,
+        "type":      "incoming",
+    }</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>// Use SDK storage for encrypted persistence
+jsonData, _ := json.Marshal(messageRecord)
+acc.ValueStore(fmt.Sprintf(&quot;message_%s&quot;, timestamp), jsonData)
+</code></pre></div>
+
+<p>}
+```</p>
+<h3 id="command-processing">Command Processing<a class="headerlink" href="#command-processing" title="Permanent link">&para;</a></h3>
+<p>Build sophisticated command interfaces:</p>
+<p>```go
+func processCommand(message string) string {
+    if !strings.HasPrefix(message, "/") {
+        return ""  // Not a command
+    }</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>parts := strings.Fields(message)
+command := parts[0][1:]  // Remove &quot;/&quot;
+args := parts[1:]
+
+switch command {
+case &quot;help&quot;:
+    return listAvailableCommands()
+case &quot;status&quot;:
+    return getSystemStatus()
+case &quot;user&quot;:
+    return handleUserCommand(args)
+default:
+    return fmt.Sprintf(&quot;Unknown command: %s&quot;, command)
+}
+</code></pre></div>
+
+<p>}
+```</p>
+<h2 id="quick-start-advanced-chat-features-coming-soon"><strong>Quick Start:</strong> Advanced Chat Features (Coming Soon)<a class="headerlink" href="#quick-start-advanced-chat-features-coming-soon" title="Permanent link">&para;</a></h2>
+<p>The next examples in the progression will demonstrate:</p>
+<h3 id="group-chat">🟡 Group Chat<a class="headerlink" href="#group-chat" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>MLS Group Management</strong>: Create and manage encrypted group conversations</li>
+<li><strong>Member Lifecycle</strong>: Add/remove participants with forward secrecy</li>
+<li><strong>Group Identity</strong>: Cryptographic group identity and verification</li>
+<li><strong>Efficient Encryption</strong>: MLS scales to hundreds of participants</li>
+</ul>
+<h3 id="rich-media-chat">🟠 Rich Media Chat<a class="headerlink" href="#rich-media-chat" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>File Attachments</strong>: Secure file sharing with integrity verification</li>
+<li><strong>Media Streaming</strong>: Large file support with resumable transfers</li>
+<li><strong>Content Types</strong>: Images, documents, audio, video support</li>
+<li><strong>Storage Integration</strong>: Encrypted content storage and retrieval</li>
+</ul>
+<h3 id="production-features">🔴 Production Features<a class="headerlink" href="#production-features" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Typing Indicators</strong>: Real-time activity notifications</li>
+<li><strong>Read Receipts</strong>: Message delivery and read confirmations</li>
+<li><strong>Message History</strong>: Persistent conversation storage</li>
+<li><strong>Offline Sync</strong>: Message queuing and delivery when back online</li>
+</ul>
+<h2 id="integration-with-other-examples">🔗 Integration with Other Examples<a class="headerlink" href="#integration-with-other-examples" title="Permanent link">&para;</a></h2>
+<p>Chat builds on and connects with other Academy examples:</p>
+<h3 id="after-setup-examples">After Setup Examples<a class="headerlink" href="#after-setup-examples" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><a href="../setup/#new-account-creation">New Account</a></strong>: Create the identity for chat</li>
+<li><strong><a href="../setup/#loading-existing-accounts">Existing Account</a></strong>: Restore chat identity from storage</li>
+</ul>
+<h3 id="before-chat-examples">Before Chat Examples<a class="headerlink" href="#before-chat-examples" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><a href="../connections/">Connection Examples</a></strong>: Establish secure channels for messaging</li>
+<li><strong><a href="../credentials/">Credential Examples</a></strong>: Add identity verification to conversations</li>
+</ul>
+<h3 id="advanced-integration">Advanced Integration<a class="headerlink" href="#advanced-integration" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><a href="../advanced/">Advanced Features</a></strong>: Production-ready chat systems</li>
+<li><strong><a href="../advanced/#notifications">Notification Examples</a></strong>: Real-time chat alerts</li>
+</ul>
+<h2 id="troubleshooting-need-help"><strong>Troubleshooting:</strong> Need Help?<a class="headerlink" href="#troubleshooting-need-help" title="Permanent link">&para;</a></h2>
+<p><strong>Having chat issues?</strong> Check our comprehensive <strong><a href="../troubleshooting/">Troubleshooting Guide</a></strong> for solutions to messaging problems, including:</p>
+<ul>
+<li><strong>Chat:</strong> <strong><a href="../troubleshooting/#chat--messaging-issues">Chat &amp; Messaging Issues</a></strong> - Message send failures, decode errors, and no messages received</li>
+<li><strong>Connections:</strong> <strong><a href="../troubleshooting/#connection-issues">Connection Issues</a></strong> - Connection problems that affect messaging</li>
+<li><strong>Network:</strong> <strong><a href="../troubleshooting/#network--connectivity-issues">Network Issues</a></strong> - Connectivity problems affecting chat operations</li>
+</ul>
+<p>The troubleshooting guide includes detailed solutions, common causes, and debugging tips for all Self SDK examples.</p>
+<h2 id="resources-next-steps"><strong>Resources:</strong> Next Steps<a class="headerlink" href="#resources-next-steps" title="Permanent link">&para;</a></h2>
+<p>After mastering chat examples:</p>
+<ol>
+<li><strong>🟡 <a href="../../concepts/message-layer-security/">Message Layer Security Concepts</a></strong> - Understand the theory behind chat security</li>
+<li><strong>🟠 <a href="../credentials/">Credential Examples</a></strong> - Add identity verification to conversations  </li>
+<li><strong>🔴 <a href="../advanced/">Advanced Examples</a></strong> - Build production chat systems</li>
+<li><strong>📱 Mobile Integration</strong> - Connect with mobile chat apps</li>
+</ol>
+<h2 id="key-takeaways">💡 Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Security by Default</strong>: Every message automatically encrypted and signed</li>
+<li><strong>Event-Driven</strong>: Build reactive applications with message callbacks</li>
+<li><strong>Identity-First</strong>: Every participant has verifiable cryptographic identity  </li>
+<li><strong>Developer Friendly</strong>: Simple APIs for complex security operations</li>
+<li><strong>Theory Meets Practice</strong>: Academic cryptography made practically usable</li>
+</ul>
+<p>The chat examples show how Self SDK makes advanced cryptography accessible - you focus on building great messaging experiences while the SDK handles Ed25519 signatures, MLS encryption, and forward secrecy automatically.</p>
+<p>Ready to build the future of secure communication? <strong>Chat:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <!-- Material MkDocs Navigation Section -->
+
+<div class="md-footer-nav">
+  <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+    
+      <a href="../credentials/" class="md-footer-nav__link md-footer-nav__link--prev" aria-label="Previous: Credentials" rel="prev">
+        <div class="md-footer-nav__button md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.42-1.41L7.83 13H20v-2Z"/></svg>
+        </div>
+        <div class="md-footer-nav__title">
+          <span class="md-footer-nav__direction">Previous</span>
+          <div class="md-ellipsis">Credentials</div>
+        </div>
+      </a>
+    
+    
+      <a href="../advanced/" class="md-footer-nav__link md-footer-nav__link--next" aria-label="Next: Advanced Features" rel="next">
+        <div class="md-footer-nav__title">
+          <span class="md-footer-nav__direction">Next</span>
+          <div class="md-ellipsis">Advanced Features</div>
+        </div>
+        <div class="md-footer-nav__button md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11h12.17l-5.59-5.59L12 4l8 8-8 8-1.42-1.41L16.17 13H4v-2Z"/></svg>
+        </div>
+      </a>
+    
+  </nav>
+</div>
+
+
+<!-- Custom Footer -->
+<footer class="custom-footer">
+  <div class="custom-footer__content">
+    <!-- Brand Logo Section -->
+    <div class="custom-footer__brand">
+      <a href="../.." class="custom-footer__logo">
+        <img src="../../assets/logo.png" alt="Joinself Academy" class="custom-footer__logo-img">
+      </a>
+    </div>
+
+    <!-- Footer Links Section -->
+    <div class="custom-footer__links">
+      <!-- DOCUMENTATION Column -->
+      <div class="custom-footer__column">
+        <h3>DOCUMENTATION</h3>
+        <ul>
+          <li><a href="../../solutions/overview/">Solutions</a></li>
+          <li><a href="../../concepts/overview/">Concepts</a></li>
+          <li><a href="../overview/">Examples</a></li>
+        </ul>
+      </div>
+
+      <!-- COMPANY Column -->
+      <div class="custom-footer__column">
+        <h3>COMPANY</h3>
+        <ul>
+          <li><a href="../../about-self/">About</a></li>
+          <li><a href="https://www.joinself.com/company/research" target="_blank" rel="noopener">Research</a></li>
+          <li><a href="https://www.joinself.com/company/blog" target="_blank" rel="noopener">Blog</a></li>
+        </ul>
+      </div>
+
+      <!-- RESOURCES Column -->
+      <div class="custom-footer__column">
+        <h3>RESOURCES</h3>
+        <ul>          
+          <li><a href="https://docs.joinself.com/" class="hover-link text-white">Quickstart</a></li>
+          <li><a href="https://docs.joinself.com/" class="hover-link text-white">Documentation</a></li>
+          <li><a href="../../resources/agreements/overview/">Agreements</a></li>
+          <li><a href="../../resources/licenses/overview/">Licenses</a></li>
+          <li><a href="https://joinself.com/pricing/price" class="hover-link text-white">Pricing</a></li>
+          <li><a href="https://joinself.com/contact" class="hover-link text-white">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- SOCIAL Column -->
+      <div class="custom-footer__column">
+        <h3>SOCIAL</h3>
+        <ul>
+          <li>
+            <a href="https://github.com/joinself" target="_blank" rel="noopener">
+              <svg class="custom-footer__social-icon" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              Github
+            </a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/company/joinself" target="_blank" rel="noopener">
+              <svg class="custom-footer__social-icon" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+              LinkedIn
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Bottom Section -->
+  <div class="custom-footer__bottom">
+    <div class="custom-footer__copyright">
+      © Copyright Self Group Limited 2019-2025 All Rights Reserved
+    </div>
+    <button class="scroll-to-top" onclick="scrollToTop()" aria-label="Scroll to top">
+      <svg class="scroll-to-top__icon" viewBox="0 0 24 24">
+        <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+      </svg>
+    </button>
+  </div>
+</footer>
+
+<script>
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+// Show/hide scroll to top button based on scroll position
+window.addEventListener('scroll', function() {
+  const scrollToTopBtn = document.querySelector('.scroll-to-top');
+  if (scrollToTopBtn) {
+    if (window.scrollY > 300) {
+      scrollToTopBtn.style.display = 'flex';
+    } else {
+      scrollToTopBtn.style.display = 'none';
+    }
+  }
+});
+
+// Hide scroll to top button initially
+document.addEventListener('DOMContentLoaded', function() {
+  const scrollToTopBtn = document.querySelector('.scroll-to-top');
+  if (scrollToTopBtn) {
+    scrollToTopBtn.style.display = 'none';
+  }
+});
+</script> 
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["announce.dismiss", "content.code.annotate", "content.code.copy", "content.tooltips", "header.autohide", "navigation.expand", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.path", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+        <script src="../../assets/javascripts/custom.js"></script>
+      
+        <script src="https://emgithub.com/embed-v2.js"></script>
+      
+    
+  </body>
+</html>

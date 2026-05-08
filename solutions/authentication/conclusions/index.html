@@ -1,0 +1,1902 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../mobile-implementation/">
+      
+      
+        <link rel="next" href="../../identity-verification/">
+      
+      
+      <link rel="icon" href="../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>Conclusions & Best Practices - Joinself Academy</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sauce+One,+sans-serif:300,300i,400,400i,700,700i%7COpen+Sauce+One,+sans-serif:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Open Sauce One, sans-serif";--md-code-font:"Open Sauce One, sans-serif"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#conclusions-best-practices" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Joinself Academy" class="md-header__button md-logo" aria-label="Joinself Academy" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Joinself Academy
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Conclusions & Best Practices
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../getting-started/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Solutions
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../concepts/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../examples/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../resources/agreements/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Resources
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Joinself Academy" class="md-nav__button md-logo" aria-label="Joinself Academy" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    Joinself Academy
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../getting-started/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Solutions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Solutions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Authentication
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Authentication
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../server-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Server Implementation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mobile-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mobile Implementation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Conclusions & Best Practices
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Conclusions & Best Practices
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-decision-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture Decision Summary
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture Decision Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-architectural-benefits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Architectural Benefits
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production-ready-design-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Production-Ready Design Principles
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development Workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Development Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-backend-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 1: Backend Implementation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-mobile-integration-sdk-examples-coming-soon" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 2: Mobile Integration (SDK Examples Coming Soon)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-production-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 3: Production Deployment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Strategy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-solutions-and-next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Related Solutions and Next Steps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Related Solutions and Next Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#extend-authentication-with-additional-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extend Authentication with Additional Capabilities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-complete-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build Complete Applications
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enterprise-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enterprise Integration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#community-and-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Community and Support
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#final-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Final Recommendations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Final Recommendations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#for-development-teams" class="md-nav__link">
+    <span class="md-ellipsis">
+      For Development Teams
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-security-teams" class="md-nav__link">
+    <span class="md-ellipsis">
+      For Security Teams
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-product-teams" class="md-nav__link">
+    <span class="md-ellipsis">
+      For Product Teams
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Identity Verification
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Identity Verification
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../identity-verification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../identity-verification/server-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Server Implementation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../identity-verification/mobile-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mobile Implementation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../identity-verification/conclusions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Conclusions & Best Practices
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Digital Signatures
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Digital Signatures
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../digital-signatures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../digital-signatures/server-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Server Implementation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../digital-signatures/mobile-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mobile Implementation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../digital-signatures/conclusions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Conclusions & Best Practices
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../concepts/overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Concepts
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../examples/overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../../resources/agreements/overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Resources
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-decision-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture Decision Summary
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture Decision Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-architectural-benefits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Architectural Benefits
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production-ready-design-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Production-Ready Design Principles
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development Workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Development Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-backend-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 1: Backend Implementation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-mobile-integration-sdk-examples-coming-soon" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 2: Mobile Integration (SDK Examples Coming Soon)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-production-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 3: Production Deployment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Strategy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-solutions-and-next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Related Solutions and Next Steps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Related Solutions and Next Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#extend-authentication-with-additional-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extend Authentication with Additional Capabilities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-complete-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build Complete Applications
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enterprise-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enterprise Integration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#community-and-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Community and Support
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#final-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Final Recommendations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Final Recommendations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#for-development-teams" class="md-nav__link">
+    <span class="md-ellipsis">
+      For Development Teams
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-security-teams" class="md-nav__link">
+    <span class="md-ellipsis">
+      For Security Teams
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-product-teams" class="md-nav__link">
+    <span class="md-ellipsis">
+      For Product Teams
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="conclusions-best-practices">Conclusions &amp; Best Practices<a class="headerlink" href="#conclusions-best-practices" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>****What you will learn:** What you've learned:** You now have a complete understanding of Self's passwordless authentication system and how to implement it in production.</p>
+</blockquote>
+<p>This section consolidates key recommendations, best practices, and next steps for deploying Self authentication in production environments.</p>
+<h2 id="architecture-decision-summary">Architecture Decision Summary<a class="headerlink" href="#architecture-decision-summary" title="Permanent link">&para;</a></h2>
+<p>Self authentication represents a paradigm shift from traditional credential-based systems to <strong>cryptographic identity verification</strong>:</p>
+<h3 id="key-architectural-benefits">Key Architectural Benefits<a class="headerlink" href="#key-architectural-benefits" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Zero Password Vulnerabilities</strong>: No stored credentials means no credential breaches</li>
+<li><strong>Distributed Security Model</strong>: Security distributed between server and mobile without central points of failure</li>
+<li><strong>Biometric Privacy</strong>: All biometric processing happens locally on user devices</li>
+<li><strong>Cryptographic Correlation</strong>: Request-response matching using cryptographic content IDs ensures perfect isolation</li>
+</ul>
+<h3 id="production-ready-design-principles">Production-Ready Design Principles<a class="headerlink" href="#production-ready-design-principles" title="Permanent link">&para;</a></h3>
+<p>The authentication system follows enterprise patterns:</p>
+<ul>
+<li><strong>Stateless Core</strong>: Each authentication request is self-contained and traceable</li>
+<li><strong>Flexible Session Management</strong>: Support both stateless and stateful session approaches  </li>
+<li><strong>Automatic Correlation</strong>: SDK handles complex multi-phase request correlation automatically</li>
+<li><strong>Secure by Design</strong>: Built on verifiable credentials and decentralized identity standards</li>
+</ul>
+<h2 id="development-workflow">Development Workflow<a class="headerlink" href="#development-workflow" title="Permanent link">&para;</a></h2>
+<h3 id="phase-1-backend-implementation">Phase 1: Backend Implementation<a class="headerlink" href="#phase-1-backend-implementation" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Set up authentication server</strong> using the <a href="../server-implementation/">server implementation guide</a></li>
+<li><strong>Test with Self Developer App</strong> to verify QR generation and authentication flow</li>
+<li><strong>Implement session management</strong> appropriate for your application needs</li>
+<li><strong>Add proper error handling</strong> and logging for production monitoring</li>
+</ol>
+<h3 id="phase-2-mobile-integration-sdk-examples-coming-soon">Phase 2: Mobile Integration <em>(SDK Examples Coming Soon)</em><a class="headerlink" href="#phase-2-mobile-integration-sdk-examples-coming-soon" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Install Self mobile SDK</strong> when examples become available</li>
+<li><strong>Integrate QR scanning</strong> functionality into your mobile app</li>
+<li><strong>Implement biometric authentication</strong> using platform APIs</li>
+<li><strong>Connect with authentication backend</strong> and test end-to-end flow</li>
+</ol>
+<h3 id="phase-3-production-deployment">Phase 3: Production Deployment<a class="headerlink" href="#phase-3-production-deployment" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Security hardening</strong> following best practices above</li>
+<li><strong>Performance optimization</strong> based on expected user load</li>
+<li><strong>Monitoring and alerting</strong> for authentication success/failure rates</li>
+<li><strong>Documentation and training</strong> for your development team</li>
+</ol>
+<h3 id="testing-strategy">Testing Strategy<a class="headerlink" href="#testing-strategy" title="Permanent link">&para;</a></h3>
+<p><strong>Development Phase:</strong></p>
+<ul>
+<li>Use <strong><a href="https://www.joinself.com/developers/developers">Self Developer App</a></strong> for backend testing</li>
+<li>Test QR code generation and expiration handling</li>
+<li>Verify request-response correlation across authentication phases</li>
+<li>Test error scenarios (expired QR codes, failed biometrics, etc.)</li>
+</ul>
+<p><strong>Integration Testing:</strong></p>
+<ul>
+<li>Test complete authentication flow end-to-end</li>
+<li>Verify session creation and management</li>
+<li>Test concurrent authentication requests</li>
+<li>Validate security headers and HTTPS configuration</li>
+</ul>
+<p><strong>Production Monitoring:</strong></p>
+<ul>
+<li>Monitor authentication success/failure rates</li>
+<li>Track QR code generation and expiration metrics</li>
+<li>Alert on unusual authentication patterns</li>
+<li>Log security events for audit purposes</li>
+</ul>
+<h2 id="related-solutions-and-next-steps">Related Solutions and Next Steps<a class="headerlink" href="#related-solutions-and-next-steps" title="Permanent link">&para;</a></h2>
+<h3 id="extend-authentication-with-additional-capabilities">Extend Authentication with Additional Capabilities<a class="headerlink" href="#extend-authentication-with-additional-capabilities" title="Permanent link">&para;</a></h3>
+<p><strong><a href="../../identity-verification/">Identity Verification</a></strong>
+- Issue custom credentials to authenticated users
+- Verify user attributes beyond basic authentication<br />
+- Create trust relationships between organizations</p>
+<p><strong><a href="../../digital-signatures/">Digital Signatures</a></strong>
+- Enable cryptographic document signing after authentication
+- Implement non-repudiation for critical transactions
+- Build audit trails for signed documents</p>
+<h3 id="build-complete-applications">Build Complete Applications<a class="headerlink" href="#build-complete-applications" title="Permanent link">&para;</a></h3>
+<p><strong><a href="../../../examples/chat/">Chat &amp; Messaging</a></strong>
+- Create secure communication channels with authenticated users
+- Implement end-to-end encrypted messaging
+- Build collaborative features with verified identities</p>
+<p><strong><a href="../../../examples/advanced/">Advanced Features</a></strong>
+- Implement multi-party authentication scenarios
+- Create credential presentation workflows
+- Build complex identity verification chains</p>
+<h3 id="enterprise-integration">Enterprise Integration<a class="headerlink" href="#enterprise-integration" title="Permanent link">&para;</a></h3>
+<p><strong>Production Examples:</strong>
+- <strong><a href="../../examples/server/auth-system/">Complete Auth System</a></strong>: Full-featured authentication server
+- <strong><a href="../../../examples/production/">Production Deployment</a></strong>: Enterprise deployment patterns
+- <strong><a href="../../../examples/troubleshooting/">Troubleshooting Guide</a></strong>: Common issues and solutions</p>
+<h3 id="community-and-support">Community and Support<a class="headerlink" href="#community-and-support" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><a href="../../../examples/resources/">Developer Resources</a></strong>: Additional tools and community support</li>
+<li><strong><a href="https://www.joinself.com/developers/developers">Self Developer App</a></strong>: Mobile testing tool</li>
+<li><strong><a href="https://github.com/joinself">SDK Documentation</a></strong>: Complete technical references</li>
+</ul>
+<h2 id="final-recommendations">Final Recommendations<a class="headerlink" href="#final-recommendations" title="Permanent link">&para;</a></h2>
+<h3 id="for-development-teams">For Development Teams<a class="headerlink" href="#for-development-teams" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Start with backend implementation</strong> using our production-ready example</li>
+<li><strong>Test thoroughly</strong> with Self Developer App before mobile integration</li>
+<li><strong>Plan session management</strong> strategy early in the design phase</li>
+<li><strong>Implement proper monitoring</strong> from day one</li>
+</ol>
+<h3 id="for-security-teams">For Security Teams<a class="headerlink" href="#for-security-teams" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Review cryptographic foundations</strong> in our <a href="../../../concepts/overview/">concepts section</a></li>
+<li><strong>Audit authentication flows</strong> against your security requirements</li>
+<li><strong>Validate compliance</strong> with your industry standards</li>
+<li><strong>Test incident response</strong> procedures for authentication failures</li>
+</ol>
+<h3 id="for-product-teams">For Product Teams<a class="headerlink" href="#for-product-teams" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>User experience</strong> is seamless - no passwords to remember or manage</li>
+<li><strong>Security is enhanced</strong> without impacting usability</li>
+<li><strong>Privacy is preserved</strong> - no personal data stored on servers</li>
+<li><strong>Scalability is built-in</strong> - distributed architecture handles growth</li>
+</ol>
+<p>Self authentication transforms security from a user burden into a seamless experience. The elimination of passwords, combined with cryptographic identity verification, represents the future of authentication systems. </p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <!-- Material MkDocs Navigation Section -->
+
+<div class="md-footer-nav">
+  <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+    
+      <a href="../mobile-implementation/" class="md-footer-nav__link md-footer-nav__link--prev" aria-label="Previous: Mobile Implementation" rel="prev">
+        <div class="md-footer-nav__button md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.42-1.41L7.83 13H20v-2Z"/></svg>
+        </div>
+        <div class="md-footer-nav__title">
+          <span class="md-footer-nav__direction">Previous</span>
+          <div class="md-ellipsis">Mobile Implementation</div>
+        </div>
+      </a>
+    
+    
+      <a href="../../identity-verification/" class="md-footer-nav__link md-footer-nav__link--next" aria-label="Next: Overview" rel="next">
+        <div class="md-footer-nav__title">
+          <span class="md-footer-nav__direction">Next</span>
+          <div class="md-ellipsis">Overview</div>
+        </div>
+        <div class="md-footer-nav__button md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11h12.17l-5.59-5.59L12 4l8 8-8 8-1.42-1.41L16.17 13H4v-2Z"/></svg>
+        </div>
+      </a>
+    
+  </nav>
+</div>
+
+
+<!-- Custom Footer -->
+<footer class="custom-footer">
+  <div class="custom-footer__content">
+    <!-- Brand Logo Section -->
+    <div class="custom-footer__brand">
+      <a href="../../.." class="custom-footer__logo">
+        <img src="../../../assets/logo.png" alt="Joinself Academy" class="custom-footer__logo-img">
+      </a>
+    </div>
+
+    <!-- Footer Links Section -->
+    <div class="custom-footer__links">
+      <!-- DOCUMENTATION Column -->
+      <div class="custom-footer__column">
+        <h3>DOCUMENTATION</h3>
+        <ul>
+          <li><a href="../../overview/">Solutions</a></li>
+          <li><a href="../../../concepts/overview/">Concepts</a></li>
+          <li><a href="../../../examples/overview/">Examples</a></li>
+        </ul>
+      </div>
+
+      <!-- COMPANY Column -->
+      <div class="custom-footer__column">
+        <h3>COMPANY</h3>
+        <ul>
+          <li><a href="../../../about-self/">About</a></li>
+          <li><a href="https://www.joinself.com/company/research" target="_blank" rel="noopener">Research</a></li>
+          <li><a href="https://www.joinself.com/company/blog" target="_blank" rel="noopener">Blog</a></li>
+        </ul>
+      </div>
+
+      <!-- RESOURCES Column -->
+      <div class="custom-footer__column">
+        <h3>RESOURCES</h3>
+        <ul>          
+          <li><a href="https://docs.joinself.com/" class="hover-link text-white">Quickstart</a></li>
+          <li><a href="https://docs.joinself.com/" class="hover-link text-white">Documentation</a></li>
+          <li><a href="../../../resources/agreements/overview/">Agreements</a></li>
+          <li><a href="../../../resources/licenses/overview/">Licenses</a></li>
+          <li><a href="https://joinself.com/pricing/price" class="hover-link text-white">Pricing</a></li>
+          <li><a href="https://joinself.com/contact" class="hover-link text-white">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- SOCIAL Column -->
+      <div class="custom-footer__column">
+        <h3>SOCIAL</h3>
+        <ul>
+          <li>
+            <a href="https://github.com/joinself" target="_blank" rel="noopener">
+              <svg class="custom-footer__social-icon" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              Github
+            </a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/company/joinself" target="_blank" rel="noopener">
+              <svg class="custom-footer__social-icon" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+              LinkedIn
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Bottom Section -->
+  <div class="custom-footer__bottom">
+    <div class="custom-footer__copyright">
+      © Copyright Self Group Limited 2019-2025 All Rights Reserved
+    </div>
+    <button class="scroll-to-top" onclick="scrollToTop()" aria-label="Scroll to top">
+      <svg class="scroll-to-top__icon" viewBox="0 0 24 24">
+        <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+      </svg>
+    </button>
+  </div>
+</footer>
+
+<script>
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+// Show/hide scroll to top button based on scroll position
+window.addEventListener('scroll', function() {
+  const scrollToTopBtn = document.querySelector('.scroll-to-top');
+  if (scrollToTopBtn) {
+    if (window.scrollY > 300) {
+      scrollToTopBtn.style.display = 'flex';
+    } else {
+      scrollToTopBtn.style.display = 'none';
+    }
+  }
+});
+
+// Hide scroll to top button initially
+document.addEventListener('DOMContentLoaded', function() {
+  const scrollToTopBtn = document.querySelector('.scroll-to-top');
+  if (scrollToTopBtn) {
+    scrollToTopBtn.style.display = 'none';
+  }
+});
+</script> 
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["announce.dismiss", "content.code.annotate", "content.code.copy", "content.tooltips", "header.autohide", "navigation.expand", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.path", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+        <script src="../../../assets/javascripts/custom.js"></script>
+      
+        <script src="https://emgithub.com/embed-v2.js"></script>
+      
+    
+  </body>
+</html>

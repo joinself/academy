@@ -1,0 +1,1644 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../chat/">
+      
+      
+        <link rel="next" href="../troubleshooting/">
+      
+      
+      <link rel="icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>Advanced Features - Joinself Academy</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sauce+One,+sans-serif:300,300i,400,400i,700,700i%7COpen+Sauce+One,+sans-serif:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Open Sauce One, sans-serif";--md-code-font:"Open Sauce One, sans-serif"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#quick-start-advanced-features-examples" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Joinself Academy" class="md-header__button md-logo" aria-label="Joinself Academy" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Joinself Academy
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Advanced Features
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../solutions/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Solutions
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../concepts/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../resources/agreements/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Resources
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Joinself Academy" class="md-nav__button md-logo" aria-label="Joinself Academy" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    Joinself Academy
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../getting-started/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../solutions/overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Solutions
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../concepts/overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Concepts
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Examples
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Setup Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../connections/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Connections
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../credentials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Credentials
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chat & Messaging
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Advanced Features
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Advanced Features
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You'll Learn
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-progressive-learning-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture: Progressive Learning Path
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-production-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 Core Production Features
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔴 Core Production Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Start
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#device-pairing-synchronization" class="md-nav__link">
+    <span class="md-ellipsis">
+      🟡 Device Pairing &amp; Synchronization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🟡 Device Pairing &amp; Synchronization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-youll-learn_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You'll Learn
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#push-notifications-user-engagement" class="md-nav__link">
+    <span class="md-ellipsis">
+      🟡 Push Notifications &amp; User Engagement
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🟡 Push Notifications &amp; User Engagement">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-youll-learn_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You'll Learn
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-what-just-happened-production-readiness-achieved" class="md-nav__link">
+    <span class="md-ellipsis">
+      Learning: What Just Happened? Production-Readiness Achieved
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Learning: What Just Happened? Production-Readiness Achieved">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#success-advanced-pattern-mastery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Success: Advanced Pattern Mastery
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#success-connecting-foundations-to-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      Success: Connecting Foundations to Production
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources-next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resources: Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      💡 Key Takeaways
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Resources & Community
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../production/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Production Deployment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../resources/agreements/overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Resources
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You'll Learn
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-progressive-learning-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture: Progressive Learning Path
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-production-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔴 Core Production Features
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔴 Core Production Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Start
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#device-pairing-synchronization" class="md-nav__link">
+    <span class="md-ellipsis">
+      🟡 Device Pairing &amp; Synchronization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🟡 Device Pairing &amp; Synchronization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-youll-learn_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You'll Learn
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#push-notifications-user-engagement" class="md-nav__link">
+    <span class="md-ellipsis">
+      🟡 Push Notifications &amp; User Engagement
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🟡 Push Notifications &amp; User Engagement">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-youll-learn_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You'll Learn
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-what-just-happened-production-readiness-achieved" class="md-nav__link">
+    <span class="md-ellipsis">
+      Learning: What Just Happened? Production-Readiness Achieved
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Learning: What Just Happened? Production-Readiness Achieved">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#success-advanced-pattern-mastery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Success: Advanced Pattern Mastery
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#success-connecting-foundations-to-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      Success: Connecting Foundations to Production
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources-next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resources: Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      💡 Key Takeaways
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="quick-start-advanced-features-examples"><strong>Quick Start:</strong> Advanced Features Examples<a class="headerlink" href="#quick-start-advanced-features-examples" title="Permanent link">&para;</a></h1>
+<h2 id="what-youll-learn">What You'll Learn<a class="headerlink" href="#what-youll-learn" title="Permanent link">&para;</a></h2>
+<p>Welcome to the final set of examples, where we transition from foundational concepts to <strong>production-ready patterns</strong>. These advanced examples demonstrate how to build robust, scalable, and feature-rich applications using the Self SDK.</p>
+<p>****What you will learn:** Learning Goals:**
+- Master production patterns for account and storage management
+- Implement multi-device synchronization with account pairing
+- Build real-time user engagement with push notifications
+- Understand graceful shutdown, resource management, and monitoring
+- Connect all foundational concepts into production applications</p>
+<h2 id="architecture-progressive-learning-path"><strong>Architecture:</strong> Progressive Learning Path<a class="headerlink" href="#architecture-progressive-learning-path" title="Permanent link">&para;</a></h2>
+<p>These examples build upon everything you've learned, applying foundational knowledge to advanced use cases.</p>
+<table>
+<thead>
+<tr>
+<th><strong>What you will learn:</strong> Example</th>
+<th><strong>Learning:</strong> Complexity</th>
+<th><strong>Resources:</strong> Focus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>🔴 <a href="#core-production-features">Core Production Features</a></strong></td>
+<td>Advanced (7/10)</td>
+<td>Encrypted storage, production patterns, core SDK control</td>
+</tr>
+<tr>
+<td><strong>🟡 <a href="#device-pairing--synchronization">Device Pairing</a></strong></td>
+<td>Intermediate (5/10)</td>
+<td>Multi-device account synchronization</td>
+</tr>
+<tr>
+<td><strong>🟡 <a href="#push-notifications--user-engagement">Push Notifications</a></strong></td>
+<td>Intermediate (4/10)</td>
+<td>Real-time user engagement and alerts</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="core-production-features">🔴 Core Production Features<a class="headerlink" href="#core-production-features" title="Permanent link">&para;</a></h2>
+<p><strong>Path:</strong> <a href="../../examples/server/04_advanced_features/01_core_features/"><code>examples/server/04_advanced_features/01_core_features/</code></a></p>
+<p>This is the capstone example for core SDK functionality, demonstrating how to build a robust service with production-ready patterns for storage, messaging, and resource management.</p>
+<h3 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h3>
+<p><code>bash
+cd examples/server/04_advanced_features/01_core_features/go
+go run main.go</code></p>
+<p><strong>What happens:</strong>
+1. <strong>Advanced Account Setup</strong>: Creates an account with production-focused configuration.
+2. <strong>Encrypted Storage Demo</strong>: Stores and retrieves various data types using the SDK's secure storage.
+3. <strong>Discovery QR</strong>: Generates a QR code for connections.
+4. <strong>Real-time Monitoring</strong>: Listens for connections and messages, providing status updates.
+5. <strong>Graceful Shutdown</strong>: Catches <code>Ctrl+C</code> to display a summary before exiting.</p>
+<h3 id="how-it-works">How It Works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h3>
+<h4 id="1-production-ready-account-configuration">1. Production-Ready Account Configuration<a class="headerlink" href="#1-production-ready-account-configuration" title="Permanent link">&para;</a></h4>
+<p>This example demonstrates advanced configuration for production environments:</p>
+<p><code>go
+// From: 01_core_features/go/main.go
+func (d *AdvancedDemo) setupAdvancedAccount() {
+    cfg := &amp;account.Config{
+        StorageKey:  generateStorageKey("advanced_demo"), // Secure random key
+        StoragePath: "./advanced_demo_storage",
+        Environment: account.TargetSandbox, // Use TargetProduction in production
+        LogLevel:    account.LogWarn, // Reduce log noise
+        Callbacks: account.Callbacks{
+            OnWelcome:    d.onWelcomeMessage,
+            OnKeyPackage: d.onKeyPackage,
+            OnMessage:    d.onMessage,
+        },
+    }
+    // ...
+}</code></p>
+<p>****Key Concepts:** Key Concepts:**
+- <strong>Secure Key Generation</strong>: <code>generateStorageKey</code> uses <code>crypto/rand</code> for secure key material.
+- <strong>Environment Configuration</strong>: Easily switch between <code>sandbox</code> and <code>production</code> environments.
+- <strong>Logging Control</strong>: Set log levels to reduce noise in production.
+- <strong>Comprehensive Callbacks</strong>: Handle all core event types for a robust application.</p>
+<h4 id="2-advanced-encrypted-storage">2. Advanced Encrypted Storage<a class="headerlink" href="#2-advanced-encrypted-storage" title="Permanent link">&para;</a></h4>
+<p>Go beyond simple key-value storage by using JSON to store complex, structured data securely:</p>
+<p>```go
+// From: 01_core_features/go/main.go
+func (d *AdvancedDemo) demonstrateAdvancedStorage() {
+    // Storing a complex object
+    userProfile := map[string]interface{}{
+        "name":     "Advanced User",
+        "role":     "Developer",
+        "verified": true,
+    }
+    jsonData, _ := json.Marshal(userProfile)
+    d.account.ValueStore("user_profile", jsonData)</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>// Retrieving and unmarshaling
+retrievedData, _ := d.account.ValueLookup(&quot;user_profile&quot;)
+var retrievedProfile map[string]interface{}
+json.Unmarshal(retrievedData, &amp;retrievedProfile)
+</code></pre></div>
+
+<p>}
+```</p>
+<p>****Key Concepts:** Key Concepts:**
+- <strong>Structured Data</strong>: Store complex objects, not just strings.
+- <strong>JSON Serialization</strong>: A standard, flexible format for data exchange.
+- <strong>Encrypted at Rest</strong>: The SDK automatically encrypts all data before writing to storage.
+- <strong>Data Integrity</strong>: Storage is protected from tampering.</p>
+<h4 id="3-graceful-shutdown-resource-management">3. Graceful Shutdown &amp; Resource Management<a class="headerlink" href="#3-graceful-shutdown-resource-management" title="Permanent link">&para;</a></h4>
+<p>Production services must shut down cleanly. This example shows how to catch system signals to perform cleanup and report final statistics:</p>
+<p>```go
+// From: 01_core_features/go/main.go
+func (d *AdvancedDemo) setupGracefulShutdown() {
+    c := make(chan os.Signal, 1)
+    signal.Notify(c, os.Interrupt, syscall.SIGTERM)</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>go func() {
+    &lt;-c
+    fmt.Println(&quot;\n🏁 Demo completed by user&quot;)
+    d.done &lt;- true // Signal the main loop to exit
+}()
+</code></pre></div>
+
+<p>}</p>
+<p>func (d *AdvancedDemo) waitForInteractions() {
+    // ... main loop ...
+    &lt;-d.done // Wait for shutdown signal
+}
+```</p>
+<p>****Key Concepts:** Key Concepts:**
+- <strong>Signal Handling</strong>: Intercept <code>Ctrl+C</code> (<code>SIGINT</code>) and <code>SIGTERM</code>.
+- <strong>Clean Cleanup</strong>: Ensures <code>defer d.account.Close()</code> is called.
+- <strong>Final Reporting</strong>: <code>displaySummary()</code> provides metrics on exit.
+- <strong>Resource Safety</strong>: Prevents corrupted state from abrupt termination.</p>
+<hr />
+<h2 id="device-pairing-synchronization">🟡 Device Pairing &amp; Synchronization<a class="headerlink" href="#device-pairing-synchronization" title="Permanent link">&para;</a></h2>
+<p><strong>Path:</strong> <a href="../../examples/server/04_advanced_features/02_pairing/"><code>examples/server/04_advanced_features/02_pairing/</code></a></p>
+<p>This example demonstrates how to manage a single identity across multiple devices, a crucial feature for modern applications.</p>
+<h3 id="what-youll-learn_1">What You'll Learn<a class="headerlink" href="#what-youll-learn_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Multi-Device Identity</strong>: How one DID can be controlled by multiple synchronized devices.</li>
+<li><strong>Pairing Codes &amp; QR</strong>: Generate secure codes for adding new devices.</li>
+<li><strong>State Synchronization</strong>: How account state (connections, credentials) is managed across devices.</li>
+<li><strong>Device Management</strong>: Patterns for listing and removing paired devices.</li>
+</ul>
+<p><strong>How it works:</strong> The SDK uses cryptographic protocols to securely "pair" a new device to an existing account. The new device generates its own keypair, and through a consent workflow (usually involving a QR code scan on an existing device), it's added to the account's MLS group. This allows it to send and receive messages on behalf of the user's DID.</p>
+<hr />
+<h2 id="push-notifications-user-engagement">🟡 Push Notifications &amp; User Engagement<a class="headerlink" href="#push-notifications-user-engagement" title="Permanent link">&para;</a></h2>
+<p><strong>Path:</strong> <a href="../../examples/server/04_advanced_features/03_notifications/"><code>examples/server/04_advanced_features/03_notifications/</code></a></p>
+<p>Learn how to build real-time user engagement systems with push notifications for various events.</p>
+<h3 id="what-youll-learn_2">What You'll Learn<a class="headerlink" href="#what-youll-learn_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Notification Systems</strong>: How to trigger alerts for chat messages, credential requests, and custom events.</li>
+<li><strong>Targeted Messaging</strong>: Send notifications for specific scenarios like user onboarding or re-engagement.</li>
+<li><strong>Delivery Tracking</strong>: Use SDK features to monitor notification status.</li>
+<li><strong>Custom Payloads</strong>: Craft custom notification content for different use cases.</li>
+</ul>
+<p><strong>How it works:</strong> This example uses the core SDK messaging capabilities to send specially formatted messages that a mobile or client application can interpret as push notifications. It demonstrates patterns for managing different notification types, tracking their delivery, and storing notification history, all over the secure, end-to-end encrypted channels you've learned about.</p>
+<h2 id="learning-what-just-happened-production-readiness-achieved"><strong>Learning:</strong> What Just Happened? Production-Readiness Achieved<a class="headerlink" href="#learning-what-just-happened-production-readiness-achieved" title="Permanent link">&para;</a></h2>
+<h3 id="success-advanced-pattern-mastery"><strong>Success:</strong> <strong>Advanced Pattern Mastery</strong><a class="headerlink" href="#success-advanced-pattern-mastery" title="Permanent link">&para;</a></h3>
+<p>You now understand the patterns required to move from prototypes to production:</p>
+<ul>
+<li>****Architecture:** Robust Services**: Building applications that handle real-world conditions like graceful shutdowns.</li>
+<li>****Security:** Secure Data Management**: Using the SDK's encrypted storage for complex application data.</li>
+<li><strong>📱 Modern User Features</strong>: Implementing multi-device support and push notifications.</li>
+</ul>
+<h3 id="success-connecting-foundations-to-production"><strong>Success:</strong> <strong>Connecting Foundations to Production</strong><a class="headerlink" href="#success-connecting-foundations-to-production" title="Permanent link">&para;</a></h3>
+<p>These examples show how foundational concepts become production features:</p>
+<table>
+<thead>
+<tr>
+<th>Foundational Concept</th>
+<th>Production Feature</th>
+<th>Advanced Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Encrypted Storage</td>
+<td>Storing JSON Objects</td>
+<td>Core Features</td>
+</tr>
+<tr>
+<td>Event Callbacks</td>
+<td>Graceful Shutdown</td>
+<td>Core Features</td>
+</tr>
+<tr>
+<td>Cryptographic Identity (DID)</td>
+<td>Multi-Device Sync</td>
+<td>Pairing</td>
+</tr>
+<tr>
+<td>Secure Messaging (MLS)</td>
+<td>Push Notifications</td>
+<td>Notifications</td>
+</tr>
+</tbody>
+</table>
+<h2 id="resources-next-steps"><strong>Resources:</strong> Next Steps<a class="headerlink" href="#resources-next-steps" title="Permanent link">&para;</a></h2>
+<p>You have now completed the entire <strong>Examples</strong> section of the Academy!</p>
+<ol>
+<li>****Success:** <a href="../setup/">Setup</a>**</li>
+<li>****Success:** <a href="../connections/">Connections</a>**</li>
+<li>****Success:** <a href="../credentials/">Credentials</a>**</li>
+<li>****Success:** <a href="../chat/">Chat</a>**</li>
+<li>****Success:** <a href="./">Advanced Features</a>**</li>
+</ol>
+<p>With this comprehensive knowledge, you are fully equipped to:
+- <strong>Build Your Own Applications</strong>: Use these patterns as a starting point.
+- <strong>Contribute to the Ecosystem</strong>: Your expertise can help improve the SDK and documentation.</p>
+<h2 id="key-takeaways">💡 Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Production is About More Than Just Logic</strong>: It requires robust error handling, resource management, and secure configuration.</li>
+<li><strong>The SDK Provides Powerful Primitives</strong>: Features like encrypted storage are building blocks for complex application state.</li>
+<li><strong>User Experience Matters</strong>: Multi-device support and notifications are key to modern applications.</li>
+<li><strong>You Are Ready to Build</strong>: You have progressed from "Hello World" to production-ready patterns.</li>
+</ul>
+<p>Congratulations on completing the Joinself Academy examples! You now have the knowledge and practical experience to build the next generation of secure, decentralized applications. <strong>Quick Start:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <!-- Material MkDocs Navigation Section -->
+
+<div class="md-footer-nav">
+  <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+    
+      <a href="../chat/" class="md-footer-nav__link md-footer-nav__link--prev" aria-label="Previous: Chat & Messaging" rel="prev">
+        <div class="md-footer-nav__button md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.42-1.41L7.83 13H20v-2Z"/></svg>
+        </div>
+        <div class="md-footer-nav__title">
+          <span class="md-footer-nav__direction">Previous</span>
+          <div class="md-ellipsis">Chat & Messaging</div>
+        </div>
+      </a>
+    
+    
+      <a href="../troubleshooting/" class="md-footer-nav__link md-footer-nav__link--next" aria-label="Next: Troubleshooting" rel="next">
+        <div class="md-footer-nav__title">
+          <span class="md-footer-nav__direction">Next</span>
+          <div class="md-ellipsis">Troubleshooting</div>
+        </div>
+        <div class="md-footer-nav__button md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11h12.17l-5.59-5.59L12 4l8 8-8 8-1.42-1.41L16.17 13H4v-2Z"/></svg>
+        </div>
+      </a>
+    
+  </nav>
+</div>
+
+
+<!-- Custom Footer -->
+<footer class="custom-footer">
+  <div class="custom-footer__content">
+    <!-- Brand Logo Section -->
+    <div class="custom-footer__brand">
+      <a href="../.." class="custom-footer__logo">
+        <img src="../../assets/logo.png" alt="Joinself Academy" class="custom-footer__logo-img">
+      </a>
+    </div>
+
+    <!-- Footer Links Section -->
+    <div class="custom-footer__links">
+      <!-- DOCUMENTATION Column -->
+      <div class="custom-footer__column">
+        <h3>DOCUMENTATION</h3>
+        <ul>
+          <li><a href="../../solutions/overview/">Solutions</a></li>
+          <li><a href="../../concepts/overview/">Concepts</a></li>
+          <li><a href="../overview/">Examples</a></li>
+        </ul>
+      </div>
+
+      <!-- COMPANY Column -->
+      <div class="custom-footer__column">
+        <h3>COMPANY</h3>
+        <ul>
+          <li><a href="../../about-self/">About</a></li>
+          <li><a href="https://www.joinself.com/company/research" target="_blank" rel="noopener">Research</a></li>
+          <li><a href="https://www.joinself.com/company/blog" target="_blank" rel="noopener">Blog</a></li>
+        </ul>
+      </div>
+
+      <!-- RESOURCES Column -->
+      <div class="custom-footer__column">
+        <h3>RESOURCES</h3>
+        <ul>          
+          <li><a href="https://docs.joinself.com/" class="hover-link text-white">Quickstart</a></li>
+          <li><a href="https://docs.joinself.com/" class="hover-link text-white">Documentation</a></li>
+          <li><a href="../../resources/agreements/overview/">Agreements</a></li>
+          <li><a href="../../resources/licenses/overview/">Licenses</a></li>
+          <li><a href="https://joinself.com/pricing/price" class="hover-link text-white">Pricing</a></li>
+          <li><a href="https://joinself.com/contact" class="hover-link text-white">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- SOCIAL Column -->
+      <div class="custom-footer__column">
+        <h3>SOCIAL</h3>
+        <ul>
+          <li>
+            <a href="https://github.com/joinself" target="_blank" rel="noopener">
+              <svg class="custom-footer__social-icon" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              Github
+            </a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/company/joinself" target="_blank" rel="noopener">
+              <svg class="custom-footer__social-icon" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+              LinkedIn
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Bottom Section -->
+  <div class="custom-footer__bottom">
+    <div class="custom-footer__copyright">
+      © Copyright Self Group Limited 2019-2025 All Rights Reserved
+    </div>
+    <button class="scroll-to-top" onclick="scrollToTop()" aria-label="Scroll to top">
+      <svg class="scroll-to-top__icon" viewBox="0 0 24 24">
+        <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+      </svg>
+    </button>
+  </div>
+</footer>
+
+<script>
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+// Show/hide scroll to top button based on scroll position
+window.addEventListener('scroll', function() {
+  const scrollToTopBtn = document.querySelector('.scroll-to-top');
+  if (scrollToTopBtn) {
+    if (window.scrollY > 300) {
+      scrollToTopBtn.style.display = 'flex';
+    } else {
+      scrollToTopBtn.style.display = 'none';
+    }
+  }
+});
+
+// Hide scroll to top button initially
+document.addEventListener('DOMContentLoaded', function() {
+  const scrollToTopBtn = document.querySelector('.scroll-to-top');
+  if (scrollToTopBtn) {
+    scrollToTopBtn.style.display = 'none';
+  }
+});
+</script> 
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["announce.dismiss", "content.code.annotate", "content.code.copy", "content.tooltips", "header.autohide", "navigation.expand", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.path", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+        <script src="../../assets/javascripts/custom.js"></script>
+      
+        <script src="https://emgithub.com/embed-v2.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2605 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../resources/">
+      
+      
+        <link rel="next" href="../../resources/agreements/overview/">
+      
+      
+      <link rel="icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>Production Deployment - Joinself Academy</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sauce+One,+sans-serif:300,300i,400,400i,700,700i%7COpen+Sauce+One,+sans-serif:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Open Sauce One, sans-serif";--md-code-font:"Open Sauce One, sans-serif"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#production-production-deployment-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Joinself Academy" class="md-header__button md-logo" aria-label="Joinself Academy" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Joinself Academy
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Production Deployment
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../solutions/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Solutions
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../concepts/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../resources/agreements/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Resources
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Joinself Academy" class="md-nav__button md-logo" aria-label="Joinself Academy" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    Joinself Academy
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../getting-started/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../solutions/overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Solutions
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../concepts/overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Concepts
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Examples
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Setup Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../connections/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Connections
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../credentials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Credentials
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chat & Messaging
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Advanced Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Resources & Community
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Production Deployment
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Production Deployment
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-navigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Navigation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start-moving-to-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Start: Moving to Production
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start: Moving to Production">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#development-vs-production-mindset" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development vs Production Mindset
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-migration-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Migration Strategies
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-security-hardening" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security: Security Hardening
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security: Security Hardening">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      Network Security
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#application-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      Application Security
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance: Performance Optimization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance: Performance Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connection Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storage Optimization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Monitoring
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview-monitoring-observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview: Monitoring &amp; Observability
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview: Monitoring &amp; Observability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comprehensive-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comprehensive Logging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#health-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Health Checks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alerting-and-notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alerting and Notifications
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scalability-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      📈 Scalability Patterns
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📈 Scalability Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#horizontal-scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Horizontal Scaling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-partitioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Partitioning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caching-architectures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caching Architectures
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#process-deployment-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Process: Deployment &amp; Operations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Process: Deployment &amp; Operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deployment-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deployment Strategies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-management_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Management
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../resources/agreements/overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Resources
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-navigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Navigation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start-moving-to-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Start: Moving to Production
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start: Moving to Production">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#development-vs-production-mindset" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development vs Production Mindset
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-migration-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Migration Strategies
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-security-hardening" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security: Security Hardening
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security: Security Hardening">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      Network Security
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#application-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      Application Security
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance: Performance Optimization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance: Performance Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connection Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#storage-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storage Optimization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Monitoring
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#overview-monitoring-observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview: Monitoring &amp; Observability
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview: Monitoring &amp; Observability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comprehensive-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comprehensive Logging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#health-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Health Checks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alerting-and-notifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alerting and Notifications
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scalability-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      📈 Scalability Patterns
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📈 Scalability Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#horizontal-scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Horizontal Scaling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-partitioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Partitioning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caching-architectures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caching Architectures
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#process-deployment-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Process: Deployment &amp; Operations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Process: Deployment &amp; Operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deployment-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deployment Strategies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-management_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Management
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="production-production-deployment-guide"><strong>Production:</strong> Production Deployment Guide<a class="headerlink" href="#production-production-deployment-guide" title="Permanent link">&para;</a></h1>
+<p>This guide consolidates all production considerations for deploying Self SDK applications. Whether you're building identity systems, credential platforms, or secure messaging applications, this guide provides the patterns and practices you need for production success.</p>
+<h2 id="quick-navigation">Quick Navigation<a class="headerlink" href="#quick-navigation" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="#moving-to-production"><strong>Quick Start:</strong> Moving to Production</a></li>
+<li><a href="#security-hardening"><strong>Security:</strong> Security Hardening</a></li>
+<li><a href="#performance-optimization"><strong>Performance:</strong> Performance Optimization</a></li>
+<li><a href="#monitoring--observability"><strong>Overview:</strong> Monitoring &amp; Observability</a></li>
+<li><a href="#scalability-patterns">📈 Scalability Patterns</a></li>
+<li><a href="#deployment--operations"><strong>Process:</strong> Deployment &amp; Operations</a></li>
+<li><a href="#business-continuity">🛡️ Business Continuity</a></li>
+</ul>
+<hr />
+<h2 id="quick-start-moving-to-production"><strong>Quick Start:</strong> Moving to Production<a class="headerlink" href="#quick-start-moving-to-production" title="Permanent link">&para;</a></h2>
+<h3 id="development-vs-production-mindset"><strong>Development vs Production Mindset</strong><a class="headerlink" href="#development-vs-production-mindset" title="Permanent link">&para;</a></h3>
+<p>Moving from examples to production requires fundamental shifts in approach:</p>
+<table>
+<thead>
+<tr>
+<th>Development Focus</th>
+<th>Production Focus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Rapid prototyping</strong></td>
+<td><strong>Reliability and stability</strong></td>
+</tr>
+<tr>
+<td><strong>Feature exploration</strong></td>
+<td><strong>Performance and security</strong></td>
+</tr>
+<tr>
+<td><strong>Quick iteration</strong></td>
+<td><strong>Comprehensive testing</strong></td>
+</tr>
+<tr>
+<td><strong>Single environment</strong></td>
+<td><strong>Multi-environment strategy</strong></td>
+</tr>
+<tr>
+<td><strong>Basic error handling</strong></td>
+<td><strong>Robust error recovery</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="environment-configuration"><strong>Environment Configuration</strong><a class="headerlink" href="#environment-configuration" title="Permanent link">&para;</a></h3>
+<h4 id="sandbox-to-production-migration"><strong>Sandbox to Production Migration</strong><a class="headerlink" href="#sandbox-to-production-migration" title="Permanent link">&para;</a></h4>
+<p>```go
+// Development Configuration
+cfg := &amp;account.Config{
+    Environment: account.TargetSandbox,  // Safe for testing
+    LogLevel:    account.LogDebug,       // Verbose logging
+    StoragePath: "./dev_storage",        // Local development
+}</p>
+<p>// Production Configuration
+cfg := &amp;account.Config{
+    Environment: account.TargetProduction, // Live network
+    LogLevel:    account.LogWarn,          // Production logging
+    StoragePath: "/var/lib/myapp/storage", // Secure system path
+    StorageKey:  loadSecureStorageKey(),   // Externally managed keys
+}
+```</p>
+<h4 id="configuration-management"><strong>Configuration Management</strong><a class="headerlink" href="#configuration-management" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Environment Variables</strong>: Use environment-specific configuration</li>
+<li><strong>Secret Management</strong>: External secret stores (HashiCorp Vault, AWS Secrets Manager)</li>
+<li><strong>Configuration Validation</strong>: Validate all settings on startup</li>
+<li><strong>Feature Flags</strong>: Gradual rollout of new features</li>
+</ul>
+<h3 id="data-migration-strategies"><strong>Data Migration Strategies</strong><a class="headerlink" href="#data-migration-strategies" title="Permanent link">&para;</a></h3>
+<h4 id="account-data-transition"><strong>Account Data Transition</strong><a class="headerlink" href="#account-data-transition" title="Permanent link">&para;</a></h4>
+<p>```go
+// Backup existing accounts before migration
+func backupAccountData(storagePath string) error {
+    backupPath := fmt.Sprintf("%s.backup.%d", storagePath, time.Now().Unix())
+    return copyDirectory(storagePath, backupPath)
+}</p>
+<p>// Validate account integrity after migration
+func validateAccountIntegrity(account *account.Account) error {
+    // Verify account can open inbox
+    inbox, err := account.InboxOpen()
+    if err != nil {
+        return fmt.Errorf("inbox validation failed: %w", err)
+    }</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>// Test basic functionality
+return validateBasicOperations(account, inbox)
+</code></pre></div>
+
+<p>}
+```</p>
+<h4 id="credential-migration"><strong>Credential Migration</strong><a class="headerlink" href="#credential-migration" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Backup Verification</strong>: Ensure all credentials are safely backed up</li>
+<li><strong>Integrity Validation</strong>: Verify credential signatures remain valid</li>
+<li><strong>Index Rebuilding</strong>: Rebuild search indexes for production performance</li>
+<li><strong>Access Pattern Migration</strong>: Update storage for production access patterns</li>
+</ul>
+<hr />
+<h2 id="security-security-hardening"><strong>Security:</strong> Security Hardening<a class="headerlink" href="#security-security-hardening" title="Permanent link">&para;</a></h2>
+<h3 id="key-management"><strong>Key Management</strong><a class="headerlink" href="#key-management" title="Permanent link">&para;</a></h3>
+<h4 id="production-key-practices"><strong>Production Key Practices</strong><a class="headerlink" href="#production-key-practices" title="Permanent link">&para;</a></h4>
+<p>```go
+// Development: Simple key generation
+key := generateStorageKey("dev_seed")</p>
+<p>// Production: Secure key management
+key, err := loadFromSecureKeyStore(keyID)
+if err != nil {
+    // Implement key rotation/recovery procedures
+    key, err = rotateStorageKey(keyID)
+}
+```</p>
+<p><strong>Key Management Checklist:</strong>
+- [ ] <strong>External Key Storage</strong>: Keys stored in HSMs or secure key management systems
+- [ ] <strong>Key Rotation</strong>: Automated periodic key rotation procedures
+- [ ] <strong>Backup and Recovery</strong>: Secure key backup with offline storage
+- [ ] <strong>Access Control</strong>: Role-based access to key management operations
+- [ ] <strong>Audit Trails</strong>: Complete logging of all key access and operations</p>
+<h4 id="storage-encryption"><strong>Storage Encryption</strong><a class="headerlink" href="#storage-encryption" title="Permanent link">&para;</a></h4>
+<p>```go
+// Additional encryption layers for sensitive data
+type SecureStorage struct {
+    account *account.Account
+    cipher  cipher.AEAD
+}</p>
+<p>func (s *SecureStorage) StoreSecure(key string, data []byte) error {
+    // Application-level encryption before SDK storage
+    encrypted, err := s.cipher.Seal(nil, s.generateNonce(), data, nil)
+    if err != nil {
+        return err
+    }</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>// SDK handles additional encryption
+return s.account.ValueStore(key, encrypted)
+</code></pre></div>
+
+<p>}
+```</p>
+<h3 id="network-security"><strong>Network Security</strong><a class="headerlink" href="#network-security" title="Permanent link">&para;</a></h3>
+<h4 id="connection-security"><strong>Connection Security</strong><a class="headerlink" href="#connection-security" title="Permanent link">&para;</a></h4>
+<p>```go
+// Production connection filtering
+func (app *App) validateIncomingConnection(senderKey *signing.PublicKey) bool {
+    // Implement whitelist/blacklist logic
+    if app.isBlacklisted(senderKey) {
+        return false
+    }</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>// Check rate limiting
+if app.rateLimiter.IsExceeded(senderKey) {
+    return false
+}
+
+// Validate sender reputation
+return app.reputationService.IsValid(senderKey)
+</code></pre></div>
+
+<p>}
+```</p>
+<p><strong>Network Security Checklist:</strong>
+- [ ] <strong>TLS Configuration</strong>: Proper TLS setup with certificate pinning
+- [ ] <strong>Firewall Rules</strong>: Restrict network access to necessary ports only
+- [ ] <strong>Rate Limiting</strong>: Prevent abuse and DoS attacks
+- [ ] <strong>Connection Filtering</strong>: Validate connections before acceptance
+- [ ] <strong>Network Monitoring</strong>: Monitor for suspicious network activity</p>
+<h3 id="application-security"><strong>Application Security</strong><a class="headerlink" href="#application-security" title="Permanent link">&para;</a></h3>
+<h4 id="input-validation"><strong>Input Validation</strong><a class="headerlink" href="#input-validation" title="Permanent link">&para;</a></h4>
+<p>```go
+// Secure credential processing
+func processCredentialClaims(claims map[string]interface{}) error {
+    // Validate claim structure
+    if err := validateClaimStructure(claims); err != nil {
+        return fmt.Errorf("invalid claim structure: %w", err)
+    }</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>// Sanitize user inputs
+sanitizedClaims := sanitizeClaimValues(claims)
+
+// Validate business rules
+return validateBusinessRules(sanitizedClaims)
+</code></pre></div>
+
+<p>}
+```</p>
+<p><strong>Application Security Checklist:</strong>
+- [ ] <strong>Input Validation</strong>: Validate all external inputs and credential claims
+- [ ] <strong>Access Control</strong>: Role-based permissions for all operations
+- [ ] <strong>Audit Logging</strong>: Complete audit trails for all security events
+- [ ] <strong>Error Handling</strong>: Secure error messages that don't leak information
+- [ ] <strong>Session Management</strong>: Proper session handling and timeout</p>
+<hr />
+<h2 id="performance-performance-optimization"><strong>Performance:</strong> Performance Optimization<a class="headerlink" href="#performance-performance-optimization" title="Permanent link">&para;</a></h2>
+<h3 id="connection-management"><strong>Connection Management</strong><a class="headerlink" href="#connection-management" title="Permanent link">&para;</a></h3>
+<h4 id="connection-pooling"><strong>Connection Pooling</strong><a class="headerlink" href="#connection-pooling" title="Permanent link">&para;</a></h4>
+<p>```go
+type ConnectionPool struct {
+    connections map[string]*Connection
+    mutex       sync.RWMutex
+    maxIdle     time.Duration
+}</p>
+<p>func (p *ConnectionPool) GetConnection(address string) *Connection {
+    p.mutex.Lock()
+    defer p.mutex.Unlock()</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>if conn, exists := p.connections[address]; exists {
+    if time.Since(conn.LastUsed) &lt; p.maxIdle {
+        return conn // Reuse existing connection
+    }
+    delete(p.connections, address) // Clean up stale connection
+}
+
+// Create new connection if needed
+return p.createConnection(address)
+</code></pre></div>
+
+<p>}
+```</p>
+<h4 id="resource-management"><strong>Resource Management</strong><a class="headerlink" href="#resource-management" title="Permanent link">&para;</a></h4>
+<p>```go
+// Monitor and manage cryptographic resources
+type ResourceMonitor struct {
+    cpuUsage      metrics.Gauge
+    memoryUsage   metrics.Gauge
+    cryptoOps     metrics.Counter
+}</p>
+<p>func (r *ResourceMonitor) TrackCryptoOperation(opType string, duration time.Duration) {
+    r.cryptoOps.WithLabels("type", opType).Inc()</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>// Alert on resource thresholds
+if duration &gt; time.Second {
+    log.Warn(&quot;Slow cryptographic operation&quot;, &quot;type&quot;, opType, &quot;duration&quot;, duration)
+}
+</code></pre></div>
+
+<p>}
+```</p>
+<h3 id="storage-optimization"><strong>Storage Optimization</strong><a class="headerlink" href="#storage-optimization" title="Permanent link">&para;</a></h3>
+<h4 id="efficient-data-organization"><strong>Efficient Data Organization</strong><a class="headerlink" href="#efficient-data-organization" title="Permanent link">&para;</a></h4>
+<p><code>``go
+// Optimized credential storage patterns
+type CredentialIndex struct {
+    ByType    map[string][]string</code>json:"by_type"<code>ByIssuer  map[string][]string</code>json:"by_issuer"<code>BySubject map[string][]string</code>json:"by_subject"<code>LastUpdate time.Time</code>json:"last_update"`
+}</p>
+<p>func (app *App) buildCredentialIndex() error {
+    index := &amp;CredentialIndex{
+        ByType:    make(map[string][]string),
+        ByIssuer:  make(map[string][]string),
+        BySubject: make(map[string][]string),
+        LastUpdate: time.Now(),
+    }</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>// Build indexes for fast credential lookup
+return app.saveIndex(index)
+</code></pre></div>
+
+<p>}
+```</p>
+<h4 id="caching-strategies"><strong>Caching Strategies</strong><a class="headerlink" href="#caching-strategies" title="Permanent link">&para;</a></h4>
+<p>```go
+// Intelligent caching for frequently accessed data
+type SmartCache struct {
+    inboxCache    *lru.Cache
+    credCache     *lru.Cache
+    networkStatus sync.Map
+}</p>
+<p>func (c *SmartCache) GetInboxAddress(account *account.Account) (string, error) {
+    accountID := account.Identifier()</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>// Check cache first
+if cached, ok := c.inboxCache.Get(accountID); ok {
+    return cached.(string), nil
+}
+
+// Fetch and cache
+inbox, err := account.InboxOpen()
+if err != nil {
+    return &quot;&quot;, err
+}
+
+c.inboxCache.Add(accountID, inbox.String())
+return inbox.String(), nil
+</code></pre></div>
+
+<p>}
+```</p>
+<h3 id="performance-monitoring"><strong>Performance Monitoring</strong><a class="headerlink" href="#performance-monitoring" title="Permanent link">&para;</a></h3>
+<h4 id="metrics-collection"><strong>Metrics Collection</strong><a class="headerlink" href="#metrics-collection" title="Permanent link">&para;</a></h4>
+<p>```go
+// Comprehensive performance metrics
+type PerformanceMetrics struct {
+    ConnectionTime    metrics.Histogram
+    MessageThroughput metrics.Counter
+    CredentialOps     metrics.Counter
+    StorageLatency    metrics.Histogram
+    ErrorRate         metrics.Counter
+}</p>
+<p>func (m *PerformanceMetrics) RecordConnection(duration time.Duration) {
+    m.ConnectionTime.Observe(duration.Seconds())
+}</p>
+<p>func (m *PerformanceMetrics) RecordError(errorType string) {
+    m.ErrorRate.WithLabels("type", errorType).Inc()
+}
+```</p>
+<hr />
+<h2 id="overview-monitoring-observability"><strong>Overview:</strong> Monitoring &amp; Observability<a class="headerlink" href="#overview-monitoring-observability" title="Permanent link">&para;</a></h2>
+<h3 id="comprehensive-logging"><strong>Comprehensive Logging</strong><a class="headerlink" href="#comprehensive-logging" title="Permanent link">&para;</a></h3>
+<h4 id="structured-logging"><strong>Structured Logging</strong><a class="headerlink" href="#structured-logging" title="Permanent link">&para;</a></h4>
+<p>```go
+// Production-ready logging configuration
+func setupProductionLogging() *logrus.Logger {
+    logger := logrus.New()
+    logger.SetFormatter(&amp;logrus.JSONFormatter{
+        TimestampFormat: time.RFC3339,
+        FieldMap: logrus.FieldMap{
+            logrus.FieldKeyTime: "timestamp",
+            logrus.FieldKeyLevel: "level",
+            logrus.FieldKeyMsg: "message",
+        },
+    })</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>// Set appropriate log level for production
+logger.SetLevel(logrus.WarnLevel)
+
+return logger
+</code></pre></div>
+
+<p>}</p>
+<p>// Context-aware logging
+func logConnectionEvent(ctx context.Context, event string, address string) {
+    log.WithContext(ctx).WithFields(logrus.Fields{
+        "event_type": "connection",
+        "action":     event,
+        "address":    address,
+        "trace_id":   getTraceID(ctx),
+    }).Info("Connection event")
+}
+```</p>
+<h4 id="security-event-logging"><strong>Security Event Logging</strong><a class="headerlink" href="#security-event-logging" title="Permanent link">&para;</a></h4>
+<p>```go
+// Security-focused audit logging
+type SecurityLogger struct {
+    logger *logrus.Logger
+    buffer chan SecurityEvent
+}</p>
+<p>type SecurityEvent struct {
+    Timestamp   time.Time <code>json:"timestamp"</code>
+    EventType   string    <code>json:"event_type"</code>
+    UserID      string    <code>json:"user_id,omitempty"</code>
+    IPAddress   string    <code>json:"ip_address,omitempty"</code>
+    Action      string    <code>json:"action"</code>
+    Resource    string    <code>json:"resource,omitempty"</code>
+    Success     bool      <code>json:"success"</code>
+    ErrorCode   string    <code>json:"error_code,omitempty"</code>
+    Metadata    map[string]interface{} <code>json:"metadata,omitempty"</code>
+}</p>
+<p>func (s *SecurityLogger) LogCredentialIssuance(issuer, holder string, credType string, success bool) {
+    event := SecurityEvent{
+        Timestamp: time.Now(),
+        EventType: "credential_issuance",
+        UserID:    issuer,
+        Action:    "issue_credential",
+        Resource:  credType,
+        Success:   success,
+        Metadata: map[string]interface{}{
+            "holder": holder,
+            "credential_type": credType,
+        },
+    }
+    s.buffer &lt;- event
+}
+```</p>
+<h3 id="health-checks"><strong>Health Checks</strong><a class="headerlink" href="#health-checks" title="Permanent link">&para;</a></h3>
+<h4 id="application-health"><strong>Application Health</strong><a class="headerlink" href="#application-health" title="Permanent link">&para;</a></h4>
+<p>```go
+// Comprehensive health check system
+type HealthChecker struct {
+    account     *account.Account
+    lastCheck   time.Time
+    checkResult HealthStatus
+    mutex       sync.RWMutex
+}</p>
+<p>type HealthStatus struct {
+    Healthy           bool                   <code>json:"healthy"</code>
+    Timestamp         time.Time              <code>json:"timestamp"</code>
+    AccountStatus     string                 <code>json:"account_status"</code>
+    NetworkStatus     string                 <code>json:"network_status"</code>
+    StorageStatus     string                 <code>json:"storage_status"</code>
+    ComponentStatuses map[string]interface{} <code>json:"components"</code>
+}</p>
+<p>func (h *HealthChecker) CheckHealth(ctx context.Context) HealthStatus {
+    status := HealthStatus{
+        Timestamp:         time.Now(),
+        ComponentStatuses: make(map[string]interface{}),
+    }</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>// Check account connectivity
+if inbox, err := h.account.InboxOpen(); err != nil {
+    status.AccountStatus = &quot;error&quot;
+    status.Healthy = false
+} else {
+    status.AccountStatus = &quot;healthy&quot;
+    status.ComponentStatuses[&quot;inbox_address&quot;] = inbox.String()
+}
+
+// Check storage access
+testKey := fmt.Sprintf(&quot;health_check_%d&quot;, time.Now().Unix())
+if err := h.account.ValueStore(testKey, []byte(&quot;test&quot;)); err != nil {
+    status.StorageStatus = &quot;error&quot;
+    status.Healthy = false
+} else {
+    status.StorageStatus = &quot;healthy&quot;
+    h.account.ValueDelete(testKey) // Cleanup
+}
+
+// Check network connectivity
+status.NetworkStatus = h.checkNetworkConnectivity()
+if status.NetworkStatus == &quot;error&quot; {
+    status.Healthy = false
+}
+
+// Overall health
+if status.AccountStatus == &quot;healthy&quot; &amp;&amp; 
+   status.StorageStatus == &quot;healthy&quot; &amp;&amp; 
+   status.NetworkStatus == &quot;healthy&quot; {
+    status.Healthy = true
+}
+
+return status
+</code></pre></div>
+
+<p>}
+```</p>
+<h3 id="alerting-and-notifications"><strong>Alerting and Notifications</strong><a class="headerlink" href="#alerting-and-notifications" title="Permanent link">&para;</a></h3>
+<h4 id="alert-management"><strong>Alert Management</strong><a class="headerlink" href="#alert-management" title="Permanent link">&para;</a></h4>
+<p>```go
+// Production alerting system
+type AlertManager struct {
+    channels map[string]AlertChannel
+    rules    []AlertRule
+}</p>
+<p>type AlertRule struct {
+    Name        string
+    Condition   func(metrics map[string]float64) bool
+    Severity    AlertSeverity
+    Cooldown    time.Duration
+    LastFired   time.Time
+}</p>
+<p>type AlertSeverity int
+const (
+    SeverityInfo AlertSeverity = iota
+    SeverityWarning
+    SeverityCritical
+)</p>
+<p>func (a *AlertManager) CheckAlerts(metrics map[string]float64) {
+    for _, rule := range a.rules {
+        if time.Since(rule.LastFired) &lt; rule.Cooldown {
+            continue // Respect cooldown period
+        }</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>    if rule.Condition(metrics) {
+        alert := Alert{
+            RuleName:  rule.Name,
+            Severity:  rule.Severity,
+            Timestamp: time.Now(),
+            Metrics:   metrics,
+        }
+        a.fireAlert(alert)
+        rule.LastFired = time.Now()
+    }
+}
+</code></pre></div>
+
+<p>}
+```</p>
+<hr />
+<h2 id="scalability-patterns">📈 Scalability Patterns<a class="headerlink" href="#scalability-patterns" title="Permanent link">&para;</a></h2>
+<h3 id="horizontal-scaling"><strong>Horizontal Scaling</strong><a class="headerlink" href="#horizontal-scaling" title="Permanent link">&para;</a></h3>
+<h4 id="load-balancing"><strong>Load Balancing</strong><a class="headerlink" href="#load-balancing" title="Permanent link">&para;</a></h4>
+<p>```go
+// Distributed connection handling
+type LoadBalancer struct {
+    nodes    []ServiceNode
+    strategy LoadBalanceStrategy
+    health   HealthChecker
+}</p>
+<p>type ServiceNode struct {
+    ID       string
+    Address  string
+    Weight   int
+    Healthy  bool
+    LastSeen time.Time
+}</p>
+<p>func (lb *LoadBalancer) SelectNode(connectionID string) *ServiceNode {
+    healthyNodes := lb.getHealthyNodes()</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>switch lb.strategy {
+case RoundRobin:
+    return lb.roundRobinSelect(healthyNodes)
+case ConsistentHash:
+    return lb.consistentHashSelect(connectionID, healthyNodes)
+case LeastConnections:
+    return lb.leastConnectionsSelect(healthyNodes)
+}
+
+return nil
+</code></pre></div>
+
+<p>}
+```</p>
+<h4 id="service-discovery"><strong>Service Discovery</strong><a class="headerlink" href="#service-discovery" title="Permanent link">&para;</a></h4>
+<p>```go
+// Service registry for distributed deployment
+type ServiceRegistry struct {
+    services map[string][]ServiceInstance
+    consul   *consulapi.Client
+    mutex    sync.RWMutex
+}</p>
+<p>type ServiceInstance struct {
+    ID       string
+    Address  string
+    Port     int
+    Metadata map[string]string
+    Health   HealthStatus
+}</p>
+<p>func (r *ServiceRegistry) RegisterSelfSDKService(instance ServiceInstance) error {
+    registration := &amp;consulapi.AgentServiceRegistration{
+        ID:      instance.ID,
+        Name:    "self-sdk-service",
+        Address: instance.Address,
+        Port:    instance.Port,
+        Tags:    []string{"self-sdk", "identity", "credentials"},
+        Check: &amp;consulapi.AgentServiceCheck{
+            HTTP:     fmt.Sprintf("http://%s:%d/health", instance.Address, instance.Port),
+            Interval: "10s",
+            Timeout:  "5s",
+        },
+    }</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>return r.consul.Agent().ServiceRegister(registration)
+</code></pre></div>
+
+<p>}
+```</p>
+<h3 id="data-partitioning"><strong>Data Partitioning</strong><a class="headerlink" href="#data-partitioning" title="Permanent link">&para;</a></h3>
+<h4 id="credential-sharding"><strong>Credential Sharding</strong><a class="headerlink" href="#credential-sharding" title="Permanent link">&para;</a></h4>
+<p>```go
+// Distribute credentials across multiple storage backends
+type ShardedCredentialStore struct {
+    shards []CredentialShard
+    hasher hash.Hash64
+}</p>
+<p>type CredentialShard struct {
+    ID      int
+    Account *account.Account
+    Weight  float64
+}</p>
+<p>func (s *ShardedCredentialStore) StoreCredential(credential *credential.VerifiableCredential) error {
+    // Determine shard based on credential subject
+    subject := credential.Subject()
+    shardIndex := s.getShardIndex(subject)</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>shard := s.shards[shardIndex]
+return shard.Account.CredentialStore(credential)
+</code></pre></div>
+
+<p>}</p>
+<p>func (s *ShardedCredentialStore) getShardIndex(subject string) int {
+    s.hasher.Reset()
+    s.hasher.Write([]byte(subject))
+    hash := s.hasher.Sum64()
+    return int(hash % uint64(len(s.shards)))
+}
+```</p>
+<h3 id="caching-architectures"><strong>Caching Architectures</strong><a class="headerlink" href="#caching-architectures" title="Permanent link">&para;</a></h3>
+<h4 id="distributed-caching"><strong>Distributed Caching</strong><a class="headerlink" href="#distributed-caching" title="Permanent link">&para;</a></h4>
+<p>```go
+// Redis-backed distributed cache for Self SDK operations
+type DistributedCache struct {
+    redis      *redis.Client
+    localCache *lru.Cache
+    ttl        time.Duration
+}</p>
+<p>func (c *DistributedCache) CacheCredential(credID string, cred *credential.VerifiableCredential) error {
+    // Serialize credential
+    data, err := json.Marshal(cred)
+    if err != nil {
+        return err
+    }</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>// Store in Redis with TTL
+err = c.redis.Set(context.Background(), 
+    fmt.Sprintf(&quot;cred:%s&quot;, credID), 
+    data, 
+    c.ttl).Err()
+if err != nil {
+    return err
+}
+
+// Also cache locally for faster access
+c.localCache.Add(credID, cred)
+return nil
+</code></pre></div>
+
+<p>}
+```</p>
+<hr />
+<h2 id="process-deployment-operations"><strong>Process:</strong> Deployment &amp; Operations<a class="headerlink" href="#process-deployment-operations" title="Permanent link">&para;</a></h2>
+<h3 id="deployment-strategies"><strong>Deployment Strategies</strong><a class="headerlink" href="#deployment-strategies" title="Permanent link">&para;</a></h3>
+<h4 id="blue-green-deployment"><strong>Blue-Green Deployment</strong><a class="headerlink" href="#blue-green-deployment" title="Permanent link">&para;</a></h4>
+<p>```go
+// Zero-downtime deployment pattern
+type BlueGreenDeployment struct {
+    blueEnvironment  Environment
+    greenEnvironment Environment
+    activeColor      string
+    loadBalancer     LoadBalancer
+}</p>
+<p>func (bg *BlueGreenDeployment) Deploy(newVersion string) error {
+    // Determine inactive environment
+    inactiveEnv := bg.getInactiveEnvironment()</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>// Deploy to inactive environment
+if err := inactiveEnv.Deploy(newVersion); err != nil {
+    return fmt.Errorf(&quot;deployment failed: %w&quot;, err)
+}
+
+// Run health checks
+if err := inactiveEnv.HealthCheck(); err != nil {
+    return fmt.Errorf(&quot;health check failed: %w&quot;, err)
+}
+
+// Switch traffic
+return bg.switchTraffic(inactiveEnv.Color)
+</code></pre></div>
+
+<p>}
+```</p>
+<h4 id="canary-releases"><strong>Canary Releases</strong><a class="headerlink" href="#canary-releases" title="Permanent link">&para;</a></h4>
+<p>```go
+// Gradual rollout for new features
+type CanaryDeployment struct {
+    stableVersion string
+    canaryVersion string
+    trafficSplit  float64
+    metrics       MetricsCollector
+}</p>
+<p>func (c *CanaryDeployment) RouteTraffic(requestID string) string {
+    // Determine routing based on traffic split
+    hash := c.hashRequest(requestID)</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>if hash &lt; c.trafficSplit {
+    c.metrics.RecordCanaryTraffic()
+    return c.canaryVersion
+}
+
+c.metrics.RecordStableTraffic()
+return c.stableVersion
+</code></pre></div>
+
+<p>}
+```</p>
+<h3 id="configuration-management_1"><strong>Configuration Management</strong><a class="headerlink" href="#configuration-management_1" title="Permanent link">&para;</a></h3>
+<h4 id="environment-specific-configs"><strong>Environment-Specific Configs</strong><a class="headerlink" href="#environment-specific-configs" title="Permanent link">&para;</a></h4>
+<p>```yaml</p>
+<h1 id="configproductionyaml">config/production.yaml<a class="headerlink" href="#configproductionyaml" title="Permanent link">&para;</a></h1>
+<p>self_sdk:
+  environment: production
+  log_level: warn
+  storage:
+    path: /var/lib/selfapp/storage
+    backup_interval: 1h
+    retention_days: 90</p>
+<p>network:
+    connection_timeout: 30s
+    max_connections: 1000
+    rate_limit: 100/min</p>
+<p>security:
+    key_rotation_interval: 24h
+    session_timeout: 30m
+    audit_logging: true</p>
+<p>monitoring:
+    metrics_endpoint: :9090
+    health_endpoint: :8080
+    trace_sampling: 0.1
+```</p>
+<h4 id="secret-management"><strong>Secret Management</strong><a class="headerlink" href="#secret-management" title="Permanent link">&para;</a></h4>
+<p>```go
+// Secure secret loading
+type SecretManager struct {
+    vault   *vaultapi.Client
+    cache   map[string]Secret
+    refresh time.Duration
+}</p>
+<p>type Secret struct {
+    Value     []byte
+    ExpiresAt time.Time
+}</p>
+<p>func (sm *SecretManager) GetStorageKey(keyID string) ([]byte, error) {
+    // Check cache first
+    if secret, exists := sm.cache[keyID]; exists {
+        if time.Now().Before(secret.ExpiresAt) {
+            return secret.Value, nil
+        }
+        delete(sm.cache, keyID) // Remove expired secret
+    }</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>// Fetch from Vault
+vaultSecret, err := sm.vault.Logical().Read(fmt.Sprintf(&quot;secret/selfapp/%s&quot;, keyID))
+if err != nil {
+    return nil, err
+}
+
+data := vaultSecret.Data[&quot;key&quot;].(string)
+keyBytes, err := base64.StdEncoding.DecodeString(data)
+if err != nil {
+    return nil, err
+}
+
+// Cache with expiration
+sm.cache[keyID] = Secret{
+    Value:     keyBytes,
+    ExpiresAt: time.Now().Add(sm.refresh),
+}
+
+return keyBytes, nil
+</code></pre></div>
+
+<p>}
+```</p>
+<h3 id="maintenance-operations"><strong>Maintenance Operations</strong><a class="headerlink" href="#maintenance-operations" title="Permanent link">&para;</a></h3>
+<h4 id="automated-backups"><strong>Automated Backups</strong><a class="headerlink" href="#automated-backups" title="Permanent link">&para;</a></h4>
+<p>```go
+// Comprehensive backup system
+type BackupManager struct {
+    account       *account.Account
+    s3Client      *s3.S3
+    bucket        string
+    retentionDays int
+}</p>
+<p>func (bm *BackupManager) PerformBackup() error {
+    timestamp := time.Now().Format("2006-01-02-15-04-05")
+    backupKey := fmt.Sprintf("backups/%s/storage.tar.gz", timestamp)</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>// Create compressed backup
+backupData, err := bm.createCompressedBackup()
+if err != nil {
+    return fmt.Errorf(&quot;backup creation failed: %w&quot;, err)
+}
+
+// Upload to S3
+_, err = bm.s3Client.PutObject(&amp;s3.PutObjectInput{
+    Bucket: &amp;bm.bucket,
+    Key:    &amp;backupKey,
+    Body:   bytes.NewReader(backupData),
+    Metadata: map[string]*string{
+        &quot;backup-type&quot;: aws.String(&quot;self-sdk-storage&quot;),
+        &quot;timestamp&quot;:   aws.String(timestamp),
+    },
+})
+
+if err != nil {
+    return fmt.Errorf(&quot;backup upload failed: %w&quot;, err)
+}
+
+// Cleanup old backups
+return bm.cleanupOldBackups()
+</code></pre></div>
+
+<p>}
+```</p>
+<hr />
+<h2 id="business-continuity">🛡️ Business Continuity<a class="headerlink" href="#business-continuity" title="Permanent link">&para;</a></h2>
+<h3 id="disaster-recovery"><strong>Disaster Recovery</strong><a class="headerlink" href="#disaster-recovery" title="Permanent link">&para;</a></h3>
+<h4 id="recovery-procedures"><strong>Recovery Procedures</strong><a class="headerlink" href="#recovery-procedures" title="Permanent link">&para;</a></h4>
+<p>```go
+// Disaster recovery orchestration
+type DisasterRecovery struct {
+    backupManager    BackupManager
+    healthChecker    HealthChecker
+    failoverManager  FailoverManager
+    notificationSvc  NotificationService
+}</p>
+<p>func (dr *DisasterRecovery) InitiateRecovery(incidentType string) error {
+    log.Error("Initiating disaster recovery", "incident", incidentType)</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>// Notify stakeholders
+dr.notificationSvc.SendCriticalAlert(&quot;Disaster recovery initiated&quot;, incidentType)
+
+// Assess damage
+assessment := dr.assessSystemDamage()
+
+// Choose recovery strategy
+switch assessment.Severity {
+case SeverityMinor:
+    return dr.performMinorRecovery()
+case SeverityMajor:
+    return dr.performMajorRecovery()
+case SeverityCritical:
+    return dr.performFullSystemRecovery()
+}
+
+return nil
+</code></pre></div>
+
+<p>}
+```</p>
+<h4 id="high-availability-setup"><strong>High Availability Setup</strong><a class="headerlink" href="#high-availability-setup" title="Permanent link">&para;</a></h4>
+<p>```go
+// Multi-region deployment for high availability
+type HAConfiguration struct {
+    primaryRegion   Region
+    secondaryRegion Region
+    syncInterval    time.Duration
+    failoverMode    FailoverMode
+}</p>
+<p>func (ha *HAConfiguration) SynchronizeRegions() error {
+    // Sync account data between regions
+    accountData, err := ha.primaryRegion.ExportAccountData()
+    if err != nil {
+        return err
+    }</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>return ha.secondaryRegion.ImportAccountData(accountData)
+</code></pre></div>
+
+<p>}
+```</p>
+<h3 id="compliance-and-auditing"><strong>Compliance and Auditing</strong><a class="headerlink" href="#compliance-and-auditing" title="Permanent link">&para;</a></h3>
+<h4 id="audit-trail-management"><strong>Audit Trail Management</strong><a class="headerlink" href="#audit-trail-management" title="Permanent link">&para;</a></h4>
+<p>```go
+// Comprehensive audit logging for compliance
+type ComplianceLogger struct {
+    auditDB    *sql.DB
+    encryptor  Encryptor
+    retention  time.Duration
+}</p>
+<p>type AuditEvent struct {
+    ID          string    <code>json:"id"</code>
+    Timestamp   time.Time <code>json:"timestamp"</code>
+    UserID      string    <code>json:"user_id"</code>
+    Action      string    <code>json:"action"</code>
+    Resource    string    <code>json:"resource"</code>
+    IPAddress   string    <code>json:"ip_address"</code>
+    UserAgent   string    <code>json:"user_agent"</code>
+    Success     bool      <code>json:"success"</code>
+    ErrorMsg    string    <code>json:"error_message,omitempty"</code>
+    Metadata    string    <code>json:"metadata,omitempty"</code> // Encrypted
+}</p>
+<p>func (cl *ComplianceLogger) LogDataAccess(userID, resource, ipAddress string) error {
+    event := AuditEvent{
+        ID:        generateUUID(),
+        Timestamp: time.Now(),
+        UserID:    userID,
+        Action:    "data_access",
+        Resource:  resource,
+        IPAddress: ipAddress,
+        Success:   true,
+    }</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>// Encrypt sensitive metadata
+if event.Metadata != &quot;&quot; {
+    encrypted, err := cl.encryptor.Encrypt([]byte(event.Metadata))
+    if err != nil {
+        return err
+    }
+    event.Metadata = base64.StdEncoding.EncodeToString(encrypted)
+}
+
+// Store in audit database
+query := `
+    INSERT INTO audit_events 
+    (id, timestamp, user_id, action, resource, ip_address, success, metadata)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+`
+
+_, err := cl.auditDB.Exec(query, 
+    event.ID, event.Timestamp, event.UserID, event.Action,
+    event.Resource, event.IPAddress, event.Success, event.Metadata)
+
+return err
+</code></pre></div>
+
+<p>}
+```</p>
+<hr />
+<h2 id="production-readiness-checklist">📋 Production Readiness Checklist<a class="headerlink" href="#production-readiness-checklist" title="Permanent link">&para;</a></h2>
+<h3 id="security-checklist"><strong>Security Checklist</strong><a class="headerlink" href="#security-checklist" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Key Management</strong>: External key storage and rotation procedures</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Network Security</strong>: TLS configuration and firewall rules</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Access Control</strong>: Role-based permissions implemented</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Audit Logging</strong>: Comprehensive security event logging</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Input Validation</strong>: All external inputs validated and sanitized</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Secret Management</strong>: No secrets in code or configuration files</li>
+</ul>
+<h3 id="performance-checklist"><strong>Performance Checklist</strong><a class="headerlink" href="#performance-checklist" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Resource Monitoring</strong>: CPU, memory, and network monitoring</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Connection Pooling</strong>: Efficient connection reuse</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Caching</strong>: Appropriate caching strategies implemented</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Storage Optimization</strong>: Indexed and optimized data storage</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Load Testing</strong>: Performance tested under expected load</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Scalability Plan</strong>: Horizontal scaling strategy defined</li>
+</ul>
+<h3 id="reliability-checklist"><strong>Reliability Checklist</strong><a class="headerlink" href="#reliability-checklist" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Health Checks</strong>: Comprehensive health monitoring</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Error Handling</strong>: Robust error handling and recovery</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Backup Strategy</strong>: Automated backup and recovery procedures</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Failover Plan</strong>: Disaster recovery procedures documented</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Monitoring Alerts</strong>: Critical alerts configured</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Deployment Process</strong>: Tested deployment and rollback procedures</li>
+</ul>
+<h3 id="operations-checklist"><strong>Operations Checklist</strong><a class="headerlink" href="#operations-checklist" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Logging Strategy</strong>: Structured logging with appropriate levels</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Metrics Collection</strong>: Key performance indicators tracked</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Documentation</strong>: Operations procedures documented</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Incident Response</strong>: Incident response procedures defined</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Capacity Planning</strong>: Resource capacity planned and monitored</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Maintenance Windows</strong>: Planned maintenance procedures</li>
+</ul>
+<hr />
+<h2 id="quick-start-quick-start-production-template"><strong>Quick Start:</strong> Quick Start Production Template<a class="headerlink" href="#quick-start-quick-start-production-template" title="Permanent link">&para;</a></h2>
+<h3 id="minimal-production-configuration"><strong>Minimal Production Configuration</strong><a class="headerlink" href="#minimal-production-configuration" title="Permanent link">&para;</a></h3>
+<p>```go
+package main</p>
+<p>import (
+    "context"
+    "log"
+    "os"
+    "os/signal"
+    "syscall"
+    "time"</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>&quot;github.com/joinself/self-go-sdk/account&quot;
+</code></pre></div>
+
+<p>)</p>
+<p>func main() {
+    // Load production configuration
+    cfg := &amp;account.Config{
+        StorageKey:  loadStorageKey(),
+        StoragePath: getEnv("STORAGE_PATH", "/var/lib/selfapp/storage"),
+        Environment: account.TargetProduction,
+        LogLevel:    account.LogWarn,
+    }</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>// Create account
+acc, err := account.New(cfg)
+if err != nil {
+    log.Fatal(&quot;Failed to create account:&quot;, err)
+}
+defer acc.Close()
+
+// Setup graceful shutdown
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+go func() {
+    sigChan := make(chan os.Signal, 1)
+    signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+    &lt;-sigChan
+    log.Println(&quot;Shutdown signal received&quot;)
+    cancel()
+}()
+
+// Start health check endpoint
+go startHealthServer(acc)
+
+// Main application loop
+&lt;-ctx.Done()
+log.Println(&quot;Application shutting down&quot;)
+</code></pre></div>
+
+<p>}</p>
+<p>func loadStorageKey() []byte {
+    // Implement secure key loading
+    // This could load from environment, vault, etc.
+    keyStr := os.Getenv("STORAGE_KEY")
+    if keyStr == "" {
+        log.Fatal("STORAGE_KEY environment variable required")
+    }
+    // Convert and return key bytes
+    return []byte(keyStr)
+}
+```</p>
+<hr />
+<p><strong>Ready for production!</strong> <strong>Quick Start:</strong></p>
+<p>This guide provides the foundation for deploying Self SDK applications in production environments. Adapt these patterns to your specific infrastructure and requirements.</p>
+<p><em>This production guide is continuously updated based on deployment experiences and best practices. Please contribute improvements via GitHub issues or community forums.</em> </p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <!-- Material MkDocs Navigation Section -->
+
+<div class="md-footer-nav">
+  <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+    
+      <a href="../resources/" class="md-footer-nav__link md-footer-nav__link--prev" aria-label="Previous: Resources & Community" rel="prev">
+        <div class="md-footer-nav__button md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.42-1.41L7.83 13H20v-2Z"/></svg>
+        </div>
+        <div class="md-footer-nav__title">
+          <span class="md-footer-nav__direction">Previous</span>
+          <div class="md-ellipsis">Resources & Community</div>
+        </div>
+      </a>
+    
+    
+      <a href="../../resources/agreements/overview/" class="md-footer-nav__link md-footer-nav__link--next" aria-label="Next: Overview" rel="next">
+        <div class="md-footer-nav__title">
+          <span class="md-footer-nav__direction">Next</span>
+          <div class="md-ellipsis">Overview</div>
+        </div>
+        <div class="md-footer-nav__button md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11h12.17l-5.59-5.59L12 4l8 8-8 8-1.42-1.41L16.17 13H4v-2Z"/></svg>
+        </div>
+      </a>
+    
+  </nav>
+</div>
+
+
+<!-- Custom Footer -->
+<footer class="custom-footer">
+  <div class="custom-footer__content">
+    <!-- Brand Logo Section -->
+    <div class="custom-footer__brand">
+      <a href="../.." class="custom-footer__logo">
+        <img src="../../assets/logo.png" alt="Joinself Academy" class="custom-footer__logo-img">
+      </a>
+    </div>
+
+    <!-- Footer Links Section -->
+    <div class="custom-footer__links">
+      <!-- DOCUMENTATION Column -->
+      <div class="custom-footer__column">
+        <h3>DOCUMENTATION</h3>
+        <ul>
+          <li><a href="../../solutions/overview/">Solutions</a></li>
+          <li><a href="../../concepts/overview/">Concepts</a></li>
+          <li><a href="../overview/">Examples</a></li>
+        </ul>
+      </div>
+
+      <!-- COMPANY Column -->
+      <div class="custom-footer__column">
+        <h3>COMPANY</h3>
+        <ul>
+          <li><a href="../../about-self/">About</a></li>
+          <li><a href="https://www.joinself.com/company/research" target="_blank" rel="noopener">Research</a></li>
+          <li><a href="https://www.joinself.com/company/blog" target="_blank" rel="noopener">Blog</a></li>
+        </ul>
+      </div>
+
+      <!-- RESOURCES Column -->
+      <div class="custom-footer__column">
+        <h3>RESOURCES</h3>
+        <ul>          
+          <li><a href="https://docs.joinself.com/" class="hover-link text-white">Quickstart</a></li>
+          <li><a href="https://docs.joinself.com/" class="hover-link text-white">Documentation</a></li>
+          <li><a href="../../resources/agreements/overview/">Agreements</a></li>
+          <li><a href="../../resources/licenses/overview/">Licenses</a></li>
+          <li><a href="https://joinself.com/pricing/price" class="hover-link text-white">Pricing</a></li>
+          <li><a href="https://joinself.com/contact" class="hover-link text-white">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- SOCIAL Column -->
+      <div class="custom-footer__column">
+        <h3>SOCIAL</h3>
+        <ul>
+          <li>
+            <a href="https://github.com/joinself" target="_blank" rel="noopener">
+              <svg class="custom-footer__social-icon" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              Github
+            </a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/company/joinself" target="_blank" rel="noopener">
+              <svg class="custom-footer__social-icon" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+              LinkedIn
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Bottom Section -->
+  <div class="custom-footer__bottom">
+    <div class="custom-footer__copyright">
+      © Copyright Self Group Limited 2019-2025 All Rights Reserved
+    </div>
+    <button class="scroll-to-top" onclick="scrollToTop()" aria-label="Scroll to top">
+      <svg class="scroll-to-top__icon" viewBox="0 0 24 24">
+        <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+      </svg>
+    </button>
+  </div>
+</footer>
+
+<script>
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+// Show/hide scroll to top button based on scroll position
+window.addEventListener('scroll', function() {
+  const scrollToTopBtn = document.querySelector('.scroll-to-top');
+  if (scrollToTopBtn) {
+    if (window.scrollY > 300) {
+      scrollToTopBtn.style.display = 'flex';
+    } else {
+      scrollToTopBtn.style.display = 'none';
+    }
+  }
+});
+
+// Hide scroll to top button initially
+document.addEventListener('DOMContentLoaded', function() {
+  const scrollToTopBtn = document.querySelector('.scroll-to-top');
+  if (scrollToTopBtn) {
+    scrollToTopBtn.style.display = 'none';
+  }
+});
+</script> 
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["announce.dismiss", "content.code.annotate", "content.code.copy", "content.tooltips", "header.autohide", "navigation.expand", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.path", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+        <script src="../../assets/javascripts/custom.js"></script>
+      
+        <script src="https://emgithub.com/embed-v2.js"></script>
+      
+    
+  </body>
+</html>

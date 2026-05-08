@@ -1,0 +1,3416 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../secure-connections/faq-and-resources/">
+      
+      
+        <link rel="next" href="../credential-presentation-patterns/">
+      
+      
+      <link rel="icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>Verifiable Credentials Concepts - Joinself Academy</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sauce+One,+sans-serif:300,300i,400,400i,700,700i%7COpen+Sauce+One,+sans-serif:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Open Sauce One, sans-serif";--md-code-font:"Open Sauce One, sans-serif"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#verifiable-credentials-concepts" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Joinself Academy" class="md-header__button md-logo" aria-label="Joinself Academy" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Joinself Academy
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Verifiable Credentials Concepts
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../solutions/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Solutions
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../examples/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../resources/agreements/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Resources
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Joinself Academy" class="md-nav__button md-logo" aria-label="Joinself Academy" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    Joinself Academy
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../getting-started/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../solutions/overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Solutions
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Concepts
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Concepts
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Decentralized Identity
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Decentralized Identity
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../decentralized-identity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../decentralized-identity/dids-explained/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DIDs Explained
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../decentralized-identity/cryptographic-keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cryptographic Keys
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../decentralized-identity/self-sovereign-identity-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Self-Sovereign Identity Principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../decentralized-identity/how-it-works/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    How it Works
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../decentralized-identity/resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Resources
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Secure Connections
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Secure Connections
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure-connections/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure-connections/cryptographic-handshake/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cryptographic Handshake
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure-connections/cryptographic-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cryptographic Deep Dive
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure-connections/connection-patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Connection Patterns
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure-connections/technical-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Technical Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure-connections/faq-and-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    FAQ and Resources
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Verifiable Credentials
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Verifiable Credentials
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Verifiable Credentials Concepts
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Verifiable Credentials Concepts
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You'll Learn
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-big-picture-credential-revolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Big Picture: Credential Revolution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-problems-with-traditional-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Problems with Traditional Credentials
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Problems with Traditional Credentials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forgery-and-fraud" class="md-nav__link">
+    <span class="md-ellipsis">
+      Forgery and Fraud
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-complexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verification Complexity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-experience-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Experience Problems
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-verifiable-credentials-solve-this" class="md-nav__link">
+    <span class="md-ellipsis">
+      How Verifiable Credentials Solve This
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How Verifiable Credentials Solve This">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cryptographic-proof" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cryptographic Proof
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#universal-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Universal Verification
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-issuer-holder-verifier-triangle" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Issuer-Holder-Verifier Triangle
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Issuer-Holder-Verifier Triangle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-participants" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Participants
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verifiable-credentials-in-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verifiable Credentials in Action
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Verifiable Credentials in Action">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#real-world-example-university-degree" class="md-nav__link">
+    <span class="md-ellipsis">
+      Real-World Example: University Degree
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verification Process
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#credential-structure-and-claims" class="md-nav__link">
+    <span class="md-ellipsis">
+      Credential Structure and Claims
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Credential Structure and Claims">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#anatomy-of-a-verifiable-credential" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anatomy of a Verifiable Credential
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#understanding-claims" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding Claims
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#credential-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Credential Types
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#credential-lifecycle-issuance-to-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Credential Lifecycle: Issuance to Verification
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Credential Lifecycle: Issuance to Verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-issuance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 1: Issuance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-storage-and-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 2: Storage and Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-presentation-and-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 3: Presentation and Verification
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#real-world-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Real-World Use Cases
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Real-World Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#educational-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      Educational Credentials
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#employment-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Employment Verification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#professional-certifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Professional Certifications
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#live-code-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Live Code Examples
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selective-disclosure-and-privacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Selective Disclosure and Privacy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Selective Disclosure and Privacy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-privacy-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Privacy Problem
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selective-disclosure-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Selective Disclosure Solution
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-just-happened" class="md-nav__link">
+    <span class="md-ellipsis">
+      What Just Happened?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What Just Happened?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-understanding" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Understanding
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-knowledge" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practical Knowledge
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#developer-benefits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Developer Benefits
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading-external-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Further Reading &amp; External Resources
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Further Reading &amp; External Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#official-standards-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Official Standards &amp; Specifications
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical-deep-dives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technical Deep Dives
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#industry-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Industry Resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#research-academic-papers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Research &amp; Academic Papers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation Examples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#related-technologies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Related Technologies
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#start-building" class="md-nav__link">
+    <span class="md-ellipsis">
+      Start Building
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dive-deeper" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dive Deeper
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#real-world-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Real-World Applications
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-concepts-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Concepts Preview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Related Examples
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Concepts
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../credential-presentation-patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Credential Presentation Patterns
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Message Security
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Message Security
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../message-layer-security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../message-layer-security/key-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Key Management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../message-layer-security/group-messaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Group Messaging
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../message-layer-security/security-guarantees/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security Guarantees
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../message-layer-security/protocol-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Protocol Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../message-layer-security/real-world-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Real-World Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../message-layer-security/advanced-features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Advanced Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Cryptographic Foundations
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Cryptographic Foundations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cryptographic-foundations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cryptographic-foundations/core-algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Core Algorithms
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cryptographic-foundations/security-properties/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Security Properties
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cryptographic-foundations/key-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Key Management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cryptographic-foundations/protocols/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Protocols
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cryptographic-foundations/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cryptographic-foundations/real-world-examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Real-World Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../examples/overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../resources/agreements/overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Resources
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You'll Learn
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-big-picture-credential-revolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Big Picture: Credential Revolution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-problems-with-traditional-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Problems with Traditional Credentials
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Problems with Traditional Credentials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forgery-and-fraud" class="md-nav__link">
+    <span class="md-ellipsis">
+      Forgery and Fraud
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-complexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verification Complexity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-experience-problems" class="md-nav__link">
+    <span class="md-ellipsis">
+      User Experience Problems
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-verifiable-credentials-solve-this" class="md-nav__link">
+    <span class="md-ellipsis">
+      How Verifiable Credentials Solve This
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How Verifiable Credentials Solve This">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cryptographic-proof" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cryptographic Proof
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#universal-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Universal Verification
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-issuer-holder-verifier-triangle" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Issuer-Holder-Verifier Triangle
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Issuer-Holder-Verifier Triangle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-participants" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Participants
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verifiable-credentials-in-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verifiable Credentials in Action
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Verifiable Credentials in Action">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#real-world-example-university-degree" class="md-nav__link">
+    <span class="md-ellipsis">
+      Real-World Example: University Degree
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verification Process
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#credential-structure-and-claims" class="md-nav__link">
+    <span class="md-ellipsis">
+      Credential Structure and Claims
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Credential Structure and Claims">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#anatomy-of-a-verifiable-credential" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anatomy of a Verifiable Credential
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#understanding-claims" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding Claims
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#credential-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Credential Types
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#credential-lifecycle-issuance-to-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Credential Lifecycle: Issuance to Verification
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Credential Lifecycle: Issuance to Verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-issuance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 1: Issuance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-storage-and-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 2: Storage and Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-presentation-and-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 3: Presentation and Verification
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#real-world-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Real-World Use Cases
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Real-World Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#educational-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      Educational Credentials
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#employment-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Employment Verification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#professional-certifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Professional Certifications
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#live-code-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Live Code Examples
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selective-disclosure-and-privacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Selective Disclosure and Privacy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Selective Disclosure and Privacy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-privacy-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Privacy Problem
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#selective-disclosure-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Selective Disclosure Solution
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-just-happened" class="md-nav__link">
+    <span class="md-ellipsis">
+      What Just Happened?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What Just Happened?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-understanding" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Understanding
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-knowledge" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practical Knowledge
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#developer-benefits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Developer Benefits
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading-external-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Further Reading &amp; External Resources
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Further Reading &amp; External Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#official-standards-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Official Standards &amp; Specifications
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#technical-deep-dives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Technical Deep Dives
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#industry-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Industry Resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#research-academic-papers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Research &amp; Academic Papers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation Examples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#related-technologies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Related Technologies
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#start-building" class="md-nav__link">
+    <span class="md-ellipsis">
+      Start Building
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dive-deeper" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dive Deeper
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#real-world-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Real-World Applications
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-concepts-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Concepts Preview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Related Examples
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Concepts
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="verifiable-credentials-concepts">Verifiable Credentials Concepts<a class="headerlink" href="#verifiable-credentials-concepts" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Hands-on Learning:</strong> After reading this, try the <a href="../../examples/credentials/">Credential Examples</a></p>
+</blockquote>
+<h2 id="what-youll-learn">What You'll Learn<a class="headerlink" href="#what-youll-learn" title="Permanent link">&para;</a></h2>
+<p>By the end of this guide, you'll understand:</p>
+<ul>
+<li><strong>Why</strong> traditional credentials are broken and how verifiable credentials fix them</li>
+<li><strong>What</strong> makes a credential "verifiable" and why that matters for your applications</li>
+<li><strong>How</strong> the Issuer-Holder-Verifier triangle creates trust without intermediaries</li>
+<li><strong>When</strong> to use verifiable credentials patterns in your own projects</li>
+</ul>
+<hr />
+<h2 id="the-big-picture-credential-revolution">The Big Picture: Credential Revolution<a class="headerlink" href="#the-big-picture-credential-revolution" title="Permanent link">&para;</a></h2>
+<p><strong>Traditional credentials are broken.</strong> Every certificate, diploma, or proof document you receive is just paper or PDF that anyone can forge. Verification requires calling institutions, checking databases, and trusting centralized authorities.</p>
+<p><strong>Verifiable credentials fix this</strong> by giving users cryptographically provable claims they own and control, making your applications more trustworthy and verification instant.</p>
+<hr />
+<h2 id="the-problems-with-traditional-credentials">The Problems with Traditional Credentials<a class="headerlink" href="#the-problems-with-traditional-credentials" title="Permanent link">&para;</a></h2>
+<h3 id="forgery-and-fraud">Forgery and Fraud<a class="headerlink" href="#forgery-and-fraud" title="Permanent link">&para;</a></h3>
+<p><code>User claims degree → Employer trusts PDF → No easy verification = Fraud risk</code></p>
+<p><strong>Real-world example:</strong> Resume fraud costs companies billions annually. A fake diploma PDF looks identical to a real one, forcing expensive manual verification.</p>
+<h3 id="verification-complexity">Verification Complexity<a class="headerlink" href="#verification-complexity" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Manual processes</strong> require calling institutions and waiting for responses</li>
+<li><strong>Fragmented systems</strong> mean each issuer has different verification methods</li>
+<li><strong>Privacy violations</strong> force sharing entire documents when only one claim is needed</li>
+</ul>
+<h3 id="user-experience-problems">User Experience Problems<a class="headerlink" href="#user-experience-problems" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Paper shuffling</strong>: Users manage physical or digital copies of certificates</li>
+<li><strong>Repeated verification</strong>: Same credentials verified multiple times by different parties</li>
+<li><strong>No portability</strong>: Credentials locked to specific platforms or institutions</li>
+</ul>
+<hr />
+<h2 id="how-verifiable-credentials-solve-this">How Verifiable Credentials Solve This<a class="headerlink" href="#how-verifiable-credentials-solve-this" title="Permanent link">&para;</a></h2>
+<h3 id="cryptographic-proof">Cryptographic Proof<a class="headerlink" href="#cryptographic-proof" title="Permanent link">&para;</a></h3>
+<p>Instead of trusting paper, credentials contain <strong>mathematical proof</strong>:
+<code>Claim + Digital Signature = Verifiable Credential</code></p>
+<p><strong>What this means for developers:</strong></p>
+<ul>
+<li>No manual verification calls to institutions</li>
+<li>Instant cryptographic verification of any claim</li>
+<li>Tamper-evident credentials that can't be forged</li>
+</ul>
+<h3 id="universal-verification">Universal Verification<a class="headerlink" href="#universal-verification" title="Permanent link">&para;</a></h3>
+<p>Users carry <strong>one credential</strong> that works everywhere:
+<code>University Issues → Student Holds → Employer Verifies (instantly)</code></p>
+<p><strong>Benefits for your users:</strong></p>
+<ul>
+<li>One credential proves claims across all applications</li>
+<li>No more lost certificates or verification delays</li>
+<li>Complete control over what information they share</li>
+</ul>
+<hr />
+<h2 id="the-issuer-holder-verifier-triangle">The Issuer-Holder-Verifier Triangle<a class="headerlink" href="#the-issuer-holder-verifier-triangle" title="Permanent link">&para;</a></h2>
+<h3 id="core-participants">Core Participants<a class="headerlink" href="#core-participants" title="Permanent link">&para;</a></h3>
+<p>The verifiable credentials ecosystem has three key roles:</p>
+<p><code>ISSUER
+    (Creates &amp; Signs)
+         │
+         ▼
+    HOLDER          VERIFIER
+    (Stores &amp; Presents) → (Requests &amp; Verifies)</code></p>
+<h4 id="issuer-the-authority"><strong>Issuer</strong> (The Authority)<a class="headerlink" href="#issuer-the-authority" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Who</strong>: Universities, employers, government agencies, certification bodies</li>
+<li><strong>What they do</strong>: Create and cryptographically sign credentials</li>
+<li><strong>Why they matter</strong>: Provide authoritative proof of claims</li>
+</ul>
+<h4 id="holder-the-individual"><strong>Holder</strong> (The Individual)<a class="headerlink" href="#holder-the-individual" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Who</strong>: Students, employees, citizens, professionals</li>
+<li><strong>What they do</strong>: Store credentials and present them when requested</li>
+<li><strong>Why they matter</strong>: Control their own credentials and privacy</li>
+</ul>
+<h4 id="verifier-the-checker"><strong>Verifier</strong> (The Checker)<a class="headerlink" href="#verifier-the-checker" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Who</strong>: Employers, service providers, government agencies</li>
+<li><strong>What they do</strong>: Request specific proofs and verify their authenticity</li>
+<li><strong>Why they matter</strong>: Make trust decisions based on verified credentials</li>
+</ul>
+<hr />
+<h2 id="verifiable-credentials-in-action">Verifiable Credentials in Action<a class="headerlink" href="#verifiable-credentials-in-action" title="Permanent link">&para;</a></h2>
+<h3 id="real-world-example-university-degree">Real-World Example: University Degree<a class="headerlink" href="#real-world-example-university-degree" title="Permanent link">&para;</a></h3>
+<h4 id="traditional-process-broken">Traditional Process (Broken)<a class="headerlink" href="#traditional-process-broken" title="Permanent link">&para;</a></h4>
+<p><code>go
+// Employer receives resume with degree claim
+degree := "Bachelor of Computer Science, MIT, 2020"
+// Must call MIT registrar office
+// Wait days for verification response
+// No guarantee against sophisticated forgery</code></p>
+<h4 id="self-sdk-process-verifiable">Self SDK Process (Verifiable)<a class="headerlink" href="#self-sdk-process-verifiable" title="Permanent link">&para;</a></h4>
+<p>```go
+// University issues verifiable credential
+degreeCredential := credential.NewCredential().
+    CredentialType([]string{"VerifiableCredential", "EducationCredential"}).
+    CredentialSubject(credential.AddressKey(studentAddress)).
+    CredentialSubjectClaims(map[string]interface{}{
+        "institution": "MIT",
+        "degree":      "Bachelor of Computer Science", 
+        "graduationYear": 2020,
+        "gpa":         3.8,
+    }).
+    Issuer(credential.AddressKey(universityAddress)).
+    SignWith(universityAddress, time.Now())</p>
+<p>// Student stores credential securely
+// Employer verifies instantly with cryptography
+// No phone calls or waiting required
+```</p>
+<h3 id="verification-process">Verification Process<a class="headerlink" href="#verification-process" title="Permanent link">&para;</a></h3>
+<p>```go
+// Employer requests education proof
+requestedTypes := []string{"EducationCredential"}</p>
+<p>// Student presents matching credential
+if credential.VerifySignature(degreeCredential) {
+    // Mathematically proven authentic
+    // Issued by verified university
+    // Hasn't been tampered with
+    // Student legitimately holds it
+}
+```</p>
+<p><strong>Key Insight</strong>: The employer can instantly verify the degree without calling MIT, because the credential contains cryptographic proof of MIT's signature.</p>
+<hr />
+<h2 id="credential-structure-and-claims">Credential Structure and Claims<a class="headerlink" href="#credential-structure-and-claims" title="Permanent link">&para;</a></h2>
+<h3 id="anatomy-of-a-verifiable-credential">Anatomy of a Verifiable Credential<a class="headerlink" href="#anatomy-of-a-verifiable-credential" title="Permanent link">&para;</a></h3>
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/01_basic/go/main.go#L67-L73"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
+<h3 id="understanding-claims">Understanding Claims<a class="headerlink" href="#understanding-claims" title="Permanent link">&para;</a></h3>
+<p><strong>Claims</strong> are the actual assertions being made:</p>
+<p>Single claim credential:</p>
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/01_basic/go/main.go#L61-L65"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
+<p>Multi-claim credential:</p>
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/02_multi_claim/go/main.go#L119-L128"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
+<p>Complex credential with nested data</p>
+<div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/04_complex_data/go/main.go#L129-L146"
+     data-style="github-dark-dimmed"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div>
+
+<h3 id="credential-types">Credential Types<a class="headerlink" href="#credential-types" title="Permanent link">&para;</a></h3>
+<p>Self SDK supports various credential types for different use cases:</p>
+<p><code>go
+// Standard credential types
+credential.CredentialTypeEmail              // Email verification
+credential.CredentialTypeProfileName        // Profile information
+[]string{"VerifiableCredential", "EducationCredential"}  // Education proof
+[]string{"VerifiableCredential", "StudentCredential"}    // Student ID
+[]string{"VerifiableCredential", "EmploymentCredential"} // Job verification</code></p>
+<hr />
+<h2 id="credential-lifecycle-issuance-to-verification">Credential Lifecycle: Issuance to Verification<a class="headerlink" href="#credential-lifecycle-issuance-to-verification" title="Permanent link">&para;</a></h2>
+<h3 id="phase-1-issuance">Phase 1: Issuance<a class="headerlink" href="#phase-1-issuance" title="Permanent link">&para;</a></h3>
+<p>```go
+// Issuer creates credential for holder
+func issueEmailCredential(issuer *account.Account, holderAddress *signing.PublicKey) {
+    issuerAddress, _ := issuer.InboxOpen()</p>
+<div class="codehilite" style="background: #272822"><pre style="line-height: 125%;"><span></span><code>credential := credential.NewCredential().
+    CredentialType(credential.CredentialTypeEmail).
+    CredentialSubject(credential.AddressKey(holderAddress)).
+    CredentialSubjectClaims(map[string]interface{}{
+        &quot;emailAddress&quot;: &quot;alice@example.com&quot;,
+        &quot;verified&quot;:     true,
+        &quot;domain&quot;:       &quot;example.com&quot;,
+    }).
+    Issuer(credential.AddressKey(issuerAddress)).
+    ValidFrom(time.Now()).
+    SignWith(issuerAddress, time.Now())
+
+// Issue the credential
+verifiableCredential, err := issuer.CredentialIssue(credential)
+// Cryptographically signed credential created
+// Ready for holder to store and present
+</code></pre></div>
+
+<p>}
+```</p>
+<h3 id="phase-2-storage-and-management">Phase 2: Storage and Management<a class="headerlink" href="#phase-2-storage-and-management" title="Permanent link">&para;</a></h3>
+<p>```go
+// Holder organizes credentials by type
+type CredentialStore struct {
+    credentials map[string]*credential.VerifiableCredential
+}</p>
+<p>func (store *CredentialStore) AddCredential(name string, cred *credential.VerifiableCredential) {
+    store.credentials[name] = cred
+    // Credential stored securely
+    // Available for future presentations
+}</p>
+<p>// Search credentials by type
+func (store *CredentialStore) FindByType(requestedType string) []*credential.VerifiableCredential {
+    var matches []*credential.VerifiableCredential
+    for _, cred := range store.credentials {
+        for _, credType := range cred.CredentialType() {
+            if credType == requestedType {
+                matches = append(matches, cred)
+            }
+        }
+    }
+    return matches
+}
+```</p>
+<h3 id="phase-3-presentation-and-verification">Phase 3: Presentation and Verification<a class="headerlink" href="#phase-3-presentation-and-verification" title="Permanent link">&para;</a></h3>
+<p>```go
+// Verifier requests specific credential types
+requestedTypes := []string{"EducationCredential", "StudentCredential"}</p>
+<p>// Holder searches credential store
+matchingCredentials := credentialStore.FindByType("EducationCredential")</p>
+<p>// Create verifiable presentation
+func createPresentation(credentials []*credential.VerifiableCredential) {
+    // Package multiple credentials for sharing
+    presentation := &amp;credential.VerifiablePresentation{
+        Context:              []string{"<a href="https://www.w3.org/2018/credentials/v1">https://www.w3.org/2018/credentials/v1</a>"},
+        Type:                 []string{"VerifiablePresentation"},
+        VerifiableCredential: credentials,
+        // Multiple credentials packaged together
+        // Holder maintains control over what's shared
+    }
+}</p>
+<p>// Verifier validates presentation
+func verifyPresentation(presentation *credential.VerifiablePresentation) bool {
+    for _, cred := range presentation.VerifiableCredential {
+        if !credential.VerifySignature(cred) {
+            return false
+        }
+    }
+    // All credentials cryptographically verified
+    // Trust established without contacting issuers
+    return true
+}
+```</p>
+<hr />
+<h2 id="real-world-use-cases">Real-World Use Cases<a class="headerlink" href="#real-world-use-cases" title="Permanent link">&para;</a></h2>
+<h3 id="educational-credentials">Educational Credentials<a class="headerlink" href="#educational-credentials" title="Permanent link">&para;</a></h3>
+<p><strong>Traditional</strong>: Students request transcripts, employers wait for verification
+<strong>With Self SDK</strong>: Instant degree verification, tamper-proof academic records</p>
+<p><code>go
+educationCredential := credential.NewCredential().
+    CredentialType([]string{"VerifiableCredential", "EducationCredential"}).
+    CredentialSubjectClaims(map[string]interface{}{
+        "institution":    "MIT",
+        "degree":         "Computer Science",
+        "graduationYear": 2020,
+        "gpa":            3.8,
+    })
+// Employers verify instantly
+// No transcript requests needed
+// Students control their academic data</code></p>
+<h3 id="employment-verification">Employment Verification<a class="headerlink" href="#employment-verification" title="Permanent link">&para;</a></h3>
+<p><strong>Traditional</strong>: Reference checks take days, risk of fraud
+<strong>With Self SDK</strong>: Cryptographic proof of employment history</p>
+<p><code>go
+employmentCredential := credential.NewCredential().
+    CredentialType([]string{"VerifiableCredential", "EmploymentCredential"}).
+    CredentialSubjectClaims(map[string]interface{}{
+        "employer":    "TechCorp Inc",
+        "position":    "Software Engineer",
+        "startDate":   "2020-01-15",
+        "endDate":     "2023-06-30",
+        "verified":    true,
+    })
+// New employers verify instantly
+// No reference check delays
+// Employees own their work history</code></p>
+<h3 id="professional-certifications">Professional Certifications<a class="headerlink" href="#professional-certifications" title="Permanent link">&para;</a></h3>
+<p><strong>Traditional</strong>: Certificates can be faked, verification is manual
+<strong>With Self SDK</strong>: Unforgeable professional credentials</p>
+<p><code>go
+certificationCredential := credential.NewCredential().
+    CredentialType([]string{"VerifiableCredential", "CertificationCredential"}).
+    CredentialSubjectClaims(map[string]interface{}{
+        "certification": "AWS Solutions Architect",
+        "level":         "Professional",
+        "issueDate":     "2023-03-15",
+        "expiryDate":    "2026-03-15",
+        "score":         "850/1000",
+    })
+// Impossible to forge AWS signature
+// Instant verification by any employer
+// Professionals own their credentials</code></p>
+<hr />
+<h2 id="live-code-examples">Live Code Examples<a class="headerlink" href="#live-code-examples" title="Permanent link">&para;</a></h2>
+<p>See these concepts in action with real working code from our examples repository:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Basic Credential Issuance</label><label for="__tabbed_1_2">Multi-Claim Credentials</label><label for="__tabbed_1_3">Credential Exchange</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/01_basic/go/main.go#L1-L50"
+     data-style="github-dark"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div></p>
+</div>
+<div class="tabbed-block">
+<p><div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/02_multi_claim/go/main.go#L1-L50"
+     data-style="github-dark"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div></p>
+</div>
+<div class="tabbed-block">
+<p><div data-github-embed="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/02_exchanging_credentials/presentation_request/go/main.go#L1-L50"
+     data-style="github-dark"
+     data-show-border="true"
+     data-show-line-numbers="true"
+     data-show-file-meta="true"
+     data-show-full-path="true"
+     data-show-copy="true"></div></p>
+</div>
+</div>
+</div>
+<hr />
+<h2 id="selective-disclosure-and-privacy">Selective Disclosure and Privacy<a class="headerlink" href="#selective-disclosure-and-privacy" title="Permanent link">&para;</a></h2>
+<h3 id="the-privacy-problem">The Privacy Problem<a class="headerlink" href="#the-privacy-problem" title="Permanent link">&para;</a></h3>
+<p>Traditional credentials force "all or nothing" sharing:</p>
+<p><code>Employer requests: "Prove you graduated"
+Traditional response: "Here's my entire transcript with GPA, courses, grades"</code></p>
+<h3 id="selective-disclosure-solution">Selective Disclosure Solution<a class="headerlink" href="#selective-disclosure-solution" title="Permanent link">&para;</a></h3>
+<p>```go
+// Holder can choose exactly what to share
+basicEducationClaims := map[string]interface{}{
+    "institution":    "MIT",
+    "degree":         "Computer Science", 
+    "graduationYear": 2020,
+    // GPA and grades kept private
+}</p>
+<p>detailedEducationClaims := map[string]interface{}{
+    "institution":      "MIT",
+    "degree":           "Computer Science",
+    "graduationYear":   2020,
+    "gpa":              3.8,
+    "honors":           true,
+    "creditsCompleted": 120,
+    // Full details when needed
+}
+```</p>
+<p><strong>Privacy Benefits:</strong>
+- <strong>Minimal disclosure</strong>: Share only what's required for each situation
+- <strong>User control</strong>: Holders decide what information to reveal
+- <strong>Context-appropriate</strong>: Different levels of detail for different verifiers</p>
+<hr />
+<h2 id="what-just-happened">What Just Happened?<a class="headerlink" href="#what-just-happened" title="Permanent link">&para;</a></h2>
+<p>You've learned the foundational concepts that make Self SDK revolutionary for digital trust:</p>
+<h3 id="core-understanding"><strong>Core Understanding</strong><a class="headerlink" href="#core-understanding" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Verifiable credentials</strong> provide cryptographic proof instead of paper documents</li>
+<li><strong>Issuer-Holder-Verifier triangle</strong> creates trust without intermediaries</li>
+<li><strong>Claims structure</strong> enables flexible and complex credential content</li>
+<li><strong>Lifecycle management</strong> covers issuance, storage, presentation, and verification</li>
+</ul>
+<h3 id="practical-knowledge"><strong>Practical Knowledge</strong><a class="headerlink" href="#practical-knowledge" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Traditional credential verification is slow, expensive, and fraud-prone</li>
+<li>Cryptographic signatures make credentials tamper-evident and instantly verifiable</li>
+<li>Self SDK handles complex cryptography automatically</li>
+<li>Users maintain control and privacy over their credential data</li>
+</ul>
+<h3 id="developer-benefits"><strong>Developer Benefits</strong><a class="headerlink" href="#developer-benefits" title="Permanent link">&para;</a></h3>
+<ul>
+<li>No more manual verification processes or phone calls to institutions</li>
+<li>Instant trust establishment through cryptographic verification</li>
+<li>Flexible credential structures for any type of claim</li>
+<li>Privacy-preserving selective disclosure capabilities</li>
+</ul>
+<hr />
+<h2 id="further-reading-external-resources">Further Reading &amp; External Resources<a class="headerlink" href="#further-reading-external-resources" title="Permanent link">&para;</a></h2>
+<h3 id="official-standards-specifications"><strong>Official Standards &amp; Specifications</strong><a class="headerlink" href="#official-standards-specifications" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><a href="https://www.w3.org/TR/vc-data-model/">W3C Verifiable Credentials Data Model</a></strong> - The official standard for verifiable credentials</li>
+<li><strong><a href="https://www.w3.org/TR/vc-data-model/#presentations">W3C Verifiable Presentations</a></strong> - Standard for credential presentations</li>
+<li><strong><a href="https://www.w3.org/TR/did-core/">DID Core Specification</a></strong> - Decentralized identifiers used in credentials</li>
+</ul>
+<h3 id="technical-deep-dives"><strong>Technical Deep Dives</strong><a class="headerlink" href="#technical-deep-dives" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><a href="https://www.w3.org/TR/vc-use-cases/">Verifiable Credentials Use Cases</a></strong> - Real-world applications and scenarios</li>
+<li><strong><a href="https://json-ld.org/">JSON-LD Specification</a></strong> - Data format used in verifiable credentials</li>
+<li><strong><a href="https://tools.ietf.org/html/rfc3275">Digital Signatures</a></strong> - Cryptographic foundation of credential verification</li>
+</ul>
+<h3 id="industry-resources"><strong>Industry Resources</strong><a class="headerlink" href="#industry-resources" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><a href="https://www.w3.org/2017/vc/WG/">Verifiable Credentials Working Group</a></strong> - W3C standards development</li>
+<li><strong><a href="https://www.hyperledger.org/use/aries">Hyperledger Aries</a></strong> - Open source verifiable credentials framework</li>
+<li><strong><a href="https://digitalcredentials.mit.edu/">Digital Credentials Consortium</a></strong> - MIT-led education credential initiative</li>
+</ul>
+<h3 id="research-academic-papers"><strong>Research &amp; Academic Papers</strong><a class="headerlink" href="#research-academic-papers" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><a href="https://www.manning.com/books/self-sovereign-identity">A Comprehensive Guide to Verifiable Credentials</a></strong> - Manning Publications book</li>
+<li><strong><a href="https://eprint.iacr.org/2020/016.pdf">Privacy-Preserving Credentials</a></strong> - Academic research on credential privacy</li>
+<li><strong><a href="https://www.hyperledger.org/blog/2019/05/14/indy-aries-ursa-what-is-what">Zero-Knowledge Credentials</a></strong> - Advanced privacy techniques</li>
+</ul>
+<h3 id="implementation-examples"><strong>Implementation Examples</strong><a class="headerlink" href="#implementation-examples" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><a href="https://ec.europa.eu/info/strategy/priorities-2019-2024/europe-fit-digital-age/european-digital-identity_en">European Digital Identity Wallet</a></strong> - EU government implementation</li>
+<li><strong><a href="https://www.ibm.com/products/digital-health-pass">IBM Digital Health Pass</a></strong> - Healthcare credential platform</li>
+<li><strong><a href="https://digitalcredentials.mit.edu/">MIT Digital Diploma</a></strong> - Academic credential implementation</li>
+</ul>
+<h3 id="related-technologies"><strong>Related Technologies</strong><a class="headerlink" href="#related-technologies" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Zero-Knowledge Proofs</strong> - Advanced privacy for credential verification</li>
+<li><strong>Blockchain Anchoring</strong> - Immutable credential registries</li>
+<li><strong>Biometric Binding</strong> - Linking credentials to physical identity</li>
+<li><strong>Credential Revocation</strong> - Managing invalid or expired credentials</li>
+</ul>
+<hr />
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<h3 id="start-building"><strong>Start Building</strong><a class="headerlink" href="#start-building" title="Permanent link">&para;</a></h3>
+<p>Ready to create your first verifiable credentials? Try these hands-on examples:</p>
+<ol>
+<li><strong><a href="../../examples/credentials/">Credential Examples</a></strong> - Issue and verify your first credentials</li>
+<li><strong><a href="../../examples/setup/">Setup Examples</a></strong> - Ensure your Self identity is ready</li>
+<li><strong><a href="../../examples/connections/">Connection Examples</a></strong> - Establish secure credential delivery channels</li>
+</ol>
+<h3 id="dive-deeper"><strong>Dive Deeper</strong><a class="headerlink" href="#dive-deeper" title="Permanent link">&para;</a></h3>
+<p>Want to understand the technical details?</p>
+<ul>
+<li><strong><a href="../credential-presentation-patterns/">Credential Presentation Patterns</a></strong> - Simple retrieval vs zero-knowledge verification patterns</li>
+<li><strong><a href="../cryptographic-foundations/">Cryptographic Foundations</a></strong> - Mathematical basis of credential security</li>
+<li><strong><a href="../secure-connections/">Secure Connections</a></strong> - How credentials travel securely</li>
+</ul>
+<h3 id="real-world-applications"><strong>Real-World Applications</strong><a class="headerlink" href="#real-world-applications" title="Permanent link">&para;</a></h3>
+<p>Consider how verifiable credentials could improve:
+- <strong>User onboarding</strong> - Instant verification instead of manual document checks
+- <strong>Academic verification</strong> - Real-time degree verification for employers
+- <strong>Professional licensing</strong> - Tamper-proof certification credentials
+- <strong>Identity verification</strong> - Privacy-preserving identity proofs</p>
+<hr />
+<p><strong>Ready to experience verifiable credentials firsthand?</strong> <a href="../../examples/credentials/">Start with the Credential Examples</a> and issue your first cryptographically verifiable credential!</p>
+<h2 id="key-concepts-preview">Key Concepts Preview<a class="headerlink" href="#key-concepts-preview" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Verifiable Credentials Data Model</strong></li>
+<li><strong>Issuer-Holder-Verifier Triangle</strong></li>
+<li><strong>Claims and Proofs</strong></li>
+<li><strong>Digital Signatures</strong></li>
+<li><strong>Presentations</strong></li>
+<li><strong>Selective Disclosure</strong></li>
+</ul>
+<h2 id="related-examples">Related Examples<a class="headerlink" href="#related-examples" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/01_basic/">Basic Credential Issuance</a></li>
+<li><a href="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/02_multi_claim/">Multi-Claim Credentials</a></li>
+<li><a href="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/01_issuing_credentials/03_with_evidence/">Evidence-Based Credentials</a></li>
+<li><a href="https://github.com/joinself/academy/blob/main/examples/server/02_credentials/02_exchanging_credentials/">Credential Exchange</a></li>
+</ul>
+<h2 id="next-concepts">Next Concepts<a class="headerlink" href="#next-concepts" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../cryptographic-foundations/">Cryptographic Foundations</a> - Mathematical basis of credential security</li>
+<li><a href="../message-layer-security/">Message Layer Security</a> - Secure credential transmission</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <!-- Material MkDocs Navigation Section -->
+
+<div class="md-footer-nav">
+  <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+    
+      <a href="../secure-connections/faq-and-resources/" class="md-footer-nav__link md-footer-nav__link--prev" aria-label="Previous: FAQ and Resources" rel="prev">
+        <div class="md-footer-nav__button md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.42-1.41L7.83 13H20v-2Z"/></svg>
+        </div>
+        <div class="md-footer-nav__title">
+          <span class="md-footer-nav__direction">Previous</span>
+          <div class="md-ellipsis">FAQ and Resources</div>
+        </div>
+      </a>
+    
+    
+      <a href="../credential-presentation-patterns/" class="md-footer-nav__link md-footer-nav__link--next" aria-label="Next: Credential Presentation Patterns" rel="next">
+        <div class="md-footer-nav__title">
+          <span class="md-footer-nav__direction">Next</span>
+          <div class="md-ellipsis">Credential Presentation Patterns</div>
+        </div>
+        <div class="md-footer-nav__button md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11h12.17l-5.59-5.59L12 4l8 8-8 8-1.42-1.41L16.17 13H4v-2Z"/></svg>
+        </div>
+      </a>
+    
+  </nav>
+</div>
+
+
+<!-- Custom Footer -->
+<footer class="custom-footer">
+  <div class="custom-footer__content">
+    <!-- Brand Logo Section -->
+    <div class="custom-footer__brand">
+      <a href="../.." class="custom-footer__logo">
+        <img src="../../assets/logo.png" alt="Joinself Academy" class="custom-footer__logo-img">
+      </a>
+    </div>
+
+    <!-- Footer Links Section -->
+    <div class="custom-footer__links">
+      <!-- DOCUMENTATION Column -->
+      <div class="custom-footer__column">
+        <h3>DOCUMENTATION</h3>
+        <ul>
+          <li><a href="../../solutions/overview/">Solutions</a></li>
+          <li><a href="../overview/">Concepts</a></li>
+          <li><a href="../../examples/overview/">Examples</a></li>
+        </ul>
+      </div>
+
+      <!-- COMPANY Column -->
+      <div class="custom-footer__column">
+        <h3>COMPANY</h3>
+        <ul>
+          <li><a href="../../about-self/">About</a></li>
+          <li><a href="https://www.joinself.com/company/research" target="_blank" rel="noopener">Research</a></li>
+          <li><a href="https://www.joinself.com/company/blog" target="_blank" rel="noopener">Blog</a></li>
+        </ul>
+      </div>
+
+      <!-- RESOURCES Column -->
+      <div class="custom-footer__column">
+        <h3>RESOURCES</h3>
+        <ul>          
+          <li><a href="https://docs.joinself.com/" class="hover-link text-white">Quickstart</a></li>
+          <li><a href="https://docs.joinself.com/" class="hover-link text-white">Documentation</a></li>
+          <li><a href="../../resources/agreements/overview/">Agreements</a></li>
+          <li><a href="../../resources/licenses/overview/">Licenses</a></li>
+          <li><a href="https://joinself.com/pricing/price" class="hover-link text-white">Pricing</a></li>
+          <li><a href="https://joinself.com/contact" class="hover-link text-white">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- SOCIAL Column -->
+      <div class="custom-footer__column">
+        <h3>SOCIAL</h3>
+        <ul>
+          <li>
+            <a href="https://github.com/joinself" target="_blank" rel="noopener">
+              <svg class="custom-footer__social-icon" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              Github
+            </a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/company/joinself" target="_blank" rel="noopener">
+              <svg class="custom-footer__social-icon" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+              LinkedIn
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Bottom Section -->
+  <div class="custom-footer__bottom">
+    <div class="custom-footer__copyright">
+      © Copyright Self Group Limited 2019-2025 All Rights Reserved
+    </div>
+    <button class="scroll-to-top" onclick="scrollToTop()" aria-label="Scroll to top">
+      <svg class="scroll-to-top__icon" viewBox="0 0 24 24">
+        <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+      </svg>
+    </button>
+  </div>
+</footer>
+
+<script>
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+// Show/hide scroll to top button based on scroll position
+window.addEventListener('scroll', function() {
+  const scrollToTopBtn = document.querySelector('.scroll-to-top');
+  if (scrollToTopBtn) {
+    if (window.scrollY > 300) {
+      scrollToTopBtn.style.display = 'flex';
+    } else {
+      scrollToTopBtn.style.display = 'none';
+    }
+  }
+});
+
+// Hide scroll to top button initially
+document.addEventListener('DOMContentLoaded', function() {
+  const scrollToTopBtn = document.querySelector('.scroll-to-top');
+  if (scrollToTopBtn) {
+    scrollToTopBtn.style.display = 'none';
+  }
+});
+</script> 
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["announce.dismiss", "content.code.annotate", "content.code.copy", "content.tooltips", "header.autohide", "navigation.expand", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.path", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+        <script src="../../assets/javascripts/custom.js"></script>
+      
+        <script src="https://emgithub.com/embed-v2.js"></script>
+      
+    
+  </body>
+</html>
