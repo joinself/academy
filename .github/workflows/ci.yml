@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: ['main']
+
+concurrency:
+  group: ${{ github.workflow }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.10.20-slim-trixie
+    permissions:
+      contents: write
+    timeout-minutes: 15
+    steps:
+      - uses: joinself/actions-public/setup-job@main
+      - uses: actions/checkout@v6
+      - name: Deploy to GitHub Pages
+        run: |
+          pip install -r requirements.txt
+          mkdocs gh-deploy --force
