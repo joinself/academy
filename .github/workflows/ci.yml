@@ -15,7 +15,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     container:
-      image: python:3.10.20-slim-trixie
+      image: python:3.10.20-trixie
     permissions:
       contents: write
     timeout-minutes: 15
