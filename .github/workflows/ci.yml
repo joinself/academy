@@ -20,7 +20,6 @@ jobs:
       contents: write
     timeout-minutes: 15
     steps:
-      - uses: joinself/actions-public/setup-job@main
       - uses: actions/checkout@v6
       - name: Deploy to GitHub Pages
         run: |
